@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>田子山富士 登頂受付</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:28px;
+text-align:center;
+}
+
+.logo{
+width:180px;
+max-width:80%;
+margin:auto;
+display:block;
+margin-bottom:20px;
+border-radius:20px;
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:22px;
+color:#d4af37;
+font-weight:800;
+margin-bottom:30px;
+}
+
+.message{
+font-size:22px;
+line-height:1.8;
+margin-bottom:30px;
+}
+
+.startBtn{
+width:100%;
+border:none;
+border-radius:22px;
+padding:24px;
+font-size:28px;
+font-weight:900;
+background:#d4af37;
+color:#000;
+cursor:pointer;
+}
+
+.note{
+margin-top:20px;
+font-size:16px;
+color:#bbb;
+line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<img src="top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo">
+
+<div class="title">
+田子山富士
+</div>
+
+<div class="sub">
+168の縁プロジェクト
+</div>
+
+<div class="message">
+
+田子山富士へご登頂
+おめでとうございます。
+
+登頂記録を行う方は
+下のボタンを押してください。
+
+</div>
+
+<button
+id="startBtn"
+class="startBtn">
+
+⛩️ 登頂を記録する
+
+</button>
+
+<div class="note">
+
+※このボタンを押した時だけ
+登頂回数・参加人数・
+シリアル番号が発行されます。
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbz3ybiLZLGAAnm994iRgJXQkCxSVULCJe5TxCuaOzEFQRrI4P-GVNdMbkgg_Tte1al9jg/exec";
+
+let userId =
+localStorage.getItem(
+"tagoyamaUserId"
+);
+
+if(!userId){
+
+userId =
+"TGF-" +
+Math.random()
+.toString(36)
+.substring(2,10)
+.toUpperCase();
+
+localStorage.setItem(
+"tagoyamaUserId",
+userId
+);
+
+}
+
+document.getElementById(
+"startBtn"
+).onclick =
+async function(){
+
+this.disabled = true;
+
+this.innerText =
+"登頂記録中...";
+
+try{
+
+const response =
+await fetch(
+GAS_URL +
+"?userId=" +
+encodeURIComponent(
+userId
+)
+);
+
+const data =
+await response.json();
+
+location.href =
+"index.html" +
+"?serial=" +
+encodeURIComponent(
+data.serial || "-"
+);
+
+}catch(error){
+
+alert(
+"通信エラーが発生しました"
+);
+
+document.getElementById(
+"startBtn"
+).disabled = false;
+
+document.getElementById(
+"startBtn"
+).innerText =
+"⛩️ 登頂を記録する";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
