@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>敷島神社 参拝記帳</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:28px;
+box-shadow:0 12px 32px rgba(0,0,0,.45);
+}
+
+.logo{
+width:150px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+border-radius:20px;
+}
+
+.title{
+font-size:40px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:18px;
+line-height:1.8;
+text-align:center;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.label{
+font-size:20px;
+font-weight:900;
+margin-top:20px;
+margin-bottom:10px;
+color:#d4af37;
+}
+
+select,
+input,
+textarea{
+width:100%;
+padding:16px;
+font-size:18px;
+border:none;
+border-radius:16px;
+background:#fff;
+color:#000;
+}
+
+textarea{
+height:180px;
+resize:none;
+}
+
+.btn{
+width:100%;
+padding:20px;
+margin-top:20px;
+border:none;
+border-radius:18px;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+background:#d4af37;
+color:#000;
+}
+
+.linkBtn{
+display:block;
+width:100%;
+padding:20px;
+margin-top:15px;
+border-radius:18px;
+background:#263238;
+color:#fff;
+text-decoration:none;
+text-align:center;
+font-size:22px;
+font-weight:900;
+}
+
+.message{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:16px;
+background:#1b5e20;
+font-size:20px;
+font-weight:900;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<img
+src="top.jpg"
+alt="敷島神社">
+
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo"
+alt="敷島神社">
+
+<div class="title">
+敷島神社 参拝記帳
+</div>
+
+<div class="sub">
+
+ご参拝ありがとうございます。<br>
+よろしければ参拝の記念に<br>
+ひとことお残しください。
+
+</div>
+
+<div class="label">
+どちらからお越しですか？
+</div>
+
+<select id="area">
+
+<option>志木市</option>
+<option>新座市</option>
+<option>朝霞市</option>
+<option>和光市</option>
+<option>埼玉県内</option>
+<option>東京都</option>
+<option>その他</option>
+
+</select>
+
+<div class="label">
+お名前（任意）
+</div>
+
+<input
+type="text"
+id="name"
+placeholder="お名前">
+
+<div class="label">
+ひとこと
+</div>
+
+<textarea
+id="messageText"
+placeholder="ご参拝の記念にひとこと"></textarea>
+
+<button
+class="btn"
+onclick="saveKicho()">
+
+記帳する
+
+</button>
+
+<div
+id="msg"
+class="message">
+
+記帳ありがとうございました
+
+</div>
+
+<a
+href="goen.html"
+class="linkBtn">
+
+みんなのご縁帳を見る
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyJ6mTFzKyO9vrOe5qbb6259pxThL3bapLXUuoV8Qk3oksXCECHZRHOPKaKYgSLlwNJNg/exec";
+
+let userId =
+localStorage.getItem(
+"tagoyamaUserId"
+);
+
+if(!userId){
+
+userId =
+"TGF-" +
+Math.random()
+.toString(36)
+.substring(2,10)
+.toUpperCase();
+
+localStorage.setItem(
+"tagoyamaUserId",
+userId
+);
+
+}
+
+function saveKicho(){
+
+const area =
+document.getElementById(
+"area"
+).value;
+
+const name =
+document.getElementById(
+"name"
+).value;
+
+const text =
+document.getElementById(
+"messageText"
+).value;
+
+if(!text){
+
+alert(
+"ひとことをご入力ください"
+);
+
+return;
+
+}
+
+fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+mode:"kicho",
+userId:userId,
+area:area,
+name:name,
+message:text
+})
+}
+)
+.then(r=>r.json())
+.then(data=>{
+
+document.getElementById(
+"msg"
+).style.display =
+"block";
+
+document.getElementById(
+"name"
+).value = "";
+
+document.getElementById(
+"messageText"
+).value = "";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+})
+.catch(err=>{
+
+alert(
+"保存できませんでした"
+);
+
+console.log(err);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
