@@ -139,8 +139,9 @@ class="card">
 <img
 id="memorialImage"
 class="memorialImage"
-src="https://via.placeholder.com/1200x800.png?text=MEMORIAL"
-alt="記念画像">
+src="sakura01.jpg"
+alt="記念画像"
+crossorigin="anonymous">
 
 <div class="overlay">
 
@@ -222,7 +223,7 @@ params.get("serial") || "1-0001";
 
 const imageUrl =
 params.get("image") ||
-"https://via.placeholder.com/1200x800.png?text=MEMORIAL";
+"sakura01.jpg";
 
 document.getElementById(
 "serial"
@@ -236,13 +237,17 @@ imageUrl;
 
 async function saveImage(){
 
+try{
+
 const canvas =
 await html2canvas(
 document.getElementById(
 "certificate"
 ),
 {
-scale:2
+scale:2,
+useCORS:true,
+allowTaint:false
 }
 );
 
@@ -260,6 +265,15 @@ canvas.toDataURL(
 );
 
 link.click();
+
+}catch(error){
+
+alert(
+"画像保存エラー : " +
+error.message
+);
+
+}
 
 }
 
