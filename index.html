@@ -287,6 +287,52 @@ class="count">
 </div>
 
 <div
+class="statsBox"
+style="
+margin-top:20px;
+padding:20px;
+border-radius:24px;
+background:#161616;
+border:2px solid #d4af37;
+">
+
+<div
+style="
+font-size:20px;
+font-weight:900;
+color:#d4af37;
+">
+
+現在の参加者
+
+</div>
+
+<div
+id="participants"
+style="
+font-size:48px;
+font-weight:900;
+margin-top:8px;
+margin-bottom:8px;
+">
+
+0人
+
+</div>
+
+<div
+style="
+font-size:16px;
+color:#ccc;
+">
+
+168の縁が広がっています
+
+</div>
+
+</div>
+
+<div
 id="date"
 class="date">
 
@@ -480,6 +526,21 @@ document.getElementById(
 "gacha"
 ).innerText =
 data.gacha;
+
+fetch(
+GAS_URL +
+"?mode=stats"
+)
+.then(r=>r.json())
+.then(stats=>{
+
+document.getElementById(
+"participants"
+).innerText =
+stats.participants +
+"人";
+
+});
 
 const now =
 new Date();
