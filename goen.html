@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>みんなのご縁帳</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:28px;
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
+}
+
+.logo{
+width:140px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:18px;
+line-height:1.8;
+text-align:center;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.list{
+margin-top:20px;
+}
+
+.item{
+background:#181818;
+border:1px solid #333;
+border-radius:20px;
+padding:20px;
+margin-bottom:15px;
+}
+
+.date{
+font-size:14px;
+color:#aaa;
+margin-bottom:8px;
+}
+
+.area{
+font-size:18px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:10px;
+}
+
+.name{
+font-size:16px;
+color:#ccc;
+margin-bottom:10px;
+}
+
+.message{
+font-size:20px;
+line-height:1.8;
+color:#fff;
+}
+
+.loading{
+text-align:center;
+font-size:24px;
+padding:50px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<img src="top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo">
+
+<div class="title">
+みんなのご縁帳
+</div>
+
+<div class="sub">
+
+敷島神社へ寄せられた
+皆さまの記帳です
+
+</div>
+
+<div
+id="loading"
+class="loading">
+
+読込中...
+
+</div>
+
+<div
+id="list"
+class="list">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+"ここにスプレッドシートID";
+
+const SHEET_NAME =
+"参拝記帳";
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(
+SHEET_NAME
+) +
+"&tqx=out:json";
+
+function getVal(cell){
+
+  if(!cell) return "";
+
+  return cell.v || "";
+
+}
+
+function loadData(){
+
+const script =
+document.createElement(
+"script"
+);
+
+script.src =
+url +
+"&callback=handleSheet";
+
+document.body.appendChild(
+script
+);
+
+}
+
+function handleSheet(json){
+
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+const rows =
+json.table.rows || [];
+
+rows.reverse();
+
+let html = "";
+
+for(
+let i=0;
+i<rows.length;
+i++
+){
+
+const row =
+rows[i];
+
+const date =
+getVal(row.c[0]);
+
+const area =
+getVal(row.c[3]);
+
+const name =
+getVal(row.c[4]);
+
+const message =
+getVal(row.c[5]);
+
+if(
+!message
+) continue;
+
+html += `
+<div class="item">
+
+<div class="date">
+${date}
+</div>
+
+<div class="area">
+${area}
+</div>
+
+<div class="name">
+${name ? name : "お名前なし"}
+</div>
+
+<div class="message">
+${message}
+</div>
+
+</div>
+`;
+
+}
+
+document.getElementById(
+"list"
+).innerHTML =
+html;
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
