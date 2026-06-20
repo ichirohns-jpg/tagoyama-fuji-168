@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>登頂記念証</title>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
+color:#fff;
+padding:20px;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:24px;
+text-align:center;
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:20px;
+color:#d4af37;
+font-weight:800;
+margin-bottom:20px;
+}
+
+.memorialImage{
+width:100%;
+border-radius:20px;
+display:block;
+margin-bottom:20px;
+}
+
+.serial{
+font-size:34px;
+font-weight:900;
+margin-top:15px;
+}
+
+.count{
+font-size:26px;
+font-weight:900;
+margin-top:10px;
+}
+
+.date{
+font-size:20px;
+color:#ddd;
+margin-top:10px;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:18px;
+margin-top:12px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{
+background:#2ecc71;
+color:#fff;
+}
+
+.fb{
+background:#1877f2;
+color:#fff;
+}
+
+.x{
+background:#000;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+color:#fff;
+}
+
+.copy{
+background:#607d8b;
+color:#fff;
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+color:#aaa;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div
+id="certificate"
+class="card">
+
+<div class="title">
+登頂記念証
+</div>
+
+<div class="sub">
+田子山富士 168の縁
+</div>
+
+<img
+id="memorialImage"
+class="memorialImage"
+src="https://via.placeholder.com/1200x800.png?text=MEMORIAL"
+alt="記念画像">
+
+<div
+id="count"
+class="count">
+
+第1回登頂
+
+</div>
+
+<div
+id="serial"
+class="serial">
+
+No.0001
+
+</div>
+
+<div
+id="date"
+class="date">
+
+2026/06/20
+
+</div>
+
+</div>
+
+<button
+class="btn save"
+onclick="saveImage()">
+
+画像を保存
+
+</button>
+
+<button
+class="btn fb"
+onclick="shareFacebook()">
+
+Facebook
+
+</button>
+
+<button
+class="btn x"
+onclick="shareX()">
+
+X
+
+</button>
+
+<button
+class="btn line"
+onclick="shareLine()">
+
+LINE
+
+</button>
+
+<button
+class="btn copy"
+onclick="copyUrl()">
+
+リンクをコピー
+
+</button>
+
+<div class="footer">
+
+田子山富士 168の縁プロジェクト
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const count =
+params.get("count") || "1";
+
+const serial =
+params.get("serial") || "0001";
+
+const imageUrl =
+params.get("image") ||
+"https://via.placeholder.com/1200x800.png?text=MEMORIAL";
+
+document.getElementById(
+"count"
+).innerText =
+"第" + count + "回登頂";
+
+document.getElementById(
+"serial"
+).innerText =
+"No." + serial;
+
+document.getElementById(
+"memorialImage"
+).src =
+imageUrl;
+
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+now.getFullYear() +
+"/" +
+String(now.getMonth()+1)
+.padStart(2,"0") +
+"/" +
+String(now.getDate())
+.padStart(2,"0");
+
+async function saveImage(){
+
+const canvas =
+await html2canvas(
+document.getElementById(
+"certificate"
+),
+{
+scale:2
+}
+);
+
+const link =
+document.createElement(
+"a"
+);
+
+link.download =
+"tagoyama-certificate.png";
+
+link.href =
+canvas.toDataURL(
+"image/png"
+);
+
+link.click();
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareLine(){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
+</script>
+
+</body>
+</html>
