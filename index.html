@@ -122,6 +122,7 @@ font-weight:800;
 font-size:58px;
 font-weight:900;
 letter-spacing:4px;
+white-space:nowrap;
 }
 
 .count{
@@ -293,7 +294,9 @@ style="display:none;">
 <div class="serialBox">
 
 <div class="serialLabel">
-登頂記念
+
+おめでとうございます
+
 </div>
 
 <div
@@ -310,7 +313,7 @@ class="serial">
 id="count"
 class="count">
 
-あなたは1回目の登頂です
+登頂記録を受付しました
 
 </div>
 
@@ -357,7 +360,9 @@ class="date">
 <div class="gachaCard">
 
 <div class="gachaTitle">
+
 🎁 縁ガチャ
+
 </div>
 
 <div
@@ -370,50 +375,28 @@ class="gachaResult">
 
 </div>
 
-<button
+<a
+id="certificateBtn2"
+href="#"
 class="btn save"
-onclick="saveImage()">
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
 
-画像を保存
+🏔️ 登頂記念証を受け取る
 
-</button>
-
-<button
-class="btn fb"
-onclick="shareFacebook()">
-
-Facebook
-
-</button>
-
-<button
-class="btn x"
-onclick="shareX()">
-
-X
-
-</button>
-
-<button
-class="btn line"
-onclick="shareLine()">
-
-LINE
-
-</button>
-
-<button
-class="btn copy"
-onclick="copyUrl()">
-
-リンクをコピー
-
-</button>
+</a>
 
 <a
 href="kicho.html"
 class="btn save"
-style="display:block;text-decoration:none;text-align:center;">
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
 
 ⛩️ 参拝記帳を書く
 
@@ -422,7 +405,11 @@ style="display:block;text-decoration:none;text-align:center;">
 <a
 href="goen.html"
 class="btn copy"
-style="display:block;text-decoration:none;text-align:center;">
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
 
 📖 みんなのご縁帳
 
@@ -431,7 +418,11 @@ style="display:block;text-decoration:none;text-align:center;">
 <a
 href="news.html"
 class="btn fb"
-style="display:block;text-decoration:none;text-align:center;">
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
 
 📢 お知らせ
 
@@ -442,9 +433,8 @@ style="display:block;text-decoration:none;text-align:center;">
 敷島神社へご参拝いただき
 ありがとうございます。
 
-登頂記念の保存や共有のほか、
-参拝記帳、ご縁帳、お知らせも
-ぜひご覧ください。
+登頂記念証を受け取り、
+ぜひご縁をお持ち帰りください。
 
 </div>
 
@@ -490,30 +480,39 @@ userId
 fetch(
 GAS_URL +
 "?userId=" +
-encodeURIComponent(userId)
+encodeURIComponent(
+userId
+)
 )
 .then(r=>r.json())
 .then(data=>{
 
-document.getElementById("loading").style.display="none";
-document.getElementById("main").style.display="block";
+document.getElementById(
+"loading"
+).style.display =
+"none";
 
-document.getElementById("serial").innerText =
+document.getElementById(
+"main"
+).style.display =
+"block";
+
+document.getElementById(
+"serial"
+).innerText =
 data.serial || "-";
 
-document.getElementById("count").innerText =
-"あなたは " +
-(data.count || 1) +
-" 回目の登頂です";
-
-document.getElementById("gacha").innerText =
+document.getElementById(
+"gacha"
+).innerText =
 data.gacha || "大吉";
 
 document.getElementById(
 "certificateBtn"
-).onclick = function(){
+).onclick =
+function(){
 
-location.href =
+const url =
 "certificate.html" +
 "?serial=" +
 encodeURIComponent(
@@ -521,10 +520,28 @@ data.serial
 ) +
 "&image=" +
 encodeURIComponent(
-data.imageUrl || "sakura01.jpg"
+data.imageUrl ||
+"sakura01.jpg"
 );
 
+location.href =
+url;
+
 };
+
+document.getElementById(
+"certificateBtn2"
+).href =
+"certificate.html" +
+"?serial=" +
+encodeURIComponent(
+data.serial
+) +
+"&image=" +
+encodeURIComponent(
+data.imageUrl ||
+"sakura01.jpg"
+);
 
 return fetch(
 GAS_URL +
@@ -567,78 +584,3 @@ document.getElementById(
 
 });
 
-async function saveImage(){
-
-const canvas =
-await html2canvas(
-document.querySelector(
-".card"
-)
-);
-
-const a =
-document.createElement(
-"a"
-);
-
-a.href =
-canvas.toDataURL(
-"image/png"
-);
-
-a.download =
-"168-no-en.png";
-
-a.click();
-
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-}
-
-</script>
-
-</body>
-</html>
