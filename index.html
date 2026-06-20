@@ -11,6 +11,8 @@
 <link rel="icon" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 <style>
 
 *{
@@ -127,6 +129,32 @@ font-size:28px;
 font-weight:900;
 margin-top:20px;
 margin-bottom:10px;
+}
+
+.statsBox{
+margin-top:20px;
+padding:20px;
+border-radius:24px;
+background:#161616;
+border:2px solid #d4af37;
+}
+
+.statsTitle{
+font-size:20px;
+font-weight:900;
+color:#d4af37;
+}
+
+.participants{
+font-size:48px;
+font-weight:900;
+margin-top:8px;
+margin-bottom:8px;
+}
+
+.statsSub{
+font-size:16px;
+color:#ccc;
 }
 
 .date{
@@ -286,22 +314,9 @@ class="count">
 
 </div>
 
-<div
-class="statsBox"
-style="
-margin-top:20px;
-padding:20px;
-border-radius:24px;
-background:#161616;
-border:2px solid #d4af37;
-">
+<div class="statsBox">
 
-<div
-style="
-font-size:20px;
-font-weight:900;
-color:#d4af37;
-">
+<div class="statsTitle">
 
 現在の参加者
 
@@ -309,22 +324,275 @@ color:#d4af37;
 
 <div
 id="participants"
-style="
-font-size:48px;
-font-weight:900;
-margin-top:8px;
-margin-bottom:8px;
-">
+class="participants">
 
 0人
 
 </div>
 
+<div class="statsSub">
+
+168の縁が広がっています
+
+</div>
+
+</div>
+
 <div
+id="date"
+class="date">
+
+2026/07/01
+
+</div>
+
+<div class="gachaCard">
+
+<div class="gachaTitle">
+🎁 縁ガチャ
+</div>
+
+<div
+id="gacha"
+class="gachaResult">
+
+神使出現
+
+</div>
+
+</div>
+
+<button
+class="btn save"
+onclick="saveImage()">
+
+画像を保存
+
+</button>
+
+<button
+class="btn fb"
+onclick="shareFacebook()">
+
+Facebook
+
+</button>
+
+<button
+class="btn x"
+onclick="shareX()">
+
+X
+
+</button>
+
+<button
+class="btn line"
+onclick="shareLine()">
+
+LINE
+
+</button>
+
+<button
+class="btn copy"
+onclick="copyUrl()">
+
+リンクをコピー
+
+</button>
+
+<a
+href="kicho.html"
+class="btn save"
 style="
-font-size:16px;
-color:#ccc;
+display:block;
+text-decoration:none;
+text-align:center;
 ">
+
+⛩️ 参拝記帳を書く
+
+</a>
+
+<a
+href="goen.html"
+class="btn copy"
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
+
+📖 みんなのご縁帳
+
+</a>
+
+<a
+href="news.html"
+class="btn fb"
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
+
+📢 お知らせ
+
+</a>
+
+<div class="infoBox">
+
+敷島神社へご参拝いただき
+ありがとうございます。
+
+登頂記念の保存や共有のほか、
+参拝記帳、ご縁帳、お知らせも
+ぜひご覧ください。
+
+</div>
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:20px;
+margin-top:14px;
+font-size:24px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{
+background:#2ecc71;
+color:#fff;
+}
+
+.fb{
+background:#1877f2;
+color:#fff;
+}
+
+.x{
+background:#000;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+color:#fff;
+}
+
+.copy{
+background:#607d8b;
+color:#fff;
+}
+
+.infoBox{
+margin-top:30px;
+padding:20px;
+background:#181818;
+border:1px solid #333;
+border-radius:20px;
+line-height:1.8;
+font-size:18px;
+text-align:left;
+}
+
+.footer{
+margin-top:30px;
+text-align:center;
+color:#aaa;
+font-size:16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<img
+src="top.jpg"
+alt="田子山富士">
+
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo"
+alt="田子山富士">
+
+<div class="project">
+主催：田子山富士保存会
+</div>
+
+<div class="title">
+田子山富士
+</div>
+
+<div class="sub">
+168の縁プロジェクト
+</div>
+
+<div
+id="loading"
+class="loading">
+
+読み込み中...
+
+</div>
+
+<div
+id="main"
+style="display:none;">
+
+<div class="serialBox">
+
+<div class="serialLabel">
+登頂記念
+</div>
+
+<div
+id="serial"
+class="serial">
+
+1-0001
+
+</div>
+
+</div>
+
+<div
+id="count"
+class="count">
+
+あなたは1回目の登頂です
+
+</div>
+
+<div class="statsBox">
+
+<div class="statsTitle">
+
+現在の参加者
+
+</div>
+
+<div
+id="participants"
+class="participants">
+
+0人
+
+</div>
+
+<div class="statsSub">
 
 168の縁が広がっています
 
@@ -571,11 +839,35 @@ console.log(err);
 
 });
 
-function saveImage(){
+async function saveImage(){
 
-alert(
-"画像保存機能は次で実装"
-);
+  const target =
+    document.querySelector(
+      ".card"
+    );
+
+  const canvas =
+    await html2canvas(
+      target,
+      {
+        scale:2
+      }
+    );
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+  link.download =
+    "168-no-en.png";
+
+  link.href =
+    canvas.toDataURL(
+      "image/png"
+    );
+
+  link.click();
 
 }
 
