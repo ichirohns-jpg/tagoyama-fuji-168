@@ -529,11 +529,6 @@ location.href =
 "?serial=" +
 encodeURIComponent(
 data.serial
-) +
-"&image=" +
-encodeURIComponent(
-data.imageUrl ||
-"sakura01.jpg"
 );
 
 };
@@ -545,11 +540,30 @@ document.getElementById(
 "?serial=" +
 encodeURIComponent(
 data.serial
+);
+
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+now.getFullYear() +
+"/" +
+String(
+now.getMonth()+1
+)
+.padStart(
+2,
+"0"
 ) +
-"&image=" +
-encodeURIComponent(
-data.imageUrl ||
-"sakura01.jpg"
+"/" +
+String(
+now.getDate()
+)
+.padStart(
+2,
+"0"
 );
 
 return fetch(
