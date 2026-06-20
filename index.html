@@ -492,157 +492,101 @@ userId
 }
 
 fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-userId:userId
-})
-}
+GAS_URL +
+"?userId=" +
+encodeURIComponent(userId)
 )
 .then(r=>r.json())
 .then(data=>{
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
+document.getElementById("loading").style.display="none";
+document.getElementById("main").style.display="block";
 
-document.getElementById(
-"main"
-).style.display =
-"block";
+document.getElementById("serial").innerText =
+data.serial || "-";
 
-document.getElementById(
-"serial"
-).innerText =
-data.serial;
-
-document.getElementById(
-"count"
-).innerText =
+document.getElementById("count").innerText =
 "あなたは " +
-data.count +
+(data.count || 1) +
 " 回目の登頂です";
 
-document.getElementById(
-"gacha"
-).innerText =
-data.gacha;
+document.getElementById("gacha").innerText =
+data.gacha || "大吉";
 
-fetch(
-GAS_URL +
-"?mode=stats"
-)
+return fetch(
+GAS_URL + "?mode=stats"
+);
+
+})
 .then(r=>r.json())
 .then(stats=>{
-
-if(stats.participants){
 
 document.getElementById(
 "participants"
 ).innerText =
-stats.participants + "人";
+(stats.participants || 0)
++ "人";
 
-}
-
-});
-
-const now =
-new Date();
-
-const dateText =
-now.getFullYear() +
-"/" +
-String(now.getMonth()+1)
-.padStart(2,"0") +
-"/" +
-String(now.getDate())
-.padStart(2,"0");
+const now = new Date();
 
 document.getElementById(
 "date"
 ).innerText =
-dateText;
+now.getFullYear() + "/" +
+String(now.getMonth()+1).padStart(2,"0") + "/" +
+String(now.getDate()).padStart(2,"0");
 
 })
 .catch(err=>{
+
+console.log(err);
 
 document.getElementById(
 "loading"
 ).innerHTML =
 "通信エラー";
 
-console.log(err);
-
 });
 
 async function saveImage(){
 
-const target =
-document.querySelector(
-".card"
-);
-
 const canvas =
 await html2canvas(
-target,
-{
-scale:2
-}
+document.querySelector(".card")
 );
 
-const link =
-document.createElement(
-"a"
-);
+const a =
+document.createElement("a");
 
-link.download =
+a.href =
+canvas.toDataURL("image/png");
+
+a.download =
 "168-no-en.png";
 
-link.href =
-canvas.toDataURL(
-"image/png"
-);
-
-link.click();
+a.click();
 
 }
 
 function shareFacebook(){
-
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-)
+encodeURIComponent(location.href)
 );
-
 }
 
 function shareX(){
-
 window.open(
 "https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-)
+encodeURIComponent(location.href)
 );
-
 }
 
 function shareLine(){
-
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-)
+encodeURIComponent(location.href)
 );
-
 }
 
 function copyUrl(){
