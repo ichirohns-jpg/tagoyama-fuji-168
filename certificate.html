@@ -57,29 +57,10 @@ display:block;
 
 .overlay{
 position:absolute;
-top:0;
 left:0;
 right:0;
-bottom:0;
-pointer-events:none;
-}
-
-.certificateTitle{
-position:absolute;
-top:20px;
-left:20px;
-font-size:20px;
-font-weight:900;
-color:#fff;
-text-shadow:
-0 2px 8px rgba(0,0,0,.9);
-}
-
-.rightInfo{
-position:absolute;
-right:20px;
-bottom:20px;
-text-align:right;
+bottom:6%;
+text-align:center;
 color:#fff;
 text-shadow:
 0 3px 8px rgba(0,0,0,.95),
@@ -87,21 +68,24 @@ text-shadow:
 }
 
 .enTitle{
-font-size:22px;
+font-size:54px;
 font-weight:900;
-margin-bottom:4px;
-}
-
-.date{
-font-size:16px;
-margin-bottom:6px;
+letter-spacing:12px;
+margin-bottom:20px;
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
 }
 
 .serial{
 font-size:42px;
-font-weight:900;
-letter-spacing:3px;
-color:#ffd700;
+font-weight:700;
+letter-spacing:2px;
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
 }
 
 .save{
@@ -133,9 +117,9 @@ color:#fff;
 width:100%;
 border:none;
 border-radius:18px;
-padding:18px;
+padding:14px;
 margin-top:12px;
-font-size:22px;
+font-size:20px;
 font-weight:900;
 cursor:pointer;
 }
@@ -169,21 +153,9 @@ crossorigin="anonymous">
 
 <div class="overlay">
 
-<div class="certificateTitle">
-登頂記念証
-</div>
-
-<div class="rightInfo">
-
 <div class="enTitle">
-168の縁
-</div>
 
-<div
-id="date"
-class="date">
-
-2026.06.20
+参 拝
 
 </div>
 
@@ -192,8 +164,6 @@ id="serial"
 class="serial">
 
 1-0001
-
-</div>
 
 </div>
 
@@ -259,30 +229,17 @@ location.search
 );
 
 const serial =
-params.get("serial") || "1-0001";
-
-const imageUrl =
-params.get("image") ||
-"sakura01.jpg";
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-now.getFullYear() +
-"." +
-String(now.getMonth()+1)
-.padStart(2,"0") +
-"." +
-String(now.getDate())
-.padStart(2,"0");
+params.get("serial")
+|| "1-0001";
 
 document.getElementById(
 "serial"
 ).innerText =
 serial;
+
+const imageUrl =
+params.get("image")
+|| "sakura01.jpg";
 
 document.getElementById(
 "memorialImage"
@@ -311,7 +268,7 @@ document.createElement(
 );
 
 link.download =
-"168-no-en-certificate.png";
+"tagoyama-fuji-goshuin.png";
 
 link.href =
 canvas.toDataURL(
