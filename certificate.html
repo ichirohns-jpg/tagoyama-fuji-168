@@ -59,16 +59,16 @@ pointer-events:none;
 
 .titleArea{
 position:absolute;
-top:38px;
-left:30px;
-right:30px;
+top:30px;
+left:0;
+right:0;
 text-align:center;
 }
 
 .shrine{
-font-size:42px;
+font-size:38px;
 font-weight:700;
-letter-spacing:6px;
+letter-spacing:4px;
 color:#fff;
 font-family:
 "Yu Mincho",
@@ -79,11 +79,10 @@ text-shadow:
 }
 
 .project{
-margin-top:12px;
-font-size:18px;
-letter-spacing:8px;
-color:#fff;
-opacity:.85;
+margin-top:8px;
+font-size:15px;
+letter-spacing:4px;
+color:#f3e3a0;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
@@ -92,17 +91,15 @@ serif;
 
 .infoArea{
 position:absolute;
-right:28px;
-bottom:28px;
+right:24px;
+bottom:24px;
 text-align:right;
-background:none;
-padding:0;
 }
 
 .date{
-font-size:18px;
+font-size:14px;
 color:#ffffff;
-margin-bottom:8px;
+margin-bottom:4px;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
@@ -112,9 +109,9 @@ text-shadow:
 }
 
 .round{
-font-size:16px;
+font-size:13px;
 color:#ffffff;
-margin-bottom:4px;
+margin-bottom:2px;
 opacity:.9;
 font-family:
 "Yu Mincho",
@@ -123,7 +120,7 @@ serif;
 }
 
 .serial{
-font-size:16px;
+font-size:13px;
 font-weight:400;
 color:#ffffff;
 opacity:.9;
@@ -212,6 +209,112 @@ crossorigin="anonymous">
 
 </div>
 
+<div class="infoArea">
+
+<div
+id="date"
+class="date">
+
+令和八年六月二十日
+
+</div>
+
+<div
+class="round">
+
+第壱回登頂
+
+</div>
+
+<div
+id="serial"
+class="serial">
+
+No.1-0001
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="btn save"
+onclick="saveImage()">
+
+画像を保存
+
+</button>
+
+<button
+class="btn fb"
+onclick="shareFacebook()">
+
+Facebook
+
+</button>
+
+<button
+class="btn x"
+onclick="shareX()">
+
+X
+
+</button>
+
+<button
+class="btn line"
+onclick="shareLine()">
+
+LINE
+
+</button>
+
+<button
+class="btn copy"
+onclick="copyUrl()">
+
+リンクをコピー
+
+</button>
+
+<div class="footer">
+
+田子山富士 登頂記念証
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const serial =
+params.get("serial")
+|| "1-0001";
+
+document.getElementById(
+"serial"
+).innerText =
+"No." + serial;
+
+const imageUrl =
+params.get("image")
+|| "sakura01.jpg";
+
+document.getElementById(
+"memorialImage"
+).src =
+imageUrl;
+
 async function saveImage(){
 
 try{
@@ -234,7 +337,7 @@ document.createElement(
 );
 
 link.download =
-"tagoyama-fuji-memorial.png";
+"tagoyama-fuji-goshuin.png";
 
 link.href =
 canvas.toDataURL(
