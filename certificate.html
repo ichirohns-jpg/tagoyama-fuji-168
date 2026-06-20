@@ -33,68 +33,51 @@ margin:auto;
 }
 
 .card{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
+background:#000;
 border:2px solid #d4af37;
 border-radius:28px;
-padding:24px;
+padding:16px;
 text-align:center;
 box-shadow:
 0 12px 32px rgba(0,0,0,.45);
 }
 
-.title{
-font-size:42px;
-font-weight:900;
-margin-bottom:10px;
-}
-
-.sub{
-font-size:20px;
-color:#d4af37;
-font-weight:800;
-margin-bottom:20px;
+.certificateImageBox{
+position:relative;
+width:100%;
+border-radius:22px;
+overflow:hidden;
+background:#111;
 }
 
 .memorialImage{
 width:100%;
-border-radius:20px;
 display:block;
-margin-bottom:20px;
+}
+
+.overlay{
+position:absolute;
+left:0;
+right:0;
+bottom:8%;
+text-align:center;
+color:#fff;
+text-shadow:
+0 3px 8px rgba(0,0,0,.95),
+0 0 18px rgba(0,0,0,.9);
+}
+
+.enTitle{
+font-size:32px;
+font-weight:900;
+letter-spacing:4px;
+margin-bottom:10px;
 }
 
 .serial{
-font-size:34px;
+font-size:56px;
 font-weight:900;
-margin-top:15px;
-}
-
-.count{
-font-size:26px;
-font-weight:900;
-margin-top:10px;
-}
-
-.date{
-font-size:20px;
-color:#ddd;
-margin-top:10px;
-margin-bottom:20px;
-}
-
-.btn{
-width:100%;
-border:none;
-border-radius:18px;
-padding:18px;
-margin-top:12px;
-font-size:22px;
-font-weight:900;
-cursor:pointer;
+letter-spacing:5px;
 }
 
 .save{
@@ -122,6 +105,17 @@ background:#607d8b;
 color:#fff;
 }
 
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:18px;
+margin-top:12px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+}
+
 .footer{
 margin-top:20px;
 text-align:center;
@@ -140,13 +134,7 @@ font-size:14px;
 id="certificate"
 class="card">
 
-<div class="title">
-登頂記念証
-</div>
-
-<div class="sub">
-田子山富士 168の縁
-</div>
+<div class="certificateImageBox">
 
 <img
 id="memorialImage"
@@ -154,27 +142,21 @@ class="memorialImage"
 src="https://via.placeholder.com/1200x800.png?text=MEMORIAL"
 alt="記念画像">
 
-<div
-id="count"
-class="count">
+<div class="overlay">
 
-第1回登頂
-
+<div class="enTitle">
+168の縁
 </div>
 
 <div
 id="serial"
 class="serial">
 
-No.0001
+1-0001
 
 </div>
 
-<div
-id="date"
-class="date">
-
-2026/06/20
+</div>
 
 </div>
 
@@ -235,44 +217,22 @@ new URLSearchParams(
 location.search
 );
 
-const count =
-params.get("count") || "1";
-
 const serial =
-params.get("serial") || "0001";
+params.get("serial") || "1-0001";
 
 const imageUrl =
 params.get("image") ||
 "https://via.placeholder.com/1200x800.png?text=MEMORIAL";
 
 document.getElementById(
-"count"
-).innerText =
-"第" + count + "回登頂";
-
-document.getElementById(
 "serial"
 ).innerText =
-"No." + serial;
+serial;
 
 document.getElementById(
 "memorialImage"
 ).src =
 imageUrl;
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-now.getFullYear() +
-"/" +
-String(now.getMonth()+1)
-.padStart(2,"0") +
-"/" +
-String(now.getDate())
-.padStart(2,"0");
 
 async function saveImage(){
 
@@ -292,7 +252,7 @@ document.createElement(
 );
 
 link.download =
-"tagoyama-certificate.png";
+"168-no-en-certificate.png";
 
 link.href =
 canvas.toDataURL(
