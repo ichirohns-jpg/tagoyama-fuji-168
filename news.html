@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>田子山富士 お知らせ</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:28px;
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
+}
+
+.logo{
+width:140px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+text-align:center;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:18px;
+line-height:1.8;
+text-align:center;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.newsList{
+margin-top:20px;
+}
+
+.newsItem{
+background:#181818;
+border:1px solid #333;
+border-radius:20px;
+padding:20px;
+margin-bottom:20px;
+}
+
+.newsDate{
+font-size:14px;
+color:#aaa;
+margin-bottom:8px;
+}
+
+.newsTitle{
+font-size:26px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:10px;
+}
+
+.newsBody{
+font-size:18px;
+line-height:1.8;
+}
+
+.loading{
+text-align:center;
+font-size:24px;
+padding:50px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<img src="top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo">
+
+<div class="title">
+📢 お知らせ
+</div>
+
+<div class="sub">
+
+田子山富士・敷島神社の<br>
+最新情報をお届けします
+
+</div>
+
+<div
+id="loading"
+class="loading">
+
+読込中...
+
+</div>
+
+<div
+id="newsList"
+class="newsList">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SHEET_ID =
+"ここにスプレッドシートID";
+
+const SHEET_NAME =
+"お知らせ";
+
+const url =
+"https://docs.google.com/spreadsheets/d/" +
+SHEET_ID +
+"/gviz/tq?sheet=" +
+encodeURIComponent(
+SHEET_NAME
+) +
+"&tqx=out:json";
+
+function getVal(cell){
+
+if(!cell) return "";
+
+return cell.v || "";
+
+}
+
+function loadNews(){
+
+const script =
+document.createElement(
+"script"
+);
+
+script.src =
+url +
+"&callback=handleNews";
+
+document.body.appendChild(
+script
+);
+
+}
+
+function handleNews(json){
+
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+const rows =
+json.table.rows || [];
+
+rows.reverse();
+
+let html = "";
+
+for(
+let i=0;
+i<rows.length;
+i++
+){
+
+const row =
+rows[i];
+
+const date =
+getVal(row.c[0]);
+
+const title =
+getVal(row.c[1]);
+
+const body =
+getVal(row.c[2]);
+
+const image =
+getVal(row.c[3]);
+
+const link =
+getVal(row.c[4]);
+
+const show =
+getVal(row.c[5]);
+
+if(
+show !== "ON"
+) continue;
+
+html += `
+<div class="newsItem">
+
+<div class="newsDate">
+${date}
+</div>
+
+<div class="newsTitle">
+${title}
+</div>
+
+${image ? `
+<img
+src="${image}"
+style="
+width:100%;
+border-radius:16px;
+margin-bottom:15px;
+">
+` : ""}
+
+<div class="newsBody">
+${body}
+</div>
+
+${link ? `
+<a
+href="${link}"
+target="_blank"
+style="
+display:block;
+margin-top:15px;
+padding:15px;
+background:#d4af37;
+color:#000;
+text-decoration:none;
+text-align:center;
+font-weight:900;
+border-radius:14px;
+">
+詳しく見る
+</a>
+` : ""}
+
+</div>
+`;
+
+}
+
+document.getElementById(
+"newsList"
+).innerHTML =
+html;
+
+}
+
+loadNews();
+
+</script>
+
+</body>
+</html>
