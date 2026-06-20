@@ -11,8 +11,6 @@
 <link rel="icon" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
 <style>
 
 *{
@@ -220,16 +218,6 @@ background:#1877f2;
 color:#fff;
 }
 
-.x{
-background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
 .copy{
 background:#607d8b;
 color:#fff;
@@ -259,11 +247,7 @@ font-size:16px;
 <body>
 
 <div class="hero">
-
-<img
-src="top.jpg"
-alt="田子山富士">
-
+<img src="top.jpg" alt="田子山富士">
 </div>
 
 <div class="wrap">
@@ -303,7 +287,7 @@ style="display:none;">
 
 <div class="serialLabel">
 
-おめでとうございます
+登頂記録番号
 
 </div>
 
@@ -311,7 +295,7 @@ style="display:none;">
 id="serial"
 class="serial">
 
-1-0001
+-
 
 </div>
 
@@ -361,7 +345,7 @@ class="participants">
 id="date"
 class="date">
 
-2026/07/01
+2026/06/20
 
 </div>
 
@@ -377,7 +361,7 @@ class="date">
 id="gacha"
 class="gachaResult">
 
-神使出現
+参拝完了
 
 </div>
 
@@ -453,39 +437,15 @@ text-align:center;
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbz3ybiLZLGAAnm994iRgJXQkCxSVULCJe5TxCuaOzEFQRrI4P-GVNdMbkgg_Tte1al9jg/exec";
 
-let userId =
-localStorage.getItem(
-"tagoyamaUserId"
+const params =
+new URLSearchParams(
+location.search
 );
 
-if(!userId){
-
-userId =
-"TGF-" +
-Math.random()
-.toString(36)
-.substring(2,10)
-.toUpperCase();
-
-localStorage.setItem(
-"tagoyamaUserId",
-userId
-);
-
-}
-
-fetch(
-GAS_URL +
-"?userId=" +
-encodeURIComponent(
-userId
-)
-)
-.then(
-r=>r.json()
-)
-.then(
-data=>{
+const serial =
+params.get(
+"serial"
+) || "-";
 
 document.getElementById(
 "loading"
@@ -500,18 +460,12 @@ document.getElementById(
 document.getElementById(
 "serial"
 ).innerText =
-data.serial || "-";
+serial;
 
 document.getElementById(
 "gacha"
 ).innerText =
-data.gacha || "大吉";
-
-document.getElementById(
-"participants"
-).innerText =
-(data.participants || 0)
-+ "人";
+"参拝完了";
 
 document.getElementById(
 "certificateBtn"
@@ -522,7 +476,7 @@ location.href =
 "certificate.html" +
 "?serial=" +
 encodeURIComponent(
-data.serial
+serial
 );
 
 };
@@ -551,12 +505,10 @@ now.getDate()
 "0"
 );
 
-return fetch(
+fetch(
 GAS_URL +
 "?mode=stats"
-);
-
-})
+)
 .then(
 r=>r.json()
 )
@@ -569,8 +521,7 @@ document.getElementById(
 (stats.participants || 0)
 + "人";
 
-});
-
+})
 .catch(
 err=>{
 
@@ -579,12 +530,11 @@ err
 );
 
 document.getElementById(
-"loading"
-).innerHTML =
-"通信エラー";
+"participants"
+).innerText =
+"-";
 
-}
-);
+});
 
 async function saveImage(){
 
@@ -661,3 +611,5 @@ alert(
 
 </body>
 </html>
+
+
