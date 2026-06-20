@@ -314,6 +314,14 @@ class="count">
 
 </div>
 
+<button
+id="certificateBtn"
+class="btn save">
+
+🏔️ 登頂記念証を受け取る
+
+</button>
+
 <div class="statsBox">
 
 <div class="statsTitle">
@@ -405,11 +413,7 @@ onclick="copyUrl()">
 <a
 href="kicho.html"
 class="btn save"
-style="
-display:block;
-text-decoration:none;
-text-align:center;
-">
+style="display:block;text-decoration:none;text-align:center;">
 
 ⛩️ 参拝記帳を書く
 
@@ -418,11 +422,7 @@ text-align:center;
 <a
 href="goen.html"
 class="btn copy"
-style="
-display:block;
-text-decoration:none;
-text-align:center;
-">
+style="display:block;text-decoration:none;text-align:center;">
 
 📖 みんなのご縁帳
 
@@ -431,11 +431,7 @@ text-align:center;
 <a
 href="news.html"
 class="btn fb"
-style="
-display:block;
-text-decoration:none;
-text-align:center;
-">
+style="display:block;text-decoration:none;text-align:center;">
 
 📢 お知らせ
 
@@ -513,8 +509,26 @@ document.getElementById("count").innerText =
 document.getElementById("gacha").innerText =
 data.gacha || "大吉";
 
+document.getElementById(
+"certificateBtn"
+).onclick = function(){
+
+location.href =
+"certificate.html" +
+"?serial=" +
+encodeURIComponent(
+data.serial
+) +
+"&image=" +
+encodeURIComponent(
+data.imageUrl || "sakura01.jpg"
+);
+
+};
+
 return fetch(
-GAS_URL + "?mode=stats"
+GAS_URL +
+"?mode=stats"
 );
 
 })
@@ -527,14 +541,19 @@ document.getElementById(
 (stats.participants || 0)
 + "人";
 
-const now = new Date();
+const now =
+new Date();
 
 document.getElementById(
 "date"
 ).innerText =
-now.getFullYear() + "/" +
-String(now.getMonth()+1).padStart(2,"0") + "/" +
-String(now.getDate()).padStart(2,"0");
+now.getFullYear() +
+"/" +
+String(now.getMonth()+1)
+.padStart(2,"0") +
+"/" +
+String(now.getDate())
+.padStart(2,"0");
 
 })
 .catch(err=>{
@@ -547,3 +566,79 @@ document.getElementById(
 "通信エラー";
 
 });
+
+async function saveImage(){
+
+const canvas =
+await html2canvas(
+document.querySelector(
+".card"
+)
+);
+
+const a =
+document.createElement(
+"a"
+);
+
+a.href =
+canvas.toDataURL(
+"image/png"
+);
+
+a.download =
+"168-no-en.png";
+
+a.click();
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareLine(){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
+</script>
+
+</body>
+</html>
