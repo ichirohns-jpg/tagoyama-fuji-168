@@ -436,6 +436,9 @@ text-align:center;
 登頂記念証を受け取り、
 ぜひご縁をお持ち帰りください。
 
+参拝記帳やご縁帳にも
+ぜひご参加ください。
+
 </div>
 
 </div>
@@ -484,8 +487,11 @@ encodeURIComponent(
 userId
 )
 )
-.then(r=>r.json())
-.then(data=>{
+.then(
+r=>r.json()
+)
+.then(
+data=>{
 
 document.getElementById(
 "loading"
@@ -508,11 +514,17 @@ document.getElementById(
 data.gacha || "大吉";
 
 document.getElementById(
+"participants"
+).innerText =
+(data.participants || 0)
++ "人";
+
+document.getElementById(
 "certificateBtn"
 ).onclick =
 function(){
 
-const url =
+location.href =
 "certificate.html" +
 "?serial=" +
 encodeURIComponent(
@@ -523,9 +535,6 @@ encodeURIComponent(
 data.imageUrl ||
 "sakura01.jpg"
 );
-
-location.href =
-url;
 
 };
 
@@ -549,8 +558,11 @@ GAS_URL +
 );
 
 })
-.then(r=>r.json())
-.then(stats=>{
+.then(
+r=>r.json()
+)
+.then(
+stats=>{
 
 document.getElementById(
 "participants"
@@ -566,21 +578,110 @@ document.getElementById(
 ).innerText =
 now.getFullYear() +
 "/" +
-String(now.getMonth()+1)
-.padStart(2,"0") +
+String(
+now.getMonth()+1
+)
+.padStart(
+2,
+"0"
+) +
 "/" +
-String(now.getDate())
-.padStart(2,"0");
+String(
+now.getDate()
+)
+.padStart(
+2,
+"0"
+);
 
 })
-.catch(err=>{
+.catch(
+err=>{
 
-console.log(err);
+console.log(
+err
+);
 
 document.getElementById(
 "loading"
 ).innerHTML =
 "通信エラー";
 
-});
+}
+);
 
+async function saveImage(){
+
+const canvas =
+await html2canvas(
+document.querySelector(
+".card"
+)
+);
+
+const a =
+document.createElement(
+"a"
+);
+
+a.href =
+canvas.toDataURL(
+"image/png"
+);
+
+a.download =
+"168-no-en.png";
+
+a.click();
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function shareLine(){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+location.href
+)
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+location.href
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
+</script>
+
+</body>
+</html>
