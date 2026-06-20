@@ -59,19 +59,56 @@ display:block;
 position:absolute;
 left:0;
 right:0;
-bottom:6%;
-text-align:center;
-color:#fff;
-text-shadow:
-0 3px 8px rgba(0,0,0,.95),
-0 0 18px rgba(0,0,0,.9);
+top:0;
+bottom:0;
+pointer-events:none;
 }
 
-.enTitle{
-font-size:54px;
+.titleArea{
+position:absolute;
+top:28px;
+left:28px;
+right:28px;
+text-align:center;
+}
+
+.shrine{
+font-size:30px;
 font-weight:900;
-letter-spacing:12px;
-margin-bottom:20px;
+letter-spacing:4px;
+color:#ffffff;
+text-shadow:
+0 2px 8px rgba(0,0,0,.8);
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
+}
+
+.project{
+margin-top:6px;
+font-size:15px;
+letter-spacing:2px;
+color:#f3e3a0;
+}
+
+.infoArea{
+position:absolute;
+right:24px;
+bottom:24px;
+text-align:right;
+background:
+rgba(0,0,0,.35);
+backdrop-filter:blur(4px);
+padding:12px 16px;
+border-radius:14px;
+}
+
+.date{
+font-size:13px;
+letter-spacing:1px;
+color:#ffffff;
+margin-bottom:6px;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
@@ -79,9 +116,10 @@ serif;
 }
 
 .serial{
-font-size:42px;
+font-size:20px;
 font-weight:700;
-letter-spacing:2px;
+letter-spacing:1px;
+color:#ffffff;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
@@ -153,9 +191,25 @@ crossorigin="anonymous">
 
 <div class="overlay">
 
-<div class="enTitle">
+<div class="titleArea">
 
-参 拝
+<div class="shrine">
+田子山富士
+</div>
+
+<div class="project">
+168の縁
+</div>
+
+</div>
+
+<div class="infoArea">
+
+<div
+id="date"
+class="date">
+
+令和八年六月二十日
 
 </div>
 
@@ -163,7 +217,9 @@ crossorigin="anonymous">
 id="serial"
 class="serial">
 
-1-0001
+No.1-0001
+
+</div>
 
 </div>
 
@@ -235,7 +291,7 @@ params.get("serial")
 document.getElementById(
 "serial"
 ).innerText =
-serial;
+"No." + serial;
 
 const imageUrl =
 params.get("image")
@@ -332,6 +388,21 @@ alert(
 );
 
 }
+
+const now =
+new Date();
+
+const jpDate =
+"令和八年" +
+(now.getMonth()+1) +
+"月" +
+now.getDate() +
+"日";
+
+document.getElementById(
+"date"
+).innerText =
+jpDate;
 
 </script>
 
