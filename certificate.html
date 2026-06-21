@@ -358,6 +358,58 @@ document.getElementById(
 now.getDate() +
 "日";
 
+function getShareUrl(){
+
+return
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+
+}
+
+function shareFacebook(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+getShareUrl()
+)
+);
+
+}
+
+function shareX(){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+getShareUrl()
+)
+);
+
+}
+
+function shareLine(){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+getShareUrl()
+)
+);
+
+}
+
+function copyUrl(){
+
+navigator.clipboard.writeText(
+getShareUrl()
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
 async function saveImage(){
 
 const canvas =
@@ -385,51 +437,6 @@ canvas.toDataURL(
 );
 
 link.click();
-
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
 
 }
 
