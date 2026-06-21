@@ -57,7 +57,7 @@ border-radius:20px;
 }
 
 .title{
-font-size:40px;
+font-size:36px;
 font-weight:900;
 text-align:center;
 margin-bottom:10px;
@@ -109,7 +109,7 @@ background:#d4af37;
 color:#000;
 }
 
-.linkBtn{
+.homeBtn{
 display:block;
 width:100%;
 padding:20px;
@@ -132,6 +132,48 @@ background:#1b5e20;
 font-size:20px;
 font-weight:900;
 text-align:center;
+}
+
+.goenBox{
+margin-top:30px;
+padding:20px;
+background:#111;
+border:2px solid #d4af37;
+border-radius:24px;
+}
+
+.goenTitle{
+font-size:28px;
+font-weight:900;
+text-align:center;
+color:#d4af37;
+margin-bottom:20px;
+}
+
+#goenList{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.goenCard{
+background:#1b1b1b;
+border-radius:18px;
+padding:18px;
+border:1px solid #333;
+}
+
+.goenMeta{
+font-size:16px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:8px;
+}
+
+.goenText{
+font-size:18px;
+line-height:1.8;
+color:#fff;
 }
 
 </style>
@@ -217,11 +259,27 @@ class="message">
 
 </div>
 
-<a
-href="goen.html"
-class="linkBtn">
+<div class="goenBox">
 
-みんなのご縁帳を見る
+<div class="goenTitle">
+
+🌸 最近のご縁
+
+</div>
+
+<div id="goenList">
+
+読込中...
+
+</div>
+
+</div>
+
+<a
+href="index.html"
+class="homeBtn">
+
+🏠 田子山富士へ戻る
 
 </a>
 
@@ -314,6 +372,8 @@ document.getElementById(
 "messageText"
 ).value = "";
 
+loadGoen();
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
@@ -331,6 +391,63 @@ console.log(err);
 });
 
 }
+
+function loadGoen(){
+
+fetch(
+GAS_URL +
+"?mode=goen"
+)
+.then(
+r=>r.json()
+)
+.then(
+rows=>{
+
+const list =
+document.getElementById(
+"goenList"
+);
+
+list.innerHTML = "";
+
+rows
+.slice(0,20)
+.forEach(row=>{
+
+list.innerHTML +=
+`
+<div class="goenCard">
+
+<div class="goenMeta">
+${row.area || ""}
+${row.name ? "｜"+row.name : ""}
+</div>
+
+<div class="goenText">
+${row.message || ""}
+</div>
+
+</div>
+`;
+
+});
+
+})
+.catch(err=>{
+
+document.getElementById(
+"goenList"
+).innerHTML =
+"まだご縁はありません";
+
+console.log(err);
+
+});
+
+}
+
+loadGoen();
 
 </script>
 
