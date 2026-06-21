@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>過去のお知らせ</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:1000px;
+margin:auto;
+padding:20px;
+}
+
+.titleBox{
+text-align:center;
+margin-bottom:30px;
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+color:#d4af37;
+}
+
+.sub{
+font-size:18px;
+color:#ccc;
+margin-top:10px;
+}
+
+.newsCard{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:20px;
+margin-bottom:25px;
+}
+
+.newsDate{
+font-size:16px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:10px;
+}
+
+.newsTitle{
+font-size:28px;
+font-weight:900;
+margin-bottom:12px;
+}
+
+.newsText{
+font-size:18px;
+line-height:1.8;
+margin-top:15px;
+}
+
+.slider{
+display:flex;
+overflow-x:auto;
+gap:12px;
+padding-bottom:10px;
+}
+
+.slider img{
+width:220px;
+height:390px;
+object-fit:cover;
+border-radius:18px;
+flex:none;
+}
+
+.youtube{
+margin-top:20px;
+}
+
+.youtube iframe{
+width:100%;
+height:240px;
+border:none;
+border-radius:18px;
+}
+
+.linkBtn{
+display:block;
+width:100%;
+padding:18px;
+background:#d4af37;
+color:#000;
+font-size:22px;
+font-weight:900;
+text-align:center;
+text-decoration:none;
+border-radius:18px;
+margin-top:20px;
+}
+
+.homeBtn{
+display:block;
+width:100%;
+padding:20px;
+background:#263238;
+color:#fff;
+font-size:22px;
+font-weight:900;
+text-align:center;
+text-decoration:none;
+border-radius:18px;
+margin-top:20px;
+}
+
+.loading{
+text-align:center;
+font-size:24px;
+font-weight:900;
+padding:80px 0;
+color:#d4af37;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<img src="top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="titleBox">
+
+<div class="title">
+📚 過去のお知らせ
+</div>
+
+<div class="sub">
+田子山富士アーカイブ
+</div>
+
+</div>
+
+<div id="loading" class="loading">
+読込中...
+</div>
+
+<div id="archiveList"></div>
+
+<a
+href="news.html"
+class="homeBtn">
+
+📢 最新のお知らせへ
+
+</a>
+
+<a
+href="index.html"
+class="homeBtn">
+
+🏠 田子山富士へ戻る
+
+</a>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbzDzoiz7RDeT_t2tqDJxcpkLVrwZ3N59WE2ZCN7CL1wIch0APEEmGi65rOHtMvjaVHz-Q/exec";
+
+function youtubeEmbed(url){
+
+if(!url) return "";
+
+let id="";
+
+if(url.includes("watch?v=")){
+id=url.split("watch?v=")[1].split("&")[0];
+}
+else if(url.includes("youtu.be/")){
+id=url.split("youtu.be/")[1].split("?")[0];
+}
+
+if(!id) return "";
+
+return `
+<div class="youtube">
+<iframe
+src="https://www.youtube.com/embed/${id}"
+allowfullscreen>
+</iframe>
+</div>
+`;
+
+}
+
+fetch(
+GAS_URL + "?mode=news"
+)
+.then(r=>r.json())
+.then(rows=>{
+
+document.getElementById(
+"loading"
+).style.display="none";
+
+const box =
+document.getElementById(
+"archiveList"
+);
+
+box.innerHTML="";
+
+rows
+.slice(5)
+.forEach(row=>{
+
+let images="";
+
+[
+row.image1,
+row.image2,
+row.image3,
+row.image4,
+row.image5
+]
+.forEach(img=>{
+
+if(img){
+
+images +=
+`<img src="${img}">`;
+
+}
+
+});
+
+box.innerHTML +=
+`
+
+<div class="newsCard">
+
+<div class="newsDate">
+${row.date || ""}
+</div>
+
+<div class="newsTitle">
+${row.title || ""}
+</div>
+
+<div class="slider">
+${images}
+</div>
+
+<div class="newsText">
+${row.text || ""}
+</div>
+
+${youtubeEmbed(
+row.youtube || ""
+)}
+
+${
+row.link
+?
+`
+<a
+href="${row.link}"
+target="_blank"
+class="linkBtn">
+
+詳しくはこちら
+
+</a>
+`
+:
+""
+}
+
+</div>
+
+`;
+
+});
+
+})
+.catch(err=>{
+
+document.getElementById(
+"loading"
+).innerHTML =
+"データがありません";
+
+console.log(err);
+
+});
+
+</script>
+
+</body>
+</html>
