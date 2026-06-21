@@ -16,26 +16,6 @@
 <meta name="twitter:description" content="168の縁プロジェクト 登頂記念証">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-<script>
-
-const params =
-new URLSearchParams(
-location.search
-);
-
-const serial =
-params.get("serial")
-|| "0001";
-
-const url =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html?serial="
-+
-encodeURIComponent(serial);
-
-location.replace(url);
-
-</script>
-
 <style>
 
 body{
@@ -55,16 +35,16 @@ padding:20px;
 }
 
 .box{
-max-width:600px;
+max-width:700px;
 }
 
 h1{
-font-size:34px;
+font-size:38px;
 margin-bottom:20px;
 }
 
 p{
-font-size:20px;
+font-size:22px;
 line-height:1.8;
 }
 
@@ -76,14 +56,54 @@ line-height:1.8;
 <div class="box">
 
 <h1>
-田子山富士 登頂記念証
+🏔️ 田子山富士 登頂記念証
 </h1>
 
+<p id="serialText">
+シリアル番号確認中...
+</p>
+
 <p>
-登頂記念証へ移動しています...
+168の縁プロジェクト
 </p>
 
 </div>
+
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const serial =
+params.get(
+"serial"
+)
+|| "0001";
+
+document.getElementById(
+"serialText"
+).innerText =
+"登頂記録番号 No." +
+serial;
+
+setTimeout(
+function(){
+
+location.replace(
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html?serial="
++
+encodeURIComponent(
+serial
+)
+);
+
+},
+1500
+);
+
+</script>
 
 </body>
 </html>
