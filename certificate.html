@@ -150,17 +150,6 @@ text-shadow:
 0 3px 8px rgba(0,0,0,.95);
 }
 
-.btn{
-width:100%;
-border:none;
-border-radius:18px;
-padding:14px;
-margin-top:12px;
-font-size:20px;
-font-weight:900;
-cursor:pointer;
-}
-
 .save{
 background:#2ecc71;
 color:#fff;
@@ -299,62 +288,27 @@ onclick="copyUrl()">
 
 <script>
 
-const qrVerified =
-sessionStorage.getItem(
-"qrVerified"
+const params =
+new URLSearchParams(
+location.search
 );
-
-if(
-qrVerified !== "true"
-){
-
-alert(
-"山頂QRコードからお入りください"
-);
-
-location.href =
-"index.html";
-
-}
 
 const serial =
-sessionStorage.getItem(
-"latestSerial"
+params.get(
+"serial"
 )
-||
-localStorage.getItem(
-"latestSerial"
-)
-||
-"1-0001";
+|| "1-0001";
 
 const imageUrl =
-sessionStorage.getItem(
-"latestImageUrl"
+params.get(
+"image"
 )
-||
-localStorage.getItem(
-"latestImageUrl"
-)
-||
-"";
+|| "sakura01.jpg";
 
-const img =
 document.getElementById(
 "memorialImage"
-);
-
-if(imageUrl){
-
-img.src =
+).src =
 imageUrl;
-
-}else{
-
-img.src =
-"https://raw.githubusercontent.com/ichirohns-jpg/tagoyama-fuji-168/main/sakura01.jpg";
-
-}
 
 const serialParts =
 String(serial)
@@ -393,13 +347,7 @@ document.getElementById(
 now.getDate() +
 "日";
 
-sessionStorage.removeItem(
-"qrVerified"
-);
-
 async function saveImage(){
-
-try{
 
 const canvas =
 await html2canvas(
@@ -408,8 +356,7 @@ document.getElementById(
 ),
 {
 scale:2,
-useCORS:true,
-allowTaint:false
+useCORS:true
 }
 );
 
@@ -427,14 +374,6 @@ canvas.toDataURL(
 );
 
 link.click();
-
-}catch(error){
-
-alert(
-"画像保存エラー"
-);
-
-}
 
 }
 
