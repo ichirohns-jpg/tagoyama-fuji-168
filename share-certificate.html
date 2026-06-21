@@ -7,14 +7,14 @@
 <title>田子山富士 登頂記念証</title>
 
 <meta property="og:title" content="田子山富士 登頂記念証">
-<meta property="og:description" content="168の縁プロジェクト 登頂記念証">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<meta property="og:description" content="168の縁プロジェクト">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 登頂記念証">
-<meta name="twitter:description" content="168の縁プロジェクト 登頂記念証">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<meta name="twitter:description" content="168の縁プロジェクト">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
 
 <style>
 
@@ -22,10 +22,7 @@ body{
 margin:0;
 background:#111;
 color:#fff;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -38,8 +35,15 @@ padding:20px;
 max-width:700px;
 }
 
+img{
+width:100%;
+max-width:500px;
+border-radius:24px;
+margin-bottom:20px;
+}
+
 h1{
-font-size:38px;
+font-size:36px;
 margin-bottom:20px;
 }
 
@@ -55,8 +59,12 @@ line-height:1.8;
 
 <div class="box">
 
+<img
+src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg"
+alt="登頂記念証">
+
 <h1>
-🏔️ 田子山富士 登頂記念証
+田子山富士 登頂記念証
 </h1>
 
 <p id="serialText">
@@ -77,16 +85,13 @@ location.search
 );
 
 const serial =
-params.get(
-"serial"
-)
+params.get("serial")
 || "0001";
 
 document.getElementById(
 "serialText"
 ).innerText =
-"登頂記録番号 No." +
-serial;
+"登頂記録番号 " + serial;
 
 setTimeout(
 function(){
@@ -94,13 +99,11 @@ function(){
 location.replace(
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html?serial="
 +
-encodeURIComponent(
-serial
-)
+encodeURIComponent(serial)
 );
 
 },
-1500
+2000
 );
 
 </script>
