@@ -34,8 +34,8 @@ margin:auto;
 .card{
 background:#000;
 border:2px solid #d4af37;
-border-radius:28px;
-padding:16px;
+border-radius:32px;
+padding:18px;
 box-shadow:
 0 10px 30px rgba(0,0,0,.5);
 }
@@ -43,7 +43,7 @@ box-shadow:
 .certificateImageBox{
 position:relative;
 overflow:hidden;
-border-radius:22px;
+border-radius:24px;
 }
 
 .memorialImage{
@@ -54,111 +54,115 @@ display:block;
 .overlay{
 position:absolute;
 inset:0;
-pointer-events:none;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+padding:30px 20px;
 }
 
-.titleArea{
-position:absolute;
-top:36px;
-left:20px;
-right:20px;
+.topArea{
 text-align:center;
+background:
+linear-gradient(
+180deg,
+rgba(0,0,0,.65),
+rgba(0,0,0,0)
+);
+padding:20px;
+border-radius:20px;
 }
 
 .shrine{
-font-size:42px;
+font-size:40px;
 font-weight:900;
 letter-spacing:4px;
-color:#ffffff;
+color:#fff;
 font-family:
 "Yu Mincho",
-"Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+0 0 5px #000,
+0 0 10px #000,
+0 0 20px #000;
 }
 
 .project{
 margin-top:10px;
-font-size:18px;
+font-size:22px;
 font-weight:900;
-letter-spacing:4px;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
+color:#f3d57a;
 text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+0 0 5px #000,
+0 0 10px #000;
 }
 
-.infoArea{
-position:absolute;
-left:0;
-right:0;
-bottom:40px;
+.centerArea{
+flex:1;
+}
+
+.bottomArea{
+background:
+linear-gradient(
+0deg,
+rgba(0,0,0,.82),
+rgba(0,0,0,.45)
+);
+padding:24px;
+border-radius:20px;
 text-align:center;
+backdrop-filter:blur(4px);
 }
 
 .date{
-font-size:20px;
+font-size:18px;
 font-weight:900;
-color:#ffffff;
+color:#fff;
 margin-bottom:10px;
 font-family:
 "Yu Mincho",
-"Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+0 0 4px #000,
+0 0 8px #000;
 }
 
 .round{
-font-size:26px;
+font-size:28px;
 font-weight:900;
-color:#ffffff;
+color:#fff;
 margin-bottom:12px;
 font-family:
 "Yu Mincho",
-"Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+0 0 4px #000,
+0 0 8px #000;
+}
+
+.serialLabel{
+font-size:18px;
+font-weight:700;
+color:#f3d57a;
+letter-spacing:2px;
+margin-bottom:6px;
 }
 
 .serial{
-font-size:30px;
+font-size:52px;
 font-weight:900;
-letter-spacing:2px;
-color:#f3d57a;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
+letter-spacing:4px;
+color:#ffffff;
 text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+0 0 5px #000,
+0 0 10px #000,
+0 0 20px #000;
 }
 
 .btn{
 width:100%;
 border:none;
 border-radius:18px;
-padding:14px;
+padding:16px;
 margin-top:12px;
 font-size:20px;
 font-weight:900;
@@ -190,13 +194,6 @@ background:#607d8b;
 color:#fff;
 }
 
-.footer{
-margin-top:20px;
-text-align:center;
-color:#aaa;
-font-size:14px;
-}
-
 </style>
 </head>
 
@@ -220,7 +217,7 @@ crossorigin="anonymous">
 
 <div class="overlay">
 
-<div class="titleArea">
+<div class="topArea">
 
 <div class="shrine">
 田子山富士
@@ -232,7 +229,9 @@ crossorigin="anonymous">
 
 </div>
 
-<div class="infoArea">
+<div class="centerArea"></div>
+
+<div class="bottomArea">
 
 <div
 id="date"
@@ -246,10 +245,14 @@ class="round">
 第1回登頂記念
 </div>
 
+<div class="serialLabel">
+登頂記録番号
+</div>
+
 <div
 id="serial"
 class="serial">
-No.0001
+0001
 </div>
 
 </div>
@@ -304,15 +307,11 @@ location.search
 );
 
 const serial =
-params.get(
-"serial"
-)
+params.get("serial")
 || "1-0001";
 
 const imageUrl =
-params.get(
-"image"
-)
+params.get("image")
 || "sakura01.jpg";
 
 document.getElementById(
@@ -360,7 +359,8 @@ now.getDate() +
 
 function getShareUrl(){
 
-return "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+return
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
 
 }
 
