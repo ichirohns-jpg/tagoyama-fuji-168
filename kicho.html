@@ -290,7 +290,7 @@ class="homeBtn">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ6mTFzKyO9vrOe5qbb6259pxThL3bapLXUuoV8Qk3oksXCECHZRHOPKaKYgSLlwNJNg/exec";
+"https://script.google.com/macros/s/AKfycbzYIVAj2qRY4g2EVIMLbQttvurR0U08uzmWThrz6HbNDGSJ--B-TjuuPzmXbokSHfrhtw/exec";
 
 let userId =
 localStorage.getItem(
@@ -411,6 +411,15 @@ document.getElementById(
 
 list.innerHTML = "";
 
+if(!rows || rows.length===0){
+
+list.innerHTML =
+"<div class='goenCard'><div class='goenText'>まだご縁はありません</div></div>";
+
+return;
+
+}
+
 rows
 .slice(0,20)
 .forEach(row=>{
@@ -420,8 +429,9 @@ list.innerHTML +=
 <div class="goenCard">
 
 <div class="goenMeta">
-${row.area || ""}
+${row.area || row.region || ""}
 ${row.name ? "｜"+row.name : ""}
+${row.date ? "｜"+row.date : ""}
 </div>
 
 <div class="goenText">
@@ -439,7 +449,7 @@ ${row.message || ""}
 document.getElementById(
 "goenList"
 ).innerHTML =
-"まだご縁はありません";
+"<div class='goenCard'><div class='goenText'>まだご縁はありません</div></div>";
 
 console.log(err);
 
