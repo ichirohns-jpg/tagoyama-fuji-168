@@ -100,45 +100,17 @@ text-shadow:
 
 .infoArea{
 position:absolute;
-right:24px;
-bottom:28px;
-text-align:right;
-}
-
-.date,
-.round,
-.serialLabel{
-font-size:22px;
-font-weight:900;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+left:0;
+right:0;
+bottom:40px;
+text-align:center;
 }
 
 .date{
-margin-bottom:8px;
-}
-
-.round{
-margin-bottom:6px;
-}
-
-.serialLabel{
-margin-bottom:4px;
-}
-
-.serial{
-font-size:42px;
+font-size:20px;
 font-weight:900;
-letter-spacing:4px;
 color:#ffffff;
+margin-bottom:10px;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
@@ -148,6 +120,49 @@ text-shadow:
 0 0 6px #000,
 0 0 12px #000,
 0 3px 8px rgba(0,0,0,.95);
+}
+
+.round{
+font-size:26px;
+font-weight:900;
+color:#ffffff;
+margin-bottom:12px;
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
+text-shadow:
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
+}
+
+.serial{
+font-size:30px;
+font-weight:900;
+letter-spacing:2px;
+color:#f3d57a;
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
+text-shadow:
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:14px;
+margin-top:12px;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
 }
 
 .save{
@@ -232,14 +247,9 @@ class="round">
 </div>
 
 <div
-class="serialLabel">
-登頂記録番号
-</div>
-
-<div
 id="serial"
 class="serial">
-0001
+No.0001
 </div>
 
 </div>
@@ -333,6 +343,7 @@ climbCount +
 document.getElementById(
 "serial"
 ).innerText =
+"No." +
 serialNo;
 
 const now =
