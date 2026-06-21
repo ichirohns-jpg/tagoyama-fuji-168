@@ -66,30 +66,36 @@ text-align:center;
 }
 
 .shrine{
-font-size:40px;
-font-weight:700;
+font-size:42px;
+font-weight:900;
 letter-spacing:4px;
-color:#fff8dc;
+color:#ffffff;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 3px 8px rgba(0,0,0,.95),
-0 0 20px rgba(0,0,0,.8);
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
 }
 
 .project{
 margin-top:10px;
-font-size:16px;
+font-size:18px;
+font-weight:900;
 letter-spacing:4px;
-color:#f3e3a0;
+color:#ffffff;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 2px 8px rgba(0,0,0,.9);
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
 }
 
 .infoArea{
@@ -100,44 +106,51 @@ text-align:right;
 }
 
 .date{
-font-size:18px;
-font-weight:700;
-color:#fff8dc;
+font-size:22px;
+font-weight:900;
+color:#ffffff;
+margin-bottom:8px;
+font-family:
+"Yu Mincho",
+"Hiragino Mincho ProN",
+serif;
+text-shadow:
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
+}
+
+.round{
+font-size:22px;
+font-weight:900;
+color:#ffffff;
 margin-bottom:6px;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 2px 8px rgba(0,0,0,.95),
-0 0 12px rgba(0,0,0,.9);
-}
-
-.round{
-font-size:16px;
-font-weight:700;
-color:#fff8dc;
-margin-bottom:4px;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 2px 8px rgba(0,0,0,.95),
-0 0 12px rgba(0,0,0,.9);
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
 }
 
 .serial{
-font-size:18px;
-font-weight:700;
-color:#fff8dc;
+font-size:42px;
+font-weight:900;
+letter-spacing:4px;
+color:#ffffff;
 font-family:
 "Yu Mincho",
 "Hiragino Mincho ProN",
 serif;
 text-shadow:
-0 2px 8px rgba(0,0,0,.95),
-0 0 12px rgba(0,0,0,.9);
+0 0 3px #000,
+0 0 6px #000,
+0 0 12px #000,
+0 3px 8px rgba(0,0,0,.95);
 }
 
 .btn{
@@ -223,14 +236,22 @@ crossorigin="anonymous">
 id="date"
 class="date">
 
-令和八年六月二十日
+令和8年6月21日
+
+</div>
+
+<div
+id="round"
+class="round">
+
+第1回登頂記念
 
 </div>
 
 <div
 class="round">
 
-第壱回登頂記念
+登頂記録番号
 
 </div>
 
@@ -238,7 +259,7 @@ class="round">
 id="serial"
 class="serial">
 
-No.1-0001
+0001
 
 </div>
 
@@ -309,11 +330,6 @@ const serial =
 params.get("serial")
 || "1-0001";
 
-document.getElementById(
-"serial"
-).innerText =
-"No." + serial;
-
 const imageUrl =
 params.get("image")
 || "sakura01.jpg";
@@ -322,6 +338,35 @@ document.getElementById(
 "memorialImage"
 ).src =
 imageUrl;
+
+const serialParts =
+serial.split("-");
+
+document.getElementById(
+"serial"
+).innerText =
+serialParts[1];
+
+document.getElementById(
+"round"
+).innerText =
+"第" +
+parseInt(
+serialParts[0]
+) +
+"回登頂記念";
+
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+"令和8年" +
+(now.getMonth()+1) +
+"月" +
+now.getDate() +
+"日";
 
 async function saveImage(){
 
@@ -345,7 +390,7 @@ document.createElement(
 );
 
 link.download =
-"tagoyama-fuji-goshuin.png";
+"tagoyama-fuji-certificate.png";
 
 link.href =
 canvas.toDataURL(
@@ -408,18 +453,6 @@ alert(
 );
 
 }
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-"令和八年" +
-(now.getMonth()+1) +
-"月" +
-now.getDate() +
-"日";
 
 </script>
 
