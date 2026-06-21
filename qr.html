@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>登頂記念証</title>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<title>田子山富士 登頂受付</title>
 
 <style>
 
@@ -17,180 +15,83 @@ box-sizing:border-box;
 }
 
 body{
-background:#050505;
+background:#0b0b0b;
 font-family:
 "Hiragino Sans",
 "Yu Gothic",
 sans-serif;
-padding:20px;
 color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
 }
 
 .wrap{
 max-width:900px;
 margin:auto;
+padding:20px;
 }
 
 .card{
-background:#000;
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
 border:2px solid #d4af37;
 border-radius:28px;
-padding:16px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.5);
-}
-
-.certificateImageBox{
-position:relative;
-overflow:hidden;
-border-radius:22px;
-}
-
-.memorialImage{
-width:100%;
-display:block;
-}
-
-.overlay{
-position:absolute;
-inset:0;
-pointer-events:none;
-}
-
-.titleArea{
-position:absolute;
-top:36px;
-left:20px;
-right:20px;
+padding:28px;
 text-align:center;
 }
 
-.shrine{
+.logo{
+width:180px;
+max-width:80%;
+margin:auto;
+display:block;
+margin-bottom:20px;
+border-radius:20px;
+}
+
+.title{
 font-size:42px;
 font-weight:900;
-letter-spacing:4px;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+margin-bottom:10px;
 }
 
-.project{
-margin-top:10px;
-font-size:18px;
-font-weight:900;
-letter-spacing:4px;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
-}
-
-.infoArea{
-position:absolute;
-right:24px;
-bottom:28px;
-text-align:right;
-}
-
-.date,
-.round,
-.serialLabel{
+.sub{
 font-size:22px;
-font-weight:900;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
+color:#d4af37;
+font-weight:800;
+margin-bottom:30px;
 }
 
-.date{
-margin-bottom:8px;
+.message{
+font-size:22px;
+line-height:1.8;
+margin-bottom:30px;
 }
 
-.round{
-margin-bottom:6px;
-}
-
-.serialLabel{
-margin-bottom:4px;
-}
-
-.serial{
-font-size:42px;
-font-weight:900;
-letter-spacing:4px;
-color:#ffffff;
-font-family:
-"Yu Mincho",
-"Hiragino Mincho ProN",
-serif;
-text-shadow:
-0 0 3px #000,
-0 0 6px #000,
-0 0 12px #000,
-0 3px 8px rgba(0,0,0,.95);
-}
-
-.btn{
+.startBtn{
 width:100%;
 border:none;
-border-radius:18px;
-padding:14px;
-margin-top:12px;
-font-size:20px;
+border-radius:22px;
+padding:24px;
+font-size:28px;
 font-weight:900;
+background:#d4af37;
+color:#000;
 cursor:pointer;
 }
 
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
-
-.x{
-background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.footer{
+.note{
 margin-top:20px;
-text-align:center;
-color:#aaa;
-font-size:14px;
+font-size:16px;
+color:#bbb;
+line-height:1.7;
 }
 
 </style>
@@ -198,278 +99,160 @@ font-size:14px;
 
 <body>
 
+<div class="hero">
+<img src="top.jpg">
+</div>
+
 <div class="wrap">
 
-<div
-id="certificate"
-class="card">
-
-<div
-class="certificateImageBox">
+<div class="card">
 
 <img
-id="memorialImage"
-class="memorialImage"
-src="sakura01.jpg"
-alt="記念画像"
-crossorigin="anonymous">
+src="logo.png"
+class="logo">
 
-<div class="overlay">
-
-<div class="titleArea">
-
-<div class="shrine">
+<div class="title">
 田子山富士
 </div>
 
-<div class="project">
-登頂記念証
+<div class="sub">
+168の縁プロジェクト
 </div>
 
-</div>
+<div class="message">
 
-<div class="infoArea">
+田子山富士へご登頂
+おめでとうございます。
 
-<div
-id="date"
-class="date">
-令和8年6月21日
-</div>
-
-<div
-id="round"
-class="round">
-第1回登頂記念
-</div>
-
-<div
-class="serialLabel">
-登頂記録番号
-</div>
-
-<div
-id="serial"
-class="serial">
-0001
-</div>
-
-</div>
-
-</div>
-
-</div>
+登頂記録を行う方は
+下のボタンを押してください。
 
 </div>
 
 <button
-class="btn save"
-onclick="saveImage()">
-画像を保存
+id="startBtn"
+class="startBtn">
+
+⛩️ 登頂を記録する
+
 </button>
 
-<button
-class="btn fb"
-onclick="shareFacebook()">
-Facebook
-</button>
+<div class="note">
 
-<button
-class="btn x"
-onclick="shareX()">
-X
-</button>
+※このボタンを押した時だけ
+登頂回数・参加人数・
+シリアル番号が発行されます。
 
-<button
-class="btn line"
-onclick="shareLine()">
-LINE
-</button>
+</div>
 
-<button
-class="btn copy"
-onclick="copyUrl()">
-リンクをコピー
-</button>
-
-<div class="footer">
-田子山富士 168の縁プロジェクト
 </div>
 
 </div>
 
 <script>
 
-const qrVerified =
-sessionStorage.getItem(
-"qrVerified"
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbz3ybiLZLGAAnm994iRgJXQkCxSVULCJe5TxCuaOzEFQRrI4P-GVNdMbkgg_Tte1al9jg/exec";
+
+let userId =
+localStorage.getItem(
+"tagoyamaUserId"
 );
 
-if(
-qrVerified !== "true"
-){
+if(!userId){
 
-alert(
-"山頂QRコードからお入りください"
+userId =
+"TGF-" +
+Math.random()
+.toString(36)
+.substring(2,10)
+.toUpperCase();
+
+localStorage.setItem(
+"tagoyamaUserId",
+userId
 );
-
-location.href =
-"index.html";
 
 }
 
-const serial =
-sessionStorage.getItem(
-"latestSerial"
-)
-||
-localStorage.getItem(
-"latestSerial"
-)
-||
-"1-0001";
-
-const imageUrl =
-sessionStorage.getItem(
-"latestImageUrl"
-)
-||
-localStorage.getItem(
-"latestImageUrl"
-)
-||
-"sakura01.jpg";
-
 document.getElementById(
-"memorialImage"
-).src =
-imageUrl;
+"startBtn"
+).onclick =
+async function(){
 
-const serialParts =
-String(serial)
-.split("-");
+this.disabled = true;
 
-const climbCount =
-Number(
-serialParts[0]
-) || 1;
-
-const serialNo =
-serialParts[1]
-|| "0001";
-
-document.getElementById(
-"round"
-).innerText =
-"第" +
-climbCount +
-"回登頂記念";
-
-document.getElementById(
-"serial"
-).innerText =
-serialNo;
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-"令和8年" +
-(now.getMonth()+1) +
-"月" +
-now.getDate() +
-"日";
-
-sessionStorage.removeItem(
-"qrVerified"
-);
-
-async function saveImage(){
+this.innerText =
+"登頂記録中...";
 
 try{
 
-const canvas =
-await html2canvas(
-document.getElementById(
-"certificate"
-),
-{
-scale:2,
-useCORS:true,
-allowTaint:false
+const response =
+await fetch(
+GAS_URL +
+"?userId=" +
+encodeURIComponent(
+userId
+)
+);
+
+const data =
+await response.json();
+
+sessionStorage.setItem(
+"qrVerified",
+"true"
+);
+
+sessionStorage.setItem(
+"latestSerial",
+data.serial || "1-0001"
+);
+
+localStorage.setItem(
+"latestSerial",
+data.serial || "1-0001"
+);
+
+if(data.imageUrl){
+
+sessionStorage.setItem(
+"latestImageUrl",
+data.imageUrl
+);
+
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl
+);
+
 }
+
+location.href =
+"index.html" +
+"?serial=" +
+encodeURIComponent(
+data.serial || "1-0001"
 );
-
-const link =
-document.createElement(
-"a"
-);
-
-link.download =
-"tagoyama-fuji-certificate.png";
-
-link.href =
-canvas.toDataURL(
-"image/png"
-);
-
-link.click();
 
 }catch(error){
 
 alert(
-"画像保存エラー"
+"通信エラーが発生しました"
 );
+
+document.getElementById(
+"startBtn"
+).disabled = false;
+
+document.getElementById(
+"startBtn"
+).innerText =
+"⛩️ 登頂を記録する";
 
 }
 
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-}
+};
 
 </script>
 
