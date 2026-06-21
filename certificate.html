@@ -101,61 +101,221 @@ flex:1;
 }
 
 .bottomArea{
+
 background:
 linear-gradient(
-0deg,
-rgba(0,0,0,.65),
-rgba(0,0,0,.20)
+180deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.55)
 );
-padding:14px;
-border-radius:18px;
+
+padding:20px;
+
+border-radius:24px;
+
 text-align:center;
-backdrop-filter:blur(4px);
+
+backdrop-filter:
+blur(8px);
+
 }
 
 .date{
-font-size:16px;
-font-weight:900;
-color:#fff;
-margin-bottom:6px;
+
+font-size:18px;
+
+font-weight:700;
+
+color:#ffffff;
+
+margin-bottom:12px;
+
 font-family:
 "Yu Mincho",
 serif;
+
 text-shadow:
 0 0 4px #000,
 0 0 8px #000;
+
 }
 
 .round{
-font-size:24px;
+
+font-size:42px;
+
 font-weight:900;
-color:#fff;
-margin-bottom:8px;
+
+color:#ffffff;
+
+margin-bottom:16px;
+
 font-family:
 "Yu Mincho",
 serif;
+
 text-shadow:
-0 0 4px #000,
-0 0 8px #000;
+0 0 6px #000,
+0 0 12px #000;
+
 }
 
 .serialLabel{
-font-size:14px;
+
+font-size:16px;
+
 font-weight:700;
+
 color:#f3d57a;
-letter-spacing:2px;
-margin-bottom:4px;
+
+letter-spacing:4px;
+
+margin-bottom:8px;
+
 }
 
 .serial{
-font-size:40px;
+
+font-size:72px;
+
 font-weight:900;
-letter-spacing:3px;
+
+letter-spacing:4px;
+
 color:#ffffff;
+
 text-shadow:
 0 0 5px #000,
 0 0 10px #000,
 0 0 20px #000;
+
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:16px;
+margin-top:12px;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{
+background:#2ecc71;
+color:#fff;
+}
+
+.fb{
+background:#1877f2;
+color:#fff;
+}
+
+.x{
+background:#000;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+color:#fff;
+}
+
+.copy{
+background:#607d8b;
+color:#fff;
+}
+
+.bottomArea{
+
+background:
+linear-gradient(
+180deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.55)
+);
+
+padding:20px;
+
+border-radius:24px;
+
+text-align:center;
+
+backdrop-filter:
+blur(8px);
+
+}
+
+.date{
+
+font-size:18px;
+
+font-weight:700;
+
+color:#ffffff;
+
+margin-bottom:12px;
+
+font-family:
+"Yu Mincho",
+serif;
+
+text-shadow:
+0 0 4px #000,
+0 0 8px #000;
+
+}
+
+.round{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#ffffff;
+
+margin-bottom:16px;
+
+font-family:
+"Yu Mincho",
+serif;
+
+text-shadow:
+0 0 6px #000,
+0 0 12px #000;
+
+}
+
+.serialLabel{
+
+font-size:16px;
+
+font-weight:700;
+
+color:#f3d57a;
+
+letter-spacing:4px;
+
+margin-bottom:8px;
+
+}
+
+.serial{
+
+font-size:72px;
+
+font-weight:900;
+
+letter-spacing:4px;
+
+color:#ffffff;
+
+text-shadow:
+0 0 5px #000,
+0 0 10px #000,
+0 0 20px #000;
+
 }
 
 .btn{
@@ -247,25 +407,25 @@ crossorigin="anonymous">
 <div class="bottomArea">
 
 <div
-id="date"
-class="date">
-令和8年6月21日
-</div>
-
-<div
 id="round"
 class="round">
 第1回登頂記念
 </div>
 
 <div class="serialLabel">
-登頂記録番号
+CERTIFICATE NO.
 </div>
 
 <div
 id="serial"
 class="serial">
-0001
+No.0001
+</div>
+
+<div
+id="date"
+class="date">
+2026.06.21
 </div>
 
 </div>
@@ -370,11 +530,15 @@ new Date();
 document.getElementById(
 "date"
 ).innerText =
-"令和8年" +
-(now.getMonth()+1) +
-"月" +
-now.getDate() +
-"日";
+now.getFullYear() +
+"." +
+String(
+now.getMonth()+1
+).padStart(2,"0") +
+"." +
+String(
+now.getDate()
+).padStart(2,"0");
 
 function getShareUrl(){
 
