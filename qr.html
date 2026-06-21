@@ -204,6 +204,11 @@ sessionStorage.setItem(
 "true"
 );
 
+localStorage.setItem(
+"qrVerified",
+"true"
+);
+
 sessionStorage.setItem(
 "latestSerial",
 data.serial || "1-0001"
@@ -214,19 +219,25 @@ localStorage.setItem(
 data.serial || "1-0001"
 );
 
-if(data.imageUrl){
-
 sessionStorage.setItem(
 "latestImageUrl",
-data.imageUrl
+data.imageUrl || ""
 );
 
 localStorage.setItem(
 "latestImageUrl",
-data.imageUrl
+data.imageUrl || ""
 );
 
-}
+sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
 
 location.href =
 "index.html" +
@@ -258,3 +269,4 @@ document.getElementById(
 
 </body>
 </html>
+
