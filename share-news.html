@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>田子山富士 お知らせ</title>
+
+<meta property="og:title" content="田子山富士 お知らせ">
+<meta property="og:description" content="田子山富士からのお知らせ">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+
+<meta http-equiv="refresh" content="3;url=index.html">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#fff;
+padding:20px;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:24px;
+}
+
+.image{
+width:100%;
+border-radius:20px;
+margin-bottom:20px;
+display:block;
+}
+
+.date{
+color:#d4af37;
+font-size:16px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.title{
+font-size:32px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.text{
+font-size:18px;
+line-height:1.8;
+margin-bottom:20px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:18px;
+border-radius:18px;
+text-decoration:none;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-top:12px;
+}
+
+.link{
+background:#d4af37;
+color:#000;
+}
+
+.home{
+background:#263238;
+color:#fff;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+id="newsImage"
+class="image"
+src="logo.png">
+
+<div
+id="newsDate"
+class="date">
+お知らせ
+</div>
+
+<div
+id="newsTitle"
+class="title">
+田子山富士
+</div>
+
+<div
+id="newsText"
+class="text">
+お知らせを読み込み中...
+</div>
+
+<a
+id="detailLink"
+class="btn link"
+href="#"
+target="_blank">
+
+詳しくはこちら
+
+</a>
+
+<a
+href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/"
+class="btn home">
+
+🏠 田子山富士トップへ戻る
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbzYIVAj2qRY4g2EVIMLbQttvurR0U08uzmWThrz6HbNDGSJ--B-TjuuPzmXbokSHfrhtw/exec";
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const id =
+Number(
+params.get("id")
+) || 0;
+
+fetch(
+GAS_URL +
+"?mode=news"
+)
+.then(
+r=>r.json()
+)
+.then(
+rows=>{
+
+const row =
+rows[id];
+
+if(!row) return;
+
+document.getElementById(
+"newsDate"
+).innerText =
+row.date || "";
+
+document.getElementById(
+"newsTitle"
+).innerText =
+row.title || "";
+
+document.getElementById(
+"newsText"
+).innerText =
+row.text || "";
+
+document.getElementById(
+"newsImage"
+).src =
+row.image1 ||
+"logo.png";
+
+document.getElementById(
+"detailLink"
+).href =
+row.link || "#";
+
+})
+.catch(
+err=>{
+
+console.log(err);
+
+});
+
+</script>
+
+</body>
+</html>
