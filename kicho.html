@@ -290,7 +290,7 @@ class="homeBtn">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzYIVAj2qRY4g2EVIMLbQttvurR0U08uzmWThrz6HbNDGSJ--B-TjuuPzmXbokSHfrhtw/exec";
+"https://script.google.com/macros/s/AKfycbzDzoiz7RDeT_t2tqDJxcpkLVrwZ3N59WE2ZCN7CL1wIch0APEEmGi65rOHtMvjaVHz-Q/exec";
 
 let userId =
 localStorage.getItem(
@@ -358,6 +358,17 @@ message:text
 )
 .then(r=>r.json())
 .then(data=>{
+
+if(!data.success){
+
+alert(
+data.error ||
+"保存できませんでした"
+);
+
+return;
+
+}
 
 document.getElementById(
 "msg"
