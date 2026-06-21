@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>登頂登録中</title>
+
+<style>
+body{
+margin:0;
+background:#0b0b0b;
+color:#fff;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+}
+
+.box{
+max-width:600px;
+padding:30px;
+}
+
+.title{
+font-size:32px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:20px;
+}
+
+.msg{
+font-size:20px;
+line-height:1.8;
+}
+</style>
+
+</head>
+<body>
+
+<div class="box">
+
+<div class="title">
+登頂登録中
+</div>
+
+<div class="msg">
+少々お待ちください
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbz3ybiLZLGAAnm994iRgJXQkCxSVULCJe5TxCuaOzEFQRrI4P-GVNdMbkgg_Tte1al9jg/exec";
+
+let userId =
+localStorage.getItem(
+"tagoyamaUserId"
+);
+
+if(!userId){
+
+userId =
+"TGF-" +
+Math.random()
+.toString(36)
+.substring(2,10)
+.toUpperCase();
+
+localStorage.setItem(
+"tagoyamaUserId",
+userId
+);
+
+}
+
+const today =
+new Date()
+.toISOString()
+.slice(0,10);
+
+const todayKey =
+"tagoyama-climb-" +
+today;
+
+const savedSerial =
+localStorage.getItem(
+todayKey
+);
+
+if(savedSerial){
+
+location.href =
+"index.html?serial=" +
+encodeURIComponent(
+savedSerial
+);
+
+}else{
+
+fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+mode:"climb",
+userId:userId
+})
+}
+)
+.then(
+r=>r.json()
+)
+.then(
+data=>{
+
+const serial =
+data.serial ||
+"1-0001";
+
+localStorage.setItem(
+todayKey,
+serial
+);
+
+location.href =
+"index.html?serial=" +
+encodeURIComponent(
+serial
+);
+
+})
+.catch(
+err=>{
+
+alert(
+"登頂登録に失敗しました"
+);
+
+console.log(
+err
+);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
