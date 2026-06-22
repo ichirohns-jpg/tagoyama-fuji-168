@@ -1,1 +1,446 @@
-テスト
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>開運おみくじ</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+border:2px solid #d4af37;
+border-radius:28px;
+padding:28px;
+text-align:center;
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
+}
+
+.logo{
+width:170px;
+max-width:75%;
+display:block;
+margin:auto;
+margin-bottom:20px;
+border-radius:22px;
+}
+
+.title{
+font-size:38px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:10px;
+}
+
+.sub{
+font-size:18px;
+line-height:1.8;
+color:#ddd;
+margin-bottom:24px;
+}
+
+.drawBtn{
+width:100%;
+border:none;
+border-radius:20px;
+padding:22px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+background:#d4af37;
+color:#000;
+margin-top:10px;
+}
+
+.resultBox{
+display:none;
+margin-top:30px;
+}
+
+.resultTitle{
+font-size:40px;
+font-weight:900;
+margin-bottom:20px;
+}
+
+.hit{
+color:#ffd700;
+}
+
+.miss{
+color:#ccc;
+}
+
+.omikujiImage{
+width:100%;
+border-radius:24px;
+display:none;
+margin-bottom:20px;
+border:2px solid #d4af37;
+}
+
+.serial{
+font-size:30px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:20px;
+}
+
+.message{
+font-size:22px;
+line-height:1.8;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:18px;
+margin-top:12px;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{
+background:#2ecc71;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+color:#fff;
+}
+
+.fb{
+background:#1877f2;
+color:#fff;
+}
+
+.x{
+background:#000;
+color:#fff;
+border:1px solid #444;
+}
+
+.copy{
+background:#607d8b;
+color:#fff;
+}
+
+.home{
+background:#37474f;
+color:#fff;
+}
+
+.notice{
+margin-top:30px;
+padding:20px;
+border-radius:20px;
+background:#181818;
+border:1px solid #333;
+font-size:18px;
+line-height:1.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<img
+src="top.jpg"
+alt="田子山富士">
+
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo"
+alt="田子山富士">
+
+<div class="title">
+
+🎋 開運おみくじ
+
+</div>
+
+<div class="sub">
+
+登頂された方限定<br>
+1日1回のお楽しみ
+
+</div>
+
+<button
+id="drawBtn"
+class="drawBtn">
+
+おみくじを引く
+
+</button>
+
+<div
+id="resultBox"
+class="resultBox">
+
+<div
+id="resultTitle"
+class="resultTitle">
+
+結果
+
+</div>
+
+<img
+id="omikujiImage"
+class="omikujiImage">
+
+<div
+id="serial"
+class="serial">
+
+</div>
+
+<div
+id="message"
+class="message">
+
+</div>
+
+<button
+id="saveBtn"
+class="btn save"
+style="display:none;">
+
+📱 画像を保存
+
+</button>
+
+<button
+id="lineBtn"
+class="btn line"
+style="display:none;">
+
+LINE
+
+</button>
+
+<button
+id="fbBtn"
+class="btn fb"
+style="display:none;">
+
+Facebook
+
+</button>
+
+<button
+id="xBtn"
+class="btn x"
+style="display:none;">
+
+X
+
+</button>
+
+<button
+id="copyBtn"
+class="btn copy"
+style="display:none;">
+
+リンクコピー
+
+</button>
+
+</div>
+
+<a
+href="index.html"
+class="btn home"
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
+
+🏠 トップへ戻る
+
+</a>
+
+<div class="notice">
+
+おみくじは1日1回です。<br>
+登頂された方のみご利用いただけます。
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const today =
+new Date().toLocaleDateString(
+"ja-JP"
+);
+
+const last =
+localStorage.getItem(
+"omikujiDate"
+);
+
+document
+.getElementById("drawBtn")
+.onclick = function(){
+
+if(last === today){
+
+alert(
+"おみくじは1日1回です"
+);
+
+return;
+
+}
+
+const hit =
+Math.random() < 0.1;
+
+document
+.getElementById(
+"resultBox"
+)
+.style.display =
+"block";
+
+localStorage.setItem(
+"omikujiDate",
+today
+);
+
+if(hit){
+
+document
+.getElementById(
+"resultTitle"
+)
+.innerHTML =
+"🎉 当たり 🎉";
+
+document
+.getElementById(
+"resultTitle"
+)
+.className =
+"resultTitle hit";
+
+document
+.getElementById(
+"message"
+)
+.innerHTML =
+"特別画像を獲得しました";
+
+document
+.getElementById(
+"serial"
+)
+.innerHTML =
+"168-" +
+String(
+Math.floor(
+Math.random()*9999
+)+1
+)
+.padStart(
+4,
+"0"
+);
+
+}
+else{
+
+document
+.getElementById(
+"resultTitle"
+)
+.innerHTML =
+"🌸 はずれ 🌸";
+
+document
+.getElementById(
+"resultTitle"
+)
+.className =
+"resultTitle miss";
+
+document
+.getElementById(
+"message"
+)
+.innerHTML =
+"今回は残念でした";
+
+document
+.getElementById(
+"serial"
+)
+.innerHTML =
+"";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
