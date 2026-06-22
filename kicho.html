@@ -344,9 +344,6 @@ fetch(
 GAS_URL,
 {
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
 body:JSON.stringify({
 mode:"kicho",
 userId:userId,
@@ -356,17 +353,15 @@ message:text
 })
 }
 )
-.then(async r=>{
-
-const txt =
-await r.text();
+.then(
+r=>r.text()
+)
+.then(txt=>{
 
 console.log(txt);
 
-return JSON.parse(txt);
-
-})
-.then(data=>{
+const data =
+JSON.parse(txt);
 
 if(!data.success){
 
