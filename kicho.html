@@ -290,7 +290,7 @@ class="homeBtn">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzDzoiz7RDeT_t2tqDJxcpkLVrwZ3N59WE2ZCN7CL1wIch0APEEmGi65rOHtMvjaVHz-Q/exec";
+"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
 
 let userId =
 localStorage.getItem(
@@ -449,7 +449,7 @@ list.innerHTML +=
 <div class="goenCard">
 
 <div class="goenMeta">
-${row.area || row.region || ""}
+${row.area || ""}
 ${row.name ? "｜"+row.name : ""}
 ${row.date ? "｜"+row.date : ""}
 </div>
@@ -464,7 +464,6 @@ ${row.message || ""}
 });
 
 })
-
 .catch(err=>{
 
 document.getElementById(
