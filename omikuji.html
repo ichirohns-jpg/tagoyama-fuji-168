@@ -12,6 +12,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -125,35 +126,12 @@ font-weight:900;
 cursor:pointer;
 }
 
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
-
-.x{
-background:#000;
-color:#fff;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.home{
-background:#37474f;
-color:#fff;
-}
+.save{background:#2ecc71;color:#fff;}
+.line{background:#06c755;color:#fff;}
+.fb{background:#1877f2;color:#fff;}
+.x{background:#000;color:#fff;}
+.copy{background:#607d8b;color:#fff;}
+.home{background:#37474f;color:#fff;}
 
 .notice{
 margin-top:30px;
@@ -164,6 +142,7 @@ border:1px solid #333;
 font-size:18px;
 line-height:1.8;
 }
+
 </style>
 </head>
 
@@ -176,7 +155,9 @@ line-height:1.8;
 <div class="wrap">
 <div class="card">
 
-<img src="logo.png" class="logo" alt="田子山富士">
+<img src="logo.png"
+class="logo"
+alt="田子山富士">
 
 <div class="title">
 🎋 開運おみくじ
@@ -187,14 +168,21 @@ line-height:1.8;
 ご縁の開運カード
 </div>
 
-<button id="drawBtn" class="drawBtn">
+<button id="drawBtn"
+class="drawBtn">
+
 おみくじを引く
+
 </button>
 
-<div id="resultBox" class="resultBox">
+<div id="resultBox"
+class="resultBox">
 
-<div id="resultTitle" class="resultTitle">
+<div id="resultTitle"
+class="resultTitle">
+
 結果
+
 </div>
 
 <img
@@ -202,26 +190,47 @@ id="omikujiImage"
 class="omikujiImage"
 crossorigin="anonymous">
 
-<div id="message" class="message"></div>
+<div id="message"
+class="message"></div>
 
-<button id="saveBtn" class="btn save" style="display:none;">
+<button id="saveBtn"
+class="btn save"
+style="display:none;">
+
 📱 画像を保存
+
 </button>
 
-<button id="lineBtn" class="btn line" style="display:none;">
+<button id="lineBtn"
+class="btn line"
+style="display:none;">
+
 LINEで共有
+
 </button>
 
-<button id="fbBtn" class="btn fb" style="display:none;">
+<button id="fbBtn"
+class="btn fb"
+style="display:none;">
+
 Facebookで共有
+
 </button>
 
-<button id="xBtn" class="btn x" style="display:none;">
+<button id="xBtn"
+class="btn x"
+style="display:none;">
+
 Xで共有
+
 </button>
 
-<button id="copyBtn" class="btn copy" style="display:none;">
+<button id="copyBtn"
+class="btn copy"
+style="display:none;">
+
 リンクコピー
+
 </button>
 
 </div>
@@ -229,14 +238,22 @@ Xで共有
 <a
 href="index.html"
 class="btn home"
-style="display:block;text-decoration:none;text-align:center;">
+style="
+display:block;
+text-decoration:none;
+text-align:center;
+">
+
 🏠 トップへ戻る
+
 </a>
 
 <div class="notice">
+
 おみくじは1日1回です。<br>
 当たりが出ると開運カードが届きます。<br>
 ご縁を大切にお持ちください。
+
 </div>
 
 </div>
@@ -245,188 +262,257 @@ style="display:block;text-decoration:none;text-align:center;">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <script>
+
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbwMTXiYx-ExMHVI1-B7Roh_SyWvAqWWNRs4WsOkuveJJajY8qXfC1YHget2yk_6MsHGYQ/exec";
 
 let currentCard = null;
 
 function hideShareButtons(){
-document.getElementById("saveBtn").style.display = "none";
-document.getElementById("lineBtn").style.display = "none";
-document.getElementById("fbBtn").style.display = "none";
-document.getElementById("xBtn").style.display = "none";
-document.getElementById("copyBtn").style.display = "none";
+
+document.getElementById("saveBtn").style.display="none";
+document.getElementById("lineBtn").style.display="none";
+document.getElementById("fbBtn").style.display="none";
+document.getElementById("xBtn").style.display="none";
+document.getElementById("copyBtn").style.display="none";
+
 }
 
 function showShareButtons(){
-document.getElementById("saveBtn").style.display = "block";
-document.getElementById("lineBtn").style.display = "block";
-document.getElementById("fbBtn").style.display = "block";
-document.getElementById("xBtn").style.display = "block";
-document.getElementById("copyBtn").style.display = "block";
+
+document.getElementById("saveBtn").style.display="block";
+document.getElementById("lineBtn").style.display="block";
+document.getElementById("fbBtn").style.display="block";
+document.getElementById("xBtn").style.display="block";
+document.getElementById("copyBtn").style.display="block";
+
 }
 
-document.getElementById("drawBtn").onclick = async function(){
+document.getElementById(
+"drawBtn"
+).onclick =
+async function(){
 
 const today =
-new Date().toLocaleDateString("ja-JP");
+new Date()
+.toLocaleDateString(
+"ja-JP"
+);
 
 const last =
-localStorage.getItem("omikujiDate");
+localStorage.getItem(
+"omikujiDate"
+);
 
-if(last === today){
-alert("おみくじは1日1回です");
+if(
+last === today
+){
+
+alert(
+"おみくじは1日1回です"
+);
+
 return;
+
 }
 
-localStorage.setItem("omikujiDate",today);
+localStorage.setItem(
+"omikujiDate",
+today
+);
 
-document.getElementById("resultBox").style.display = "block";
-document.getElementById("resultTitle").innerHTML = "抽選中...";
-document.getElementById("resultTitle").className = "resultTitle";
-document.getElementById("omikujiImage").style.display = "none";
-document.getElementById("message").innerHTML = "";
+document.getElementById(
+"resultBox"
+).style.display =
+"block";
+
+document.getElementById(
+"resultTitle"
+).innerHTML =
+"抽選中...";
+
+document.getElementById(
+"message"
+).innerHTML =
+"";
+
 hideShareButtons();
-
-try{
 
 const res =
 await fetch(
 GAS_URL +
 "?mode=omikuji&userId=" +
 encodeURIComponent(
-localStorage.getItem("tagoyamaUserId") || ""
+localStorage.getItem(
+"tagoyamaUserId"
+) || ""
 )
 );
 
 const data =
 await res.json();
 
-if(!data.hit){
+if(
+!data.hit
+){
 
-document.getElementById("resultTitle").innerHTML =
+document.getElementById(
+"resultTitle"
+).innerHTML =
 "🌸 また次回 🌸";
 
-document.getElementById("resultTitle").className =
+document.getElementById(
+"resultTitle"
+).className =
 "resultTitle miss";
 
-document.getElementById("omikujiImage").style.display =
+document.getElementById(
+"omikujiImage"
+).style.display =
 "none";
 
-document.getElementById("message").innerHTML =
-data.text || "また挑戦してください";
-
-hideShareButtons();
+document.getElementById(
+"message"
+).innerHTML =
+data.text || "";
 
 return;
 
 }
 
-currentCard =
-data;
+currentCard = data;
 
-document.getElementById("resultTitle").innerHTML =
+document.getElementById(
+"resultTitle"
+).innerHTML =
 "🎉 当たり 🎉";
 
-document.getElementById("resultTitle").className =
+document.getElementById(
+"resultTitle"
+).className =
 "resultTitle hit";
 
-document.getElementById("omikujiImage").src =
+document.getElementById(
+"omikujiImage"
+).src =
 data.imageUrl || "";
 
-document.getElementById("omikujiImage").style.display =
+document.getElementById(
+"omikujiImage"
+).style.display =
 "block";
 
-document.getElementById("message").innerHTML =
+document.getElementById(
+"message"
+).innerHTML =
 data.text || "";
 
 showShareButtons();
 
-}catch(err){
-
-console.log(err);
-
-document.getElementById("resultTitle").innerHTML =
-"通信エラー";
-
-document.getElementById("resultTitle").className =
-"resultTitle miss";
-
-document.getElementById("message").innerHTML =
-"もう一度お試しください";
-
-hideShareButtons();
-
-}
-
 };
 
-document.getElementById("lineBtn").onclick = function(){
-
-const shareUrl =
-location.href;
+document.getElementById(
+"lineBtn"
+).onclick =
+function(){
 
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
 
 };
 
-document.getElementById("fbBtn").onclick = function(){
-
-const shareUrl =
-location.href;
+document.getElementById(
+"fbBtn"
+).onclick =
+function(){
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
 
 };
 
-document.getElementById("xBtn").onclick = function(){
+document.getElementById(
+"xBtn"
+).onclick =
+function(){
 
 const shareText =
-currentCard ?
-(currentCard.shareText || currentCard.text || "開運おみくじ") :
-"開運おみくじ";
+currentCard
+? (
+currentCard.shareText ||
+currentCard.text ||
+"開運おみくじ"
+)
+: "開運おみくじ";
 
 window.open(
 "https://twitter.com/intent/tweet?text=" +
-encodeURIComponent(shareText + "\n" + location.href),
+encodeURIComponent(
+shareText +
+"\n" +
+location.href
+),
 "_blank"
 );
 
 };
 
-document.getElementById("copyBtn").onclick = function(){
+document.getElementById(
+"copyBtn"
+).onclick =
+function(){
 
-navigator.clipboard.writeText(location.href);
+navigator.clipboard.writeText(
+location.href
+);
 
-alert("リンクをコピーしました");
+alert(
+"リンクをコピーしました"
+);
 
 };
 
-document.getElementById("saveBtn").onclick = async function(){
+document.getElementById(
+"saveBtn"
+).onclick =
+async function(){
 
 const image =
-document.getElementById("omikujiImage");
+document.getElementById(
+"omikujiImage"
+);
 
 if(!image.src){
-alert("保存する画像がありません");
+
+alert(
+"保存する画像がありません"
+);
+
 return;
+
 }
 
 try{
 
 const canvas =
-document.createElement("canvas");
+document.createElement(
+"canvas"
+);
 
 const ctx =
-canvas.getContext("2d");
+canvas.getContext(
+"2d"
+);
 
 canvas.width =
 image.naturalWidth;
@@ -441,10 +527,14 @@ image,
 );
 
 const link =
-document.createElement("a");
+document.createElement(
+"a"
+);
 
 link.href =
-canvas.toDataURL("image/png");
+canvas.toDataURL(
+"image/png"
+);
 
 link.download =
 "tagoyama-omikuji.png";
@@ -461,18 +551,38 @@ image.src,
 }
 
 };
+
 </script>
 
 <script>
-if("serviceWorker" in navigator){
-window.addEventListener("load",function(){
-navigator.serviceWorker.register("sw.js").catch(function(err){
+
+if(
+"serviceWorker" in navigator
+){
+
+window.addEventListener(
+"load",
+function(){
+
+navigator
+.serviceWorker
+.register(
+"sw.js"
+)
+.catch(
+function(err){
+
 console.log(err);
-});
-});
+
 }
+);
+
+}
+);
+
+}
+
 </script>
 
 </body>
 </html>
-
