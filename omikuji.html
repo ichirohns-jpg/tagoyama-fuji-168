@@ -21,11 +21,7 @@ box-sizing:border-box;
 
 body{
 background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#fff;
 }
 
@@ -41,18 +37,12 @@ padding:20px;
 }
 
 .card{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
+background:linear-gradient(180deg,#1c1c1c,#0f0f0f);
 border:2px solid #d4af37;
 border-radius:28px;
 padding:28px;
 text-align:center;
-box-shadow:
-0 12px 32px rgba(0,0,0,.45);
+box-shadow:0 12px 32px rgba(0,0,0,.45);
 }
 
 .logo{
@@ -141,36 +131,12 @@ font-weight:900;
 cursor:pointer;
 }
 
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
-
-.x{
-background:#000;
-color:#fff;
-border:1px solid #444;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.home{
-background:#37474f;
-color:#fff;
-}
+.save{background:#2ecc71;color:#fff;}
+.line{background:#06c755;color:#fff;}
+.fb{background:#1877f2;color:#fff;}
+.x{background:#000;color:#fff;}
+.copy{background:#607d8b;color:#fff;}
+.home{background:#37474f;color:#fff;}
 
 .notice{
 margin-top:30px;
@@ -188,70 +154,39 @@ line-height:1.8;
 <body>
 
 <div class="hero">
-
-<img
-src="top.jpg"
-alt="田子山富士">
-
+<img src="top.jpg" alt="田子山富士">
 </div>
 
 <div class="wrap">
 
 <div class="card">
 
-<img
-src="logo.png"
-class="logo"
-alt="田子山富士">
+<img src="logo.png" class="logo" alt="田子山富士">
 
 <div class="title">
-
 🎋 開運おみくじ
-
 </div>
 
 <div class="sub">
-
 登頂された方限定<br>
 1日1回のお楽しみ
-
 </div>
 
-<button
-id="drawBtn"
-class="drawBtn">
-
+<button id="drawBtn" class="drawBtn">
 おみくじを引く
-
 </button>
 
-<div
-id="resultBox"
-class="resultBox">
+<div id="resultBox" class="resultBox">
 
-<div
-id="resultTitle"
-class="resultTitle">
-
+<div id="resultTitle" class="resultTitle">
 結果
-
 </div>
 
-<img
-id="omikujiImage"
-class="omikujiImage">
+<img id="omikujiImage" class="omikujiImage">
 
-<div
-id="serial"
-class="serial">
+<div id="serial" class="serial"></div>
 
-</div>
-
-<div
-id="message"
-class="message">
-
-</div>
+<div id="message" class="message"></div>
 
 <button
 id="saveBtn"
@@ -371,9 +306,17 @@ localStorage.getItem(
 "omikujiDate"
 );
 
-localStorage.removeItem(
-"omikujiDate"
+if(
+last === today
+){
+
+alert(
+"おみくじは1日1回です"
 );
+
+return;
+
+}
 
 if(
 omikujiData.length === 0
@@ -399,9 +342,12 @@ document
 .style.display =
 "block";
 
-const hit = true;
+const hit =
+Math.random() < 0.1;
 
-if(!hit){
+if(
+!hit
+){
 
 document
 .getElementById(
@@ -450,9 +396,37 @@ omikujiData.length
 )
 ];
 
-const saveData = {
-serial:"168-TEST"
-};
+const saveRes =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify({
+
+mode:"omikujiSave",
+
+userId:
+localStorage.getItem(
+"tagoyamaUserId"
+) || "",
+
+imageUrl:
+item.imageUrl || "",
+
+title:
+item.title || ""
+
+})
+
+}
+);
+
+const saveData =
+await saveRes.json();
 
 document
 .getElementById(
@@ -619,4 +593,3 @@ item.imageUrl,
 
 </body>
 </html>
-
