@@ -21,7 +21,11 @@ box-sizing:border-box;
 
 body{
 background:#0b0b0b;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
 color:#fff;
 }
 
@@ -37,12 +41,18 @@ padding:20px;
 }
 
 .card{
-background:linear-gradient(180deg,#1c1c1c,#0f0f0f);
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
 border:2px solid #d4af37;
 border-radius:28px;
 padding:28px;
 text-align:center;
-box-shadow:0 12px 32px rgba(0,0,0,.45);
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
 }
 
 .logo{
@@ -101,23 +111,18 @@ color:#ccc;
 
 .omikujiImage{
 width:100%;
-border-radius:24px;
 display:none;
+border-radius:24px;
 margin-bottom:20px;
 border:2px solid #d4af37;
 }
 
-.serial{
-font-size:30px;
-font-weight:900;
-color:#d4af37;
-margin-bottom:20px;
-}
-
 .message{
-font-size:22px;
+font-size:24px;
+font-weight:900;
 line-height:1.8;
 margin-bottom:20px;
+color:#ffd700;
 }
 
 .btn{
@@ -131,12 +136,35 @@ font-weight:900;
 cursor:pointer;
 }
 
-.save{background:#2ecc71;color:#fff;}
-.line{background:#06c755;color:#fff;}
-.fb{background:#1877f2;color:#fff;}
-.x{background:#000;color:#fff;}
-.copy{background:#607d8b;color:#fff;}
-.home{background:#37474f;color:#fff;}
+.save{
+background:#2ecc71;
+color:#fff;
+}
+
+.line{
+background:#06c755;
+color:#fff;
+}
+
+.fb{
+background:#1877f2;
+color:#fff;
+}
+
+.x{
+background:#000;
+color:#fff;
+}
+
+.copy{
+background:#607d8b;
+color:#fff;
+}
+
+.home{
+background:#37474f;
+color:#fff;
+}
 
 .notice{
 margin-top:30px;
@@ -161,32 +189,48 @@ line-height:1.8;
 
 <div class="card">
 
-<img src="logo.png" class="logo" alt="田子山富士">
+<img
+src="logo.png"
+class="logo"
+alt="田子山富士">
 
 <div class="title">
 🎋 開運おみくじ
 </div>
 
 <div class="sub">
-登頂された方限定<br>
-1日1回のお楽しみ
+木花咲耶姫から届く<br>
+ご縁の開運カード
 </div>
 
-<button id="drawBtn" class="drawBtn">
+<button
+id="drawBtn"
+class="drawBtn">
+
 おみくじを引く
+
 </button>
 
-<div id="resultBox" class="resultBox">
+<div
+id="resultBox"
+class="resultBox">
 
-<div id="resultTitle" class="resultTitle">
+<div
+id="resultTitle"
+class="resultTitle">
+
 結果
+
 </div>
 
-<img id="omikujiImage" class="omikujiImage">
+<img
+id="omikujiImage"
+class="omikujiImage"
+crossorigin="anonymous">
 
-<div id="serial" class="serial"></div>
-
-<div id="message" class="message"></div>
+<div
+id="message"
+class="message"></div>
 
 <button
 id="saveBtn"
@@ -202,7 +246,7 @@ id="lineBtn"
 class="btn line"
 style="display:none;">
 
-LINE
+LINEで共有
 
 </button>
 
@@ -211,7 +255,7 @@ id="fbBtn"
 class="btn fb"
 style="display:none;">
 
-Facebook
+Facebookで共有
 
 </button>
 
@@ -220,7 +264,7 @@ id="xBtn"
 class="btn x"
 style="display:none;">
 
-X
+Xで共有
 
 </button>
 
@@ -251,42 +295,51 @@ text-align:center;
 <div class="notice">
 
 おみくじは1日1回です。<br>
-登頂された方のみご利用いただけます。<br>
-当たりが出ると特別なご縁画像を受け取れます。
+当たりが出ると開運カードが届きます。<br>
+ご縁を大切にお持ちください。
 
 </div>
 
 </div>
 
 </div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <script>
 
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbxqeiWgSp5hNDWkLoDDAND5HLLW3AYAjchy9lyaJWQSQDLSWdEIn_reIHPUB7NopyZNcA/exec";
 
-let omikujiData = [];
+let currentCard = null;
 
-fetch(
+async function loadOmikuji(){
+
+try{
+
+const res =
+await fetch(
 GAS_URL +
-"?mode=omikuji"
-)
-.then(
-r=>r.json()
-)
-.then(
-data=>{
+"?mode=omikujiList"
+);
 
-omikujiData =
-data || [];
+const json =
+await res.json();
 
-})
-.catch(
-err=>{
+window.omikujiCards =
+json.data || [];
+
+}catch(err){
 
 console.log(err);
 
-});
+window.omikujiCards = [];
+
+}
+
+}
+
+loadOmikuji();
 
 document
 .getElementById(
@@ -318,22 +371,24 @@ return;
 
 }
 
-if(
-omikujiData.length === 0
-){
-
-alert(
-"おみくじ準備中です"
-);
-
-return;
-
-}
-
 localStorage.setItem(
 "omikujiDate",
 today
 );
+
+const res =
+await fetch(
+GAS_URL +
+"?mode=omikuji&userId=" +
+encodeURIComponent(
+localStorage.getItem(
+"tagoyamaUserId"
+) || ""
+)
+);
+
+const data =
+await res.json();
 
 document
 .getElementById(
@@ -342,11 +397,8 @@ document
 .style.display =
 "block";
 
-const hit =
-Math.random() < 0.1;
-
 if(
-!hit
+!data.hit
 ){
 
 document
@@ -354,7 +406,7 @@ document
 "resultTitle"
 )
 .innerHTML =
-"🌸 はずれ 🌸";
+"🌸 また次回 🌸";
 
 document
 .getElementById(
@@ -372,61 +424,17 @@ document
 
 document
 .getElementById(
-"serial"
-)
-.innerHTML =
-"";
-
-document
-.getElementById(
 "message"
 )
 .innerHTML =
-"またのご参拝をお待ちしております";
+data.text || "";
 
 return;
 
 }
 
-const item =
-omikujiData[
-Math.floor(
-Math.random() *
-omikujiData.length
-)
-];
-
-const saveRes =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:JSON.stringify({
-
-mode:"omikujiSave",
-
-userId:
-localStorage.getItem(
-"tagoyamaUserId"
-) || "",
-
-imageUrl:
-item.imageUrl || "",
-
-title:
-item.title || ""
-
-})
-
-}
-);
-
-const saveData =
-await saveRes.json();
+currentCard =
+data;
 
 document
 .getElementById(
@@ -447,7 +455,7 @@ document
 "omikujiImage"
 )
 .src =
-item.imageUrl;
+data.imageUrl || "";
 
 document
 .getElementById(
@@ -458,17 +466,10 @@ document
 
 document
 .getElementById(
-"serial"
-)
-.innerHTML =
-saveData.serial || "";
-
-document
-.getElementById(
 "message"
 )
 .innerHTML =
-item.title || "";
+data.text || "";
 
 document
 .getElementById(
@@ -550,7 +551,7 @@ function(){
 window.open(
 "https://twitter.com/intent/tweet?text=" +
 encodeURIComponent(
-item.shareText || ""
+data.shareText || data.text || ""
 )
 );
 
@@ -578,16 +579,81 @@ document
 "saveBtn"
 )
 .onclick =
-function(){
+async function(){
 
-window.open(
-item.imageUrl,
-"_blank"
+const image =
+document.getElementById(
+"omikujiImage"
 );
 
+const canvas =
+document.createElement(
+"canvas"
+);
+
+const ctx =
+canvas.getContext(
+"2d"
+);
+
+canvas.width =
+image.naturalWidth;
+
+canvas.height =
+image.naturalHeight;
+
+ctx.drawImage(
+image,
+0,
+0
+);
+
+const link =
+document.createElement(
+"a"
+);
+
+link.href =
+canvas.toDataURL(
+"image/png"
+);
+
+link.download =
+"tagoyama-omikuji.png";
+
+link.click();
+
 };
 
 };
+
+</script>
+
+<script>
+
+if(
+"serviceWorker" in navigator
+){
+
+window.addEventListener(
+"load",
+function(){
+
+navigator
+.serviceWorker
+.register(
+"sw.js"
+)
+.catch(
+err=>{
+console.log(err);
+}
+);
+
+}
+);
+
+}
 
 </script>
 
