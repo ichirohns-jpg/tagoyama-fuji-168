@@ -21,7 +21,11 @@ box-sizing:border-box;
 
 body{
 background:#0b0b0b;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
 color:#fff;
 }
 
@@ -37,7 +41,8 @@ padding:20px;
 }
 
 .card{
-background:linear-gradient(
+background:
+linear-gradient(
 180deg,
 #1c1c1c,
 #0f0f0f
@@ -46,7 +51,8 @@ border:2px solid #d4af37;
 border-radius:28px;
 padding:28px;
 text-align:center;
-box-shadow:0 12px 32px rgba(0,0,0,.45);
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
 }
 
 .logo{
@@ -153,6 +159,7 @@ color:#fff;
 .x{
 background:#000;
 color:#fff;
+border:1px solid #444;
 }
 
 .copy{
@@ -181,7 +188,11 @@ line-height:1.8;
 <body>
 
 <div class="hero">
-<img src="top.jpg" alt="田子山富士">
+
+<img
+src="top.jpg"
+alt="田子山富士">
+
 </div>
 
 <div class="wrap">
@@ -194,18 +205,24 @@ class="logo"
 alt="田子山富士">
 
 <div class="title">
+
 🎋 開運おみくじ
+
 </div>
 
 <div class="sub">
+
 登頂された方限定<br>
 1日1回のお楽しみ
+
 </div>
 
 <button
 id="drawBtn"
 class="drawBtn">
+
 おみくじを引く
+
 </button>
 
 <div
@@ -215,7 +232,9 @@ class="resultBox">
 <div
 id="resultTitle"
 class="resultTitle">
+
 結果
+
 </div>
 
 <img
@@ -225,11 +244,13 @@ class="omikujiImage">
 <div
 id="serial"
 class="serial">
+
 </div>
 
 <div
 id="message"
 class="message">
+
 </div>
 
 <button
@@ -350,7 +371,9 @@ localStorage.getItem(
 "omikujiDate"
 );
 
-if(last === today){
+if(
+last === today
+){
 
 alert(
 "おみくじは1日1回です"
