@@ -78,11 +78,6 @@ padding:20px;
 margin-bottom:24px;
 box-shadow:
 0 12px 32px rgba(0,0,0,.45);
-transition:.2s;
-}
-
-.newsCard:active{
-transform:scale(.98);
 }
 
 .newBadge{
@@ -117,15 +112,11 @@ margin-bottom:14px;
 
 .newsText{
 font-size:22px;
-line-height:1.8;
+line-height:1.9;
 color:#fff;
 margin-top:14px;
 margin-bottom:14px;
-
-display:-webkit-box;
--webkit-line-clamp:3;
--webkit-box-orient:vertical;
-overflow:hidden;
+white-space:pre-wrap;
 }
 
 .slider{
@@ -136,7 +127,7 @@ margin-bottom:16px;
 
 .slider img{
 width:100%;
-aspect-ratio:9/16;
+aspect-ratio:16/9;
 object-fit:cover;
 border-radius:20px;
 border:2px solid #333;
@@ -262,6 +253,59 @@ class="homeBtn">
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
 
+function shareFacebook(id){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+location.origin +
+"/tagoyama-fuji-168/share-news.html?id=" +
+id
+)
+);
+
+}
+
+function shareLine(id){
+
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+location.origin +
+"/tagoyama-fuji-168/share-news.html?id=" +
+id
+)
+);
+
+}
+
+function shareX(id){
+
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+location.origin +
+"/tagoyama-fuji-168/share-news.html?id=" +
+id
+)
+);
+
+}
+
+function copyLink(id){
+
+navigator.clipboard.writeText(
+location.origin +
+"/tagoyama-fuji-168/share-news.html?id=" +
+id
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+}
+
 fetch(
 GAS_URL +
 "?mode=news"
@@ -293,10 +337,6 @@ row.image1 || "";
 
 newsList.innerHTML +=
 `
-
-<a
-href="article.html?id=${index}"
-class="cardLink">
 
 <div class="newsCard">
 
@@ -334,43 +374,33 @@ ${String(row.date || "")
 ${row.text || ""}
 </div>
 
-</div>
-
-</a>
-
 <div class="shareRow">
 
 <button
 class="shareBtn fb"
-onclick="event.preventDefault();shareFacebook(${index})">
-
+onclick="shareFacebook(${index})">
 Facebook
-
 </button>
 
 <button
 class="shareBtn line"
-onclick="event.preventDefault();shareLine(${index})">
-
+onclick="shareLine(${index})">
 LINE
-
 </button>
 
 <button
 class="shareBtn x"
-onclick="event.preventDefault();shareX(${index})">
-
+onclick="shareX(${index})">
 X
-
 </button>
 
 <button
 class="shareBtn copy"
-onclick="event.preventDefault();copyLink(${index})">
-
+onclick="copyLink(${index})">
 コピー
-
 </button>
+
+</div>
 
 </div>
 
@@ -394,3 +424,4 @@ console.log(err);
 
 </body>
 </html>
+
