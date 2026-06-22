@@ -21,11 +21,7 @@ box-sizing:border-box;
 
 body{
 background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
 color:#fff;
 }
 
@@ -41,8 +37,7 @@ padding:20px;
 }
 
 .card{
-background:
-linear-gradient(
+background:linear-gradient(
 180deg,
 #1c1c1c,
 #0f0f0f
@@ -51,8 +46,7 @@ border:2px solid #d4af37;
 border-radius:28px;
 padding:28px;
 text-align:center;
-box-shadow:
-0 12px 32px rgba(0,0,0,.45);
+box-shadow:0 12px 32px rgba(0,0,0,.45);
 }
 
 .logo{
@@ -88,7 +82,6 @@ font-weight:900;
 cursor:pointer;
 background:#d4af37;
 color:#000;
-margin-top:10px;
 }
 
 .resultBox{
@@ -160,7 +153,6 @@ color:#fff;
 .x{
 background:#000;
 color:#fff;
-border:1px solid #444;
 }
 
 .copy{
@@ -189,11 +181,7 @@ line-height:1.8;
 <body>
 
 <div class="hero">
-
-<img
-src="top.jpg"
-alt="田子山富士">
-
+<img src="top.jpg" alt="田子山富士">
 </div>
 
 <div class="wrap">
@@ -206,24 +194,18 @@ class="logo"
 alt="田子山富士">
 
 <div class="title">
-
 🎋 開運おみくじ
-
 </div>
 
 <div class="sub">
-
 登頂された方限定<br>
 1日1回のお楽しみ
-
 </div>
 
 <button
 id="drawBtn"
 class="drawBtn">
-
 おみくじを引く
-
 </button>
 
 <div
@@ -233,9 +215,7 @@ class="resultBox">
 <div
 id="resultTitle"
 class="resultTitle">
-
 結果
-
 </div>
 
 <img
@@ -245,13 +225,11 @@ class="omikujiImage">
 <div
 id="serial"
 class="serial">
-
 </div>
 
 <div
 id="message"
 class="message">
-
 </div>
 
 <button
@@ -372,9 +350,7 @@ localStorage.getItem(
 "omikujiDate"
 );
 
-if(
-last === today
-){
+if(last === today){
 
 alert(
 "おみくじは1日1回です"
@@ -411,9 +387,7 @@ document
 const hit =
 Math.random() < 0.1;
 
-if(
-!hit
-){
+if(!hit){
 
 document
 .getElementById(
@@ -431,6 +405,20 @@ document
 
 document
 .getElementById(
+"omikujiImage"
+)
+.style.display =
+"none";
+
+document
+.getElementById(
+"serial"
+)
+.innerHTML =
+"";
+
+document
+.getElementById(
 "message"
 )
 .innerHTML =
@@ -439,6 +427,123 @@ document
 return;
 
 }
+
+const item =
+omikujiData[
+Math.floor(
+Math.random() *
+omikujiData.length
+)
+];
+
+const saveRes =
+await fetch(
+GAS_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify({
+
+mode:"omikujiSave",
+
+userId:
+localStorage.getItem(
+"tagoyamaUserId"
+) || "",
+
+imageUrl:
+item.imageUrl || "",
+
+title:
+item.title || ""
+
+})
+
+}
+);
+
+const saveData =
+await saveRes.json();
+
+document
+.getElementById(
+"resultTitle"
+)
+.innerHTML =
+"🎉 当たり 🎉";
+
+document
+.getElementById(
+"resultTitle"
+)
+.className =
+"resultTitle hit";
+
+document
+.getElementById(
+"omikujiImage"
+)
+.src =
+item.imageUrl;
+
+document
+.getElementById(
+"omikujiImage"
+)
+.style.display =
+"block";
+
+document
+.getElementById(
+"serial"
+)
+.innerHTML =
+saveData.serial || "";
+
+document
+.getElementById(
+"message"
+)
+.innerHTML =
+item.title || "";
+
+document
+.getElementById(
+"saveBtn"
+)
+.style.display =
+"block";
+
+document
+.getElementById(
+"lineBtn"
+)
+.style.display =
+"block";
+
+document
+.getElementById(
+"fbBtn"
+)
+.style.display =
+"block";
+
+document
+.getElementById(
+"xBtn"
+)
+.style.display =
+"block";
+
+document
+.getElementById(
+"copyBtn"
+)
+.style.display =
+"block";
 
 const shareUrl =
 location.href;
@@ -498,9 +603,7 @@ document
 .onclick =
 function(){
 
-navigator
-.clipboard
-.writeText(
+navigator.clipboard.writeText(
 shareUrl
 );
 
