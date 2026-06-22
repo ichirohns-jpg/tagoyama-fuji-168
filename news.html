@@ -283,18 +283,14 @@ allowfullscreen>
 </iframe>
 </div>
 `;
-
 }
 
 function shareFacebook(id){
 
 const url =
 location.origin +
-location.pathname.replace(
-"news.html",
-"share-news.html"
-) +
-"?id=" + id;
+"/tagoyama-fuji-168/share-news.html?id=" +
+id;
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
@@ -307,11 +303,8 @@ function shareLine(id){
 
 const url =
 location.origin +
-location.pathname.replace(
-"news.html",
-"share-news.html"
-) +
-"?id=" + id;
+"/tagoyama-fuji-168/share-news.html?id=" +
+id;
 
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
@@ -324,11 +317,8 @@ function shareX(id){
 
 const url =
 location.origin +
-location.pathname.replace(
-"news.html",
-"share-news.html"
-) +
-"?id=" + id;
+"/tagoyama-fuji-168/share-news.html?id=" +
+id;
 
 window.open(
 "https://twitter.com/intent/tweet?url=" +
@@ -341,15 +331,10 @@ function copyLink(id){
 
 const url =
 location.origin +
-location.pathname.replace(
-"news.html",
-"share-news.html"
-) +
-"?id=" + id;
+"/tagoyama-fuji-168/share-news.html?id=" +
+id;
 
-navigator.clipboard.writeText(
-url
-);
+navigator.clipboard.writeText(url);
 
 alert(
 "リンクをコピーしました"
@@ -396,8 +381,7 @@ row.image5
 
 if(img){
 
-images +=
-`
+images += `
 <img src="${img}">
 `;
 
@@ -405,13 +389,22 @@ images +=
 
 });
 
-newsList.innerHTML +=
-`
+newsList.innerHTML += `
 <div class="newsCard">
+
+<a
+href="article.html?id=${index}"
+style="
+text-decoration:none;
+color:#fff;
+display:block;
+">
 
 <div class="newsTitle">
 ${row.title || ""}
 </div>
+
+</a>
 
 <div class="slider">
 ${images}
@@ -453,33 +446,25 @@ class="linkBtn">
 <button
 class="shareBtn fb"
 onclick="shareFacebook(${index})">
-
 Facebook
-
 </button>
 
 <button
 class="shareBtn line"
 onclick="shareLine(${index})">
-
 LINE
-
 </button>
 
 <button
 class="shareBtn x"
 onclick="shareX(${index})">
-
 X
-
 </button>
 
 <button
 class="shareBtn copy"
 onclick="copyLink(${index})">
-
 コピー
-
 </button>
 
 </div>
@@ -505,3 +490,4 @@ console.log(err);
 
 </body>
 </html>
+
