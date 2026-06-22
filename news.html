@@ -127,8 +127,9 @@ margin-bottom:16px;
 
 .slider img{
 width:100%;
-aspect-ratio:16/9;
-object-fit:cover;
+max-height:420px;
+object-fit:contain;
+background:#111;
 border-radius:20px;
 border:2px solid #333;
 display:block;
@@ -328,9 +329,7 @@ document.getElementById(
 
 newsList.innerHTML = "";
 
-rows
-.slice(0,5)
-.forEach((row,index)=>{
+rows.forEach((row,index)=>{
 
 const image =
 row.image1 || "";
@@ -424,4 +423,3 @@ console.log(err);
 
 </body>
 </html>
-
