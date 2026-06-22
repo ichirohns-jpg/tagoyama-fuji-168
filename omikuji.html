@@ -317,7 +317,8 @@ text-align:center;
 <div class="notice">
 
 おみくじは1日1回です。<br>
-登頂された方のみご利用いただけます。
+登頂された方のみご利用いただけます。<br>
+当たりが出ると特別なご縁画像を受け取れます。
 
 </div>
 
@@ -327,8 +328,42 @@ text-align:center;
 
 <script>
 
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxqeiWgSp5hNDWkLoDDAND5HLLW3AYAjchy9lyaJWQSQDLSWdEIn_reIHPUB7NopyZNcA/exec";
+
+let omikujiData = [];
+
+fetch(
+GAS_URL +
+"?mode=omikuji"
+)
+.then(
+r=>r.json()
+)
+.then(
+data=>{
+
+omikujiData =
+data || [];
+
+})
+.catch(
+err=>{
+
+console.log(err);
+
+});
+
+document
+.getElementById(
+"drawBtn"
+)
+.onclick =
+async function(){
+
 const today =
-new Date().toLocaleDateString(
+new Date()
+.toLocaleDateString(
 "ja-JP"
 );
 
@@ -337,11 +372,9 @@ localStorage.getItem(
 "omikujiDate"
 );
 
-document
-.getElementById("drawBtn")
-.onclick = function(){
-
-if(last === today){
+if(
+last === today
+){
 
 alert(
 "おみくじは1日1回です"
@@ -351,8 +384,22 @@ return;
 
 }
 
-const hit =
-Math.random() < 0.1;
+if(
+omikujiData.length === 0
+){
+
+alert(
+"おみくじ準備中です"
+);
+
+return;
+
+}
+
+localStorage.setItem(
+"omikujiDate",
+today
+);
 
 document
 .getElementById(
@@ -361,52 +408,12 @@ document
 .style.display =
 "block";
 
-localStorage.setItem(
-"omikujiDate",
-today
-);
+const hit =
+Math.random() < 0.1;
 
-if(hit){
-
-document
-.getElementById(
-"resultTitle"
-)
-.innerHTML =
-"🎉 当たり 🎉";
-
-document
-.getElementById(
-"resultTitle"
-)
-.className =
-"resultTitle hit";
-
-document
-.getElementById(
-"message"
-)
-.innerHTML =
-"特別画像を獲得しました";
-
-document
-.getElementById(
-"serial"
-)
-.innerHTML =
-"168-" +
-String(
-Math.floor(
-Math.random()*9999
-)+1
-)
-.padStart(
-4,
-"0"
-);
-
-}
-else{
+if(
+!hit
+){
 
 document
 .getElementById(
@@ -427,16 +434,95 @@ document
 "message"
 )
 .innerHTML =
-"今回は残念でした";
+"またのご参拝をお待ちしております";
+
+return;
+
+}
+
+const shareUrl =
+location.href;
 
 document
 .getElementById(
-"serial"
+"lineBtn"
 )
-.innerHTML =
-"";
+.onclick =
+function(){
 
-}
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+shareUrl
+)
+);
+
+};
+
+document
+.getElementById(
+"fbBtn"
+)
+.onclick =
+function(){
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+shareUrl
+)
+);
+
+};
+
+document
+.getElementById(
+"xBtn"
+)
+.onclick =
+function(){
+
+window.open(
+"https://twitter.com/intent/tweet?text=" +
+encodeURIComponent(
+item.shareText || ""
+)
+);
+
+};
+
+document
+.getElementById(
+"copyBtn"
+)
+.onclick =
+function(){
+
+navigator
+.clipboard
+.writeText(
+shareUrl
+);
+
+alert(
+"リンクをコピーしました"
+);
+
+};
+
+document
+.getElementById(
+"saveBtn"
+)
+.onclick =
+function(){
+
+window.open(
+item.imageUrl,
+"_blank"
+);
+
+};
 
 };
 
