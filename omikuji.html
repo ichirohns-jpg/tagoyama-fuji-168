@@ -450,37 +450,9 @@ omikujiData.length
 )
 ];
 
-const saveRes =
-await fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:JSON.stringify({
-
-mode:"omikujiSave",
-
-userId:
-localStorage.getItem(
-"tagoyamaUserId"
-) || "",
-
-imageUrl:
-item.imageUrl || "",
-
-title:
-item.title || ""
-
-})
-
-}
-);
-
-const saveData =
-await saveRes.json();
+const saveData = {
+serial:"168-TEST"
+};
 
 document
 .getElementById(
