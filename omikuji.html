@@ -371,17 +371,9 @@ localStorage.getItem(
 "omikujiDate"
 );
 
-if(
-last === today
-){
-
-alert(
-"おみくじは1日1回です"
+localStorage.removeItem(
+"omikujiDate"
 );
-
-return;
-
-}
 
 if(
 omikujiData.length === 0
@@ -407,8 +399,7 @@ document
 .style.display =
 "block";
 
-const hit =
-Math.random() < 0.1;
+const hit = true;
 
 if(!hit){
 
@@ -656,3 +647,4 @@ item.imageUrl,
 
 </body>
 </html>
+
