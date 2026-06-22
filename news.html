@@ -59,6 +59,12 @@ font-size:20px;
 color:#ccc;
 }
 
+.cardLink{
+display:block;
+text-decoration:none;
+color:inherit;
+}
+
 .newsCard{
 background:
 linear-gradient(
@@ -72,6 +78,11 @@ padding:20px;
 margin-bottom:24px;
 box-shadow:
 0 12px 32px rgba(0,0,0,.45);
+transition:.2s;
+}
+
+.newsCard:active{
+transform:scale(.98);
 }
 
 .newBadge{
@@ -130,20 +141,6 @@ object-fit:cover;
 border-radius:20px;
 border:2px solid #333;
 display:block;
-}
-
-.readMore{
-display:block;
-width:100%;
-padding:16px;
-margin-top:12px;
-background:#d4af37;
-color:#000;
-text-decoration:none;
-text-align:center;
-font-size:22px;
-font-weight:900;
-border-radius:16px;
 }
 
 .shareRow{
@@ -296,6 +293,11 @@ row.image1 || "";
 
 newsList.innerHTML +=
 `
+
+<a
+href="article.html?id=${index}"
+class="cardLink">
+
 <div class="newsCard">
 
 ${
@@ -306,17 +308,9 @@ index === 0
 ''
 }
 
-<a
-href="article.html?id=${index}"
-style="
-text-decoration:none;
-">
-
 <div class="newsTitle">
 ${row.title || ""}
 </div>
-
-</a>
 
 ${
 image
@@ -340,11 +334,7 @@ ${String(row.date || "")
 ${row.text || ""}
 </div>
 
-<a
-href="article.html?id=${index}"
-class="readMore">
-
-続きを読む →
+</div>
 
 </a>
 
@@ -352,7 +342,7 @@ class="readMore">
 
 <button
 class="shareBtn fb"
-onclick="shareFacebook(${index})">
+onclick="event.preventDefault();shareFacebook(${index})">
 
 Facebook
 
@@ -360,7 +350,7 @@ Facebook
 
 <button
 class="shareBtn line"
-onclick="shareLine(${index})">
+onclick="event.preventDefault();shareLine(${index})">
 
 LINE
 
@@ -368,7 +358,7 @@ LINE
 
 <button
 class="shareBtn x"
-onclick="shareX(${index})">
+onclick="event.preventDefault();shareX(${index})">
 
 X
 
@@ -376,7 +366,7 @@ X
 
 <button
 class="shareBtn copy"
-onclick="copyLink(${index})">
+onclick="event.preventDefault();copyLink(${index})">
 
 コピー
 
@@ -384,7 +374,6 @@ onclick="copyLink(${index})">
 
 </div>
 
-</div>
 `;
 
 });
