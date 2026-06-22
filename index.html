@@ -120,7 +120,6 @@ font-weight:800;
 .serial{
 font-size:42px;
 font-weight:900;
-letter-spacing:0;
 white-space:nowrap;
 line-height:1;
 overflow:hidden;
@@ -201,9 +200,9 @@ color:#fff;
 width:100%;
 border:none;
 border-radius:18px;
-padding:18px;
+padding:20px;
 margin-top:14px;
-font-size:22px;
+font-size:24px;
 font-weight:900;
 cursor:pointer;
 }
@@ -214,8 +213,9 @@ color:#fff;
 }
 
 .fb{
-background:#1877f2;
-color:#fff;
+background:#d4af37;
+color:#000;
+font-size:28px;
 }
 
 .copy{
@@ -417,7 +417,7 @@ text-decoration:none;
 text-align:center;
 ">
 
-📢 お知らせ
+📢 最新のお知らせを見る
 
 </a>
 
@@ -462,96 +462,40 @@ location.search
 );
 
 const serial =
-params.get(
-"serial"
-) || "-";
+params.get("serial") || "-";
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
-
-document.getElementById(
-"main"
-).style.display =
-"block";
-
-document.getElementById(
-"serial"
-).innerText =
-serial;
-
-document.getElementById(
-"gacha"
-).innerText =
-"登頂者限定 1日1回";
+document.getElementById("loading").style.display="none";
+document.getElementById("main").style.display="block";
+document.getElementById("serial").innerText=serial;
 
 document.getElementById(
 "certificateBtn"
-).onclick =
-function(){
+).onclick=function(){
 
-location.href =
-"certificate.html" +
-"?serial=" +
-encodeURIComponent(
-serial
-);
+location.href=
+"certificate.html?serial="+
+encodeURIComponent(serial);
 
 };
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-now.getFullYear() +
-"/" +
-String(
-now.getMonth()+1
-)
-.padStart(
-2,
-"0"
-) +
-"/" +
-String(
-now.getDate()
-)
-.padStart(
-2,
-"0"
-);
 
 fetch(
 GAS_URL +
 "?mode=stats"
 )
-.then(
-r=>r.json()
-)
-.then(
-stats=>{
+.then(r=>r.json())
+.then(stats=>{
 
 document.getElementById(
 "participants"
-).innerText =
-(stats.participants || 0)
-+ "人";
+).innerText=
+(stats.participants||0)+"人";
 
 })
-.catch(
-err=>{
-
-console.log(
-err
-);
+.catch(()=>{
 
 document.getElementById(
 "participants"
-).innerText =
-"-";
+).innerText="-";
 
 });
 
