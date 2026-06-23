@@ -285,20 +285,11 @@ onclick="saveImage()">
 📜 記念証を授かる
 </button>
 
-<a
+<button
 class="btn fb"
-href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fichirohns-jpg.github.io%2Ftagoyama-fuji-168%2Fshare-certificate.html"
-target="_blank"
-rel="noopener noreferrer"
-style="
-display:block;
-text-align:center;
-text-decoration:none;
-line-height:56px;
-color:#fff;
-">
+onclick="shareFacebook()">
 Facebook
-</a>
+</button>
 
 <button
 class="btn x"
@@ -391,6 +382,37 @@ now.getDate() +
 function getShareUrl(){
 
 return "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+
+}
+
+function shareFacebook(){
+
+const shareUrl =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+
+navigator.clipboard.writeText(
+shareUrl
+).then(() => {
+
+alert(
+"URLをコピーしました。\nFacebookの投稿欄で貼り付けしてください。"
+);
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(shareUrl),
+"_blank"
+);
+
+}).catch(() => {
+
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(shareUrl),
+"_blank"
+);
+
+});
 
 }
 
