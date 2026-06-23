@@ -330,7 +330,15 @@ location.search
 );
 
 const serial =
-params.get("serial");
+params.get("serial")
+||
+sessionStorage.getItem(
+"latestSerial"
+)
+||
+localStorage.getItem(
+"latestSerial"
+);
 
 if(!serial){
 
@@ -349,7 +357,16 @@ throw new Error(
 
 const imageUrl =
 params.get("image")
-|| "sakura01.jpg";
+||
+sessionStorage.getItem(
+"latestImageUrl"
+)
+||
+localStorage.getItem(
+"latestImageUrl"
+)
+||
+"sakura01.jpg";
 
 document.getElementById(
 "memorialImage"
