@@ -102,11 +102,6 @@ font-size:22px;
 font-weight:900;
 line-height:1.5;
 color:#ffffff;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
@@ -194,54 +189,178 @@ font-size:14px;
 id="certificate"
 class="card">
 
-<div
-class="certificateImageBox">
+<button
+class="btn save"
+onclick="saveImage()">
+📜 記念証を授かる
+</button>
 
-<img
-id="memorialImage"
-class="memorialImage"
-src="sakura01.jpg"
-alt="記念画像"
-crossorigin="anonymous">
+<button
+class="btn copy"
+onclick="copyUrl()">
+① リンクをコピー
+</button>
 
-<div class="overlay">
+<div class="fbGuide">
 
-<div class="topArea">
+📘 Facebookで共有する場合
 
-<div class="shrine">
-田子山富士
-</div>
+<br><br>
 
-<div class="project">
-登頂記念証
-</div>
+①「リンクをコピー」を押す
 
-</div>
+<br>
 
-<div class="bottomArea">
+② Facebookを開く
 
-<div
-id="round"
-class="round">
-第1回登頂記念
-</div>
+<br>
 
-<div
-id="serial"
-class="serial">
-No.0001
-</div>
+③ 投稿欄へ貼り付ける
 
-<div
-id="date"
-class="date">
-令和8年6月23日
-</div>
+<br><br>
+
+画像付きで共有できます
 
 </div>
 
+<button
+class="btn fb"
+onclick="shareFacebook()">
+② Facebookを開く
+</button>
+
+<button
+class="btn x"
+onclick="shareX()">
+X
+</button>
+
+<button
+class="btn line"
+onclick="shareLine()">
+LINE
+</button>
+
+<button
+class="btn home"
+onclick="location.href='index.html'">
+🏠 田子山富士へ戻る
+</button>
+
+<div class="footer">
+田子山富士168の縁プロジェクト
 </div>
 
 </div>
 
-</div>
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const serial =
+params.get("serial")
+|| "1-0001";
+
+const imageUrl =
+params.get("image")
+|| "sakura01.jpg";
+
+document.getElementById(
+"memorialImage"
+).src =
+imageUrl;
+
+const serialParts =
+String(serial)
+.split("-");
+
+const climbCount =
+Number(serialParts[0])
+|| 1;
+
+const serialNo =
+serialParts[1]
+|| "0001";
+
+document.getElementById(
+"round"
+).innerText =
+"第" +
+climbCount +
+"回登頂記念";
+
+document.getElementById(
+"serial"
+).innerText =
+"No." +
+serialNo;
+
+function copyUrl(){
+navigator.clipboard.writeText(
+location.href
+);
+alert("リンクをコピーしました");
+}
+
+function shareFacebook(){
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+function shareX(){
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+function shareLine(){
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+async function saveImage(){
+
+const canvas =
+await html2canvas(
+document.getElementById(
+"certificate"
+),
+{
+scale:2,
+useCORS:true
+}
+);
+
+const link =
+document.createElement(
+"a"
+);
+
+link.download =
+"tagoyama-fuji-certificate.png";
+
+link.href =
+canvas.toDataURL(
+"image/png"
+);
+
+link.click();
+
+}
+
+</script>
+
+</body>
+</html>
+
