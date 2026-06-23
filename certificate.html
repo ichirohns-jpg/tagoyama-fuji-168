@@ -70,6 +70,11 @@ color:#ffffff;
 font-family:
 "Yu Mincho",
 serif;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .project{
@@ -77,6 +82,11 @@ margin-top:8px;
 font-size:20px;
 font-weight:900;
 color:#f3d57a;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .bottomArea{
@@ -92,6 +102,11 @@ font-size:22px;
 font-weight:900;
 line-height:1.5;
 color:#ffffff;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
@@ -100,14 +115,23 @@ font-weight:900;
 color:#f3d57a;
 letter-spacing:1px;
 line-height:1.1;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .date{
 font-size:16px;
 font-weight:700;
-color:#e0e0e0;
-opacity:.95;
+color:#ffffff;
 margin-top:10px;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .btn{
@@ -282,173 +306,3 @@ onclick="location.href='https://ichirohns-jpg.github.io/tagoyama-fuji-168/'">
 <div class="footer">
 田子山富士 168の縁プロジェクト
 </div>
-
-</div>
-
-<script>
-
-const params =
-new URLSearchParams(
-location.search
-);
-
-const serial =
-params.get("serial")
-|| "1-0001";
-
-const imageUrl =
-params.get("image")
-|| "sakura01.jpg";
-
-document.getElementById(
-"memorialImage"
-).src =
-imageUrl;
-
-const serialParts =
-String(serial)
-.split("-");
-
-const climbCount =
-Number(
-serialParts[0]
-) || 1;
-
-const serialNo =
-serialParts[1]
-|| "0001";
-
-document.getElementById(
-"round"
-).innerText =
-"第" +
-climbCount +
-"回登頂記念";
-
-document.getElementById(
-"serial"
-).innerText =
-"No." +
-serialNo;
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-"令和8年" +
-(now.getMonth()+1) +
-"月" +
-now.getDate() +
-"日";
-
-function getShareUrl(){
-
-return "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
-
-}
-
-function shareFacebook() {
-
-const shareUrl =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
-
-navigator.clipboard.writeText(
-shareUrl
-).then(() => {
-
-alert(
-"URLをコピーしました。\nFacebookの投稿欄で貼り付けしてください。"
-);
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-shareUrl
-),
-"_blank"
-);
-
-}).catch(() => {
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-shareUrl
-),
-"_blank"
-);
-
-});
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-getShareUrl()
-)
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-getShareUrl()
-)
-);
-
-}
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-getShareUrl()
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-}
-
-async function saveImage(){
-
-const canvas =
-await html2canvas(
-document.getElementById(
-"certificate"
-),
-{
-scale:2,
-useCORS:true
-}
-);
-
-const link =
-document.createElement(
-"a"
-);
-
-link.download =
-"tagoyama-fuji-certificate.png";
-
-link.href =
-canvas.toDataURL(
-"image/png"
-);
-
-link.click();
-
-}
-
-</script>
-
-</body>
-</html>
