@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>過去のご縁帳</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+background:#f7f4ea;
+color:#333;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#fff;
+border-radius:20px;
+padding:20px;
+box-shadow:
+0 4px 20px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:32px;
+font-weight:700;
+text-align:center;
+margin-bottom:10px;
+}
+
+.sub{
+text-align:center;
+font-size:15px;
+color:#666;
+margin-bottom:25px;
+}
+
+.goenCard{
+background:#fff;
+border-radius:16px;
+padding:16px;
+margin-bottom:12px;
+box-shadow:
+0 2px 10px rgba(0,0,0,.06);
+}
+
+.goenHead{
+display:flex;
+justify-content:space-between;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.goenMessage{
+line-height:1.8;
+margin-bottom:10px;
+}
+
+.goenDate{
+font-size:12px;
+color:#777;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:16px;
+text-align:center;
+text-decoration:none;
+border-radius:14px;
+background:#ff7f50;
+color:#fff;
+font-weight:bold;
+margin-top:16px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="title">
+📖 過去のご縁帳
+</div>
+
+<div class="sub">
+これまで寄せられたご縁をご覧いただけます
+</div>
+
+<div id="goenList">
+
+読込中...
+
+</div>
+
+<a
+href="kicho.html"
+class="btn">
+
+🌸 ご縁帳へ戻る
+
+</a>
+
+<a
+href="index.html"
+class="btn">
+
+🏠 田子山富士へ戻る
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
+
+function formatDate(value){
+
+if(!value){
+return "";
+}
+
+const d =
+new Date(value);
+
+if(isNaN(d.getTime())){
+return value;
+}
+
+return (
+d.getFullYear() +
+"/" +
+String(
+d.getMonth()+1
+).padStart(2,"0") +
+"/" +
+String(
+d.getDate()
+).padStart(2,"0")
+);
+
+}
+
+function loadArchive(){
+
+fetch(
+GAS_URL +
+"?mode=goen"
+)
+.then(
+r=>r.json()
+)
+.then(data=>{
+
+const list =
+document.getElementById(
+"goenList"
+);
+
+if(
+!data ||
+!data.length
+){
+
+list.innerHTML =
+"ご縁帳はありません";
+
+return;
+
+}
+
+list.innerHTML =
+data
+.map(item=>{
+
+return `
+<div class="goenCard">
+
+<div class="goenHead">
+
+<span>
+${item.area || ""}
+</span>
+
+<span>
+${item.name || "匿名"}
+</span>
+
+</div>
+
+<div class="goenMessage">
+
+${item.message || ""}
+
+</div>
+
+<div class="goenDate">
+
+${formatDate(
+item.date ||
+item.createdAt ||
+item.timestamp
+)}
+
+</div>
+
+</div>
+`;
+
+})
+.join("");
+
+})
+.catch(err=>{
+
+console.log(err);
+
+document.getElementById(
+"goenList"
+).innerHTML =
+"読込できませんでした";
+
+});
+
+}
+
+loadArchive();
+
+</script>
+
+</body>
+</html>
