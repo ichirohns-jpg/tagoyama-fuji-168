@@ -296,7 +296,7 @@ if(!url){
 return "";
 }
 
-const id =
+const videoId =
 url
 .replace(
 "https://youtu.be/",
@@ -311,7 +311,7 @@ url
 return `
 <div class="youtube">
 <iframe
-src="https://www.youtube.com/embed/${id}"
+src="https://www.youtube.com/embed/${videoId}"
 allowfullscreen>
 </iframe>
 </div>
@@ -352,10 +352,15 @@ row.image2,
 row.image3,
 row.image4,
 row.image5
-].forEach(img=>{
+]
+.forEach(img=>{
 
 if(img){
-images += `<img src="${img}">`;
+
+images += `
+<img src="${img}">
+`;
+
 }
 
 });
@@ -363,7 +368,33 @@ images += `<img src="${img}">`;
 document.getElementById(
 "article"
 ).innerHTML =
-`・・・記事表示・・・`;
+`
+<div class="articleCard">
+
+${id===0?'<div class="newBadge">NEW</div>':''}
+
+<div class="articleTitle">
+${row.title || ""}
+</div>
+
+<div class="slider">
+${images}
+</div>
+
+<div class="articleDate">
+${String(row.date || "")
+.replace("T15:00:00.000Z","")
+.replace(/-/g,"/")}
+</div>
+
+<div class="articleText">
+${row.text || ""}
+</div>
+
+${youtubeEmbed(row.youtube || "")}
+
+</div>
+`;
 
 })
 .catch(err=>{
