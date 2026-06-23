@@ -244,6 +244,14 @@ location.href =
 "?serial=" +
 encodeURIComponent(
 data.serial || "1-0001"
+) +
+"&image=" +
+encodeURIComponent(
+data.imageUrl || ""
+) +
+"&count=" +
+encodeURIComponent(
+data.count || "1"
 );
 
 }catch(error){
