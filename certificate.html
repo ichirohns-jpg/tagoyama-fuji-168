@@ -387,10 +387,14 @@ return "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html
 
 function shareFacebook(){
 
+navigator.clipboard.writeText(
+getShareUrl()
+);
+
 location.href =
 "https://www.facebook.com/sharer/sharer.php?u=" +
 encodeURIComponent(
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html"
+getShareUrl()
 );
 
 }
