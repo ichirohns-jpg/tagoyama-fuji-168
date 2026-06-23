@@ -191,9 +191,10 @@ margin-bottom:12px;
 }
 
 .gachaResult{
-font-size:28px;
+font-size:24px;
 font-weight:900;
 color:#fff;
+line-height:1.5;
 }
 
 .btn{
@@ -309,7 +310,7 @@ style="display:none;">
 id="serial"
 class="serial">
 
--
+未発行
 
 </div>
 
@@ -359,8 +360,6 @@ class="participants">
 id="date"
 class="date">
 
-2026/06/20
-
 </div>
 
 <div class="gachaCard">
@@ -375,7 +374,7 @@ class="date">
 id="gacha"
 class="gachaResult">
 
-登頂者限定
+登頂者限定<br>
 1日1回
 
 </div>
@@ -462,19 +461,46 @@ location.search
 );
 
 const serial =
-params.get("serial") || "-";
+params.get("serial") || "";
 
-document.getElementById("loading").style.display="none";
-document.getElementById("main").style.display="block";
-document.getElementById("serial").innerText=serial;
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+document.getElementById(
+"main"
+).style.display =
+"block";
+
+document.getElementById(
+"serial"
+).innerText =
+serial || "未発行";
 
 document.getElementById(
 "certificateBtn"
-).onclick=function(){
+).onclick =
+function(){
 
-location.href=
-"certificate.html?serial="+
-encodeURIComponent(serial);
+if(!serial){
+
+alert(
+"登頂記録番号がまだ発行されていません。\nQRコードから登頂記録を行ってください。"
+);
+
+location.href =
+"qr.html";
+
+return;
+
+}
+
+location.href =
+"certificate.html?serial=" +
+encodeURIComponent(
+serial
+);
 
 };
 
@@ -482,22 +508,42 @@ fetch(
 GAS_URL +
 "?mode=stats"
 )
-.then(r=>r.json())
-.then(stats=>{
+.then(function(r){
+return r.json();
+})
+.then(function(stats){
 
 document.getElementById(
 "participants"
-).innerText=
-(stats.participants||0)+"人";
+).innerText =
+(stats.participants || 0) +
+"人";
 
 })
-.catch(()=>{
+.catch(function(){
 
 document.getElementById(
 "participants"
-).innerText="-";
+).innerText =
+"-";
 
 });
+
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+now.getFullYear() +
+"/" +
+String(
+now.getMonth() + 1
+).padStart(2,"0") +
+"/" +
+String(
+now.getDate()
+).padStart(2,"0");
 
 </script>
 
