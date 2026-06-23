@@ -1,249 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>敷島神社 参拝記帳</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#0b0b0b;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-color:#fff;
-}
-
-.hero img{
-width:100%;
-display:block;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:28px;
-padding:28px;
-box-shadow:0 12px 32px rgba(0,0,0,.45);
-}
-
-.logo{
-width:150px;
-display:block;
-margin:auto;
-margin-bottom:20px;
-border-radius:20px;
-}
-
-.title{
-font-size:36px;
-font-weight:900;
-text-align:center;
-margin-bottom:10px;
-}
-
-.sub{
-font-size:18px;
-line-height:1.8;
-text-align:center;
-color:#ddd;
-margin-bottom:30px;
-}
-
-.label{
-font-size:20px;
-font-weight:900;
-margin-top:20px;
-margin-bottom:10px;
-color:#d4af37;
-}
-
-select,
-input,
-textarea{
-width:100%;
-padding:16px;
-font-size:18px;
-border:none;
-border-radius:16px;
-background:#fff;
-color:#000;
-}
-
-textarea{
-height:180px;
-resize:none;
-}
-
-.btn{
-width:100%;
-padding:20px;
-margin-top:20px;
-border:none;
-border-radius:18px;
-font-size:24px;
-font-weight:900;
-cursor:pointer;
-background:#d4af37;
-color:#000;
-}
-
-.homeBtn{
-display:block;
-width:100%;
-padding:20px;
-margin-top:15px;
-border-radius:18px;
-background:#263238;
-color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:22px;
-font-weight:900;
-}
-
-.message{
-display:none;
-margin-top:20px;
-padding:20px;
-border-radius:16px;
-background:#1b5e20;
-font-size:20px;
-font-weight:900;
-text-align:center;
-}
-
-.goenBox{
-margin-top:30px;
-padding:20px;
-background:#111;
-border:2px solid #d4af37;
-border-radius:24px;
-}
-
-.goenTitle{
-font-size:28px;
-font-weight:900;
-text-align:center;
-color:#d4af37;
-margin-bottom:20px;
-}
-
-#goenList{
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-.goenCard{
-background:#1b1b1b;
-border-radius:18px;
-padding:18px;
-border:1px solid #333;
-}
-
-.goenMeta{
-font-size:16px;
-font-weight:900;
-color:#d4af37;
-margin-bottom:8px;
-}
-
-.goenText{
-font-size:18px;
-line-height:1.8;
-color:#fff;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="hero">
-
-<img
-src="top.jpg"
-alt="敷島神社">
-
-</div>
-
-<div class="wrap">
-
-<div class="card">
-
-<img
-src="logo.png"
-class="logo"
-alt="敷島神社">
-
-<div class="title">
-敷島神社 参拝記帳
-</div>
-
-<div class="sub">
-
-ご参拝ありがとうございます。<br>
-よろしければ参拝の記念に<br>
-ひとことお残しください。
-
-</div>
-
-<div class="label">
-どちらからお越しですか？
-</div>
-
-<select id="area">
-
-<option>志木市</option>
-<option>新座市</option>
-<option>朝霞市</option>
-<option>和光市</option>
-<option>埼玉県内</option>
-<option>東京都</option>
-<option>その他</option>
-
-</select>
-
-<div class="label">
-お名前（任意）
-</div>
-
-<input
-type="text"
-id="name"
-placeholder="お名前">
-
-<div class="label">
-ひとこと
-</div>
-
-<textarea
-id="messageText"
-placeholder="ご参拝の記念にひとこと"></textarea>
-
 <button
+id="saveBtn"
 class="btn"
 onclick="saveKicho()">
 
@@ -315,6 +71,20 @@ userId
 
 function saveKicho(){
 
+const btn =
+document.getElementById(
+"saveBtn"
+);
+
+if(btn.disabled){
+return;
+}
+
+btn.disabled = true;
+
+btn.innerHTML =
+"送信中...";
+
 const area =
 document.getElementById(
 "area"
@@ -331,6 +101,11 @@ document.getElementById(
 ).value;
 
 if(!text){
+
+btn.disabled = false;
+
+btn.innerHTML =
+"記帳する";
 
 alert(
 "ひとことをご入力ください"
@@ -357,6 +132,11 @@ message:text
 r=>r.text()
 )
 .then(txt=>{
+
+btn.disabled = false;
+
+btn.innerHTML =
+"記帳する";
 
 console.log(txt);
 
@@ -397,6 +177,11 @@ behavior:"smooth"
 })
 .catch(err=>{
 
+btn.disabled = false;
+
+btn.innerHTML =
+"記帳する";
+
 alert(
 err.message
 );
@@ -408,73 +193,3 @@ console.log(err);
 }
 
 function loadGoen(){
-
-fetch(
-GAS_URL +
-"?mode=goen"
-)
-.then(
-r=>r.json()
-)
-.then(
-rows=>{
-
-const list =
-document.getElementById(
-"goenList"
-);
-
-list.innerHTML = "";
-
-if(!rows || rows.length===0){
-
-list.innerHTML =
-"<div class='goenCard'><div class='goenText'>まだご縁はありません</div></div>";
-
-return;
-
-}
-
-rows
-.slice(0,20)
-.forEach(row=>{
-
-list.innerHTML +=
-`
-<div class="goenCard">
-
-<div class="goenMeta">
-${row.area || ""}
-${row.name ? "｜"+row.name : ""}
-${row.date ? "｜"+row.date : ""}
-</div>
-
-<div class="goenText">
-${row.message || ""}
-</div>
-
-</div>
-`;
-
-});
-
-})
-.catch(err=>{
-
-document.getElementById(
-"goenList"
-).innerHTML =
-"<div class='goenCard'><div class='goenText'>まだご縁はありません</div></div>";
-
-console.log(err);
-
-});
-
-}
-
-loadGoen();
-
-</script>
-
-</body>
-</html>
