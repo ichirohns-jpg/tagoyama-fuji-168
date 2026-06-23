@@ -70,11 +70,6 @@ color:#ffffff;
 font-family:
 "Yu Mincho",
 serif;
-
-text-shadow:
-0 0 5px #000,
-0 0 10px #000,
-0 0 20px #000;
 }
 
 .project{
@@ -82,89 +77,37 @@ margin-top:8px;
 font-size:20px;
 font-weight:900;
 color:#f3d57a;
-
-text-shadow:
-0 0 5px #000,
-0 0 10px #000;
 }
 
 .bottomArea{
-
 position:absolute;
-
 left:0;
-
 right:0;
-
 bottom:35px;
-
 text-align:center;
-
 }
 
 .round{
-
 font-size:22px;
-
 font-weight:900;
-
 line-height:1.5;
-
 color:#ffffff;
-
-margin-bottom:10px;
-
-font-family:
-"Yu Mincho",
-serif;
-
-text-shadow:
-0 0 4px #000,
-0 0 8px #000,
-0 0 15px #000;
-
 }
 
 .serial{
-
 font-size:42px;
-
 font-weight:900;
-
 color:#f3d57a;
-
 letter-spacing:1px;
-
 line-height:1.1;
-
-text-shadow:
-0 0 5px #000,
-0 0 10px #000,
-0 0 20px #000,
-0 0 30px rgba(0,0,0,.9);
-
 }
 
 .date{
-
 font-size:16px;
-
 font-weight:700;
-
 color:#e0e0e0;
-
 opacity:.95;
-
 margin-top:10px;
-
-font-family:
-"Yu Mincho",
-serif;
-
-text-shadow:
-0 0 4px #000,
-0 0 8px #000;
-
 }
 
 .btn{
@@ -186,6 +129,19 @@ color:#fff;
 .fb{
 background:#1877f2;
 color:#fff;
+}
+
+.fbGuide{
+background:#1c1c1c;
+border:1px solid #333;
+border-radius:12px;
+padding:10px 14px;
+margin-top:10px;
+margin-bottom:10px;
+font-size:15px;
+line-height:1.6;
+text-align:center;
+color:#d0d0d0;
 }
 
 .x{
@@ -291,6 +247,14 @@ onclick="shareFacebook()">
 Facebook
 </button>
 
+<div class="fbGuide">
+
+📘 Facebookは
+「リンクをコピー」して投稿欄へ貼り付けると
+画像付きで共有できます
+
+</div>
+
 <button
 class="btn x"
 onclick="shareX()">
@@ -385,7 +349,7 @@ return "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html
 
 }
 
-function shareFacebook(){
+function shareFacebook() {
 
 const shareUrl =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
@@ -400,7 +364,9 @@ alert(
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+shareUrl
+),
 "_blank"
 );
 
@@ -408,7 +374,9 @@ encodeURIComponent(shareUrl),
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+shareUrl
+),
 "_blank"
 );
 
