@@ -160,26 +160,13 @@ background:#1877f2;
 color:#fff;
 }
 
-.fbGuide{
-background:#1c1c1c;
-border:1px solid #333;
-border-radius:12px;
-padding:12px 16px;
-margin-top:10px;
-margin-bottom:10px;
-font-size:15px;
-line-height:1.8;
-text-align:left;
-color:#d0d0d0;
+.line{
+background:#06c755;
+color:#fff;
 }
 
 .x{
 background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
 color:#fff;
 }
 
@@ -189,68 +176,72 @@ color:#000;
 font-weight:900;
 }
 
-<button
-class="btn save"
-onclick="saveImage()">
-📜 記念証を授かる
-</button>
+.footer{
+margin-top:20px;
+text-align:center;
+color:#aaa;
+font-size:14px;
+}
 
-<button
-class="btn copy"
-onclick="copyUrl()">
-① リンクをコピー
-</button>
+</style>
+</head>
 
-<div class="fbGuide">
+<body>
 
-📘 Facebookで共有する場合
+<div class="wrap">
 
-<br><br>
+<div
+id="certificate"
+class="card">
 
-①「リンクをコピー」を押す
+<div
+class="certificateImageBox">
 
-<br>
+<img
+id="memorialImage"
+class="memorialImage"
+src="sakura01.jpg"
+alt="記念画像"
+crossorigin="anonymous">
 
-② Facebookを開く
+<div class="overlay">
 
-<br>
+<div class="topArea">
 
-③ 投稿欄へ貼り付ける
-
-<br><br>
-
-画像付きで共有できます
-
+<div class="shrine">
+田子山富士
 </div>
 
-<button
-class="btn fb"
-onclick="shareFacebook()">
-② Facebookを開く
-</button>
-
-<button
-class="btn x"
-onclick="shareX()">
-X
-</button>
-
-<button
-class="btn line"
-onclick="shareLine()">
-LINE
-</button>
-
-<button
-class="btn home"
-onclick="location.href='index.html'">
-🏠 田子山富士へ戻る
-</button>
-
-<div class="footer">
-田子山富士 168の縁プロジェクト
+<div class="project">
+登頂記念証
 </div>
 
 </div>
 
-<script>
+<div class="bottomArea">
+
+<div
+id="round"
+class="round">
+第1回登頂記念
+</div>
+
+<div
+id="serial"
+class="serial">
+No.0001
+</div>
+
+<div
+id="date"
+class="date">
+令和8年6月23日
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
