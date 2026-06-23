@@ -91,6 +91,7 @@ line-height:2;
 color:#fff;
 margin-top:20px;
 margin-bottom:20px;
+white-space:pre-wrap;
 }
 
 .slider img{
@@ -289,15 +290,40 @@ alert(
 
 }
 
+function youtubeEmbed(url){
+
+if(!url){
+return "";
+}
+
+const id =
+url
+.replace(
+"https://youtu.be/",
+""
+)
+.replace(
+"https://www.youtube.com/watch?v=",
+""
+)
+.split("&")[0];
+
+return `
+<div class="youtube">
+<iframe
+src="https://www.youtube.com/embed/${id}"
+allowfullscreen>
+</iframe>
+</div>
+`;
+}
+
 fetch(
 GAS_URL +
 "?mode=news"
 )
-.then(
-r=>r.json()
-)
-.then(
-rows=>{
+.then(r=>r.json())
+.then(rows=>{
 
 document.getElementById(
 "loading"
@@ -326,15 +352,10 @@ row.image2,
 row.image3,
 row.image4,
 row.image5
-]
-.forEach(img=>{
+].forEach(img=>{
 
 if(img){
-
-images += `
-<img src="${img}">
-`;
-
+images += `<img src="${img}">`;
 }
 
 });
@@ -342,86 +363,7 @@ images += `
 document.getElementById(
 "article"
 ).innerHTML =
-`
-<div class="articleCard">
-
-${
-id === 0
-?
-'<div class="newBadge">NEW</div>'
-:
-''
-}
-
-<div class="articleTitle">
-${row.title || ""}
-</div>
-
-<div class="slider">
-${images}
-</div>
-
-<div class="articleDate">
-${String(row.date || "")
-.replace("T15:00:00.000Z","")
-.replace(/-/g,"/")}
-</div>
-
-<div class="articleText">
-${row.text || ""}
-</div>
-
-${youtubeEmbed(
-row.youtube || ""
-)}
-
-${
-row.link
-?
-`
-<a
-href="${row.link}"
-target="_blank"
-class="linkBtn">
-
-詳しくはこちら
-
-</a>
-`
-:
-""
-}
-
-<div class="shareRow">
-
-<button
-class="shareBtn fb"
-onclick="shareFacebook()">
-Facebook
-</button>
-
-<button
-class="shareBtn line"
-onclick="shareLine()">
-LINE
-</button>
-
-<button
-class="shareBtn x"
-onclick="shareX()">
-X
-</button>
-
-<button
-class="shareBtn copy"
-onclick="copyLink()">
-コピー
-</button>
-
-</div>
-
-</div>
-`;
+`・・・記事表示・・・`;
 
 })
 .catch(err=>{
