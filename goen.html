@@ -81,30 +81,29 @@ margin-top:20px;
 }
 
 .item{
-background:#181818;
-border:1px solid #333;
-border-radius:20px;
-padding:20px;
-margin-bottom:15px;
+padding:20px 0;
+margin-bottom:20px;
+border-bottom:1px solid #333;
 }
 
 .date{
 font-size:14px;
-color:#aaa;
-margin-bottom:8px;
+color:#888;
+margin-top:8px;
+margin-bottom:12px;
 }
 
 .area{
 font-size:18px;
 font-weight:900;
 color:#d4af37;
-margin-bottom:10px;
+margin-bottom:4px;
 }
 
 .name{
 font-size:16px;
 color:#ccc;
-margin-bottom:10px;
+margin-bottom:6px;
 }
 
 .message{
@@ -165,12 +164,10 @@ class="list">
 
 </div>
 
-</div>
-
 <script>
 
 const SHEET_ID =
-"ここにスプレッドシートID";
+"15jtF9F4B6W07ZZq2nyxb_tlxujbGMBGvpbULWzfFWAU";
 
 const SHEET_NAME =
 "参拝記帳";
@@ -186,9 +183,9 @@ SHEET_NAME
 
 function getVal(cell){
 
-  if(!cell) return "";
+if(!cell) return "";
 
-  return cell.v || "";
+return cell.v || "";
 
 }
 
@@ -244,16 +241,10 @@ getVal(row.c[4]);
 const message =
 getVal(row.c[5]);
 
-if(
-!message
-) continue;
+if(!message) continue;
 
 html += `
 <div class="item">
-
-<div class="date">
-${date}
-</div>
 
 <div class="area">
 ${area}
@@ -261,6 +252,10 @@ ${area}
 
 <div class="name">
 ${name ? name : "お名前なし"}
+</div>
+
+<div class="date">
+${date}
 </div>
 
 <div class="message">
