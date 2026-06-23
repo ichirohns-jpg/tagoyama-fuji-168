@@ -153,15 +153,11 @@ alt="田子山富士168の縁">
 </div>
 
 <div class="title">
-
 田子山富士168の縁
-
 </div>
 
 <div class="sub">
-
 霊峰に登り、縁を結ぶ
-
 </div>
 
 <div
@@ -191,7 +187,7 @@ class="desc">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWmhnucMLFnbdkOmA/exec";
+"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
 
 const params =
 new URLSearchParams(
@@ -205,11 +201,8 @@ fetch(
 GAS_URL +
 "?mode=news"
 )
-.then(
-r=>r.json()
-)
-.then(
-rows=>{
+.then(r=>r.json())
+.then(rows=>{
 
 const row =
 rows[Number(id)] || rows[0];
@@ -227,39 +220,10 @@ document.getElementById(
 document.getElementById(
 "desc"
 ).innerHTML =
-
 `
-<strong style="
-font-size:28px;
-color:#d4af37;
-display:block;
-margin-bottom:15px;
-">
-${row.title || ""}
-</strong>
-
-${row.text || ""}
-
+<strong>${row.title || ""}</strong>
 <br><br>
-
-<a
-href="index.html"
-style="
-display:block;
-background:#263238;
-color:#fff;
-padding:18px;
-border-radius:16px;
-text-decoration:none;
-font-size:22px;
-font-weight:900;
-text-align:center;
-margin-top:15px;
-">
-
-田子山富士へ戻る
-
-</a>
+${row.text || ""}
 `;
 
 })
@@ -273,20 +237,6 @@ document.getElementById(
 console.log(err);
 
 });
-
-/*
-
-削除
-
-setTimeout(()=>{
-
-location.href =
-"article.html?id=" +
-id;
-
-},3000);
-
-*/
 
 </script>
 
