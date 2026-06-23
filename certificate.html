@@ -102,6 +102,11 @@ font-size:22px;
 font-weight:900;
 line-height:1.5;
 color:#ffffff;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
@@ -155,13 +160,26 @@ background:#1877f2;
 color:#fff;
 }
 
-.line{
-background:#06c755;
-color:#fff;
+.fbGuide{
+background:#1c1c1c;
+border:1px solid #333;
+border-radius:12px;
+padding:12px 16px;
+margin-top:10px;
+margin-bottom:10px;
+font-size:15px;
+line-height:1.8;
+text-align:left;
+color:#d0d0d0;
 }
 
 .x{
 background:#000;
+color:#fff;
+}
+
+.line{
+background:#06c755;
 color:#fff;
 }
 
@@ -189,6 +207,58 @@ font-size:14px;
 id="certificate"
 class="card">
 
+<div
+class="certificateImageBox">
+
+<img
+id="memorialImage"
+class="memorialImage"
+src="sakura01.jpg"
+alt="記念画像"
+crossorigin="anonymous">
+
+<div class="overlay">
+
+<div class="topArea">
+
+<div class="shrine">
+田子山富士
+</div>
+
+<div class="project">
+登頂記念証
+</div>
+
+</div>
+
+<div class="bottomArea">
+
+<div
+id="round"
+class="round">
+第1回登頂記念
+</div>
+
+<div
+id="serial"
+class="serial">
+No.0001
+</div>
+
+<div
+id="date"
+class="date">
+令和8年6月23日
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <button
 class="btn save"
 onclick="saveImage()">
@@ -205,19 +275,11 @@ onclick="copyUrl()">
 
 📘 Facebookで共有する場合
 
-<br><br>
-
 ①「リンクをコピー」を押す
-
-<br>
 
 ② Facebookを開く
 
-<br>
-
 ③ 投稿欄へ貼り付ける
-
-<br><br>
 
 画像付きで共有できます
 
@@ -278,8 +340,9 @@ String(serial)
 .split("-");
 
 const climbCount =
-Number(serialParts[0])
-|| 1;
+Number(
+serialParts[0]
+) || 1;
 
 const serialNo =
 serialParts[1]
@@ -298,35 +361,68 @@ document.getElementById(
 "No." +
 serialNo;
 
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+now.getFullYear() +
+"/" +
+String(
+now.getMonth()+1
+).padStart(2,"0") +
+"/" +
+String(
+now.getDate()
+).padStart(2,"0");
+
 function copyUrl(){
+
 navigator.clipboard.writeText(
 location.href
 );
-alert("リンクをコピーしました");
+
+alert(
+"リンクをコピーしました"
+);
+
 }
 
 function shareFacebook(){
+
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 function shareX(){
+
 window.open(
 "https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 function shareLine(){
+
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 async function saveImage(){
@@ -363,4 +459,3 @@ link.click();
 
 </body>
 </html>
-
