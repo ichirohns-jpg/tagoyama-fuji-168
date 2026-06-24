@@ -70,6 +70,12 @@ color:#ffffff;
 font-family:
 "Yu Mincho",
 serif;
+
+text-shadow:
+0 0 4px rgba(255,255,255,.95),
+0 0 10px rgba(255,255,255,.8),
+0 0 18px rgba(255,220,120,.45),
+0 2px 6px rgba(0,0,0,.9);
 }
 
 .project{
@@ -77,6 +83,11 @@ margin-top:8px;
 font-size:20px;
 font-weight:900;
 color:#f3d57a;
+
+text-shadow:
+0 0 4px rgba(255,240,180,.8),
+0 0 10px rgba(255,220,120,.5),
+0 2px 6px rgba(0,0,0,.9);
 }
 
 .bottomArea{
@@ -90,18 +101,68 @@ text-align:center;
 .round{
 font-size:22px;
 font-weight:900;
+line-height:1.5;
+color:#ffffff;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
 font-size:42px;
 font-weight:900;
 color:#f3d57a;
+letter-spacing:1px;
+line-height:1.1;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
 }
 
 .date{
 font-size:16px;
 font-weight:700;
+color:#ffffff;
 margin-top:10px;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.9),
+0 4px 12px rgba(0,0,0,.8),
+0 0 20px rgba(0,0,0,.7);
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:16px;
+margin-top:12px;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{background:#2ecc71;color:#fff;}
+.copy{background:#607d8b;color:#fff;}
+.fb{background:#1877f2;color:#fff;}
+.x{background:#000;color:#fff;}
+.line{background:#06c755;color:#fff;}
+
+.home{
+background:#d4af37;
+color:#000;
+font-weight:900;
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+color:#aaa;
+font-size:14px;
 }
 
 </style>
@@ -140,23 +201,9 @@ crossorigin="anonymous">
 
 <div class="bottomArea">
 
-<div
-id="round"
-class="round">
--
-</div>
-
-<div
-id="serial"
-class="serial">
--
-</div>
-
-<div
-id="date"
-class="date">
--
-</div>
+<div id="round" class="round">-</div>
+<div id="serial" class="serial">-</div>
+<div id="date" class="date">-</div>
 
 </div>
 
@@ -202,53 +249,34 @@ onclick="location.href='index.html'">
 🏠 田子山富士へ戻る
 </button>
 
+<div class="footer">
+田子山富士168の縁プロジェクト
+</div>
+
+</div>
+
 <script>
 
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
 const serial =
 params.get("serial")
 ||
-sessionStorage.getItem(
-"latestSerial"
-)
+sessionStorage.getItem("latestSerial")
 ||
-localStorage.getItem(
-"latestSerial"
-);
-
-if(!serial){
-
-alert(
-"登頂記録が見つかりません"
-);
-
-location.href =
-"qr.html";
-
-throw new Error(
-"serial not found"
-);
-
-}
+localStorage.getItem("latestSerial")
+||
+"1-0001";
 
 const imageUrl =
 params.get("image")
 ||
-sessionStorage.getItem(
-"latestImageUrl"
-)
+sessionStorage.getItem("latestImageUrl")
 ||
-localStorage.getItem(
-"latestImageUrl"
-)
+localStorage.getItem("latestImageUrl")
 ||
 "sakura01.jpg";
-
-alert(imageUrl);
 
 document.getElementById(
 "memorialImage"
@@ -256,8 +284,7 @@ document.getElementById(
 imageUrl;
 
 const serialParts =
-String(serial)
-.split("-");
+String(serial).split("-");
 
 const climbCount =
 parseInt(
@@ -280,6 +307,18 @@ document.getElementById(
 ).innerText =
 "No." +
 serialNo;
+
+const now =
+new Date();
+
+document.getElementById(
+"date"
+).innerText =
+"令和8年" +
+(now.getMonth()+1) +
+"月" +
+now.getDate() +
+"日";
 
 </script>
 
