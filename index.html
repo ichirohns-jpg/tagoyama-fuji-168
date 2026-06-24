@@ -6,74 +6,85 @@
 
 <title>田子山富士168の縁</title>
 
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+
 <style>
 
-body{
+*{
 margin:0;
-padding:20px;
-background:#f5f5f5;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
 font-family:
 "Hiragino Sans",
 "Yu Gothic",
 sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
 }
 
 .wrap{
-max-width:700px;
+max-width:900px;
 margin:auto;
-}
-
-.card{
-background:#fff;
-border-radius:20px;
 padding:20px;
-box-shadow:
-0 4px 20px rgba(0,0,0,.1);
 }
 
 .title{
-font-size:32px;
+font-size:42px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
+}
+
+.sub{
+font-size:22px;
+font-weight:900;
+color:#d4af37;
+text-align:center;
+margin:10px 0 30px;
+}
+
+.card{
+background:#1a1a1a;
+border:2px solid #d4af37;
+border-radius:24px;
+padding:20px;
+margin-bottom:18px;
+}
+
+.cardTitle{
+font-size:24px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:12px;
+}
+
+.bigBtn{
+display:block;
+width:100%;
+padding:22px;
+border-radius:18px;
+background:#d4af37;
+color:#000;
+font-size:26px;
+font-weight:900;
+text-decoration:none;
+text-align:center;
+margin-top:12px;
 }
 
 .count{
-font-size:24px;
+font-size:42px;
 font-weight:900;
 text-align:center;
-margin-bottom:20px;
-}
-
-.btn{
-width:100%;
-padding:18px;
-border:none;
-border-radius:15px;
-font-size:22px;
-font-weight:900;
-margin-top:10px;
-cursor:pointer;
-}
-
-.climb{
-background:#2ecc71;
-color:#fff;
-}
-
-.news{
-background:#3498db;
-color:#fff;
-}
-
-.omikuji{
-background:#9b59b6;
-color:#fff;
-}
-
-.goen{
-background:#f39c12;
-color:#fff;
+color:#f3d57a;
 }
 
 </style>
@@ -81,45 +92,95 @@ color:#fff;
 
 <body>
 
+<div class="hero">
+<img src="top.jpg">
+</div>
+
 <div class="wrap">
+
+<div class="title">
+田子山富士
+</div>
+
+<div class="sub">
+168の縁プロジェクト
+</div>
 
 <div class="card">
 
-<div class="title">
-田子山富士168の縁
+<div class="cardTitle">
+参加人数
 </div>
 
 <div
 id="count"
 class="count">
-読込中...
+-
 </div>
 
-<button
-class="btn climb"
-onclick="climb()">
-登頂受付
-</button>
+</div>
 
-<button
-class="btn news"
-onclick="location.href='news.html'">
-お知らせ
-</button>
+<div class="card">
 
-<button
-class="btn omikuji"
-onclick="location.href='omikuji.html'">
-おみくじ
-</button>
+<div class="cardTitle">
+⛩️ 登頂受付
+</div>
 
-<button
-class="btn goen"
-onclick="location.href='kicho.html'">
-ご縁帳
-</button>
+<a
+href="qr.html"
+class="bigBtn">
+
+登頂を記録する
+
+</a>
 
 </div>
+
+<div class="card">
+
+<div class="cardTitle">
+📢 お知らせ
+</div>
+
+<a
+href="news.html"
+class="bigBtn">
+
+お知らせを見る
+
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+🎋 おみくじ
+</div>
+
+<a
+href="omikuji.html"
+class="bigBtn">
+
+開運おみくじ
+
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+🌸 ご縁帳
+</div>
+
+<a
+href="kicho.html"
+class="bigBtn">
+
+参拝記帳
+
+</a>
 
 </div>
 
@@ -128,12 +189,9 @@ onclick="location.href='kicho.html'">
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbwg3si951hM8vwudOZYqOGROQwtC8i2fttC0WvQ8gsk_Y_d2Ko4eJ19YfrutpP4YrDPsQ/exec";
 
-const userId =
-localStorage.getItem(
-"userId"
-);
-
 async function loadStats(){
+
+try{
 
 const res =
 await fetch(
@@ -147,94 +205,14 @@ await res.json();
 document.getElementById(
 "count"
 ).innerText =
-"参加人数 " +
-(data.total || 0) +
-"名";
-
-}
-
-async function climb(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL +
-"?userId=" +
-encodeURIComponent(
-userId
-)
-);
-
-const data =
-await res.json();
-
-if(
-!data.success
-){
-
-alert(
-"登頂記録失敗"
-);
-
-return;
-
-}
-
-sessionStorage.setItem(
-"latestSerial",
-data.serial
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl
-);
-
-sessionStorage.setItem(
-"latestClimbDate",
-data.climbDate
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl
-);
-
-localStorage.setItem(
-"latestClimbDate",
-data.climbDate
-);
-
-location.href =
-"certificate.html" +
-"?serial=" +
-encodeURIComponent(
-data.serial
-) +
-"&imageUrl=" +
-encodeURIComponent(
-data.imageUrl
-) +
-"&climbDate=" +
-encodeURIComponent(
-data.climbDate
-);
+data.participants || 0;
 
 }catch(err){
 
-alert(
-"通信エラー"
-);
-
-console.log(
-err
-);
+document.getElementById(
+"count"
+).innerText =
+"-";
 
 }
 
@@ -243,6 +221,8 @@ err
 loadStats();
 
 </script>
+
+</div>
 
 </body>
 </html>
