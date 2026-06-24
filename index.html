@@ -273,15 +273,25 @@ onclick="copyUrl()">
 </button>
 
 <div class="fbGuide">
+
 📘 Facebookで共有する場合
+
 <br><br>
+
 ①「リンクをコピー」を押す
+
 <br>
+
 ② Facebookを開く
+
 <br>
+
 ③ 投稿欄へ貼り付ける
+
 <br><br>
+
 画像付きで共有できます
+
 </div>
 
 <button
@@ -426,9 +436,7 @@ function shareFacebook(){
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-TOP_URL
-),
+encodeURIComponent(TOP_URL),
 "_blank"
 );
 
@@ -438,9 +446,7 @@ function shareX(){
 
 window.open(
 "https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-TOP_URL
-),
+encodeURIComponent(TOP_URL),
 "_blank"
 );
 
@@ -450,9 +456,7 @@ function shareLine(){
 
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-TOP_URL
-),
+encodeURIComponent(TOP_URL),
 "_blank"
 );
 
@@ -472,17 +476,13 @@ useCORS:true
 );
 
 const link =
-document.createElement(
-"a"
-);
+document.createElement("a");
 
 link.download =
 "tagoyama-fuji-certificate.png";
 
 link.href =
-canvas.toDataURL(
-"image/png"
-);
+canvas.toDataURL("image/png");
 
 link.click();
 
