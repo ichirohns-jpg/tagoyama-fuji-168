@@ -57,14 +57,14 @@ background:#1a1a1a;
 border:2px solid #d4af37;
 border-radius:24px;
 padding:20px;
-margin-bottom:16px;
+margin-bottom:18px;
 }
 
 .cardTitle{
 font-size:24px;
 font-weight:900;
 color:#d4af37;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 .bigBtn{
@@ -79,7 +79,7 @@ font-weight:900;
 text-decoration:none;
 text-align:center;
 border:none;
-cursor:pointer;
+margin-top:12px;
 }
 
 .count{
@@ -87,11 +87,6 @@ font-size:42px;
 font-weight:900;
 text-align:center;
 color:#f3d57a;
-}
-
-.newsItem{
-line-height:1.8;
-font-size:18px;
 }
 
 </style>
@@ -127,13 +122,21 @@ class="count">
 
 </div>
 
+<div class="card">
+
+<div class="cardTitle">
+⛩️ 登頂受付
+</div>
+
 <a
 href="qr.html"
 class="bigBtn">
 
-⛩️ 登頂受付
+登頂を記録する
 
 </a>
+
+</div>
 
 <div class="card">
 
@@ -141,13 +144,13 @@ class="bigBtn">
 📢 お知らせ
 </div>
 
-<div
-id="news"
-class="newsItem">
+<a
+href="news.html"
+class="bigBtn">
 
-読込中...
+お知らせを見る
 
-</div>
+</a>
 
 </div>
 
@@ -216,58 +219,7 @@ document.getElementById(
 
 }
 
-async function loadNews(){
-
-try{
-
-const res =
-await fetch(
-GAS_URL + "?mode=news"
-);
-
-const data =
-await res.json();
-
-if(
-!data.data ||
-!data.data.length
-){
-
-document.getElementById(
-"news"
-).innerHTML =
-"お知らせはありません";
-
-return;
-
-}
-
-const news =
-data.data[0];
-
-document.getElementById(
-"news"
-).innerHTML =
-
-"<strong>" +
-(news.title || "") +
-"</strong><br><br>" +
-
-(news.body || "");
-
-}catch(err){
-
-document.getElementById(
-"news"
-).innerHTML =
-"読込できませんでした";
-
-}
-
-}
-
 loadStats();
-loadNews();
 
 </script>
 
