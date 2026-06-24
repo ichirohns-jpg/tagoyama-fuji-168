@@ -118,6 +118,36 @@ color:#ffffff;
 margin-top:10px;
 }
 
+.btn{
+width:100%;
+border:none;
+border-radius:18px;
+padding:16px;
+margin-top:12px;
+font-size:20px;
+font-weight:900;
+cursor:pointer;
+}
+
+.save{background:#2ecc71;color:#fff;}
+.copy{background:#607d8b;color:#fff;}
+.fb{background:#1877f2;color:#fff;}
+.x{background:#000;color:#fff;}
+.line{background:#06c755;color:#fff;}
+
+.home{
+background:#d4af37;
+color:#000;
+font-weight:900;
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+color:#aaa;
+font-size:14px;
+}
+
 </style>
 </head>
 
@@ -154,9 +184,23 @@ crossorigin="anonymous">
 
 <div class="bottomArea">
 
-<div id="round" class="round">-</div>
-<div id="serial" class="serial">-</div>
-<div id="date" class="date">-</div>
+<div
+id="round"
+class="round">
+-
+</div>
+
+<div
+id="serial"
+class="serial">
+-
+</div>
+
+<div
+id="date"
+class="date">
+-
+</div>
 
 </div>
 
@@ -243,6 +287,19 @@ localStorage.getItem(
 ||
 "";
 
+const climbDate =
+params.get("climbDate")
+||
+sessionStorage.getItem(
+"latestClimbDate"
+)
+||
+localStorage.getItem(
+"latestClimbDate"
+)
+||
+"";
+
 if(imageUrl){
 
 document.getElementById(
@@ -280,17 +337,12 @@ document.getElementById(
 "No." +
 serialNo;
 
-const now =
-new Date();
-
 document.getElementById(
 "date"
 ).innerText =
-"令和8年" +
-(now.getMonth()+1) +
-"月" +
-now.getDate() +
-"日";
+climbDate
+||
+"-";
 
 function copyUrl(){
 
