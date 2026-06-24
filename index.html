@@ -6,8 +6,11 @@
 
 <title>田子山富士168の縁</title>
 
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" href="logo.png">
+
+<meta property="og:image" content="https://raw.githubusercontent.com/ichirohns-jpg/tagoyama-fuji-168/main/logo.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ichirohns-jpg/tagoyama-fuji-168/main/logo.png">
 
 <style>
 
@@ -98,6 +101,18 @@ color:#f3d57a;
 
 <div class="wrap">
 
+<div style="text-align:center;margin-bottom:20px;">
+
+<img
+src="logo.png"
+style="
+max-width:320px;
+width:90%;
+height:auto;
+">
+
+</div>
+
 <div class="title">
 田子山富士
 </div>
@@ -184,6 +199,8 @@ class="bigBtn">
 
 </div>
 
+</div>
+
 <script>
 
 const GAS_URL =
@@ -205,7 +222,7 @@ await res.json();
 document.getElementById(
 "count"
 ).innerText =
-data.participants || 0;
+data.totalUsers || 0;
 
 }catch(err){
 
@@ -214,6 +231,10 @@ document.getElementById(
 ).innerText =
 "-";
 
+console.log(
+err
+);
+
 }
 
 }
@@ -221,8 +242,6 @@ document.getElementById(
 loadStats();
 
 </script>
-
-</div>
 
 </body>
 </html>
