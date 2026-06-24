@@ -109,11 +109,6 @@ font-weight:900;
 color:#f3d57a;
 letter-spacing:1px;
 line-height:1.1;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .date{
@@ -121,41 +116,6 @@ font-size:16px;
 font-weight:700;
 color:#ffffff;
 margin-top:10px;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
-}
-
-.btn{
-width:100%;
-border:none;
-border-radius:18px;
-padding:16px;
-margin-top:12px;
-font-size:20px;
-font-weight:900;
-cursor:pointer;
-}
-
-.save{background:#2ecc71;color:#fff;}
-.copy{background:#607d8b;color:#fff;}
-.fb{background:#1877f2;color:#fff;}
-.x{background:#000;color:#fff;}
-.line{background:#06c755;color:#fff;}
-
-.home{
-background:#d4af37;
-color:#000;
-font-weight:900;
-}
-
-.footer{
-margin-top:20px;
-text-align:center;
-color:#aaa;
-font-size:14px;
 }
 
 </style>
@@ -174,7 +134,7 @@ class="card">
 <img
 id="memorialImage"
 class="memorialImage"
-src="sakura01.jpg"
+src=""
 alt="記念画像"
 crossorigin="anonymous">
 
@@ -251,49 +211,81 @@ onclick="location.href='index.html'">
 <script>
 
 const params =
-new URLSearchParams(location.search);
+new URLSearchParams(
+location.search
+);
 
 const serial =
 params.get("serial")
 ||
-sessionStorage.getItem("latestSerial")
+sessionStorage.getItem(
+"latestSerial"
+)
 ||
-localStorage.getItem("latestSerial")
+localStorage.getItem(
+"latestSerial"
+)
 ||
 "1-0001";
 
 const imageUrl =
+params.get("imageUrl")
+||
 params.get("image")
 ||
-sessionStorage.getItem("latestImageUrl")
+sessionStorage.getItem(
+"latestImageUrl"
+)
 ||
-localStorage.getItem("latestImageUrl")
+localStorage.getItem(
+"latestImageUrl"
+)
 ||
-"sakura01.jpg";
+"";
+
+if(imageUrl){
 
 document.getElementById(
 "memorialImage"
 ).src =
 imageUrl;
 
+}
+
 const serialParts =
-String(serial).split("-");
+String(serial)
+.split("-");
 
 const climbCount =
-parseInt(serialParts[0] || "1",10);
+parseInt(
+serialParts[0] || "1",
+10
+);
 
 const serialNo =
-serialParts[1] || "0001";
+serialParts[1]
+||
+"0001";
 
-document.getElementById("round").innerText =
-"第" + climbCount + "回登頂記念";
+document.getElementById(
+"round"
+).innerText =
+"第" +
+climbCount +
+"回登頂記念";
 
-document.getElementById("serial").innerText =
-"No." + serialNo;
+document.getElementById(
+"serial"
+).innerText =
+"No." +
+serialNo;
 
-const now = new Date();
+const now =
+new Date();
 
-document.getElementById("date").innerText =
+document.getElementById(
+"date"
+).innerText =
 "令和8年" +
 (now.getMonth()+1) +
 "月" +
@@ -301,39 +293,61 @@ now.getDate() +
 "日";
 
 function copyUrl(){
-navigator.clipboard.writeText(location.href);
-alert("リンクをコピーしました");
+
+navigator.clipboard
+.writeText(
+location.href
+);
+
+alert(
+"リンクをコピーしました"
+);
+
 }
 
 function shareFacebook(){
+
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 function shareX(){
+
 window.open(
 "https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 function shareLine(){
+
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(location.href),
+encodeURIComponent(
+location.href
+),
 "_blank"
 );
+
 }
 
 async function saveImage(){
 
 const canvas =
 await html2canvas(
-document.getElementById("certificate"),
+document.getElementById(
+"certificate"
+),
 {
 scale:2,
 useCORS:true
@@ -341,13 +355,17 @@ useCORS:true
 );
 
 const link =
-document.createElement("a");
+document.createElement(
+"a"
+);
 
 link.download =
 "tagoyama-fuji-certificate.png";
 
 link.href =
-canvas.toDataURL("image/png");
+canvas.toDataURL(
+"image/png"
+);
 
 link.click();
 
