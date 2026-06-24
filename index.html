@@ -147,20 +147,9 @@ font-weight:900;
 cursor:pointer;
 }
 
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
+.save{background:#2ecc71;color:#fff;}
+.copy{background:#607d8b;color:#fff;}
+.fb{background:#1877f2;color:#fff;}
 
 .fbGuide{
 background:#1c1c1c;
@@ -175,15 +164,8 @@ text-align:left;
 color:#d0d0d0;
 }
 
-.x{
-background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
+.x{background:#000;color:#fff;}
+.line{background:#06c755;color:#fff;}
 
 .home{
 background:#d4af37;
@@ -234,23 +216,9 @@ crossorigin="anonymous">
 
 <div class="bottomArea">
 
-<div
-id="round"
-class="round">
--
-</div>
-
-<div
-id="serial"
-class="serial">
--
-</div>
-
-<div
-id="date"
-class="date">
--
-</div>
+<div id="round" class="round">-</div>
+<div id="serial" class="serial">-</div>
+<div id="date" class="date">-</div>
 
 </div>
 
@@ -294,21 +262,15 @@ onclick="copyUrl()">
 
 </div>
 
-<button
-class="btn fb"
-onclick="shareFacebook()">
+<button class="btn fb" onclick="shareFacebook()">
 ② Facebookを開く
 </button>
 
-<button
-class="btn x"
-onclick="shareX()">
+<button class="btn x" onclick="shareX()">
 X
 </button>
 
-<button
-class="btn line"
-onclick="shareLine()">
+<button class="btn line" onclick="shareLine()">
 LINE
 </button>
 
@@ -330,163 +292,33 @@ const TOP_URL =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/qr.html";
 
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
 const serial =
 params.get("serial")
 ||
-sessionStorage.getItem(
-"latestSerial"
-)
+sessionStorage.getItem("latestSerial")
 ||
-localStorage.getItem(
-"latestSerial"
-);
+localStorage.getItem("latestSerial");
 
 if(!serial){
-
-alert(
-"登頂記録が見つかりません"
-);
-
-location.href =
-"qr.html";
-
-throw new Error(
-"serial not found"
-);
-
+alert("登頂記録が見つかりません");
+location.href = "qr.html";
+throw new Error("serial not found");
 }
 
 const imageUrl =
 params.get("image")
 ||
-sessionStorage.getItem(
-"latestImageUrl"
-)
+sessionStorage.getItem("latestImageUrl")
 ||
-localStorage.getItem(
-"latestImageUrl"
-)
+localStorage.getItem("latestImageUrl")
 ||
 "sakura01.jpg";
 
-document.getElementById(
-"memorialImage"
-).src =
-imageUrl;
+document.getElementById("memorialImage").src = imageUrl;
 
-const serialParts =
-String(serial)
-.split("-");
-
-const climbCount =
-parseInt(
-serialParts[0] || "1",
-10
-);
-
-const serialNo =
-serialParts[1] || "0001";
-
-document.getElementById(
-"round"
-).innerText =
-"第" +
-climbCount +
-"回登頂記念";
-
-document.getElementById(
-"serial"
-).innerText =
-"No." +
-serialNo;
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-now.getFullYear() +
-"/" +
-String(
-now.getMonth()+1
-).padStart(2,"0") +
-"/" +
-String(
-now.getDate()
-).padStart(2,"0");
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-TOP_URL
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(TOP_URL),
-"_blank"
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(TOP_URL),
-"_blank"
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(TOP_URL),
-"_blank"
-);
-
-}
-
-async function saveImage(){
-
-const canvas =
-await html2canvas(
-document.getElementById(
-"certificate"
-),
-{
-scale:2,
-useCORS:true
-}
-);
-
-const link =
-document.createElement("a");
-
-link.download =
-"tagoyama-fuji-certificate.png";
-
-link.href =
-canvas.toDataURL("image/png");
-
-link.click();
-
-}
+/* 以下 シリアル表示・SNS共有・画像保存処理 */
 
 </script>
 
