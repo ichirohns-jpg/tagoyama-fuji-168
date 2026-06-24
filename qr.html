@@ -70,12 +70,15 @@ margin-bottom:30px;
 }
 
 .message{
+
 font-size:22px;
 line-height:1.8;
 margin-bottom:30px;
+
 }
 
 .startBtn{
+
 width:100%;
 border:none;
 border-radius:22px;
@@ -85,13 +88,16 @@ font-weight:900;
 background:#d4af37;
 color:#000;
 cursor:pointer;
+
 }
 
 .note{
+
 margin-top:20px;
 font-size:16px;
 color:#bbb;
 line-height:1.7;
+
 }
 
 </style>
@@ -239,6 +245,16 @@ localStorage.setItem(
 data.imageName || ""
 );
 
+sessionStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+localStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
 location.href =
 "certificate.html" +
 "?serial=" +
@@ -252,6 +268,10 @@ data.imageUrl || ""
 "&count=" +
 encodeURIComponent(
 data.count || "1"
+) +
+"&climbDate=" +
+encodeURIComponent(
+data.climbDate || ""
 );
 
 }catch(error){
