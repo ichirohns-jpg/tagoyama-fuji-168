@@ -9,7 +9,6 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -18,10 +17,7 @@ box-sizing:border-box;
 
 body{
 background:#050505;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;
 padding:20px;
 color:#fff;
 }
@@ -36,8 +32,7 @@ background:#000;
 border:2px solid #d4af37;
 border-radius:32px;
 padding:18px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.5);
+box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 
 .certificateImageBox{
@@ -58,7 +53,6 @@ background:#111;
 position:absolute;
 inset:0;
 padding:20px;
-pointer-events:none;
 }
 
 .topArea{
@@ -72,7 +66,6 @@ font-weight:900;
 letter-spacing:4px;
 color:#ffffff;
 font-family:"Yu Mincho",serif;
-
 text-shadow:
 0 0 4px rgba(255,255,255,.95),
 0 0 10px rgba(255,255,255,.8),
@@ -85,7 +78,6 @@ margin-top:8px;
 font-size:20px;
 font-weight:900;
 color:#f3d57a;
-
 text-shadow:
 0 0 4px rgba(255,240,180,.8),
 0 0 10px rgba(255,220,120,.5),
@@ -170,7 +162,6 @@ text-align:center;
 color:#aaa;
 font-size:14px;
 }
-
 </style>
 </head>
 
@@ -178,9 +169,7 @@ font-size:14px;
 
 <div class="wrap">
 
-<div
-id="certificate"
-class="card">
+<div id="certificate" class="card">
 
 <div class="certificateImageBox">
 
@@ -194,78 +183,41 @@ crossorigin="anonymous">
 <div class="overlay">
 
 <div class="topArea">
-
-<div class="shrine">
-田子山富士
-</div>
-
-<div class="project">
-登頂記念証
-</div>
-
+<div class="shrine">田子山富士</div>
+<div class="project">登頂記念証</div>
 </div>
 
 <div class="bottomArea">
-
-<div
-id="round"
-class="round">
--
-</div>
-
-<div
-id="serial"
-class="serial">
--
-</div>
-
-<div
-id="date"
-class="date">
--
+<div id="round" class="round">-</div>
+<div id="serial" class="serial">-</div>
+<div id="date" class="date">-</div>
 </div>
 
 </div>
-
+</div>
 </div>
 
-</div>
-
-</div>
-
-<button
-class="btn save"
-onclick="saveImage()">
+<button class="btn save" onclick="saveImage()">
 📜 記念証を授かる
 </button>
 
-<button
-class="btn copy"
-onclick="copyUrl()">
+<button class="btn copy" onclick="copyUrl()">
 ① リンクをコピー
 </button>
 
-<button
-class="btn fb"
-onclick="shareFacebook()">
+<button class="btn fb" onclick="shareFacebook()">
 ② Facebookを開く
 </button>
 
-<button
-class="btn x"
-onclick="shareX()">
+<button class="btn x" onclick="shareX()">
 X
 </button>
 
-<button
-class="btn line"
-onclick="shareLine()">
+<button class="btn line" onclick="shareLine()">
 LINE
 </button>
 
-<button
-class="btn home"
-onclick="location.href='index.html'">
+<button class="btn home" onclick="location.href='index.html'">
 🏠 田子山富士へ戻る
 </button>
 
@@ -276,12 +228,189 @@ onclick="location.href='index.html'">
 </div>
 
 <script>
-
-/* この続きから
 const params =
-new URLSearchParams(...)
-が始まる */
+new URLSearchParams(location.search);
 
+function getValue(key, storageKey, fallback){
+  return (
+    params.get(key) ||
+    sessionStorage.getItem(storageKey) ||
+    localStorage.getItem(storageKey) ||
+    fallback ||
+    ""
+  );
+}
+
+const serial =
+getValue(
+  "serial",
+  "latestSerial",
+  "1-0001"
+);
+
+const imageUrl =
+params.get("imageUrl") ||
+params.get("image") ||
+sessionStorage.getItem("latestImageUrl") ||
+localStorage.getItem("latestImageUrl") ||
+"";
+
+let climbDate =
+getValue(
+  "climbDate",
+  "latestClimbDate",
+  ""
+);
+
+if(!climbDate){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  climbDate = y + "/" + m + "/" + day;
+}
+
+sessionStorage.setItem("latestSerial",serial);
+localStorage.setItem("latestSerial",serial);
+
+if(imageUrl){
+  sessionStorage.setItem("latestImageUrl",imageUrl);
+  localStorage.setItem("latestImageUrl",imageUrl);
+}
+
+sessionStorage.setItem("latestClimbDate",climbDate);
+localStorage.setItem("latestClimbDate",climbDate);
+
+const img =
+document.getElementById("memorialImage");
+
+if(imageUrl){
+  img.src = imageUrl;
+}
+
+const serialParts =
+String(serial).split("-");
+
+const climbCount =
+parseInt(serialParts[0] || "1",10);
+
+const serialNo =
+serialParts[1] || "0001";
+
+document.getElementById("round").innerText =
+"第" + climbCount + "回登頂記念";
+
+document.getElementById("serial").innerText =
+"No." + serialNo;
+
+document.getElementById("date").innerText =
+climbDate || "-";
+
+function copyUrl(){
+  navigator.clipboard.writeText(location.href);
+  alert("リンクをコピーしました");
+}
+
+function shareFacebook(){
+  window.open(
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(location.href),
+    "_blank"
+  );
+}
+
+function shareX(){
+  window.open(
+    "https://twitter.com/intent/tweet?url=" +
+    encodeURIComponent(location.href),
+    "_blank"
+  );
+}
+
+function shareLine(){
+  window.open(
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(location.href),
+    "_blank"
+  );
+}
+
+function waitImageLoaded(image){
+  return new Promise(resolve => {
+    if(!image || !image.src){
+      resolve();
+      return;
+    }
+
+    if(image.complete){
+      resolve();
+      return;
+    }
+
+    image.onload = () => resolve();
+    image.onerror = () => resolve();
+  });
+}
+
+async function saveImage(){
+
+  const btn =
+  document.querySelector(".btn.save");
+
+  btn.disabled = true;
+  btn.innerText = "保存画像を作成中...";
+
+  try{
+
+    await waitImageLoaded(
+      document.getElementById("memorialImage")
+    );
+
+    const target =
+    document.getElementById("certificate");
+
+    const canvas =
+    await html2canvas(
+      target,
+      {
+        scale:3,
+        useCORS:true,
+        allowTaint:false,
+        backgroundColor:"#000000",
+        imageTimeout:15000
+      }
+    );
+
+    const image =
+    canvas.toDataURL("image/png");
+
+    const a =
+    document.createElement("a");
+
+    a.href = image;
+    a.download = "tagoyama-fuji-certificate.png";
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(function(){
+      btn.disabled = false;
+      btn.innerText = "📜 記念証を授かる";
+    },800);
+
+  }catch(err){
+
+    alert(
+      "画像保存に失敗しました。画像を長押しして保存してください。"
+    );
+
+    btn.disabled = false;
+    btn.innerText = "📜 記念証を授かる";
+
+  }
+
+}
 </script>
 
 </body>
