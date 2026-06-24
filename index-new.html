@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>田子山富士168の縁</title>
+
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b0b0b;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+color:#fff;
+}
+
+.hero img{
+width:100%;
+display:block;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.title{
+font-size:42px;
+font-weight:900;
+text-align:center;
+}
+
+.sub{
+font-size:22px;
+font-weight:900;
+color:#d4af37;
+text-align:center;
+margin-top:10px;
+margin-bottom:30px;
+}
+
+.card{
+background:#1a1a1a;
+border:2px solid #d4af37;
+border-radius:24px;
+padding:20px;
+margin-bottom:16px;
+}
+
+.cardTitle{
+font-size:24px;
+font-weight:900;
+color:#d4af37;
+margin-bottom:10px;
+}
+
+.bigBtn{
+display:block;
+width:100%;
+padding:22px;
+border-radius:18px;
+background:#d4af37;
+color:#000;
+font-size:26px;
+font-weight:900;
+text-decoration:none;
+text-align:center;
+border:none;
+cursor:pointer;
+}
+
+.count{
+font-size:42px;
+font-weight:900;
+text-align:center;
+color:#f3d57a;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+<img src="top.jpg">
+</div>
+
+<div class="wrap">
+
+<div class="title">
+田子山富士
+</div>
+
+<div class="sub">
+168の縁プロジェクト
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+参加人数
+</div>
+
+<div
+id="count"
+class="count">
+-
+</div>
+
+</div>
+
+<a
+href="qr.html"
+class="bigBtn">
+
+⛩️ 登頂受付
+
+</a>
+
+<div class="card">
+
+<div class="cardTitle">
+お知らせ
+</div>
+
+<div
+id="news">
+
+読み込み中...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+おみくじ
+</div>
+
+<a
+href="#"
+id="omikujiBtn"
+class="bigBtn">
+
+🎋 おみくじを引く
+
+</a>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+参拝記帳
+</div>
+
+<a
+href="#"
+id="kichoBtn"
+class="bigBtn">
+
+📝 参拝記帳
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbwg3si951hM8vwudOZYqOGROQwtC8i2fttC0WvQ8gsk_Y_d2Ko4eJ19YfrutpP4YrDPsQ/exec";
+
+async function loadStats(){
+
+try{
+
+const res =
+await fetch(
+GAS_URL + "?action=stats"
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"count"
+).innerText =
+data.totalUsers || "-";
+
+}catch(e){}
+
+}
+
+async function loadNews(){
+
+try{
+
+const res =
+await fetch(
+GAS_URL + "?action=news"
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"news"
+).innerHTML =
+(data.title || "お知らせはありません");
+
+}catch(e){}
+
+}
+
+document.getElementById(
+"omikujiBtn"
+).onclick = function(e){
+
+e.preventDefault();
+
+location.href =
+"omikuji.html";
+
+};
+
+document.getElementById(
+"kichoBtn"
+).onclick = function(e){
+
+e.preventDefault();
+
+location.href =
+"kicho.html";
+
+};
+
+loadStats();
+loadNews();
+
+</script>
+
+</body>
+</html>
