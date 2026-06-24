@@ -101,11 +101,6 @@ font-size:22px;
 font-weight:900;
 line-height:1.5;
 color:#ffffff;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
@@ -199,28 +194,56 @@ crossorigin="anonymous">
 
 <div class="bottomArea">
 
-<div
-id="round"
-class="round">
--
+<div id="round" class="round">-</div>
+<div id="serial" class="serial">-</div>
+<div id="date" class="date">-</div>
+
 </div>
 
-<div
-id="serial"
-class="serial">
--
-</div>
-
-<div
-id="date"
-class="date">
--
 </div>
 
 </div>
 
 </div>
 
+<button
+class="btn save"
+onclick="saveImage()">
+📜 記念証を授かる
+</button>
+
+<button
+class="btn copy"
+onclick="copyUrl()">
+① リンクをコピー
+</button>
+
+<button
+class="btn fb"
+onclick="shareFacebook()">
+② Facebookを開く
+</button>
+
+<button
+class="btn x"
+onclick="shareX()">
+X
+</button>
+
+<button
+class="btn line"
+onclick="shareLine()">
+LINE
+</button>
+
+<button
+class="btn home"
+onclick="location.href='index.html'">
+🏠 田子山富士へ戻る
+</button>
+
+<div class="footer">
+田子山富士168の縁プロジェクト
 </div>
 
 </div>
@@ -228,33 +251,23 @@ class="date">
 <script>
 
 const params =
-new URLSearchParams(
-location.search
-);
+new URLSearchParams(location.search);
 
 const serial =
 params.get("serial")
 ||
-sessionStorage.getItem(
-"latestSerial"
-)
+sessionStorage.getItem("latestSerial")
 ||
-localStorage.getItem(
-"latestSerial"
-)
+localStorage.getItem("latestSerial")
 ||
 "1-0001";
 
 const imageUrl =
 params.get("image")
 ||
-sessionStorage.getItem(
-"latestImageUrl"
-)
+sessionStorage.getItem("latestImageUrl")
 ||
-localStorage.getItem(
-"latestImageUrl"
-)
+localStorage.getItem("latestImageUrl")
 ||
 "sakura01.jpg";
 
@@ -264,42 +277,81 @@ document.getElementById(
 imageUrl;
 
 const serialParts =
-String(serial)
-.split("-");
+String(serial).split("-");
 
 const climbCount =
-parseInt(
-serialParts[0] || "1",
-10
-);
+parseInt(serialParts[0] || "1",10);
 
 const serialNo =
 serialParts[1] || "0001";
 
-document.getElementById(
-"round"
-).innerText =
-"第" +
-climbCount +
-"回登頂記念";
+document.getElementById("round").innerText =
+"第" + climbCount + "回登頂記念";
 
-document.getElementById(
-"serial"
-).innerText =
-"No." +
-serialNo;
+document.getElementById("serial").innerText =
+"No." + serialNo;
 
-const now =
-new Date();
+const now = new Date();
 
-document.getElementById(
-"date"
-).innerText =
+document.getElementById("date").innerText =
 "令和8年" +
 (now.getMonth()+1) +
 "月" +
 now.getDate() +
 "日";
+
+function copyUrl(){
+navigator.clipboard.writeText(location.href);
+alert("リンクをコピーしました");
+}
+
+function shareFacebook(){
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+function shareX(){
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+function shareLine(){
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(location.href),
+"_blank"
+);
+}
+
+async function saveImage(){
+
+const canvas =
+await html2canvas(
+document.getElementById("certificate"),
+{
+scale:2,
+useCORS:true
+}
+);
+
+const link =
+document.createElement("a");
+
+link.download =
+"tagoyama-fuji-certificate.png";
+
+link.href =
+canvas.toDataURL("image/png");
+
+link.click();
+
+}
 
 </script>
 
