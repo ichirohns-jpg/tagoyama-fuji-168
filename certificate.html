@@ -70,11 +70,6 @@ color:#ffffff;
 font-family:
 "Yu Mincho",
 serif;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .project{
@@ -82,11 +77,6 @@ margin-top:8px;
 font-size:20px;
 font-weight:900;
 color:#f3d57a;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .bottomArea{
@@ -100,100 +90,18 @@ text-align:center;
 .round{
 font-size:22px;
 font-weight:900;
-line-height:1.5;
-color:#ffffff;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .serial{
 font-size:42px;
 font-weight:900;
 color:#f3d57a;
-letter-spacing:1px;
-line-height:1.1;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
 }
 
 .date{
 font-size:16px;
 font-weight:700;
-color:#ffffff;
 margin-top:10px;
-
-text-shadow:
-0 2px 4px rgba(0,0,0,.9),
-0 4px 12px rgba(0,0,0,.8),
-0 0 20px rgba(0,0,0,.7);
-}
-
-.btn{
-width:100%;
-border:none;
-border-radius:18px;
-padding:16px;
-margin-top:12px;
-font-size:20px;
-font-weight:900;
-cursor:pointer;
-}
-
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
-
-.fbGuide{
-background:#1c1c1c;
-border:1px solid #333;
-border-radius:12px;
-padding:12px 16px;
-margin-top:10px;
-margin-bottom:10px;
-font-size:15px;
-line-height:1.8;
-text-align:left;
-color:#d0d0d0;
-}
-
-.x{
-background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
-.home{
-background:#d4af37;
-color:#000;
-font-weight:900;
-}
-
-.footer{
-margin-top:20px;
-text-align:center;
-color:#aaa;
-font-size:14px;
 }
 
 </style>
@@ -270,28 +178,6 @@ onclick="copyUrl()">
 ① リンクをコピー
 </button>
 
-<div class="fbGuide">
-
-📘 Facebookで共有する場合
-
-<br><br>
-
-①「リンクをコピー」を押す
-
-<br>
-
-② Facebookを開く
-
-<br>
-
-③ 投稿欄へ貼り付ける
-
-<br><br>
-
-画像付きで共有できます
-
-</div>
-
 <button
 class="btn fb"
 onclick="shareFacebook()">
@@ -315,12 +201,6 @@ class="btn home"
 onclick="location.href='index.html'">
 🏠 田子山富士へ戻る
 </button>
-
-<div class="footer">
-田子山富士168の縁プロジェクト
-</div>
-
-</div>
 
 <script>
 
@@ -368,6 +248,8 @@ localStorage.getItem(
 ||
 "sakura01.jpg";
 
+alert(imageUrl);
+
 document.getElementById(
 "memorialImage"
 ).src =
@@ -398,100 +280,6 @@ document.getElementById(
 ).innerText =
 "No." +
 serialNo;
-
-const now =
-new Date();
-
-document.getElementById(
-"date"
-).innerText =
-now.getFullYear() +
-"/" +
-String(
-now.getMonth()+1
-).padStart(2,"0") +
-"/" +
-String(
-now.getDate()
-).padStart(2,"0");
-
-function copyUrl(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-}
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-async function saveImage(){
-
-const canvas =
-await html2canvas(
-document.getElementById(
-"certificate"
-),
-{
-scale:2,
-useCORS:true
-}
-);
-
-const link =
-document.createElement(
-"a"
-);
-
-link.download =
-"tagoyama-fuji-certificate.png";
-
-link.href =
-canvas.toDataURL(
-"image/png"
-);
-
-link.click();
-
-}
 
 </script>
 
