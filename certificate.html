@@ -44,17 +44,20 @@ box-shadow:
 position:relative;
 overflow:hidden;
 border-radius:24px;
+background:#111;
 }
 
 .memorialImage{
 width:100%;
 display:block;
+background:#111;
 }
 
 .overlay{
 position:absolute;
 inset:0;
 padding:20px;
+pointer-events:none;
 }
 
 .topArea{
@@ -319,16 +322,6 @@ localStorage.getItem(
 ||
 "";
 
-console.log(
-"climbDate=",
-climbDate
-);
-
-console.log(
-"search=",
-location.search
-);
-
 if(imageUrl){
 
 document.getElementById(
@@ -385,84 +378,3 @@ alert(
 );
 
 }
-
-function shareFacebook(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-function shareX(){
-
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-function shareLine(){
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-}
-
-async function saveImage(){
-
-const target =
-document.getElementById(
-"certificate"
-);
-
-const canvas =
-await html2canvas(
-target,
-{
-scale:3,
-useCORS:true,
-allowTaint:true
-}
-);
-
-const image =
-canvas.toDataURL(
-"image/png"
-);
-
-const a =
-document.createElement(
-"a"
-);
-
-a.href = image;
-
-a.download =
-"tagoyama-fuji-certificate.png";
-
-document.body.appendChild(a);
-
-a.click();
-
-document.body.removeChild(a);
-
-}
-
-</script>
-
-</body>
-</html>
