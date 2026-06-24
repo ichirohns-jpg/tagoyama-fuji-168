@@ -67,9 +67,7 @@ font-size:28px;
 font-weight:900;
 letter-spacing:4px;
 color:#ffffff;
-font-family:
-"Yu Mincho",
-serif;
+font-family:"Yu Mincho",serif;
 
 text-shadow:
 0 0 4px rgba(255,255,255,.95),
@@ -201,56 +199,28 @@ crossorigin="anonymous">
 
 <div class="bottomArea">
 
-<div id="round" class="round">-</div>
-<div id="serial" class="serial">-</div>
-<div id="date" class="date">-</div>
+<div
+id="round"
+class="round">
+-
+</div>
 
+<div
+id="serial"
+class="serial">
+-
+</div>
+
+<div
+id="date"
+class="date">
+-
 </div>
 
 </div>
 
 </div>
 
-</div>
-
-<button
-class="btn save"
-onclick="saveImage()">
-📜 記念証を授かる
-</button>
-
-<button
-class="btn copy"
-onclick="copyUrl()">
-① リンクをコピー
-</button>
-
-<button
-class="btn fb"
-onclick="shareFacebook()">
-② Facebookを開く
-</button>
-
-<button
-class="btn x"
-onclick="shareX()">
-X
-</button>
-
-<button
-class="btn line"
-onclick="shareLine()">
-LINE
-</button>
-
-<button
-class="btn home"
-onclick="location.href='index.html'">
-🏠 田子山富士へ戻る
-</button>
-
-<div class="footer">
-田子山富士168の縁プロジェクト
 </div>
 
 </div>
@@ -258,23 +228,33 @@ onclick="location.href='index.html'">
 <script>
 
 const params =
-new URLSearchParams(location.search);
+new URLSearchParams(
+location.search
+);
 
 const serial =
 params.get("serial")
 ||
-sessionStorage.getItem("latestSerial")
+sessionStorage.getItem(
+"latestSerial"
+)
 ||
-localStorage.getItem("latestSerial")
+localStorage.getItem(
+"latestSerial"
+)
 ||
 "1-0001";
 
 const imageUrl =
 params.get("image")
 ||
-sessionStorage.getItem("latestImageUrl")
+sessionStorage.getItem(
+"latestImageUrl"
+)
 ||
-localStorage.getItem("latestImageUrl")
+localStorage.getItem(
+"latestImageUrl"
+)
 ||
 "sakura01.jpg";
 
@@ -284,7 +264,8 @@ document.getElementById(
 imageUrl;
 
 const serialParts =
-String(serial).split("-");
+String(serial)
+.split("-");
 
 const climbCount =
 parseInt(
