@@ -89,6 +89,11 @@ text-align:center;
 color:#f3d57a;
 }
 
+.newsItem{
+line-height:1.8;
+font-size:18px;
+}
+
 </style>
 </head>
 
@@ -133,13 +138,14 @@ class="bigBtn">
 <div class="card">
 
 <div class="cardTitle">
-お知らせ
+📢 お知らせ
 </div>
 
 <div
-id="news">
+id="news"
+class="newsItem">
 
-読み込み中...
+読込中...
 
 </div>
 
@@ -148,15 +154,14 @@ id="news">
 <div class="card">
 
 <div class="cardTitle">
-おみくじ
+🎋 おみくじ
 </div>
 
 <a
-href="#"
-id="omikujiBtn"
+href="omikuji.html"
 class="bigBtn">
 
-🎋 おみくじを引く
+開運おみくじ
 
 </a>
 
@@ -165,19 +170,16 @@ class="bigBtn">
 <div class="card">
 
 <div class="cardTitle">
+🌸 ご縁帳
+</div>
+
+<a
+href="kicho.html"
+class="bigBtn">
+
 参拝記帳
-</div>
-
-<a
-href="#"
-id="kichoBtn"
-class="bigBtn">
-
-📝 参拝記帳
 
 </a>
-
-</div>
 
 </div>
 
@@ -192,7 +194,7 @@ try{
 
 const res =
 await fetch(
-GAS_URL + "?action=stats"
+GAS_URL + "?mode=stats"
 );
 
 const data =
@@ -201,9 +203,16 @@ await res.json();
 document.getElementById(
 "count"
 ).innerText =
-data.totalUsers || "-";
+data.participants || 0;
 
-}catch(e){}
+}catch(err){
+
+document.getElementById(
+"count"
+).innerText =
+"-";
+
+}
 
 }
 
@@ -213,47 +222,56 @@ try{
 
 const res =
 await fetch(
-GAS_URL + "?action=news"
+GAS_URL + "?mode=news"
 );
 
 const data =
 await res.json();
 
+if(
+!data.data ||
+!data.data.length
+){
+
 document.getElementById(
 "news"
 ).innerHTML =
-(data.title || "お知らせはありません");
+"お知らせはありません";
 
-}catch(e){}
+return;
 
 }
 
-document.getElementById(
-"omikujiBtn"
-).onclick = function(e){
-
-e.preventDefault();
-
-location.href =
-"omikuji.html";
-
-};
+const news =
+data.data[0];
 
 document.getElementById(
-"kichoBtn"
-).onclick = function(e){
+"news"
+).innerHTML =
 
-e.preventDefault();
+"<strong>" +
+(news.title || "") +
+"</strong><br><br>" +
 
-location.href =
-"kicho.html";
+(news.body || "");
 
-};
+}catch(err){
+
+document.getElementById(
+"news"
+).innerHTML =
+"読込できませんでした";
+
+}
+
+}
 
 loadStats();
 loadNews();
 
 </script>
+
+</div>
 
 </body>
 </html>
