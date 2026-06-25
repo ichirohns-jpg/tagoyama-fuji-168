@@ -205,6 +205,22 @@ userId
 const data =
 await response.json();
 
+if(!data.success){
+
+alert(
+data.message ||
+"登頂できませんでした"
+);
+
+this.disabled = false;
+
+this.innerText =
+"⛩️ 登頂を記録する";
+
+return;
+
+}
+
 sessionStorage.setItem(
 "qrVerified",
 "true"
@@ -254,25 +270,13 @@ localStorage.setItem(
 "latestClimbDate",
 data.climbDate || ""
 );
+
+/* ここを修正 */
 
 location.href =
-"certificate.html" +
-"?serial=" +
-encodeURIComponent(
-data.serial || "1-0001"
-) +
-"&image=" +
-encodeURIComponent(
-data.imageUrl || ""
-) +
-"&count=" +
-encodeURIComponent(
-data.count || "1"
-) +
-"&climbDate=" +
-encodeURIComponent(
-data.climbDate || ""
-);
+"certificate.html";
+
+/* 修正ここまで */
 
 }catch(error){
 
@@ -288,6 +292,8 @@ document.getElementById(
 "startBtn"
 ).innerText =
 "⛩️ 登頂を記録する";
+
+console.error(error);
 
 }
 
