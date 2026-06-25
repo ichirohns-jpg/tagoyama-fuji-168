@@ -173,6 +173,7 @@ font-size:14px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -286,7 +287,7 @@ new URLSearchParams(
 location.search
 );
 
-// ★ 修正
+// ★ 最新データを優先取得
 const latestSerial =
 sessionStorage.getItem("latestSerial")
 ||
@@ -308,6 +309,7 @@ localStorage.getItem("latestClimbDate")
 ||
 "";
 
+// ★ URLパラメータがあれば優先
 const serial =
 params.get("serial")
 ||
@@ -324,6 +326,15 @@ let climbDate =
 params.get("climbDate")
 ||
 latestClimbDate;
+
+// ★ デバッグ
+alert(
+JSON.stringify({
+serial,
+imageUrl,
+climbDate
+},null,2)
+);
 
 if(!climbDate){
 
@@ -437,6 +448,27 @@ climbDate
 ||
 "-";
 
+// ★ デバッグ
+console.log(
+"serial",
+serial
+);
+
+console.log(
+"imageUrl",
+imageUrl
+);
+
+console.log(
+"climbCount",
+climbCount
+);
+
+console.log(
+"serialNo",
+serialNo
+);
+
 function copyUrl(){
 
 const shareUrl =
@@ -444,8 +476,7 @@ SHARE_BASE +
 "?serial=" +
 encodeURIComponent(serial);
 
-navigator.clipboard
-.writeText(
+navigator.clipboard.writeText(
 shareUrl
 );
 
@@ -463,10 +494,8 @@ SHARE_BASE +
 encodeURIComponent(serial);
 
 window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-shareUrl
-),
+"https://www.facebook.com/sharer/sharer.php?u="+
+encodeURIComponent(shareUrl),
 "_blank"
 );
 
@@ -480,10 +509,8 @@ SHARE_BASE +
 encodeURIComponent(serial);
 
 window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-shareUrl
-),
+"https://twitter.com/intent/tweet?url="+
+encodeURIComponent(shareUrl),
 "_blank"
 );
 
@@ -497,10 +524,8 @@ SHARE_BASE +
 encodeURIComponent(serial);
 
 window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-shareUrl
-),
+"https://social-plugins.line.me/lineit/share?url="+
+encodeURIComponent(shareUrl),
 "_blank"
 );
 
@@ -607,32 +632,15 @@ file
 
 });
 
-// 共有後も必ず保存画面を表示
-showImagePopup(
-canvas.toDataURL(
-"image/png"
-)
-);
-
-}catch(err){
-
-showImagePopup(
-canvas.toDataURL(
-"image/png"
-)
-);
+}catch(err){}
 
 }
 
-}else{
-
 showImagePopup(
 canvas.toDataURL(
 "image/png"
 )
 );
-
-}
 
 btn.disabled = false;
 
@@ -668,7 +676,7 @@ document.createElement(
 overlay.style =
 "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-sizing:border-box;overflow:auto;";
 
-overlay.innerHTML = `
+overlay.innerHTML=`
 <div style="
 color:#fff;
 font-size:24px;
@@ -678,8 +686,8 @@ margin-bottom:20px;
 line-height:1.8;
 ">
 登頂記念証が完成しました。<br><br>
-下の画像をタップすると拡大表示されます。<br>
-拡大後に画像を長押しして<br>
+画像をタップすると拡大します。<br>
+拡大後に長押しして<br>
 「写真に追加」を選んで保存してください。
 </div>
 
@@ -711,7 +719,8 @@ onclick="this.parentElement.remove()">
 `;
 
 document.body.appendChild(
-overlay);
+overlay
+);
 
 }
 
