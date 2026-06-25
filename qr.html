@@ -9,9 +9,7 @@ name="viewport"
 content="width=device-width,initial-scale=1">
 
 <title>
-
 田子山富士 登頂受付
-
 </title>
 
 <style>
@@ -23,87 +21,67 @@ box-sizing:border-box;
 }
 
 body{
-
 background:#0b0b0b;
-
 font-family:
 "Hiragino Sans",
 "Yu Gothic",
 sans-serif;
-
 color:#fff;
-
 }
 
 .hero img{
-
 width:100%;
 display:block;
-
 }
 
 .wrap{
-
 max-width:900px;
 margin:auto;
 padding:20px;
-
 }
 
 .card{
-
 background:
 linear-gradient(
 180deg,
 #1c1c1c,
 #0f0f0f
 );
-
 border:2px solid #d4af37;
 border-radius:28px;
 padding:28px;
 text-align:center;
-
 }
 
 .logo{
-
 width:180px;
 max-width:80%;
 margin:auto;
 display:block;
 margin-bottom:20px;
 border-radius:20px;
-
 }
 
 .title{
-
 font-size:42px;
 font-weight:900;
 margin-bottom:10px;
-
 }
 
 .sub{
-
 font-size:22px;
 color:#d4af37;
 font-weight:800;
 margin-bottom:30px;
-
 }
 
 .message{
-
 font-size:22px;
 line-height:1.8;
 margin-bottom:30px;
-
 }
 
 .startBtn{
-
 width:100%;
 border:none;
 border-radius:22px;
@@ -113,20 +91,16 @@ font-weight:900;
 background:#d4af37;
 color:#000;
 cursor:pointer;
-
 }
 
 .note{
-
 margin-top:20px;
 font-size:16px;
 color:#bbb;
 line-height:1.7;
-
 }
 
 .dialog{
-
 display:none;
 position:fixed;
 inset:0;
@@ -135,11 +109,9 @@ z-index:9999;
 justify-content:center;
 align-items:center;
 padding:20px;
-
 }
 
 .dialogBox{
-
 background:#fff;
 color:#000;
 border-radius:20px;
@@ -147,27 +119,21 @@ padding:24px;
 max-width:520px;
 width:100%;
 text-align:center;
-
 }
 
 .dialogTitle{
-
 font-size:26px;
 font-weight:900;
 margin-bottom:16px;
-
 }
 
 .dialogMessage{
-
 font-size:20px;
 line-height:1.8;
 margin-bottom:24px;
-
 }
 
 .dialogBtn{
-
 width:100%;
 padding:18px;
 font-size:22px;
@@ -176,7 +142,6 @@ border:none;
 border-radius:16px;
 background:#d4af37;
 cursor:pointer;
-
 }
 
 </style>
@@ -186,9 +151,7 @@ cursor:pointer;
 <body>
 
 <div class="hero">
-
 <img src="top.jpg">
-
 </div>
 
 <div class="wrap">
@@ -200,15 +163,11 @@ src="logo.png"
 class="logo">
 
 <div class="title">
-
 田子山富士
-
 </div>
 
 <div class="sub">
-
 168の縁プロジェクト
-
 </div>
 
 <div class="message">
@@ -320,35 +279,25 @@ try{
 
 const response =
 await fetch(
-
 GAS_URL +
-
 "?userId=" +
-
 encodeURIComponent(
 userId
 ),
-
 {
-
 method:"GET",
-
-cache:"no-store"
-
+mode:"cors",
+cache:"no-store",
+credentials:"omit",
+redirect:"follow"
 }
-
 );
 
-if(
-!response.ok
-){
+if(!response.ok){
 
 throw new Error(
-
 "GAS HTTP " +
-
 response.status
-
 );
 
 }
@@ -359,11 +308,8 @@ await response.json();
 if(!data.success){
 
 alert(
-
 data.message ||
-
 "登頂できませんでした"
-
 );
 
 this.disabled =
