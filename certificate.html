@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>登頂記念証</title>
 
@@ -254,17 +253,6 @@ new URLSearchParams(
 location.search
 );
 
-if(
-!sessionStorage.getItem(
-"qrVerified"
-)
-){
-
-location.href =
-"index.html";
-
-}
-
 const latestSerial =
 params.get("serial")
 ||
@@ -395,6 +383,7 @@ function shareFacebook(){
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u="+
 encodeURIComponent(
+shareUrl=
 SHARE_BASE+
 "?serial="+
 latestSerial
@@ -496,16 +485,13 @@ canvas.toDataURL(
 )
 );
 
-btn.disabled = false;
-
-btn.innerText =
-"📜 記念証を授かる";
-
 }catch(err){
 
 alert(
 "画像の作成に失敗しました"
 );
+
+}finally{
 
 btn.disabled = false;
 
@@ -519,22 +505,18 @@ btn.innerText =
 function showImagePopup(dataUrl){
 
 const overlay =
-document.createElement(
-"div"
-);
+document.createElement("div");
 
 overlay.style =
-"position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:99999;padding:20px;";
+"position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;z-index:99999;";
 
 overlay.innerHTML=`
 
 <div style="color:#fff;font-size:22px;text-align:center;line-height:1.8;margin-bottom:20px;">
 
 登頂記念証が完成しました。<br>
-
 画像をタップして拡大後、<br>
-
-長押しで保存してください。
+長押しして保存してください。
 
 </div>
 
@@ -557,8 +539,7 @@ onclick="this.parentElement.remove()">
 `;
 
 document.body.appendChild(
-overlay
-);
+overlay);
 
 }
 
