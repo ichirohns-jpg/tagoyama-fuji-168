@@ -286,58 +286,44 @@ new URLSearchParams(
 location.search
 );
 
-function getValue(
-key,
-storageKey,
-fallback
-){
+// ★ 修正
+const latestSerial =
+sessionStorage.getItem("latestSerial")
+||
+localStorage.getItem("latestSerial")
+||
+"1-0001";
 
-return(
-params.get(key)
+const latestImageUrl =
+sessionStorage.getItem("latestImageUrl")
 ||
-sessionStorage.getItem(
-storageKey
-)
+localStorage.getItem("latestImageUrl")
 ||
-localStorage.getItem(
-storageKey
-)
-||
-fallback
-||
-""
-);
+"";
 
-}
+const latestClimbDate =
+sessionStorage.getItem("latestClimbDate")
+||
+localStorage.getItem("latestClimbDate")
+||
+"";
 
 const serial =
-getValue(
-"serial",
-"latestSerial",
-"1-0001"
-);
+params.get("serial")
+||
+latestSerial;
 
 const imageUrl =
 params.get("imageUrl")
 ||
 params.get("image")
 ||
-sessionStorage.getItem(
-"latestImageUrl"
-)
-||
-localStorage.getItem(
-"latestImageUrl"
-)
-||
-"";
+latestImageUrl;
 
 let climbDate =
-getValue(
-"climbDate",
-"latestClimbDate",
-""
-);
+params.get("climbDate")
+||
+latestClimbDate;
 
 if(!climbDate){
 
@@ -621,6 +607,13 @@ file
 
 });
 
+// 共有後も必ず保存画面を表示
+showImagePopup(
+canvas.toDataURL(
+"image/png"
+)
+);
+
 }catch(err){
 
 showImagePopup(
@@ -718,8 +711,7 @@ onclick="this.parentElement.remove()">
 `;
 
 document.body.appendChild(
-overlay
-);
+overlay);
 
 }
 
