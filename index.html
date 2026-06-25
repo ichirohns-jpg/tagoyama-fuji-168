@@ -212,9 +212,24 @@ try{
 
 const res =
 await fetch(
+
 GAS_URL +
-"?mode=stats"
+"?mode=stats&time=" +
+Date.now(),
+
+{
+cache:"no-store"
+}
+
 );
+
+if(!res.ok){
+
+throw new Error(
+"GAS Error"
+);
+
+}
 
 const data =
 await res.json();
@@ -222,24 +237,36 @@ await res.json();
 document.getElementById(
 "count"
 ).innerText =
-data.participants || 0;
+
+Number(
+data.participants || 0
+).toLocaleString();
 
 }catch(err){
+
+console.error(err);
 
 document.getElementById(
 "count"
 ).innerText =
-"-";
-
-console.log(
-err
-);
+"0";
 
 }
 
 }
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
 loadStats();
+
+setInterval(
+loadStats,
+30000
+);
+
+});
 
 </script>
 
