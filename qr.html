@@ -280,143 +280,6 @@ userId
 const data =
 await response.json();
 
-if(!data.success){
-
-alert(
-data.message ||
-"登頂できませんでした"
-);
-
-this.disabled = false;
-
-this.innerText =
-"⛩️ 登頂を記録する";
-
-return;
-
-}
-
-/* 今日すでに登頂済み */
-
-if(data.alreadyClimbed){
-
-sessionStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-sessionStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-sessionStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-localStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-document.getElementById(
-"alreadyDialog"
-).style.display =
-"flex";
-
-document.getElementById(
-"showCertificateBtn"
-).onclick =
-function(){
-
-location.href =
-"certificate.html"
-+
-"?serial="
-+
-encodeURIComponent(
-data.serial || ""
-)
-+
-"&imageUrl="
-+
-encodeURIComponent(
-data.imageUrl || ""
-)
-+
-"&climbDate="
-+
-encodeURIComponent(
-data.climbDate || ""
-);
-
-};
-
-return;
-
-}
-
-sessionStorage.setItem(
-"qrVerified",
-"true"
-);
-
-localStorage.setItem(
-"qrVerified",
-"true"
-);
-
-sessionStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-sessionStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
 sessionStorage.setItem(
 "latestClimbDate",
 data.climbDate || ""
@@ -452,8 +315,11 @@ data.climbDate || ""
 
 }catch(error){
 
+console.error(error);
+
 alert(
-"通信エラーが発生しました"
+"エラー内容\n\n" +
+(error.message || String(error))
 );
 
 document.getElementById(
@@ -470,10 +336,6 @@ document.getElementById(
 "startBtn"
 ).innerText =
 "⛩️ 登頂を記録する";
-
-console.error(
-error
-);
 
 }
 
