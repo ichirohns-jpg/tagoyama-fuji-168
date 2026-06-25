@@ -168,7 +168,9 @@ class="logo">
 田子山富士へご登頂
 おめでとうございます。
 
-登頂記録を行う方は
+山頂でQRコードを
+読み込まれた方は
+
 下のボタンを押してください。
 
 </div>
@@ -183,9 +185,10 @@ class="startBtn">
 
 <div class="note">
 
-※このボタンを押した時だけ
-登頂回数・参加人数・
-シリアル番号が発行されます。
+※山頂QRからアクセスした方のみ
+登頂記録できます。
+
+同日の重複登録はできません。
 
 </div>
 
@@ -213,8 +216,8 @@ class="dialogMessage">
 本日の登頂記録は
 完了しています。
 
-記念証は何度でも
-ご覧いただけます。
+登頂記念証は
+何度でも表示できます。
 
 </div>
 
@@ -272,13 +275,160 @@ const response =
 await fetch(
 GAS_URL +
 "?userId=" +
-encodeURIComponent(
-userId
-)
+encodeURIComponent(userId)
 );
 
 const data =
 await response.json();
+
+if(!data.success){
+
+alert(
+data.message ||
+"登頂できませんでした"
+);
+
+this.disabled = false;
+
+this.innerText =
+"⛩️ 登頂を記録する";
+
+return;
+
+}
+
+/* 本日すでに登頂済み */
+
+if(data.alreadyClimbed){
+
+sessionStorage.setItem(
+"qrVerified",
+"true"
+);
+
+sessionStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+sessionStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+sessionStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+localStorage.setItem(
+"qrVerified",
+"true"
+);
+
+localStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+localStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+document.getElementById(
+"alreadyDialog"
+).style.display =
+"flex";
+
+document.getElementById(
+"showCertificateBtn"
+).onclick =
+function(){
+
+location.href =
+"certificate.html"
++
+"?serial="
++
+encodeURIComponent(
+data.serial || ""
+)
++
+"&imageUrl="
++
+encodeURIComponent(
+data.imageUrl || ""
+)
++
+"&climbDate="
++
+encodeURIComponent(
+data.climbDate || ""
+);
+
+};
+
+return;
+
+}
+
+/* 初回登頂 */
+
+sessionStorage.setItem(
+"qrVerified",
+"true"
+);
+
+localStorage.setItem(
+"qrVerified",
+"true"
+);
+
+sessionStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+localStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+sessionStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
 
 sessionStorage.setItem(
 "latestClimbDate",
@@ -290,7 +440,7 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* 最新データをURLで渡す */
+/* 記念証へ */
 
 location.href =
 "certificate.html"
