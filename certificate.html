@@ -184,7 +184,8 @@ font-size:14px;
 id="certificate"
 class="card">
 
-<div class="certificateImageBox">
+<div
+class="certificateImageBox">
 
 <img
 id="memorialImage"
@@ -287,7 +288,7 @@ new URLSearchParams(
 location.search
 );
 
-// ★ 最新データを優先取得
+// ★ 最新データを取得
 const latestSerial =
 sessionStorage.getItem("latestSerial")
 ||
@@ -309,7 +310,7 @@ localStorage.getItem("latestClimbDate")
 ||
 "";
 
-// ★ URLパラメータがあれば優先
+// ★ URLパラメータ優先
 const serial =
 params.get("serial")
 ||
@@ -404,6 +405,9 @@ document.getElementById(
 "memorialImage"
 );
 
+// ★ デバッグ
+alert(imageUrl);
+
 if(imageUrl){
 
 img.src =
@@ -448,7 +452,7 @@ climbDate
 ||
 "-";
 
-// ★ デバッグ
+// デバッグ
 console.log(
 "serial",
 serial
@@ -495,7 +499,9 @@ encodeURIComponent(serial);
 
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u="+
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+shareUrl
+),
 "_blank"
 );
 
@@ -510,7 +516,9 @@ encodeURIComponent(serial);
 
 window.open(
 "https://twitter.com/intent/tweet?url="+
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+shareUrl
+),
 "_blank"
 );
 
@@ -525,7 +533,9 @@ encodeURIComponent(serial);
 
 window.open(
 "https://social-plugins.line.me/lineit/share?url="+
-encodeURIComponent(shareUrl),
+encodeURIComponent(
+shareUrl
+),
 "_blank"
 );
 
@@ -676,7 +686,7 @@ document.createElement(
 overlay.style =
 "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-sizing:border-box;overflow:auto;";
 
-overlay.innerHTML=`
+overlay.innerHTML = `
 <div style="
 color:#fff;
 font-size:24px;
@@ -719,8 +729,7 @@ onclick="this.parentElement.remove()">
 `;
 
 document.body.appendChild(
-overlay
-);
+overlay);
 
 }
 
