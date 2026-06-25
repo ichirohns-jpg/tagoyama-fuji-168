@@ -278,6 +278,9 @@ onclick="location.href='index.html'">
 
 <script>
 
+const SHARE_BASE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+
 const params =
 new URLSearchParams(
 location.search
@@ -450,23 +453,33 @@ climbDate
 
 function copyUrl(){
 
+const shareUrl =
+SHARE_BASE +
+"?serial=" +
+encodeURIComponent(serial);
+
 navigator.clipboard
 .writeText(
-location.href
+shareUrl
 );
 
 alert(
-"リンクをコピーしました"
+"共有リンクをコピーしました"
 );
 
 }
 
 function shareFacebook(){
 
+const shareUrl =
+SHARE_BASE +
+"?serial=" +
+encodeURIComponent(serial);
+
 window.open(
 "https://www.facebook.com/sharer/sharer.php?u=" +
 encodeURIComponent(
-location.href
+shareUrl
 ),
 "_blank"
 );
@@ -475,10 +488,15 @@ location.href
 
 function shareX(){
 
+const shareUrl =
+SHARE_BASE +
+"?serial=" +
+encodeURIComponent(serial);
+
 window.open(
 "https://twitter.com/intent/tweet?url=" +
 encodeURIComponent(
-location.href
+shareUrl
 ),
 "_blank"
 );
@@ -487,10 +505,15 @@ location.href
 
 function shareLine(){
 
+const shareUrl =
+SHARE_BASE +
+"?serial=" +
+encodeURIComponent(serial);
+
 window.open(
 "https://social-plugins.line.me/lineit/share?url=" +
 encodeURIComponent(
-location.href
+shareUrl
 ),
 "_blank"
 );
@@ -644,55 +667,59 @@ btn.innerText =
 
 function showImagePopup(dataUrl){
 
-  const overlay =
-  document.createElement("div");
+const overlay =
+document.createElement(
+"div"
+);
 
-  overlay.style =
-  "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-sizing:border-box;overflow:auto;";
+overlay.style =
+"position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-sizing:border-box;overflow:auto;";
 
-  overlay.innerHTML = `
-  <div style="
-    color:#fff;
-    font-size:24px;
-    font-weight:bold;
-    text-align:center;
-    margin-bottom:20px;
-    line-height:1.8;
-  ">
-    登頂記念証が完成しました。<br><br>
-    下の画像をタップすると拡大表示されます。<br>
-    拡大後に画像を長押しして<br>
-    「写真に追加」を選んで保存してください。
-  </div>
+overlay.innerHTML = `
+<div style="
+color:#fff;
+font-size:24px;
+font-weight:bold;
+text-align:center;
+margin-bottom:20px;
+line-height:1.8;
+">
+登頂記念証が完成しました。<br><br>
+下の画像をタップすると拡大表示されます。<br>
+拡大後に画像を長押しして<br>
+「写真に追加」を選んで保存してください。
+</div>
 
-  <a href="${dataUrl}" target="_blank">
-    <img
-      src="${dataUrl}"
-      style="
-        width:100%;
-        max-width:900px;
-        border-radius:18px;
-        box-shadow:0 8px 24px rgba(0,0,0,.5);
-      ">
-  </a>
+<a href="${dataUrl}" target="_blank">
+<img
+src="${dataUrl}"
+style="
+width:100%;
+max-width:900px;
+border-radius:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.5);
+">
+</a>
 
-  <button
-    style="
-      margin-top:24px;
-      padding:16px 34px;
-      font-size:20px;
-      border:none;
-      border-radius:16px;
-      background:#d4af37;
-      font-weight:bold;
-      cursor:pointer;
-    "
-    onclick="this.parentElement.remove()">
-    閉じる
-  </button>
-  `;
+<button
+style="
+margin-top:24px;
+padding:16px 34px;
+font-size:20px;
+border:none;
+border-radius:16px;
+background:#d4af37;
+font-weight:bold;
+cursor:pointer;
+"
+onclick="this.parentElement.remove()">
+閉じる
+</button>
+`;
 
-  document.body.appendChild(overlay);
+document.body.appendChild(
+overlay
+);
 
 }
 
