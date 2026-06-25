@@ -280,20 +280,6 @@ userId
 const data =
 await response.json();
 
-/* ★ デバッグ追加 */
-
-alert(
-JSON.stringify(
-data,
-null,
-2
-)
-);
-
-console.log(data);
-
-/* ★ ここまで */
-
 if(!data.success){
 
 alert(
@@ -309,6 +295,8 @@ this.innerText =
 return;
 
 }
+
+/* 今日すでに登頂済み */
 
 if(data.alreadyClimbed){
 
@@ -421,38 +409,29 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* ★ デバッグ追加 */
-
-console.log(
-"serial",
-sessionStorage.getItem(
-"latestSerial"
-)
-);
-
-console.log(
-"imageUrl",
-sessionStorage.getItem(
-"latestImageUrl"
-)
-);
-
-console.log(
-"count",
-data.count
-);
-
-console.log(
-"alreadyClimbed",
-data.alreadyClimbed
-);
-
-/* ★ ここまで */
-
-/* 記念証へ */
+/* ★ 修正
+URLでも渡す */
 
 location.href =
-"certificate.html";
+"certificate.html"
++
+"?serial="
++
+encodeURIComponent(
+data.serial || ""
+)
++
+"&imageUrl="
++
+encodeURIComponent(
+data.imageUrl || ""
+)
++
+"&climbDate="
++
+encodeURIComponent(
+data.climbDate || ""
+);
 
 }catch(error){
 
@@ -467,7 +446,8 @@ document.getElementById(
 
 document.getElementById(
 "startBtn"
-).disabled = false;
+).disabled =
+false;
 
 document.getElementById(
 "startBtn"
