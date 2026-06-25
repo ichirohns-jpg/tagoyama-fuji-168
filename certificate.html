@@ -281,28 +281,29 @@ storageKey,
 fallback
 ){
 
-  return (
-    params.get(key)
-    ||
-    sessionStorage.getItem(
-      storageKey
-    )
-    ||
-    localStorage.getItem(
-      storageKey
-    )
-    ||
-    fallback
-    ||
-    ""
-  );
+return(
+params.get(key)
+||
+sessionStorage.getItem(
+storageKey
+)
+||
+localStorage.getItem(
+storageKey
+)
+||
+fallback
+||
+""
+);
+
 }
 
 const serial =
 getValue(
-  "serial",
-  "latestSerial",
-  "1-0001"
+"serial",
+"latestSerial",
+"1-0001"
 );
 
 const imageUrl =
@@ -311,94 +312,94 @@ params.get("imageUrl")
 params.get("image")
 ||
 sessionStorage.getItem(
-  "latestImageUrl"
+"latestImageUrl"
 )
 ||
 localStorage.getItem(
-  "latestImageUrl"
+"latestImageUrl"
 )
 ||
 "";
 
 let climbDate =
 getValue(
-  "climbDate",
-  "latestClimbDate",
-  ""
+"climbDate",
+"latestClimbDate",
+""
 );
 
 if(!climbDate){
 
-  const d =
-  new Date();
+const d =
+new Date();
 
-  const y =
-  d.getFullYear();
+const y =
+d.getFullYear();
 
-  const m =
-  String(
-    d.getMonth() + 1
-  ).padStart(
-    2,
-    "0"
-  );
+const m =
+String(
+d.getMonth()+1
+).padStart(
+2,
+"0"
+);
 
-  const day =
-  String(
-    d.getDate()
-  ).padStart(
-    2,
-    "0"
-  );
+const day =
+String(
+d.getDate()
+).padStart(
+2,
+"0"
+);
 
-  climbDate =
-  y + "/" + m + "/" + day;
+climbDate =
+y + "/" + m + "/" + day;
 
 }
 
 sessionStorage.setItem(
-  "latestSerial",
-  serial
+"latestSerial",
+serial
 );
 
 localStorage.setItem(
-  "latestSerial",
-  serial
+"latestSerial",
+serial
 );
 
 if(imageUrl){
 
-  sessionStorage.setItem(
-    "latestImageUrl",
-    imageUrl
-  );
+sessionStorage.setItem(
+"latestImageUrl",
+imageUrl
+);
 
-  localStorage.setItem(
-    "latestImageUrl",
-    imageUrl
-  );
+localStorage.setItem(
+"latestImageUrl",
+imageUrl
+);
 
 }
 
 sessionStorage.setItem(
-  "latestClimbDate",
-  climbDate
+"latestClimbDate",
+climbDate
 );
 
 localStorage.setItem(
-  "latestClimbDate",
-  climbDate
+"latestClimbDate",
+climbDate
 );
 
 const img =
 document.getElementById(
-  "memorialImage"
+"memorialImage"
 );
 
 if(imageUrl){
 
-  img.src =
-  imageUrl;
+img.src =
+imageUrl;
 
 }
 
@@ -408,10 +409,10 @@ String(serial)
 
 const climbCount =
 parseInt(
-  serialParts[0]
-  ||
-  "1",
-  10
+serialParts[0]
+||
+"1",
+10
 );
 
 const serialNo =
@@ -420,20 +421,20 @@ serialParts[1]
 "0001";
 
 document.getElementById(
-  "round"
+"round"
 ).innerText =
 "第" +
 climbCount +
 "回登頂記念";
 
 document.getElementById(
-  "serial"
+"serial"
 ).innerText =
 "No." +
 serialNo;
 
 document.getElementById(
-  "date"
+"date"
 ).innerText =
 climbDate
 ||
@@ -441,140 +442,139 @@ climbDate
 
 function copyUrl(){
 
-  navigator.clipboard
-  .writeText(
-    location.href
-  );
+navigator.clipboard
+.writeText(
+location.href
+);
 
-  alert(
-    "リンクをコピーしました"
-  );
+alert(
+"リンクをコピーしました"
+);
 
 }
 
 function shareFacebook(){
 
-  window.open(
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(
-      location.href
-    ),
-    "_blank"
-  );
+window.open(
+"https://www.facebook.com/sharer/sharer.php?u=" +
+encodeURIComponent(
+location.href
+),
+"_blank"
+);
 
 }
 
 function shareX(){
 
-  window.open(
-    "https://twitter.com/intent/tweet?url=" +
-    encodeURIComponent(
-      location.href
-    ),
-    "_blank"
-  );
+window.open(
+"https://twitter.com/intent/tweet?url=" +
+encodeURIComponent(
+location.href
+),
+"_blank"
+);
 
 }
 
 function shareLine(){
 
-  window.open(
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(
-      location.href
-    ),
-    "_blank"
-  );
+window.open(
+"https://social-plugins.line.me/lineit/share?url=" +
+encodeURIComponent(
+location.href
+),
+"_blank"
+);
 
 }
 
 function waitImageLoaded(image){
 
-  return new Promise(resolve => {
+return new Promise(resolve=>{
 
-    if(
-      !image ||
-      !image.src
-    ){
-      resolve();
-      return;
-    }
+if(
+!image ||
+!image.src
+){
+resolve();
+return;
+}
 
-    if(
-      image.complete
-    ){
-      resolve();
-      return;
-    }
+if(
+image.complete
+){
+resolve();
+return;
+}
 
-    image.onload =
-    () => resolve();
+image.onload =
+()=>resolve();
 
-    image.onerror =
-    () => resolve();
+image.onerror =
+()=>resolve();
 
-  });
+});
 
 }
 
 async function saveImage(){
 
-  const btn =
-  document.querySelector(
-    ".btn.save"
-  );
+const btn =
+document.querySelector(
+".btn.save"
+);
 
-  btn.disabled = true;
+btn.disabled = true;
 
-  btn.innerText =
-  "保存画像を作成中...";
+btn.innerText =
+"保存画像を作成中...";
 
-  try{
+try{
 
-    await waitImageLoaded(
-      document.getElementById(
-        "memorialImage"
-      )
-    );
+await waitImageLoaded(
+document.getElementById(
+"memorialImage"
+)
+);
 
-    const target =
-    document.getElementById(
-      "certificate"
-    );
+const target =
+document.getElementById(
+"certificate"
+);
 
-    const canvas =
-    await html2canvas(
-      target,
-      {
-        scale:3,
-        useCORS:true,
-        allowTaint:false,
-        backgroundColor:"#000000",
-        imageTimeout:15000
-      }
-    );
+const canvas =
+await html2canvas(
+target,
+{
+scale:3,
+useCORS:true,
+allowTaint:false,
+backgroundColor:"#000000",
+imageTimeout:15000
+}
+);
 
-    canvas.toBlob(
-      async function(blob){
+canvas.toBlob(
+async function(blob){
 
-        try{
+const file =
+new File(
+[blob],
+"tagoyama-fuji-certificate.png",
+{
+type:"image/png"
+}
+);
 
-          const file =
-          new File(
-            [blob],
-            "tagoyama-fuji-certificate.png",
-            {
-              type:"image/png"
-            }
-          );
+if(
+navigator.canShare &&
+navigator.canShare({
+files:[file]
+})
+){
 
-          if(
-            navigator.share &&
-            navigator.canShare &&
-            navigator.canShare({
-              files:[file]
-            })
-          ){
+          try{
 
             await navigator.share({
 
@@ -590,39 +590,23 @@ async function saveImage(){
 
             });
 
-          }else{
+          }catch(err){
 
-            const image =
-            canvas.toDataURL(
-              "image/png"
-            );
-
-            const a =
-            document.createElement(
-              "a"
-            );
-
-            a.href =
-            image;
-
-            a.download =
-            "tagoyama-fuji-certificate.png";
-
-            document.body.appendChild(
-              a
-            );
-
-            a.click();
-
-            document.body.removeChild(
-              a
+            showImagePopup(
+              canvas.toDataURL(
+                "image/png"
+              )
             );
 
           }
 
-        }catch(err){
+        }else{
 
-          console.error(err);
+          showImagePopup(
+            canvas.toDataURL(
+              "image/png"
+            )
+          );
 
         }
 
@@ -638,7 +622,7 @@ async function saveImage(){
   }catch(err){
 
     alert(
-      "保存に失敗しました"
+      "画像の作成に失敗しました"
     );
 
     btn.disabled = false;
@@ -647,6 +631,40 @@ async function saveImage(){
     "📜 記念証を授かる";
 
   }
+
+}
+
+function showImagePopup(dataUrl){
+
+  const overlay =
+  document.createElement(
+    "div"
+  );
+
+  overlay.style =
+  "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;box-sizing:border-box;";
+
+  overlay.innerHTML = `
+  <div style="font-size:22px;font-weight:bold;color:#fff;text-align:center;margin-bottom:18px;">
+  【保存方法】<br>
+  下の画像を長押しして<br>
+  「写真に追加」を選んでください
+  </div>
+
+  <img
+  src="${dataUrl}"
+  style="width:100%;max-width:900px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,.5);">
+
+  <button
+  style="margin-top:20px;padding:14px 28px;font-size:18px;border:none;border-radius:14px;background:#d4af37;font-weight:bold;"
+  onclick="this.parentElement.remove()">
+  閉じる
+  </button>
+  `;
+
+  document.body.appendChild(
+    overlay
+  );
 
 }
 
