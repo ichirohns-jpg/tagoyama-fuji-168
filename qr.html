@@ -233,7 +233,7 @@ class="dialogBtn">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwg3si951hM8vwudOZYqOGROQwtC8i2fttC0WvQ8gsk_Y_d2Ko4eJ19YfrutpP4YrDPsQ/exec";
+"https://script.google.com/macros/s/AKfycbwB-We-pWq406zoYK1zrW-ymY2mPWf3K8L_owLXFzS5RboThY26R1tbIJ4VyLfF230aiQ/exec";
 
 let userId =
 localStorage.getItem(
@@ -267,10 +267,6 @@ this.innerText =
 "登頂記録中...";
 
 try{
-
-alert(
-"userId = " + userId
-);
 
 const response =
 await fetch(
@@ -431,7 +427,7 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* ★ 最新データをURLで渡す */
+/* 最新データをURLで渡す */
 
 location.href =
 "certificate.html"
