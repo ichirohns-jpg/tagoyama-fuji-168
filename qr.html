@@ -94,6 +94,50 @@ color:#bbb;
 line-height:1.7;
 }
 
+.dialog{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+z-index:9999;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.dialogBox{
+background:#fff;
+color:#000;
+border-radius:20px;
+padding:24px;
+max-width:520px;
+width:100%;
+text-align:center;
+}
+
+.dialogTitle{
+font-size:26px;
+font-weight:900;
+margin-bottom:16px;
+}
+
+.dialogMessage{
+font-size:20px;
+line-height:1.8;
+margin-bottom:24px;
+}
+
+.dialogBtn{
+width:100%;
+padding:18px;
+font-size:22px;
+font-weight:900;
+border:none;
+border-radius:16px;
+background:#d4af37;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -149,6 +193,47 @@ class="startBtn">
 
 </div>
 
+<!-- ここから追加 -->
+
+<div
+id="alreadyDialog"
+class="dialog">
+
+<div
+class="dialogBox">
+
+<div
+class="dialogTitle">
+
+😊 本日は既に登頂されています
+
+</div>
+
+<div
+class="dialogMessage">
+
+登頂記録は
+1日1回までです。
+
+本日の登頂記念証は
+もう一度表示できます。
+
+</div>
+
+<button
+id="showCertificateBtn"
+class="dialogBtn">
+
+📜 登頂記念証を見る
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ここまで追加 -->
+
 <script>
 
 const GAS_URL =
@@ -191,7 +276,9 @@ const response =
 await fetch(
 GAS_URL +
 "?userId=" +
-encodeURIComponent(userId)
+encodeURIComponent(
+userId
+)
 );
 
 const data =
@@ -213,17 +300,70 @@ return;
 
 }
 
-/* ここから追加 */
+/* ここから修正 */
 
 if(data.alreadyClimbed){
 
-alert(
-"😊 本日は既に登頂されています。\n\n登頂記録は1日1回までです。\n\n本日の登頂記念証を表示します。"
+sessionStorage.setItem(
+"latestSerial",
+data.serial || ""
 );
+
+sessionStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+sessionStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+localStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+localStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+document.getElementById(
+"alreadyDialog"
+).style.display =
+"flex";
+
+document.getElementById(
+"showCertificateBtn"
+).onclick =
+function(){
+
+location.href =
+"certificate.html";
+
+};
+
+return;
 
 }
 
-/* ここまで追加 */
+/* ここまで修正 */
 
 sessionStorage.setItem(
 "qrVerified",
@@ -237,47 +377,10 @@ localStorage.setItem(
 
 sessionStorage.setItem(
 "latestSerial",
-data.serial || "1-0001"
+data.serial || ""
 );
 
 localStorage.setItem(
-"latestSerial",
-data.serial || "1-0001"
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-sessionStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-sessionStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-localStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-/* 保存 */
-
-sessionStorage.setItem(
 "latestSerial",
 data.serial || ""
 );
@@ -287,7 +390,17 @@ sessionStorage.setItem(
 data.imageUrl || ""
 );
 
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
 sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
 "latestImageName",
 data.imageName || ""
 );
@@ -295,21 +408,6 @@ data.imageName || ""
 sessionStorage.setItem(
 "latestClimbDate",
 data.climbDate || ""
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
 );
 
 localStorage.setItem(
@@ -328,9 +426,18 @@ alert(
 "通信エラーが発生しました"
 );
 
-this.disabled = false;
+document.getElementById(
+"alreadyDialog"
+).style.display =
+"none";
 
-this.innerText =
+document.getElementById(
+"startBtn"
+).disabled = false;
+
+document.getElementById(
+"startBtn"
+).innerText =
 "⛩️ 登頂を記録する";
 
 console.error(
