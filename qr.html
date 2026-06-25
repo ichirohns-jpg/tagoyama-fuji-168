@@ -210,11 +210,11 @@ class="dialogTitle">
 <div
 class="dialogMessage">
 
-登頂記録は
-1日1回までです。
+本日の登頂記録は
+完了しています。
 
-本日の登頂記念証は
-もう一度表示できます。
+記念証は何度でも
+ご覧いただけます。
 
 </div>
 
@@ -267,6 +267,10 @@ this.innerText =
 "登頂記録中...";
 
 try{
+
+alert(
+"userId = " + userId
+);
 
 const response =
 await fetch(
@@ -351,7 +355,25 @@ document.getElementById(
 function(){
 
 location.href =
-"certificate.html";
+"certificate.html"
++
+"?serial="
++
+encodeURIComponent(
+data.serial || ""
+)
++
+"&imageUrl="
++
+encodeURIComponent(
+data.imageUrl || ""
+)
++
+"&climbDate="
++
+encodeURIComponent(
+data.climbDate || ""
+);
 
 };
 
@@ -409,8 +431,7 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* ★ 修正
-URLでも渡す */
+/* ★ 最新データをURLで渡す */
 
 location.href =
 "certificate.html"
