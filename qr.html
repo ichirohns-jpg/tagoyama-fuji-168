@@ -193,8 +193,6 @@ class="startBtn">
 
 </div>
 
-<!-- ここから追加 -->
-
 <div
 id="alreadyDialog"
 class="dialog">
@@ -231,8 +229,6 @@ class="dialogBtn">
 </div>
 
 </div>
-
-<!-- ここまで追加 -->
 
 <script>
 
@@ -284,6 +280,20 @@ userId
 const data =
 await response.json();
 
+/* ★ デバッグ追加 */
+
+alert(
+JSON.stringify(
+data,
+null,
+2
+)
+);
+
+console.log(data);
+
+/* ★ ここまで */
+
 if(!data.success){
 
 alert(
@@ -299,8 +309,6 @@ this.innerText =
 return;
 
 }
-
-/* ここから修正 */
 
 if(data.alreadyClimbed){
 
@@ -363,8 +371,6 @@ return;
 
 }
 
-/* ここまで修正 */
-
 sessionStorage.setItem(
 "qrVerified",
 "true"
@@ -414,6 +420,34 @@ localStorage.setItem(
 "latestClimbDate",
 data.climbDate || ""
 );
+
+/* ★ デバッグ追加 */
+
+console.log(
+"serial",
+sessionStorage.getItem(
+"latestSerial"
+)
+);
+
+console.log(
+"imageUrl",
+sessionStorage.getItem(
+"latestImageUrl"
+)
+);
+
+console.log(
+"count",
+data.count
+);
+
+console.log(
+"alreadyClimbed",
+data.alreadyClimbed
+);
+
+/* ★ ここまで */
 
 /* 記念証へ */
 
