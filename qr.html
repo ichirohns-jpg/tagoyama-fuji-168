@@ -70,15 +70,12 @@ margin-bottom:30px;
 }
 
 .message{
-
 font-size:22px;
 line-height:1.8;
 margin-bottom:30px;
-
 }
 
 .startBtn{
-
 width:100%;
 border:none;
 border-radius:22px;
@@ -88,16 +85,13 @@ font-weight:900;
 background:#d4af37;
 color:#000;
 cursor:pointer;
-
 }
 
 .note{
-
 margin-top:20px;
 font-size:16px;
 color:#bbb;
 line-height:1.7;
-
 }
 
 </style>
@@ -197,9 +191,7 @@ const response =
 await fetch(
 GAS_URL +
 "?userId=" +
-encodeURIComponent(
-userId
-)
+encodeURIComponent(userId)
 );
 
 const data =
@@ -221,6 +213,18 @@ return;
 
 }
 
+/* ここから追加 */
+
+if(data.alreadyClimbed){
+
+alert(
+"😊 本日は既に登頂されています。\n\n登頂記録は1日1回までです。\n\n本日の登頂記念証を表示します。"
+);
+
+}
+
+/* ここまで追加 */
+
 sessionStorage.setItem(
 "qrVerified",
 "true"
@@ -271,12 +275,52 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* ここを修正 */
+/* 保存 */
+
+sessionStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+sessionStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+sessionStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+localStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
+localStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
+"latestClimbDate",
+data.climbDate || ""
+);
+
+/* 記念証へ */
 
 location.href =
 "certificate.html";
-
-/* 修正ここまで */
 
 }catch(error){
 
@@ -284,16 +328,14 @@ alert(
 "通信エラーが発生しました"
 );
 
-document.getElementById(
-"startBtn"
-).disabled = false;
+this.disabled = false;
 
-document.getElementById(
-"startBtn"
-).innerText =
+this.innerText =
 "⛩️ 登頂を記録する";
 
-console.error(error);
+console.error(
+error
+);
 
 }
 
