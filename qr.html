@@ -139,6 +139,7 @@ cursor:pointer;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -213,8 +214,7 @@ class="dialogTitle">
 <div
 class="dialogMessage">
 
-本日の登頂記録は
-完了しています。
+本日の登頂記録は完了しています。
 
 登頂記念証は
 何度でも表示できます。
@@ -236,7 +236,7 @@ class="dialogBtn">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwB-We-pWq406zoYK1zrW-ymY2mPWf3K8L_owLXFzS5RboThY26R1tbIJ4VyLfF230aiQ/exec";
+"https://script.google.com/macros/s/AKfycbwhuqTxMfgl6BkJkJIGlRFDlsIgZtD8sCInPl1p3N-UIG7fdo8IokFSMZTN_M3rdJHEXA/exec";
 
 let userId =
 localStorage.getItem(
@@ -275,7 +275,9 @@ const response =
 await fetch(
 GAS_URL +
 "?userId=" +
-encodeURIComponent(userId)
+encodeURIComponent(
+userId
+)
 );
 
 const data =
@@ -297,8 +299,6 @@ return;
 
 }
 
-/* 本日すでに登頂済み */
-
 if(data.alreadyClimbed){
 
 sessionStorage.setItem(
@@ -306,7 +306,17 @@ sessionStorage.setItem(
 "true"
 );
 
+localStorage.setItem(
+"qrVerified",
+"true"
+);
+
 sessionStorage.setItem(
+"latestSerial",
+data.serial || ""
+);
+
+localStorage.setItem(
 "latestSerial",
 data.serial || ""
 );
@@ -316,7 +326,17 @@ sessionStorage.setItem(
 data.imageUrl || ""
 );
 
+localStorage.setItem(
+"latestImageUrl",
+data.imageUrl || ""
+);
+
 sessionStorage.setItem(
+"latestImageName",
+data.imageName || ""
+);
+
+localStorage.setItem(
 "latestImageName",
 data.imageName || ""
 );
@@ -324,26 +344,6 @@ data.imageName || ""
 sessionStorage.setItem(
 "latestClimbDate",
 data.climbDate || ""
-);
-
-localStorage.setItem(
-"qrVerified",
-"true"
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
 );
 
 localStorage.setItem(
@@ -440,8 +440,6 @@ localStorage.setItem(
 data.climbDate || ""
 );
 
-/* 記念証へ */
-
 location.href =
 "certificate.html"
 +
@@ -468,23 +466,45 @@ data.climbDate || ""
 console.error(error);
 
 alert(
-"エラー内容\n\n" +
-(error.message || String(error))
+
+"エラー内容\n\n"
+
++
+
+(
+
+error.message
+
+||
+
+String(error)
+
+)
+
 );
 
 document.getElementById(
+
 "alreadyDialog"
+
 ).style.display =
+
 "none";
 
 document.getElementById(
+
 "startBtn"
+
 ).disabled =
+
 false;
 
 document.getElementById(
+
 "startBtn"
+
 ).innerText =
+
 "⛩️ 登頂を記録する";
 
 }
