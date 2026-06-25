@@ -2,7 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>ご縁帳</title>
 
@@ -19,7 +20,12 @@ font-family:
 "Hiragino Sans",
 "Yu Gothic",
 sans-serif;
-background:#f7f4ea;
+background:
+linear-gradient(
+180deg,
+#fdfcf7,
+#f7f2e5
+);
 color:#333;
 }
 
@@ -31,31 +37,35 @@ padding:20px;
 
 .card{
 background:#fff;
-border-radius:20px;
-padding:20px;
+border-radius:24px;
+padding:24px;
 box-shadow:
-0 4px 20px rgba(0,0,0,.08);
+0 8px 24px
+rgba(0,0,0,.08);
 }
 
 .title{
-font-size:32px;
-font-weight:700;
+font-size:34px;
+font-weight:900;
 text-align:center;
+color:#b8860b;
 margin-bottom:10px;
 }
 
 .sub{
 text-align:center;
-font-size:15px;
+font-size:16px;
+line-height:1.8;
 color:#666;
 margin-bottom:25px;
 }
 
 label{
 display:block;
-margin-top:15px;
+margin-top:18px;
 margin-bottom:8px;
 font-weight:700;
+color:#444;
 }
 
 input,
@@ -64,8 +74,9 @@ textarea{
 width:100%;
 padding:14px;
 border:1px solid #ddd;
-border-radius:12px;
+border-radius:14px;
 font-size:16px;
+background:#fffdf8;
 }
 
 textarea{
@@ -77,12 +88,12 @@ resize:vertical;
 width:100%;
 margin-top:20px;
 border:none;
-border-radius:14px;
-padding:16px;
-font-size:18px;
+border-radius:16px;
+padding:18px;
+font-size:20px;
 font-weight:bold;
-background:#ff7f50;
-color:#fff;
+background:#d4af37;
+color:#000;
 cursor:pointer;
 }
 
@@ -93,117 +104,205 @@ cursor:not-allowed;
 
 .message{
 display:none;
-margin-top:15px;
-padding:15px;
-background:#e8fff0;
-border-radius:12px;
+margin-top:18px;
+padding:16px;
+background:#eef9ef;
+border-radius:14px;
 text-align:center;
 font-weight:bold;
+font-size:18px;
 }
 
 .goenBox{
-margin-top:30px;
+margin-top:40px;
 }
 
 .goenTitle{
-font-size:24px;
-font-weight:bold;
-margin-bottom:15px;
+font-size:28px;
+font-weight:900;
+color:#b8860b;
+text-align:center;
+margin-bottom:10px;
+}
+
+.goenSub{
+text-align:center;
+font-size:15px;
+line-height:1.8;
+color:#666;
+margin-bottom:25px;
 }
 
 .goenCard{
-background:#fff;
-border-radius:16px;
-padding:16px;
-margin-bottom:12px;
+background:
+linear-gradient(
+180deg,
+#fffefb,
+#fff8ea
+);
+border-left:6px solid #d4af37;
+border-radius:18px;
+padding:18px;
+margin-bottom:16px;
 box-shadow:
-0 2px 10px rgba(0,0,0,.06);
+0 4px 12px
+rgba(0,0,0,.06);
 }
-</style>
-</head>
 
-<body>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
-<div class="wrap">
+<title>ご縁帳</title>
 
-<div class="card">
+<style>
 
-<div class="title">
-🌸 ご縁帳
-</div>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-<div class="sub">
-田子山富士へ訪れた記念に
-ひとことお残しください
-</div>
+body{
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+sans-serif;
+background:
+linear-gradient(
+180deg,
+#fdfcf7,
+#f7f2e5
+);
+color:#333;
+}
 
-<label>
-お住まいの地域
-</label>
+.wrap{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
 
-<select id="area">
+.card{
+background:#fff;
+border-radius:24px;
+padding:24px;
+box-shadow:
+0 8px 24px
+rgba(0,0,0,.08);
+}
 
-<option value="">
-選択してください
-</option>
+.title{
+font-size:34px;
+font-weight:900;
+text-align:center;
+color:#b8860b;
+margin-bottom:10px;
+}
 
-<option>
-志木市
-</option>
+.sub{
+text-align:center;
+font-size:16px;
+line-height:1.8;
+color:#666;
+margin-bottom:25px;
+}
 
-<option>
-朝霞市
-</option>
+label{
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:700;
+color:#444;
+}
 
-<option>
-新座市
-</option>
+input,
+select,
+textarea{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:14px;
+font-size:16px;
+background:#fffdf8;
+}
 
-<option>
-和光市
-</option>
+textarea{
+min-height:140px;
+resize:vertical;
+}
 
-<option>
-その他
-</option>
+.btn{
+width:100%;
+margin-top:20px;
+border:none;
+border-radius:16px;
+padding:18px;
+font-size:20px;
+font-weight:bold;
+background:#d4af37;
+color:#000;
+cursor:pointer;
+}
 
-</select>
+.btn:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
 
-<label>
-お名前
-</label>
+.message{
+display:none;
+margin-top:18px;
+padding:16px;
+background:#eef9ef;
+border-radius:14px;
+text-align:center;
+font-weight:bold;
+font-size:18px;
+}
 
-<input
-id="name"
-type="text"
-placeholder="匿名可">
+.goenBox{
+margin-top:40px;
+}
 
-<label>
-ひとこと
-</label>
+.goenTitle{
+font-size:28px;
+font-weight:900;
+color:#b8860b;
+text-align:center;
+margin-bottom:10px;
+}
 
-<textarea
-id="messageText"
-placeholder="田子山富士への想い・感想など"></textarea>
+.goenSub{
+text-align:center;
+font-size:15px;
+line-height:1.8;
+color:#666;
+margin-bottom:25px;
+}
 
-<button
-id="saveBtn"
-class="btn"
-onclick="saveKicho()">
-
-記帳する
-
-</button>
-
-<div
-id="msg"
-class="message">
-
-記帳ありがとうございました
-
-</div>
+.goenCard{
+background:
+linear-gradient(
+180deg,
+#fffefb,
+#fff8ea
+);
+border-left:6px solid #d4af37;
+border-radius:18px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:
+0 4px 12px
+rgba(0,0,0,.06);
+}
 
 <div class="goenBox">
+
+<div class="goenHead">
 
 <div class="goenTitle">
 
@@ -211,7 +310,19 @@ class="message">
 
 </div>
 
-<div id="goenList">
+<div class="goenSub">
+
+皆さまから寄せられた温かい言葉です。<br>
+
+どうぞごゆっくりご覧ください。
+
+</div>
+
+</div>
+
+<div
+id="goenList"
+class="goenList">
 
 読込中...
 
@@ -219,31 +330,21 @@ class="message">
 
 <a
 href="goen-archive.html"
-class="btn"
-style="
-display:block;
-text-align:center;
-text-decoration:none;
-margin-top:20px;">
+class="archiveBtn">
 
-過去のご縁帳を見る
+📚 過去のご縁帳を見る
 
 </a>
 
-</div>
-
 <a
 href="index.html"
-class="btn"
-style="
-display:block;
-text-align:center;
-text-decoration:none;
-margin-top:20px;">
+class="homeBtn">
 
 🏠 田子山富士へ戻る
 
 </a>
+
+</div>
 
 </div>
 
@@ -299,23 +400,38 @@ document.getElementById(
 const name =
 document.getElementById(
 "name"
-).value;
+).value.trim() || "匿名";
 
 const text =
 document.getElementById(
 "messageText"
-).value;
+).value.trim();
+
+if(!area){
+
+alert(
+"地域を選択してください"
+);
+
+btn.disabled=false;
+
+btn.innerHTML=
+"🌸 ご縁を記帳する";
+
+return;
+
+}
 
 if(!text){
-
-btn.disabled = false;
-
-btn.innerHTML =
-"記帳する";
 
 alert(
 "ひとことをご入力ください"
 );
+
+btn.disabled=false;
+
+btn.innerHTML=
+"🌸 ご縁を記帳する";
 
 return;
 
@@ -337,12 +453,12 @@ message:text
 .then(r=>r.text())
 .then(txt=>{
 
-btn.disabled = false;
+btn.disabled=false;
 
-btn.innerHTML =
-"記帳する";
+btn.innerHTML=
+"🌸 ご縁を記帳する";
 
-const data =
+const data=
 JSON.parse(txt);
 
 if(!data.success){
@@ -358,28 +474,30 @@ return;
 
 document.getElementById(
 "msg"
-).style.display =
+).style.display=
 "block";
 
 document.getElementById(
 "name"
-).value = "";
+).value="";
 
 document.getElementById(
 "messageText"
-).value = "";
+).value="";
 
 loadGoen();
 
 })
 .catch(err=>{
 
-btn.disabled = false;
+btn.disabled=false;
 
-btn.innerHTML =
-"記帳する";
+btn.innerHTML=
+"🌸 ご縁を記帳する";
 
-alert(err.message);
+alert(
+err.message
+);
 
 });
 
@@ -394,54 +512,57 @@ GAS_URL +
 .then(r=>r.json())
 .then(data=>{
 
-const list =
+const list=
 document.getElementById(
 "goenList"
 );
 
-if(!data || !data.length){
+if(
+!data.data ||
+!data.data.length
+){
 
-list.innerHTML =
+list.innerHTML=
 "まだご縁帳はありません";
 
 return;
 
 }
 
-list.innerHTML =
-data
-.slice(0,10)
-.map(item=>{
+list.innerHTML=
+data.data
+.slice(0,30)
+.map(item=>`
 
-const d =
-new Date(
-item.date ||
-item.createdAt ||
-item.timestamp
-);
-
-const dateText =
-isNaN(d)
-? ""
-: `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,"0")}/${String(d.getDate()).padStart(2,"0")}`;
-
-return `
 <div class="goenCard">
-<div style="font-weight:bold;margin-bottom:8px;">
-${item.area || ""}
-　${item.name || "匿名"}
-</div>
-<div style="margin-bottom:8px;">
-${item.message || ""}
-</div>
-<div style="font-size:12px;color:#777;">
-${dateText}
-</div>
-</div>
-`;
 
-})
-.join("");
+<div class="goenArea">
+
+🌸 ${item.area||"地域未設定"}
+
+</div>
+
+<div class="goenName">
+
+👤 ${item.name||"匿名"}
+
+</div>
+
+<div class="goenMessage">
+
+${item.message||""}
+
+</div>
+
+<div class="goenDate">
+
+📅 ${item.date||""}
+
+</div>
+
+</div>
+
+`).join("");
 
 })
 .catch(err=>{
@@ -450,7 +571,7 @@ console.log(err);
 
 document.getElementById(
 "goenList"
-).innerHTML =
+).innerHTML=
 "読込できませんでした";
 
 });
@@ -463,4 +584,3 @@ loadGoen();
 
 </body>
 </html>
-
