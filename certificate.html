@@ -385,7 +385,6 @@ id="certificate">
 id="memorialImage"
 src=""
 alt="登頂記念画像"
-crossorigin="anonymous"
 referrerpolicy="no-referrer">
 
 <div
@@ -541,6 +540,7 @@ let latestDate="";
 let latestImageName="";
 let latestImageUrl="";
 let latestShareUrl="";
+let latestImageLoaded=false;
 
 window.addEventListener(
 "load",
@@ -557,6 +557,9 @@ document.getElementById("error");
 
 const content=
 document.getElementById("content");
+
+error.style.display="none";
+error.innerText="";
 
 try{
 
@@ -602,58 +605,53 @@ latestImageName=data.imageName||"";
 latestImageUrl=data.imageUrl||"";
 latestShareUrl=location.href;
 
-const img=
-document.getElementById("memorialImage");
+setCertificateText();
+setShareLinks();
 
-img.crossOrigin="anonymous";
+loading.style.display="none";
+content.style.display="block";
 
-let imageUrl=
-latestImageUrl;
+await loadMemorialImage();
 
-const m1=
-imageUrl.match(/\/d\/([^\/]+)/);
+}catch(err){
 
-const m2=
-imageUrl.match(/[?&]id=([^&]+)/);
-
-const id=
-m1 ? m1[1] :
-(m2 ? m2[1] : "");
-
-if(id){
-
-imageUrl=
-"https://drive.google.com/uc?export=view&id="+id;
+loading.style.display="none";
+content.style.display="none";
+error.style.display="block";
+error.innerText=
+err.message||
+"取得できません";
 
 }
 
-img.src=
-imageUrl+
-(imageUrl.includes("?")?"&":"?")+
-"t="+Date.now();
+}
 
-await waitImageLoaded(img);
+function setCertificateText(){
 
 document.getElementById("countText").innerText=
 "第 "+latestCount+" 回 登頂";
 
 document.getElementById("serialText").innerText=
-latestSerial;
+latestSerial || "No.----";
 
 document.getElementById("dateText").innerText=
-latestDate;
+latestDate || "----";
 
 document.getElementById("infoCount").innerText=
-latestCount+"回";
+latestCount ? latestCount+"回" : "-";
 
 document.getElementById("infoSerial").innerText=
-latestSerial;
+latestSerial || "-";
 
 document.getElementById("infoDate").innerText=
-latestDate;
+latestDate || "-";
 
 document.getElementById("infoImage").innerText=
-latestImageName;
+latestImageName || "-";
+
+}
+
+function setShareLinks(){
 
 const share=
 encodeURIComponent(latestShareUrl);
@@ -667,64 +665,228 @@ document.getElementById("facebookShare").href=
 document.getElementById("xShare").href=
 "https://twitter.com/intent/tweet?url="+share;
 
-loading.style.display="none";
-content.style.display="block";
+}
 
-}catch(err){
+async function loadMemorialImage(){
 
-loading.style.display="none";
+const img=
+document.getElementById("memorialImage");
 
-error.style.display="block";
+latestImageLoaded=false;
 
-error.innerText=
-err.message||
-"取得できません";
+img.removeAttribute("crossorigin");
+img.removeAttribute("crossOrigin");
 
+const urls=
+makeImageCandidates(latestImageUrl);
+
+for(let i=0;i<urls.length;i++){
+
+try{
+
+await tryImageUrl(
+img,
+urls[i]
+);
+
+latestImageLoaded=true;
+return;
+
+}catch(e){}
+
+}
+
+img.src=
+makeFallbackImage();
+
+latestImageLoaded=false;
+
+}
+
+function makeImageCandidates(url){
+
+const list=[];
+
+let imageUrl=
+String(url||"").trim();
+
+if(!imageUrl){
+return list;
+}
+
+function add(u){
+
+if(!u){
+return;
+}
+
+if(list.indexOf(u)===-1){
+list.push(u);
 }
 
 }
 
-async function waitImageLoaded(img){
+add(imageUrl);
+
+const m1=
+imageUrl.match(/\/d\/([^\/?#]+)/);
+
+const m2=
+imageUrl.match(/[?&]id=([^&]+)/);
+
+const id=
+m1 ? m1[1] :
+(m2 ? m2[1] : "");
+
+if(id){
+
+add(
+"https://drive.google.com/thumbnail?id="+
+encodeURIComponent(id)+
+"&sz=w1600"
+);
+
+add(
+"https://drive.google.com/uc?export=view&id="+
+encodeURIComponent(id)
+);
+
+add(
+"https://drive.google.com/uc?export=download&id="+
+encodeURIComponent(id)
+);
+
+}
+
+return list;
+
+}
+
+function addCacheBuster(url){
+
+if(!url){
+return "";
+}
+
+if(url.indexOf("data:")===0){
+return url;
+}
+
+return url+
+(url.includes("?")?"&":"?")+
+"t="+Date.now();
+
+}
+
+async function tryImageUrl(img,url){
 
 return new Promise((resolve,reject)=>{
 
-if(img.complete && img.naturalWidth>0){
-resolve();
-return;
-}
+const finalUrl=
+addCacheBuster(url);
+
+img.onload=null;
+img.onerror=null;
 
 const timer=
 setTimeout(()=>{
 
+img.onload=null;
+img.onerror=null;
 reject(
-new Error(
-"画像を読み込めませんでした"
-)
+new Error("画像を読み込めませんでした")
 );
 
-},15000);
+},12000);
 
 img.onload=()=>{
 
 clearTimeout(timer);
 
+if(img.naturalWidth>0){
+
 resolve();
+
+}else{
+
+reject(
+new Error("画像を読み込めませんでした")
+);
+
+}
 
 };
 
 img.onerror=()=>{
 
 clearTimeout(timer);
-
 reject(
-new Error(
-"画像を読み込めませんでした"
-)
+new Error("画像を読み込めませんでした")
 );
 
 };
 
+img.src=finalUrl;
+
 });
+
+}
+
+function makeFallbackImage(){
+
+const title=
+"田子山富士 登頂記念";
+
+const count=
+"第 "+latestCount+" 回 登頂";
+
+const serial=
+latestSerial || "No.----";
+
+const date=
+latestDate || "----";
+
+const svg=
+`
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#2b1609"/>
+<stop offset="50%" stop-color="#130b05"/>
+<stop offset="100%" stop-color="#050201"/>
+</linearGradient>
+<radialGradient id="gold" cx="50%" cy="38%" r="55%">
+<stop offset="0%" stop-color="#f6d978" stop-opacity="0.95"/>
+<stop offset="45%" stop-color="#9c6424" stop-opacity="0.55"/>
+<stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect width="1200" height="1500" fill="url(#bg)"/>
+<rect x="42" y="42" width="1116" height="1416" rx="48" fill="none" stroke="#c99a3a" stroke-width="12"/>
+<rect x="76" y="76" width="1048" height="1348" rx="36" fill="none" stroke="#6f4216" stroke-width="4"/>
+<circle cx="600" cy="570" r="430" fill="url(#gold)"/>
+<path d="M210 1070 C360 760 455 620 600 360 C755 650 850 780 1000 1070 Z" fill="#1d0e06" stroke="#d6a94c" stroke-width="8"/>
+<path d="M480 580 L600 360 L725 590 C675 560 620 560 570 592 C540 610 510 610 480 580 Z" fill="#fff4c2" opacity="0.92"/>
+<text x="600" y="190" text-anchor="middle" font-size="72" font-weight="700" fill="#fff4c2" font-family="serif">${escapeSvg(title)}</text>
+<text x="600" y="305" text-anchor="middle" font-size="58" font-weight="700" fill="#ffe08a" font-family="serif">${escapeSvg(count)}</text>
+<text x="600" y="1240" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(serial)}　${escapeSvg(date)}</text>
+<text x="600" y="1335" text-anchor="middle" font-size="34" fill="#e8d09a" font-family="serif">記念画像を準備中です</text>
+</svg>
+`;
+
+return "data:image/svg+xml;charset=utf-8,"+
+encodeURIComponent(svg);
+
+}
+
+function escapeSvg(text){
+
+return String(text||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
 
 }
 
@@ -745,12 +907,10 @@ localStorage.getItem("tagoyamaUserId")||"";
 
 const receive=
 await fetch(
-
 GAS_URL+
 "?mode=receive"+
 "&userId="+encodeURIComponent(userId)+
 "&serial="+encodeURIComponent(latestSerial)
-
 );
 
 const result=
@@ -764,10 +924,6 @@ result.message||
 );
 
 }
-
-await waitImageLoaded(
-document.getElementById("memorialImage")
-);
 
 const canvas=
 await html2canvas(
@@ -855,4 +1011,3 @@ alert("コピーできませんでした");
 </body>
 
 </html>
-
