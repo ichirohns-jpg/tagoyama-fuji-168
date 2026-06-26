@@ -347,95 +347,197 @@ font-weight:bold;
 cursor:pointer;
 }
 
-@media(max-width:480px){
-
-.wrap{
-padding:12px 10px 30px;
+.shareBtn{
+display:flex;
+align-items:center;
+justify-content:center;
+height:48px;
+border-radius:14px;
+text-decoration:none;
+font-size:15px;
+font-weight:bold;
+color:#fff;
+border:none;
+cursor:pointer;
 }
 
-.header h1{
-font-size:24px;
+.line{
+background:#06c755;
 }
 
-.card{
-padding:10px;
+.facebook{
+background:#1877f2;
+}
+
+.x{
+background:#111111;
+}
+
+.copy{
+background:#8b5a1f;
+}
+
+.loading{
+padding:50px 10px;
+text-align:center;
+font-size:18px;
+color:#ffd36a;
+}
+
+.error{
+padding:30px 14px;
+text-align:center;
+font-size:16px;
+line-height:1.8;
+color:#ffe0e0;
+}
+
+.popup{
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.86);
+z-index:9999;
+padding:18px;
+overflow:auto;
+}
+
+.popupInner{
+max-width:720px;
+margin:auto;
+background:#160b04;
+border:2px solid #c99a3a;
 border-radius:18px;
+padding:14px;
 }
 
-.infoRow{
-font-size:14px;
+.popupTitle{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#ffd36a;
+margin-bottom:12px;
 }
 
-.shareGrid{
-grid-template-columns:1fr;
+#savedImage{
+display:block;
+width:100%;
+height:auto;
+border-radius:12px;
+border:1px solid rgba(255,220,140,.6);
 }
 
+.closeBtn{
+width:100%;
+margin-top:14px;
+padding:14px;
+border:none;
+border-radius:999px;
+background:#d8a13a;
+color:#2a1302;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
 }
 
-</style>
+.shareBtn{
+display:flex;
+align-items:center;
+justify-content:center;
+height:48px;
+border-radius:14px;
+text-decoration:none;
+font-size:15px;
+font-weight:bold;
+color:#fff;
+border:none;
+cursor:pointer;
+}
 
-</head>
+.line{
+background:#06c755;
+}
 
-<body>
+.facebook{
+background:#1877f2;
+}
 
-<div class="wrap">
+.x{
+background:#111111;
+}
 
-<div class="header">
+.copy{
+background:#8b5a1f;
+}
 
-<div class="small">
+.loading{
+padding:50px 10px;
+text-align:center;
+font-size:18px;
+color:#ffd36a;
+}
 
-田子山富士168の縁プロジェクト
+.error{
+padding:30px 14px;
+text-align:center;
+font-size:16px;
+line-height:1.8;
+color:#ffe0e0;
+}
 
-</div>
+.popup{
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.86);
+z-index:9999;
+padding:18px;
+overflow:auto;
+}
 
-<h1>
+.popupInner{
+max-width:720px;
+margin:auto;
+background:#160b04;
+border:2px solid #c99a3a;
+border-radius:18px;
+padding:14px;
+}
 
-登頂記念証
+.popupTitle{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#ffd36a;
+margin-bottom:12px;
+}
 
-</h1>
+#savedImage{
+display:block;
+width:100%;
+height:auto;
+border-radius:12px;
+border:1px solid rgba(255,220,140,.6);
+}
 
-<div class="sub">
-
-おめでとうございます
-
-</div>
-
-</div>
-
-<div
-class="card"
-id="mainCard">
-
-<div
-id="loading"
-class="loading">
-
-記念証を準備しています...
-
-</div>
-
-<div
-id="error"
-class="error"
-style="display:none;">
-</div>
-
-<div
-id="content"
-style="display:none;">
-
-<div
-id="certificate">
-
-<img
-id="memorialImage"
-src=""
-alt="登頂記念画像"
-crossorigin="anonymous"
-referrerpolicy="no-referrer">
-
-<div
-class="certOverlay">
+.closeBtn{
+width:100%;
+margin-top:14px;
+padding:14px;
+border:none;
+border-radius:999px;
+background:#d8a13a;
+color:#2a1302;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
 
 <div
 class="certTitle">
@@ -706,14 +808,27 @@ location.href;
 const img=
 document.getElementById("memorialImage");
 
-/* 修正 */
 img.crossOrigin="anonymous";
 
-const imageUrl=
-latestImageUrl
-.replace("/open?id=","/uc?export=view&id=")
-.replace("/file/d/","/uc?export=view&id=")
-.replace("/view?usp=sharing","");
+let imageUrl=
+latestImageUrl;
+
+const m1=
+imageUrl.match(/\/d\/([^\/]+)/);
+
+const m2=
+imageUrl.match(/[?&]id=([^&]+)/);
+
+const id=
+m1 ? m1[1] :
+(m2 ? m2[1] : "");
+
+if(id){
+
+imageUrl=
+"https://drive.google.com/uc?export=view&id="+id;
+
+}
 
 img.src=
 imageUrl+
@@ -944,3 +1059,4 @@ alert("コピーできませんでした");
 
 </body>
 </html>
+
