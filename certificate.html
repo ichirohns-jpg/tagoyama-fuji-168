@@ -53,6 +53,7 @@ padding:14px;
 #certificate{
 position:relative;
 width:100%;
+aspect-ratio:4/5;
 background:#000;
 border-radius:16px;
 overflow:hidden;
@@ -61,8 +62,8 @@ border:1px solid rgba(255,215,120,.75);
 #memorialImage{
 display:block;
 width:100%;
-height:auto;
-min-height:420px;
+height:100%;
+min-height:0;
 object-fit:cover;
 background:#000;
 }
@@ -78,36 +79,50 @@ pointer-events:none;
 
 .certTitle{
 position:absolute;
-top:4.5%;
-left:6%;
-right:6%;
+top:5.0%;
+left:5%;
+right:5%;
 text-align:center;
-font-size:clamp(20px,6vw,42px);
+font-size:clamp(24px,6.2vw,46px);
 font-weight:bold;
-letter-spacing:.12em;
-color:#fff4c2;
+letter-spacing:.10em;
+line-height:1.25;
+color:#fff1a8;
+text-shadow:
+0 2px 0 rgba(55,25,6,.95),
+0 4px 8px rgba(0,0,0,.80),
+0 0 14px rgba(0,0,0,.65),
+0 0 24px rgba(255,210,100,.28);
 }
 
 .certCount{
 position:absolute;
-top:15%;
+top:16.2%;
 left:8%;
 right:8%;
 text-align:center;
-font-size:clamp(17px,4.8vw,32px);
+font-size:clamp(20px,5vw,34px);
 font-weight:bold;
+letter-spacing:.07em;
+line-height:1.25;
 color:#ffe08a;
+text-shadow:
+0 2px 0 rgba(55,25,6,.95),
+0 4px 8px rgba(0,0,0,.78),
+0 0 14px rgba(0,0,0,.62),
+0 0 22px rgba(255,210,100,.24);
 }
 
 .certBottom{
 position:absolute;
-bottom:5.5%;
+bottom:6.0%;
 left:6%;
 right:6%;
 display:flex;
 justify-content:space-between;
+align-items:center;
 gap:10px;
-font-size:clamp(11px,3.2vw,18px);
+font-size:clamp(12px,3.1vw,17px);
 font-weight:bold;
 color:#fff6d5;
 text-shadow:
@@ -116,10 +131,19 @@ text-shadow:
 }
 
 .certBottom div{
-background:rgba(0,0,0,.34);
-border:1px solid rgba(255,230,150,.55);
+max-width:48%;
+min-width:130px;
+text-align:center;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+background:rgba(40,22,10,.48);
+border:1px solid rgba(255,230,150,.62);
+box-shadow:
+0 0 0 1px rgba(255,245,200,.14) inset,
+0 4px 12px rgba(0,0,0,.28);
 border-radius:999px;
-padding:7px 10px;
+padding:8px 12px;
 }
 
 .infoBox{
@@ -152,6 +176,7 @@ white-space:nowrap;
 text-align:right;
 font-weight:bold;
 color:#fff8dc;
+word-break:break-word;
 }
 
 .btnArea{
@@ -328,6 +353,28 @@ font-size:14px;
 
 .shareGrid{
 grid-template-columns:1fr;
+}
+
+.certTitle{
+top:5.2%;
+font-size:clamp(22px,6.35vw,34px);
+letter-spacing:.08em;
+}
+
+.certCount{
+top:16.4%;
+font-size:clamp(18px,5.15vw,28px);
+}
+
+.certBottom{
+bottom:5.8%;
+gap:8px;
+font-size:clamp(11px,3.35vw,15px);
+}
+
+.certBottom div{
+min-width:124px;
+padding:8px 10px;
 }
 
 }
@@ -539,8 +586,10 @@ let latestCount=0;
 let latestDate="";
 let latestImageName="";
 let latestImageUrl="";
+let latestImageData="";
 let latestShareUrl="";
 let latestImageLoaded=false;
+let latestImageSrc="";
 
 window.addEventListener(
 "load",
@@ -585,7 +634,9 @@ await fetch(
 GAS_URL+
 "?mode=certificate"+
 "&userId="+
-encodeURIComponent(userId)
+encodeURIComponent(userId)+
+"&t="+
+Date.now()
 );
 
 const data=
@@ -598,11 +649,12 @@ data.message||
 );
 }
 
-latestSerial=data.serial||"";
-latestCount=Number(data.count||0);
-latestDate=data.date||"";
-latestImageName=data.imageName||"";
-latestImageUrl=data.imageUrl||"";
+latestCount=pickCount(data);
+latestSerial=pickSerial(data,latestCount);
+latestDate=pickDate(data);
+latestImageName=pickImageName(data);
+latestImageUrl=pickImageUrl(data);
+latestImageData=pickImageData(data);
 latestShareUrl=location.href;
 
 setCertificateText();
@@ -629,13 +681,13 @@ err.message||
 function setCertificateText(){
 
 document.getElementById("countText").innerText=
-"第 "+latestCount+" 回 登頂";
+"第 "+(latestCount||"--")+" 回 登頂";
 
 document.getElementById("serialText").innerText=
-latestSerial || "No.----";
+formatSerialForOverlay(latestSerial);
 
 document.getElementById("dateText").innerText=
-latestDate || "----";
+latestDate || todayText();
 
 document.getElementById("infoCount").innerText=
 latestCount ? latestCount+"回" : "-";
@@ -644,7 +696,7 @@ document.getElementById("infoSerial").innerText=
 latestSerial || "-";
 
 document.getElementById("infoDate").innerText=
-latestDate || "-";
+latestDate || todayText();
 
 document.getElementById("infoImage").innerText=
 latestImageName || "-";
@@ -667,28 +719,406 @@ document.getElementById("xShare").href=
 
 }
 
+function getString(value){
+
+if(value===null || value===undefined){
+return "";
+}
+
+return String(value).trim();
+
+}
+
+function pickCount(data){
+
+const candidates=[
+data.count,
+data.climbCount,
+data.totalCount,
+data.numberOfClimbs,
+data.visitCount,
+data.times
+];
+
+for(let i=0;i<candidates.length;i++){
+
+const n=Number(candidates[i]);
+
+if(Number.isFinite(n) && n>0){
+return n;
+}
+
+}
+
+return 1;
+
+}
+
+function isIsoDateString(value){
+
+return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(
+getString(value)
+);
+
+}
+
+function isDateLikeString(value){
+
+const s=getString(value);
+
+if(!s){
+return false;
+}
+
+if(isIsoDateString(s)){
+return true;
+}
+
+if(/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(s)){
+return true;
+}
+
+if(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s)){
+return true;
+}
+
+return false;
+
+}
+
+function parseDateValue(value){
+
+if(value===null || value===undefined || value===""){
+return null;
+}
+
+if(value instanceof Date && !isNaN(value.getTime())){
+return value;
+}
+
+if(typeof value==="number"){
+
+if(value>30000 && value<70000){
+
+const base=
+new Date(1899,11,30);
+
+const d=
+new Date(
+base.getTime()+
+value*24*60*60*1000
+);
+
+if(!isNaN(d.getTime())){
+return d;
+}
+
+}
+
+return null;
+
+}
+
+const s=getString(value);
+
+if(!s){
+return null;
+}
+
+let m=
+s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+
+if(m){
+
+const d=
+new Date(
+Number(m[1]),
+Number(m[2])-1,
+Number(m[3])
+);
+
+if(!isNaN(d.getTime())){
+return d;
+}
+
+}
+
+m=
+s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+
+if(m){
+
+let y=Number(m[3]);
+
+if(y<100){
+y+=2000;
+}
+
+const d=
+new Date(
+y,
+Number(m[1])-1,
+Number(m[2])
+);
+
+if(!isNaN(d.getTime())){
+return d;
+}
+
+}
+
+const d=
+new Date(s);
+
+if(!isNaN(d.getTime())){
+return d;
+}
+
+return null;
+
+}
+
+function isUsableDate(value){
+
+const d=
+parseDateValue(value);
+
+if(!d){
+return false;
+}
+
+const y=
+d.getFullYear();
+
+if(y<2024 || y>2100){
+return false;
+}
+
+return true;
+
+}
+
+function formatDate(value){
+
+const d=
+parseDateValue(value);
+
+if(!d){
+return "";
+}
+
+const y=
+d.getFullYear();
+
+const m=
+String(d.getMonth()+1).padStart(2,"0");
+
+const day=
+String(d.getDate()).padStart(2,"0");
+
+return y+"/"+m+"/"+day;
+
+}
+
+function todayText(){
+
+const d=
+new Date();
+
+const y=
+d.getFullYear();
+
+const m=
+String(d.getMonth()+1).padStart(2,"0");
+
+const day=
+String(d.getDate()).padStart(2,"0");
+
+return y+"/"+m+"/"+day;
+
+}
+
+function pickDate(data){
+
+const candidates=[
+data.date,
+data.climbDate,
+data.displayDate,
+data.visitDate,
+data.createdAt,
+data.timestamp,
+data.time,
+data.datetime
+];
+
+for(let i=0;i<candidates.length;i++){
+
+if(isUsableDate(candidates[i])){
+return formatDate(candidates[i]);
+}
+
+}
+
+if(isUsableDate(data.serial)){
+return formatDate(data.serial);
+}
+
+return todayText();
+
+}
+
+function looksLikeSerial(value){
+
+const s=
+getString(value);
+
+if(!s){
+return false;
+}
+
+if(isDateLikeString(s)){
+return false;
+}
+
+if(/^\d{4}-\d{2}-\d{2}/.test(s)){
+return false;
+}
+
+if(s.length>30){
+return false;
+}
+
+if(/[A-Za-z0-9]/.test(s)){
+return true;
+}
+
+return false;
+
+}
+
+function buildSerialFromCount(count){
+
+const n=
+Number(count||1);
+
+return "1-"+
+String(n).padStart(4,"0");
+
+}
+
+function pickSerial(data,count){
+
+const candidates=[
+data.serial,
+data.serialNumber,
+data.certificateNo,
+data.certificateNumber,
+data.no,
+data.number,
+data.displaySerial,
+data.serialText
+];
+
+for(let i=0;i<candidates.length;i++){
+
+const s=
+getString(candidates[i]);
+
+if(looksLikeSerial(s)){
+return s.replace(/^No\.?/i,"").trim();
+}
+
+}
+
+return buildSerialFromCount(count);
+
+}
+
+function formatSerialForOverlay(value){
+
+const s=
+getString(value);
+
+if(!s){
+return "No.----";
+}
+
+if(/^No\.?/i.test(s)){
+return s;
+}
+
+return "No."+s;
+
+}
+
+function pickImageName(data){
+
+return getString(
+data.imageName||
+data.fileName||
+data.name||
+data.title||
+""
+);
+
+}
+
+function pickImageUrl(data){
+
+return getString(
+data.imageUrl||
+data.imageURL||
+data.url||
+data.driveUrl||
+data.driveURL||
+data.fileUrl||
+data.fileURL||
+""
+);
+
+}
+
+function pickImageData(data){
+
+return getString(
+data.imageData||
+data.imageBase64||
+data.base64||
+data.dataUrl||
+data.dataURL||
+""
+);
+
+}
+
 async function loadMemorialImage(){
 
 const img=
 document.getElementById("memorialImage");
 
 latestImageLoaded=false;
+latestImageSrc="";
 
 img.removeAttribute("crossorigin");
-img.removeAttribute("crossOrigin");
+img.crossOrigin="";
 
 const urls=
-makeImageCandidates(latestImageUrl);
+makeImageCandidates(
+latestImageData,
+latestImageUrl
+);
 
 for(let i=0;i<urls.length;i++){
 
 try{
 
+const src=
 await tryImageUrl(
-img,
 urls[i]
 );
 
+img.src=src;
+latestImageSrc=src;
 latestImageLoaded=true;
 return;
 
@@ -696,137 +1126,240 @@ return;
 
 }
 
-img.src=
+const fallback=
 makeFallbackImage();
 
+img.src=fallback;
+latestImageSrc=fallback;
 latestImageLoaded=false;
 
 }
 
-function makeImageCandidates(url){
+function makeImageCandidates(imageData,imageUrl){
 
 const list=[];
 
-let imageUrl=
-String(url||"").trim();
+const data=
+normalizeImageData(imageData);
 
-if(!imageUrl){
-return list;
+if(data){
+addUnique(list,data);
 }
 
-function add(u){
-
-if(!u){
-return;
-}
-
-if(list.indexOf(u)===-1){
-list.push(u);
-}
-
-}
-
-add(imageUrl);
-
-const m1=
-imageUrl.match(/\/d\/([^\/?#]+)/);
-
-const m2=
-imageUrl.match(/[?&]id=([^&]+)/);
+const url=
+getString(imageUrl);
 
 const id=
-m1 ? m1[1] :
-(m2 ? m2[1] : "");
+extractDriveId(url);
 
 if(id){
 
-add(
+addUnique(
+list,
 "https://drive.google.com/thumbnail?id="+
 encodeURIComponent(id)+
 "&sz=w1600"
 );
 
-add(
+addUnique(
+list,
 "https://drive.google.com/uc?export=view&id="+
 encodeURIComponent(id)
 );
 
-add(
+addUnique(
+list,
 "https://drive.google.com/uc?export=download&id="+
 encodeURIComponent(id)
 );
 
+addUnique(
+list,
+"https://lh3.googleusercontent.com/d/"+
+encodeURIComponent(id)+
+"=w1600"
+);
+
+}
+
+if(url){
+addUnique(list,url);
 }
 
 return list;
 
 }
 
-function addCacheBuster(url){
+function normalizeImageData(value){
 
-if(!url){
+const s=
+getString(value);
+
+if(!s){
 return "";
 }
 
-if(url.indexOf("data:")===0){
-return url;
+if(/^data:image\//i.test(s)){
+return s;
 }
 
-return url+
-(url.includes("?")?"&":"?")+
-"t="+Date.now();
+if(/^https?:\/\//i.test(s)){
+return "";
+}
+
+if(s.length>100 && /^[A-Za-z0-9+/=\r\n]+$/.test(s)){
+return "data:image/png;base64,"+s.replace(/\s/g,"");
+}
+
+return "";
 
 }
 
-async function tryImageUrl(img,url){
+function extractDriveId(url){
+
+const s=
+getString(url);
+
+if(!s){
+return "";
+}
+
+let m=
+s.match(/\/d\/([^\/?#]+)/);
+
+if(m && m[1]){
+return m[1];
+}
+
+m=
+s.match(/[?&]id=([^&]+)/);
+
+if(m && m[1]){
+return m[1];
+}
+
+m=
+s.match(/\/file\/d\/([^\/?#]+)/);
+
+if(m && m[1]){
+return m[1];
+}
+
+return "";
+
+}
+
+function addUnique(list,value){
+
+const v=
+getString(value);
+
+if(!v){
+return;
+}
+
+if(list.indexOf(v)===-1){
+list.push(v);
+}
+
+}
+
+function addCacheBuster(url){
+
+const s=
+getString(url);
+
+if(!s){
+return "";
+}
+
+if(/^data:image\//i.test(s)){
+return s;
+}
+
+return s+
+(s.includes("?")?"&":"?")+
+"t="+
+Date.now();
+
+}
+
+function tryImageUrl(url){
 
 return new Promise((resolve,reject)=>{
 
-const finalUrl=
+const src=
 addCacheBuster(url);
 
-img.onload=null;
-img.onerror=null;
+if(!src){
+reject(
+new Error("画像を読み込めませんでした")
+);
+return;
+}
+
+const test=
+new Image();
+
+test.referrerPolicy="no-referrer";
+
+let done=false;
 
 const timer=
 setTimeout(()=>{
 
-img.onload=null;
-img.onerror=null;
+if(done){
+return;
+}
+
+done=true;
+
+test.onload=null;
+test.onerror=null;
+
 reject(
 new Error("画像を読み込めませんでした")
 );
 
 },12000);
 
-img.onload=()=>{
+test.onload=()=>{
+
+if(done){
+return;
+}
+
+done=true;
 
 clearTimeout(timer);
 
-if(img.naturalWidth>0){
-
-resolve();
-
+if(test.naturalWidth>0){
+resolve(src);
 }else{
-
 reject(
 new Error("画像を読み込めませんでした")
 );
-
 }
 
 };
 
-img.onerror=()=>{
+test.onerror=()=>{
+
+if(done){
+return;
+}
+
+done=true;
 
 clearTimeout(timer);
+
 reject(
 new Error("画像を読み込めませんでした")
 );
 
 };
 
-img.src=finalUrl;
+test.src=src;
 
 });
 
@@ -838,13 +1371,13 @@ const title=
 "田子山富士 登頂記念";
 
 const count=
-"第 "+latestCount+" 回 登頂";
+"第 "+(latestCount||"--")+" 回 登頂";
 
 const serial=
-latestSerial || "No.----";
+formatSerialForOverlay(latestSerial);
 
 const date=
-latestDate || "----";
+latestDate || todayText();
 
 const svg=
 `
@@ -852,12 +1385,12 @@ const svg=
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
 <stop offset="0%" stop-color="#2b1609"/>
-<stop offset="50%" stop-color="#130b05"/>
+<stop offset="48%" stop-color="#130b05"/>
 <stop offset="100%" stop-color="#050201"/>
 </linearGradient>
 <radialGradient id="gold" cx="50%" cy="38%" r="55%">
-<stop offset="0%" stop-color="#f6d978" stop-opacity="0.95"/>
-<stop offset="45%" stop-color="#9c6424" stop-opacity="0.55"/>
+<stop offset="0%" stop-color="#f6d978" stop-opacity="0.96"/>
+<stop offset="45%" stop-color="#9c6424" stop-opacity="0.52"/>
 <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
 </radialGradient>
 </defs>
@@ -867,10 +1400,11 @@ const svg=
 <circle cx="600" cy="570" r="430" fill="url(#gold)"/>
 <path d="M210 1070 C360 760 455 620 600 360 C755 650 850 780 1000 1070 Z" fill="#1d0e06" stroke="#d6a94c" stroke-width="8"/>
 <path d="M480 580 L600 360 L725 590 C675 560 620 560 570 592 C540 610 510 610 480 580 Z" fill="#fff4c2" opacity="0.92"/>
-<text x="600" y="190" text-anchor="middle" font-size="72" font-weight="700" fill="#fff4c2" font-family="serif">${escapeSvg(title)}</text>
+<text x="600" y="190" text-anchor="middle" font-size="72" font-weight="700" fill="#fff1a8" font-family="serif">${escapeSvg(title)}</text>
 <text x="600" y="305" text-anchor="middle" font-size="58" font-weight="700" fill="#ffe08a" font-family="serif">${escapeSvg(count)}</text>
-<text x="600" y="1240" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(serial)}　${escapeSvg(date)}</text>
-<text x="600" y="1335" text-anchor="middle" font-size="34" fill="#e8d09a" font-family="serif">記念画像を準備中です</text>
+<text x="350" y="1285" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(serial)}</text>
+<text x="850" y="1285" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(date)}</text>
+<text x="600" y="1370" text-anchor="middle" font-size="34" fill="#e8d09a" font-family="serif">記念画像を準備中です</text>
 </svg>
 `;
 
@@ -905,23 +1439,22 @@ try{
 const userId=
 localStorage.getItem("tagoyamaUserId")||"";
 
+if(userId && latestSerial){
+
+try{
+
 const receive=
 await fetch(
 GAS_URL+
 "?mode=receive"+
 "&userId="+encodeURIComponent(userId)+
-"&serial="+encodeURIComponent(latestSerial)
+"&serial="+encodeURIComponent(latestSerial)+
+"&t="+Date.now()
 );
 
-const result=
 await receive.json();
 
-if(!result.success){
-
-throw new Error(
-result.message||
-"受領処理に失敗しました"
-);
+}catch(e){}
 
 }
 
@@ -939,20 +1472,7 @@ backgroundColor:null
 const image=
 canvas.toDataURL("image/png");
 
-const link=
-document.createElement("a");
-
-link.href=image;
-
-link.download=
-latestImageName||
-("certificate-"+latestSerial+".png");
-
-document.body.appendChild(link);
-
-link.click();
-
-document.body.removeChild(link);
+downloadImage(image);
 
 showImagePopup(image);
 
@@ -971,6 +1491,25 @@ btn.innerText=
 "📜 記念証を授かる";
 
 }
+
+}
+
+function downloadImage(image){
+
+const link=
+document.createElement("a");
+
+link.href=image;
+
+link.download=
+latestImageName||
+("certificate-"+(latestSerial||"tagoyama")+".png");
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
 
 }
 
