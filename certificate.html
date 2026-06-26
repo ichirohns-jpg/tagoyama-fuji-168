@@ -9,61 +9,82 @@
 
 <style>
 *{box-sizing:border-box;}
+
+html,
 body{
 margin:0;
 padding:0;
-font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-background:linear-gradient(180deg,#130b05 0%,#2b1609 45%,#070302 100%);
-color:#fff8dc;
+width:100%;
 min-height:100vh;
+background:#050302;
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+color:#fff;
 }
+
+body{
+background:
+radial-gradient(circle at 50% 10%,rgba(80,42,12,.36),rgba(0,0,0,0) 34%),
+linear-gradient(180deg,#030201 0%,#090401 48%,#000 100%);
+}
+
 .wrap{
 width:100%;
 max-width:720px;
 margin:0 auto;
-padding:18px 14px 40px;
+padding:44px 14px 38px;
 }
-.header{
+
+#loading{
+padding:50px 12px;
 text-align:center;
-padding:12px 0 16px;
-}
-.header .small{
-font-size:13px;
-letter-spacing:.12em;
-color:#e8d09a;
-}
-.header h1{
-margin:8px 0 4px;
-font-size:28px;
-letter-spacing:.08em;
+font-size:18px;
 color:#ffd36a;
-text-shadow:0 2px 0 #4b2208,0 0 18px rgba(255,190,80,.35);
 }
-.header .sub{
-font-size:14px;
-color:#f4e1af;
-}
-.card{
-background:linear-gradient(180deg,rgba(90,48,18,.96),rgba(35,15,6,.98));
+
+#error{
+display:none;
+margin:40px auto;
+padding:28px 16px;
 border:2px solid #c99a3a;
 border-radius:22px;
-box-shadow:0 0 0 4px rgba(80,35,8,.9),0 18px 38px rgba(0,0,0,.55);
-padding:14px;
+background:rgba(55,22,8,.9);
+text-align:center;
+font-size:16px;
+line-height:1.8;
+color:#ffe0e0;
 }
+
+#content{
+display:none;
+}
+
 #certificate{
 position:relative;
 width:100%;
-aspect-ratio:4/5;
-background:#000;
-border-radius:16px;
+padding:18px;
+border:3px solid #d6ad3c;
+border-radius:34px;
+background:#020202;
+box-shadow:
+0 0 0 1px rgba(255,235,150,.18) inset,
+0 0 28px rgba(255,190,70,.18),
+0 20px 42px rgba(0,0,0,.62);
 overflow:hidden;
-border:1px solid rgba(255,215,120,.75);
 }
+
+.imageStage{
+position:relative;
+width:100%;
+aspect-ratio:2/3;
+border-radius:26px;
+overflow:hidden;
+background:#000;
+}
+
 #memorialImage{
 display:block;
 width:100%;
 height:100%;
-min-height:0;
 object-fit:cover;
 background:#000;
 }
@@ -77,198 +98,138 @@ height:100%;
 pointer-events:none;
 }
 
-.certTitle{
+.certTopMain{
 position:absolute;
-top:4.5%;
-left:6%;
-right:6%;
+top:8.7%;
+left:5%;
+right:5%;
 text-align:center;
-font-size:clamp(20px,6vw,42px);
-font-weight:bold;
-letter-spacing:.12em;
-line-height:1.22;
-color:#fff4c2;
+font-size:clamp(38px,9.2vw,74px);
+font-weight:900;
+letter-spacing:.18em;
+line-height:1.05;
+color:#ffffff;
 text-shadow:
-0 2px 3px rgba(0,0,0,.95),
-0 0 8px rgba(0,0,0,.9),
-0 0 16px rgba(255,220,120,.24);
+0 3px 4px rgba(0,0,0,.55),
+0 0 10px rgba(255,255,255,.82),
+0 0 20px rgba(255,255,255,.55),
+0 0 34px rgba(255,245,210,.42);
 }
 
-.certCount{
+.certTopSub{
 position:absolute;
-top:15%;
+top:18.8%;
 left:8%;
 right:8%;
 text-align:center;
-font-size:clamp(17px,4.8vw,32px);
-font-weight:bold;
-letter-spacing:.04em;
-line-height:1.25;
-color:#ffe08a;
+font-size:clamp(28px,7vw,56px);
+font-weight:900;
+letter-spacing:.06em;
+line-height:1.08;
+color:#f1d35f;
 text-shadow:
-0 2px 3px rgba(0,0,0,.95),
-0 0 8px rgba(0,0,0,.9),
-0 0 15px rgba(255,220,120,.22);
+0 3px 3px rgba(55,35,8,.9),
+0 0 8px rgba(0,0,0,.45),
+0 0 18px rgba(255,220,100,.42);
 }
 
-.certBottom{
+.certBottomCenter{
 position:absolute;
-bottom:5.5%;
-left:6%;
-right:6%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-font-size:clamp(11px,3.2vw,18px);
-font-weight:bold;
-color:#fff6d5;
+left:4%;
+right:4%;
+bottom:8.7%;
+text-align:center;
+}
+
+.certClimbText{
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:clamp(25px,6.6vw,52px);
+font-weight:900;
+letter-spacing:.02em;
+line-height:1.05;
+color:#fff;
 text-shadow:
-0 2px 3px #000,
+0 3px 2px rgba(0,0,0,.95),
 0 0 8px rgba(0,0,0,.9);
 }
 
-.certBottom div{
-background:rgba(0,0,0,.34);
-border:1px solid rgba(255,230,150,.55);
-border-radius:999px;
-padding:7px 10px;
-white-space:nowrap;
+.certSerial{
+margin-top:8px;
+font-family:"Arial Black","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:clamp(58px,15.8vw,118px);
+font-weight:900;
+letter-spacing:.01em;
+line-height:.98;
+color:#ffe17a;
+text-shadow:
+0 4px 2px rgba(0,0,0,.72),
+0 0 10px rgba(0,0,0,.68),
+0 0 22px rgba(255,220,90,.32);
 }
 
-.infoBox{
-margin-top:16px;
-padding:14px;
-background:rgba(0,0,0,.28);
-border:1px solid rgba(255,210,110,.45);
-border-radius:16px;
-}
-
-.infoRow{
-display:flex;
-justify-content:space-between;
-gap:12px;
-padding:9px 0;
-border-bottom:1px dashed rgba(255,220,150,.35);
-font-size:15px;
-}
-
-.infoRow:last-child{
-border-bottom:none;
-}
-
-.infoRow span:first-child{
-color:#e7c36c;
-white-space:nowrap;
-}
-
-.infoRow span:last-child{
-text-align:right;
-font-weight:bold;
-color:#fff8dc;
-word-break:break-word;
+.certDate{
+margin-top:13px;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:clamp(30px,7.3vw,60px);
+font-weight:900;
+letter-spacing:.02em;
+line-height:1.0;
+color:#fff;
+text-shadow:
+0 3px 2px rgba(0,0,0,.95),
+0 0 8px rgba(0,0,0,.88);
 }
 
 .btnArea{
-margin-top:18px;
+margin-top:28px;
 display:grid;
-gap:12px;
+gap:22px;
 }
 
-.btn{
+.btn,
+.shareBtn{
 width:100%;
+min-height:78px;
 border:none;
-border-radius:999px;
-padding:15px 18px;
-font-size:17px;
-font-weight:bold;
+border-radius:26px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:clamp(24px,6.2vw,42px);
+font-weight:900;
+letter-spacing:.02em;
+color:#fff;
 cursor:pointer;
 box-shadow:
-0 6px 0 rgba(70,30,5,.9),
-0 14px 24px rgba(0,0,0,.35);
+0 8px 0 rgba(0,0,0,.25),
+0 16px 28px rgba(0,0,0,.36);
 }
 
 .btn:disabled{
-opacity:.65;
+opacity:.66;
 cursor:not-allowed;
 }
 
 .btn.save{
-background:linear-gradient(180deg,#fff1a8,#e0a82f);
-color:#2e1602;
-}
-
-.btn.back{
-background:linear-gradient(180deg,#6c3b14,#3a1908);
-color:#ffe9a6;
-border:1px solid rgba(255,220,130,.55);
-}
-
-.shareArea{
-margin-top:16px;
-padding:14px;
-background:rgba(255,245,210,.08);
-border:1px solid rgba(255,220,140,.5);
-border-radius:16px;
-}
-
-.shareTitle{
-text-align:center;
-font-size:16px;
-font-weight:bold;
-color:#ffd36a;
-margin-bottom:12px;
-}
-
-.shareGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.shareBtn{
-display:flex;
-align-items:center;
-justify-content:center;
-height:48px;
-border-radius:14px;
-text-decoration:none;
-font-size:15px;
-font-weight:bold;
-color:#fff;
-border:none;
-cursor:pointer;
-}
-
-.line{
-background:#06c755;
-}
-
-.facebook{
-background:#1877f2;
-}
-
-.x{
-background:#111111;
+background:linear-gradient(180deg,#32df80,#20bd62);
 }
 
 .copy{
-background:#8b5a1f;
+background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
 
-.loading{
-padding:50px 10px;
-text-align:center;
-font-size:18px;
-color:#ffd36a;
+.facebook{
+background:linear-gradient(180deg,#1688ff,#075ec9);
 }
 
-.error{
-padding:30px 14px;
-text-align:center;
-font-size:16px;
-line-height:1.8;
-color:#ffe0e0;
+.line{
+background:linear-gradient(180deg,#06d45f,#06b84f);
+}
+
+.x{
+background:linear-gradient(180deg,#222,#030303);
 }
 
 .popup{
@@ -278,26 +239,35 @@ left:0;
 top:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.86);
+background:rgba(0,0,0,.88);
 z-index:9999;
-padding:18px;
+padding:16px;
 overflow:auto;
 }
 
 .popupInner{
 max-width:720px;
 margin:auto;
-background:#160b04;
+background:#080402;
 border:2px solid #c99a3a;
-border-radius:18px;
+border-radius:20px;
 padding:14px;
 }
 
 .popupTitle{
 text-align:center;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 color:#ffd36a;
+margin-bottom:10px;
+}
+
+.popupGuide{
+text-align:center;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:15px;
+line-height:1.6;
+color:#fff3c4;
 margin-bottom:12px;
 }
 
@@ -305,19 +275,20 @@ margin-bottom:12px;
 display:block;
 width:100%;
 height:auto;
-border-radius:12px;
+border-radius:14px;
 border:1px solid rgba(255,220,140,.6);
+background:#000;
 }
 
 .closeBtn{
 width:100%;
-margin-top:14px;
-padding:14px;
+margin-top:16px;
+padding:16px;
 border:none;
 border-radius:999px;
 background:#d8a13a;
 color:#2a1302;
-font-size:16px;
+font-size:18px;
 font-weight:bold;
 cursor:pointer;
 }
@@ -325,127 +296,82 @@ cursor:pointer;
 @media(max-width:480px){
 
 .wrap{
-padding:12px 10px 30px;
+padding:42px 12px 30px;
 }
 
-.header h1{
-font-size:24px;
+#certificate{
+padding:15px;
+border-radius:32px;
 }
 
-.card{
-padding:10px;
-border-radius:18px;
+.imageStage{
+border-radius:24px;
 }
 
-.infoRow{
-font-size:14px;
+.btnArea{
+margin-top:24px;
+gap:20px;
 }
 
-.shareGrid{
-grid-template-columns:1fr;
-}
-
-.certTitle{
-top:4.5%;
-font-size:clamp(20px,6vw,30px);
-letter-spacing:.10em;
-}
-
-.certCount{
-top:15%;
-font-size:clamp(17px,4.8vw,25px);
-}
-
-.certBottom{
-bottom:5.5%;
-font-size:clamp(11px,3.2vw,15px);
-gap:8px;
-}
-
-.certBottom div{
-padding:7px 10px;
+.btn,
+.shareBtn{
+min-height:72px;
+border-radius:24px;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="wrap">
 
-<div class="header">
-
-<div class="small">
-田子山富士168の縁プロジェクト
-</div>
-
-<h1>
-登頂記念証
-</h1>
-
-<div class="sub">
-おめでとうございます
-</div>
-
-</div>
-
-<div
-class="card"
-id="mainCard">
-
-<div
-id="loading"
-class="loading">
-
+<div id="loading">
 記念証を準備しています...
-
 </div>
 
-<div
-id="error"
-class="error"
-style="display:none;">
-</div>
+<div id="error"></div>
 
-<div
-id="content"
-style="display:none;">
+<div id="content">
 
-<div
-id="certificate">
+<div id="certificate">
+
+<div class="imageStage">
 
 <img
 id="memorialImage"
 src=""
-alt="登頂記念画像"
+alt="田子山富士 登頂記念画像"
 referrerpolicy="no-referrer">
 
-<div
-class="certOverlay">
+<div class="certOverlay">
+
+<div class="certTopMain">
+田子山富士
+</div>
+
+<div class="certTopSub">
+登頂記念証
+</div>
+
+<div class="certBottomCenter">
 
 <div
-class="certTitle">
-田子山富士 登頂記念
+class="certClimbText"
+id="climbText">
+第--回登頂記念
 </div>
 
 <div
-class="certCount"
-id="countText">
-第 -- 回 登頂
-</div>
-
-<div
-class="certBottom">
-
-<div
+class="certSerial"
 id="serialText">
 No.----
 </div>
 
 <div
+class="certDate"
 id="dateText">
 ----
 </div>
@@ -454,28 +380,6 @@ id="dateText">
 
 </div>
 
-</div>
-
-<div class="infoBox">
-
-<div class="infoRow">
-<span>登頂回数</span>
-<span id="infoCount">-</span>
-</div>
-
-<div class="infoRow">
-<span>シリアル</span>
-<span id="infoSerial">-</span>
-</div>
-
-<div class="infoRow">
-<span>登頂日</span>
-<span id="infoDate">-</span>
-</div>
-
-<div class="infoRow">
-<span>記念画像</span>
-<span id="infoImage">-</span>
 </div>
 
 </div>
@@ -489,51 +393,34 @@ onclick="saveImage()">
 </button>
 
 <button
-class="btn back"
-onclick="history.back()">
-← 戻る
+class="shareBtn copy"
+onclick="copyLink()">
+① リンクをコピー
 </button>
-
-</div>
-
-<div class="shareArea">
-
-<div class="shareTitle">
-SNSでシェア
-</div>
-
-<div class="shareGrid">
-
-<a
-id="lineShare"
-class="shareBtn line"
-target="_blank">
-LINE
-</a>
 
 <a
 id="facebookShare"
 class="shareBtn facebook"
-target="_blank">
-Facebook
+target="_blank"
+rel="noopener">
+② Facebookで紹介
+</a>
+
+<a
+id="lineShare"
+class="shareBtn line"
+target="_blank"
+rel="noopener">
+③ LINEで送る
 </a>
 
 <a
 id="xShare"
 class="shareBtn x"
-target="_blank">
-X
+target="_blank"
+rel="noopener">
+④ Xで投稿
 </a>
-
-<button
-class="shareBtn copy"
-onclick="copyLink()">
-リンクコピー
-</button>
-
-</div>
-
-</div>
 
 </div>
 
@@ -545,12 +432,15 @@ onclick="copyLink()">
 id="popup"
 class="popup">
 
-<div
-class="popupInner">
+<div class="popupInner">
 
-<div
-class="popupTitle">
+<div class="popupTitle">
 登頂記念証
+</div>
+
+<div class="popupGuide">
+共有画面で「画像を保存」<br>
+または画像を長押しして保存
 </div>
 
 <img id="savedImage">
@@ -577,8 +467,8 @@ let latestImageName="";
 let latestImageUrl="";
 let latestImageData="";
 let latestShareUrl="";
-let latestImageLoaded=false;
 let latestImageSrc="";
+let latestImageCors=false;
 
 window.addEventListener(
 "load",
@@ -598,6 +488,7 @@ document.getElementById("content");
 
 error.style.display="none";
 error.innerText="";
+content.style.display="none";
 
 try{
 
@@ -669,26 +560,14 @@ err.message||
 
 function setCertificateText(){
 
-document.getElementById("countText").innerText=
-"第 "+(latestCount||"--")+" 回 登頂";
+document.getElementById("climbText").innerText=
+"第"+(latestCount||"--")+"回登頂記念";
 
 document.getElementById("serialText").innerText=
-formatSerialForOverlay(latestSerial);
+formatSerialForBig(latestSerial,latestCount);
 
 document.getElementById("dateText").innerText=
 latestDate || todayText();
-
-document.getElementById("infoCount").innerText=
-latestCount ? latestCount+"回" : "-";
-
-document.getElementById("infoSerial").innerText=
-latestSerial || "-";
-
-document.getElementById("infoDate").innerText=
-latestDate || todayText();
-
-document.getElementById("infoImage").innerText=
-latestImageName || "-";
 
 }
 
@@ -697,6 +576,11 @@ function setShareLinks(){
 const share=
 encodeURIComponent(latestShareUrl);
 
+const text=
+encodeURIComponent(
+"田子山富士 登頂記念証を授かりました"
+);
+
 document.getElementById("lineShare").href=
 "https://social-plugins.line.me/lineit/share?url="+share;
 
@@ -704,7 +588,7 @@ document.getElementById("facebookShare").href=
 "https://www.facebook.com/sharer/sharer.php?u="+share;
 
 document.getElementById("xShare").href=
-"https://twitter.com/intent/tweet?url="+share;
+"https://twitter.com/intent/tweet?text="+text+"&url="+share;
 
 }
 
@@ -732,7 +616,8 @@ data.number
 
 for(let i=0;i<candidates.length;i++){
 
-const n=Number(candidates[i]);
+const n=
+Number(candidates[i]);
 
 if(Number.isFinite(n) && n>0){
 return n;
@@ -740,7 +625,7 @@ return n;
 
 }
 
-return 0;
+return 1;
 
 }
 
@@ -756,7 +641,7 @@ return value;
 
 if(typeof value==="number"){
 
-if(value>30000 && value<70000){
+if(value>45000 && value<80000){
 
 const base=
 new Date(1899,11,30);
@@ -850,11 +735,7 @@ return false;
 const y=
 d.getFullYear();
 
-if(y<2024 || y>2100){
-return false;
-}
-
-return true;
+return y>=2024 && y<=2100;
 
 }
 
@@ -961,29 +842,11 @@ if(isDateLikeString(s)){
 return false;
 }
 
-if(s.length>30){
-return false;
-}
-
-if(/^\d+$/.test(s)){
+if(s.length>40){
 return false;
 }
 
 return /[A-Za-z0-9]/.test(s);
-
-}
-
-function buildSerialFromCount(count){
-
-const n=
-Number(count||0);
-
-if(!n){
-return "";
-}
-
-return "1-"+
-String(n).padStart(4,"0");
 
 }
 
@@ -1010,21 +873,26 @@ return s.replace(/^No\.?/i,"").trim();
 
 }
 
-return buildSerialFromCount(count);
+return String(count||1).padStart(4,"0");
 
 }
 
-function formatSerialForOverlay(value){
+function formatSerialForBig(serial,count){
 
-const s=
-getString(value);
+let s=
+getString(serial);
 
 if(!s){
-return "No.----";
+s=String(count||1).padStart(4,"0");
 }
 
-if(/^No\.?/i.test(s)){
-return s;
+s=s.replace(/^No\.?/i,"").trim();
+
+let m=
+s.match(/(\d{1,6})$/);
+
+if(m && m[1]){
+return "No."+String(Number(m[1])).padStart(4,"0");
 }
 
 return "No."+s;
@@ -1076,10 +944,8 @@ async function loadMemorialImage(){
 const img=
 document.getElementById("memorialImage");
 
-latestImageLoaded=false;
 latestImageSrc="";
-
-img.removeAttribute("crossorigin");
+latestImageCors=false;
 
 const urls=
 makeImageCandidates(
@@ -1091,14 +957,36 @@ for(let i=0;i<urls.length;i++){
 
 try{
 
-const src=
+const result=
 await tryImageUrl(
-urls[i]
+urls[i],
+true
 );
 
-img.src=src;
-latestImageSrc=src;
-latestImageLoaded=true;
+img.crossOrigin="anonymous";
+img.src=result.src;
+latestImageSrc=result.src;
+latestImageCors=true;
+return;
+
+}catch(e){}
+
+}
+
+for(let i=0;i<urls.length;i++){
+
+try{
+
+const result=
+await tryImageUrl(
+urls[i],
+false
+);
+
+img.removeAttribute("crossorigin");
+img.src=result.src;
+latestImageSrc=result.src;
+latestImageCors=false;
 return;
 
 }catch(e){}
@@ -1108,9 +996,10 @@ return;
 const fallback=
 makeFallbackImage();
 
+img.removeAttribute("crossorigin");
 img.src=fallback;
 latestImageSrc=fallback;
-latestImageLoaded=false;
+latestImageCors=true;
 
 }
 
@@ -1133,10 +1022,6 @@ addUnique(list,url);
 return list;
 }
 
-if(url){
-addUnique(list,url);
-}
-
 const id=
 extractDriveId(url);
 
@@ -1144,9 +1029,16 @@ if(id){
 
 addUnique(
 list,
+"https://lh3.googleusercontent.com/d/"+
+encodeURIComponent(id)+
+"=w1800"
+);
+
+addUnique(
+list,
 "https://drive.google.com/thumbnail?id="+
 encodeURIComponent(id)+
-"&sz=w1600"
+"&sz=w1800"
 );
 
 addUnique(
@@ -1161,13 +1053,10 @@ list,
 encodeURIComponent(id)
 );
 
-addUnique(
-list,
-"https://lh3.googleusercontent.com/d/"+
-encodeURIComponent(id)+
-"=w1600"
-);
+}
 
+if(url){
+addUnique(list,url);
 }
 
 return list;
@@ -1268,7 +1157,7 @@ Date.now();
 
 }
 
-function tryImageUrl(url){
+function tryImageUrl(url,useCors){
 
 return new Promise((resolve,reject)=>{
 
@@ -1276,9 +1165,7 @@ const src=
 addCacheBuster(url);
 
 if(!src){
-reject(
-new Error("画像を読み込めませんでした")
-);
+reject(new Error("画像を読み込めませんでした"));
 return;
 }
 
@@ -1286,6 +1173,10 @@ const test=
 new Image();
 
 test.referrerPolicy="no-referrer";
+
+if(useCors && !/^data:image\//i.test(src)){
+test.crossOrigin="anonymous";
+}
 
 let done=false;
 
@@ -1297,13 +1188,10 @@ return;
 }
 
 done=true;
-
 test.onload=null;
 test.onerror=null;
 
-reject(
-new Error("画像を読み込めませんでした")
-);
+reject(new Error("画像を読み込めませんでした"));
 
 },12000);
 
@@ -1314,15 +1202,15 @@ return;
 }
 
 done=true;
-
 clearTimeout(timer);
 
 if(test.naturalWidth>0){
-resolve(src);
+resolve({
+src:src,
+cors:useCors
+});
 }else{
-reject(
-new Error("画像を読み込めませんでした")
-);
+reject(new Error("画像を読み込めませんでした"));
 }
 
 };
@@ -1334,12 +1222,9 @@ return;
 }
 
 done=true;
-
 clearTimeout(timer);
 
-reject(
-new Error("画像を読み込めませんでした")
-);
+reject(new Error("画像を読み込めませんでした"));
 
 };
 
@@ -1353,25 +1238,23 @@ function makeFallbackImage(){
 
 const svg=
 `
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1800" viewBox="0 0 1200 1800">
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#1a0d05"/>
-<stop offset="48%" stop-color="#2b1609"/>
-<stop offset="100%" stop-color="#050201"/>
+<stop offset="0%" stop-color="#f7d8b6"/>
+<stop offset="45%" stop-color="#f4b77a"/>
+<stop offset="100%" stop-color="#55300e"/>
 </linearGradient>
-<radialGradient id="gold" cx="50%" cy="43%" r="58%">
-<stop offset="0%" stop-color="#f6d978" stop-opacity="0.88"/>
-<stop offset="42%" stop-color="#9c6424" stop-opacity="0.48"/>
+<radialGradient id="light" cx="50%" cy="22%" r="60%">
+<stop offset="0%" stop-color="#fff7df" stop-opacity="1"/>
+<stop offset="45%" stop-color="#ffdca0" stop-opacity=".65"/>
 <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
 </radialGradient>
 </defs>
-<rect width="1200" height="1500" fill="url(#bg)"/>
-<rect x="42" y="42" width="1116" height="1416" rx="48" fill="none" stroke="#c99a3a" stroke-width="12"/>
-<rect x="76" y="76" width="1048" height="1348" rx="36" fill="none" stroke="#6f4216" stroke-width="4"/>
-<circle cx="600" cy="620" r="430" fill="url(#gold)"/>
-<path d="M210 1095 C360 785 455 645 600 385 C755 675 850 805 1000 1095 Z" fill="#1d0e06" stroke="#d6a94c" stroke-width="8"/>
-<path d="M480 605 L600 385 L725 615 C675 585 620 585 570 617 C540 635 510 635 480 605 Z" fill="#fff4c2" opacity="0.92"/>
+<rect width="1200" height="1800" fill="url(#bg)"/>
+<rect width="1200" height="1800" fill="url(#light)"/>
+<path d="M80 1540 C250 1160 410 980 590 630 C760 980 940 1160 1120 1540 Z" fill="#4a2c13" opacity=".55"/>
+<circle cx="215" cy="690" r="85" fill="#ffd36a" opacity=".78"/>
 </svg>
 `;
 
@@ -1386,33 +1269,67 @@ const btn=
 document.querySelector(".btn.save");
 
 btn.disabled=true;
-
-btn.innerText=
-"記念証を授与中...";
+btn.innerText="記念証を授与中...";
 
 try{
 
-const userId=
-localStorage.getItem("tagoyamaUserId")||"";
+await receiveCertificateLog();
 
-if(userId && latestSerial){
-
-try{
-
-const receive=
-await fetch(
-GAS_URL+
-"?mode=receive"+
-"&userId="+encodeURIComponent(userId)+
-"&serial="+encodeURIComponent(latestSerial)+
-"&t="+Date.now()
+const canvas=
+await html2canvas(
+document.getElementById("certificate"),
+{
+scale:2,
+useCORS:true,
+allowTaint:false,
+backgroundColor:null,
+logging:false,
+imageTimeout:15000
+}
 );
 
-await receive.json();
+const blob=
+await canvasToBlob(canvas);
 
-}catch(e){}
+const fileName=
+makeSaveFileName();
+
+const file=
+new File(
+[blob],
+fileName,
+{
+type:"image/png"
+}
+);
+
+const imageUrl=
+URL.createObjectURL(blob);
+
+showImagePopup(imageUrl);
+
+if(
+navigator.canShare &&
+navigator.canShare({
+files:[file]
+})
+){
+
+await navigator.share({
+files:[file],
+title:"田子山富士 登頂記念証",
+text:"田子山富士 登頂記念証"
+});
+
+return;
 
 }
+
+downloadBlob(blob,fileName);
+
+}catch(err){
+
+try{
 
 const canvas=
 await html2canvas(
@@ -1422,50 +1339,126 @@ scale:2,
 useCORS:true,
 allowTaint:true,
 backgroundColor:null,
-logging:false
+logging:false,
+imageTimeout:15000
 }
 );
 
 const image=
 canvas.toDataURL("image/png");
 
-downloadImage(image);
-
 showImagePopup(image);
+downloadDataUrl(image,makeSaveFileName());
 
-}catch(err){
+}catch(e){
 
 alert(
-err.message||
-"保存できませんでした"
+"保存画像を作れませんでした。画面をスクリーンショットで保存してください。"
 );
+
+}
 
 }finally{
 
 btn.disabled=false;
-
-btn.innerText=
-"📜 記念証を授かる";
+btn.innerText="📜 記念証を授かる";
 
 }
 
 }
 
-function downloadImage(image){
+async function receiveCertificateLog(){
+
+const userId=
+localStorage.getItem("tagoyamaUserId")||"";
+
+if(!userId || !latestSerial){
+return;
+}
+
+try{
+
+const res=
+await fetch(
+GAS_URL+
+"?mode=receive"+
+"&userId="+
+encodeURIComponent(userId)+
+"&serial="+
+encodeURIComponent(latestSerial)+
+"&t="+
+Date.now()
+);
+
+await res.json();
+
+}catch(e){}
+
+}
+
+function canvasToBlob(canvas){
+
+return new Promise((resolve,reject)=>{
+
+canvas.toBlob(function(blob){
+
+if(blob){
+resolve(blob);
+}else{
+reject(new Error("画像保存に失敗しました"));
+}
+
+},"image/png",1);
+
+});
+
+}
+
+function makeSaveFileName(){
+
+const no=
+formatSerialForBig(
+latestSerial,
+latestCount
+)
+.replace("No.","no-")
+.replace(/[^\w\-]/g,"");
+
+return "tagoyama-certificate-"+no+".png";
+
+}
+
+function downloadBlob(blob,fileName){
+
+const url=
+URL.createObjectURL(blob);
 
 const link=
 document.createElement("a");
 
-link.href=image;
-
-link.download=
-latestImageName||
-("certificate-"+(latestSerial||"tagoyama")+".png");
+link.href=url;
+link.download=fileName;
 
 document.body.appendChild(link);
-
 link.click();
+document.body.removeChild(link);
 
+setTimeout(function(){
+URL.revokeObjectURL(url);
+},30000);
+
+}
+
+function downloadDataUrl(dataUrl,fileName){
+
+const link=
+document.createElement("a");
+
+link.href=dataUrl;
+link.download=fileName;
+
+document.body.appendChild(link);
+link.click();
 document.body.removeChild(link);
 
 }
@@ -1473,12 +1466,18 @@ document.body.removeChild(link);
 function showImagePopup(src){
 
 document.getElementById("savedImage").src=src;
-
 document.getElementById("popup").style.display="block";
 
 }
 
 function closePopup(){
+
+const img=
+document.getElementById("savedImage");
+
+if(img.src.indexOf("blob:")===0){
+URL.revokeObjectURL(img.src);
+}
 
 document.getElementById("popup").style.display="none";
 
@@ -1505,5 +1504,4 @@ alert("コピーできませんでした");
 </script>
 
 </body>
-
 </html>
