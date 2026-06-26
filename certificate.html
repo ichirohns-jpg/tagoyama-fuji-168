@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
+
 *{
 box-sizing:border-box;
 }
@@ -33,7 +34,7 @@ min-height:100vh;
 .wrap{
 width:100%;
 max-width:720px;
-margin:0 auto;
+margin:auto;
 padding:18px 14px 40px;
 }
 
@@ -44,18 +45,14 @@ padding:12px 0 16px;
 
 .header .small{
 font-size:13px;
-letter-spacing:.12em;
 color:#e8d09a;
+letter-spacing:.12em;
 }
 
 .header h1{
-margin:8px 0 4px;
+margin:8px 0;
 font-size:28px;
-letter-spacing:.08em;
 color:#ffd36a;
-text-shadow:
-0 2px 0 #4b2208,
-0 0 18px rgba(255,190,80,.35);
 }
 
 .header .sub{
@@ -64,35 +61,23 @@ color:#f4e1af;
 }
 
 .card{
-background:
-linear-gradient(
-180deg,
-rgba(90,48,18,.96),
-rgba(35,15,6,.98)
-);
+background:#2b1609;
 border:2px solid #c99a3a;
-border-radius:22px;
-box-shadow:
-0 0 0 4px rgba(80,35,8,.9),
-0 18px 38px rgba(0,0,0,.55);
+border-radius:20px;
 padding:14px;
 }
 
 #certificate{
 position:relative;
-width:100%;
-background:#000;
-border-radius:16px;
 overflow:hidden;
-border:1px solid rgba(255,215,120,.75);
+border-radius:16px;
+background:#000;
 }
 
 #memorialImage{
 display:block;
 width:100%;
 height:auto;
-min-height:420px;
-object-fit:cover;
 background:#000;
 }
 
@@ -107,45 +92,35 @@ pointer-events:none;
 
 .certTitle{
 position:absolute;
-top:4.5%;
-left:6%;
-right:6%;
+top:4%;
+left:0;
+right:0;
 text-align:center;
-font-size:clamp(20px,6vw,42px);
+font-size:34px;
 font-weight:bold;
-letter-spacing:.12em;
 color:#fff4c2;
 }
 
 .certCount{
 position:absolute;
 top:15%;
-left:8%;
-right:8%;
+left:0;
+right:0;
 text-align:center;
-font-size:clamp(17px,4.8vw,32px);
+font-size:28px;
 font-weight:bold;
 color:#ffe08a;
 }
 
 .certBottom{
 position:absolute;
-bottom:5.5%;
-left:6%;
-right:6%;
+left:5%;
+right:5%;
+bottom:5%;
 display:flex;
 justify-content:space-between;
-gap:10px;
-font-size:clamp(11px,3.2vw,18px);
 font-weight:bold;
-color:#fff6d5;
-}
-
-.certBottom div{
-background:rgba(0,0,0,.34);
-border:1px solid rgba(255,230,150,.55);
-border-radius:999px;
-padding:7px 10px;
+color:white;
 }
 
 .infoBox{
@@ -160,7 +135,6 @@ border-radius:16px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:12px;
 padding:10px 0;
 border-bottom:1px dashed rgba(255,220,150,.35);
 font-size:15px;
@@ -326,9 +300,13 @@ grid-template-columns:1fr;
 
 </div>
 
-<div class="card" id="mainCard">
+<div
+class="card"
+id="mainCard">
 
-<div id="loading" class="loading">
+<div
+id="loading"
+class="loading">
 
 記念証を準備しています...
 
@@ -338,13 +316,15 @@ grid-template-columns:1fr;
 id="error"
 class="error"
 style="display:none;">
+
 </div>
 
 <div
 id="content"
 style="display:none;">
 
-<div id="certificate">
+<div
+id="certificate">
 
 <img
 id="memorialImage"
@@ -353,9 +333,11 @@ alt="登頂記念画像"
 crossorigin="anonymous"
 referrerpolicy="no-referrer">
 
-<div class="certOverlay">
+<div
+class="certOverlay">
 
-<div class="certTitle">
+<div
+class="certTitle">
 
 田子山富士 登頂記念
 
@@ -369,15 +351,18 @@ id="countText">
 
 </div>
 
-<div class="certBottom">
+<div
+class="certBottom">
 
-<div id="serialText">
+<div
+id="serialText">
 
 No.----
 
 </div>
 
-<div id="dateText">
+<div
+id="dateText">
 
 ----
 
@@ -389,7 +374,8 @@ No.----
 
 </div>
 
-<div class="infoBox">
+<div
+class="infoBox">
 
 <div class="infoRow">
 
@@ -425,7 +411,8 @@ No.----
 
 </div>
 
-<div class="btnArea">
+<div
+class="btnArea">
 
 <button
 class="btn save"
@@ -445,7 +432,8 @@ onclick="history.back()">
 
 </div>
 
-<div class="shareArea">
+<div
+class="shareArea">
 
 <a
 id="lineShare"
@@ -494,9 +482,11 @@ onclick="copyLink()">
 id="popup"
 class="popup">
 
-<div class="popupInner">
+<div
+class="popupInner">
 
-<img id="savedImage">
+<img
+id="savedImage">
 
 <button
 class="closeBtn"
@@ -512,8 +502,8 @@ onclick="closePopup()">
 
 <script>
 
-const GAS_URL =
-"https://script.google.com/macros/s/あなたのデプロイURL/exec";
+const GAS_URL=
+"https://script.google.com/macros/s/AKfycbwqbCjVLj-O5zkQizJfOInFdY5JqAz32q3i8T_RuSmOqvVDB98bwIESsPZCJrbBGdaeOg/exec";
 
 let latestSerial="";
 let latestCount=0;
@@ -540,10 +530,7 @@ document.getElementById("content");
 try{
 
 const userId=
-
-localStorage.getItem(
-"tagoyamaUserId"
-)||"";
+localStorage.getItem("tagoyamaUserId")||"";
 
 if(!userId){
 
@@ -573,29 +560,17 @@ await res.json();
 if(!data.success){
 
 throw new Error(
-
 data.message||
-
 "取得できません"
-
 );
 
 }
 
-latestSerial=
-data.serial;
-
-latestCount=
-data.count;
-
-latestDate=
-data.date;
-
-latestImageName=
-data.imageName;
-
-latestImageUrl=
-data.imageUrl;
+latestSerial=data.serial;
+latestCount=data.count;
+latestDate=data.date;
+latestImageName=data.imageName;
+latestImageUrl=data.imageUrl;
 
 const img=
 document.getElementById(
@@ -645,11 +620,6 @@ latestImageName;
 const shareUrl=
 encodeURIComponent(location.href);
 
-const shareText=
-encodeURIComponent(
-"田子山富士に登頂しました！"
-);
-
 document.getElementById(
 "lineShare"
 ).href=
@@ -665,9 +635,7 @@ shareUrl;
 document.getElementById(
 "xShare"
 ).href=
-"https://twitter.com/intent/tweet?text="+
-shareText+
-"&url="+
+"https://twitter.com/intent/tweet?url="+
 shareUrl;
 
 loading.style.display="none";
@@ -725,18 +693,23 @@ GAS_URL+
 "?mode=receive"+
 
 "&userId="+
+
 encodeURIComponent(
+
 localStorage.getItem(
 "tagoyamaUserId"
 )||""
+
 )
 
 );
 
 await waitImageLoaded(
+
 document.getElementById(
 "memorialImage"
 )
+
 );
 
 const canvas=
@@ -760,13 +733,17 @@ backgroundColor:null
 );
 
 showImagePopup(
-canvas.toDataURL("image/png")
+
+canvas.toDataURL(
+"image/png"
+)
+
 );
 
 }catch(err){
 
 alert(
-"画像の保存に失敗しました"
+"画像の作成に失敗しました"
 );
 
 }finally{
@@ -784,7 +761,8 @@ function showImagePopup(src){
 
 document.getElementById(
 "savedImage"
-).src=src;
+).src=
+src;
 
 document.getElementById(
 "popup"
@@ -827,4 +805,5 @@ alert(
 </script>
 
 </body>
+
 </html>
