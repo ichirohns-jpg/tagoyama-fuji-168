@@ -156,7 +156,7 @@ text-shadow:
 .certSerial{
 margin-top:8px;
 font-family:"Arial Black","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(58px,15.8vw,118px);
+font-size:clamp(50px,13.6vw,100px);
 font-weight:900;
 letter-spacing:.01em;
 line-height:.98;
@@ -460,6 +460,10 @@ onclick="closePopup()">
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbwqbCjVLj-O5zkQizJfOInFdY5JqAz32q3i8T_RuSmOqvVDB98bwIESsPZCJrbBGdaeOg/exec";
 
+const CERTIFICATE_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
+
+let latestUserId="";
 let latestSerial="";
 let latestCount=0;
 let latestDate="";
@@ -497,6 +501,8 @@ new URLSearchParams(location.search);
 
 const userId=
 params.get("userId")||
+params.get("id")||
+params.get("uid")||
 localStorage.getItem("tagoyamaUserId")||
 "";
 
@@ -504,10 +510,17 @@ if(!userId){
 throw new Error("QRからアクセスしてください");
 }
 
+latestUserId=userId;
+
 localStorage.setItem(
 "tagoyamaUserId",
 userId
 );
+
+latestShareUrl=
+CERTIFICATE_PAGE+
+"?userId="+
+encodeURIComponent(userId);
 
 const res=
 await fetch(
@@ -535,7 +548,6 @@ latestDate=pickDate(data);
 latestImageName=pickImageName(data);
 latestImageUrl=pickImageUrl(data);
 latestImageData=pickImageData(data);
-latestShareUrl=location.href;
 
 setCertificateText();
 setShareLinks();
@@ -1370,7 +1382,9 @@ btn.innerText="📜 記念証を授かる";
 async function receiveCertificateLog(){
 
 const userId=
-localStorage.getItem("tagoyamaUserId")||"";
+latestUserId||
+localStorage.getItem("tagoyamaUserId")||
+"";
 
 if(!userId || !latestSerial){
 return;
