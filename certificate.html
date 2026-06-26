@@ -738,12 +738,6 @@ document.getElementById(
 "memorialImage"
 );
 
-img.crossOrigin=
-"anonymous";
-
-img.referrerPolicy=
-"no-referrer";
-
 img.src=
 latestImageUrl;
 
@@ -827,7 +821,8 @@ error.style.display=
 "block";
 
 error.innerText=
-String(err);
+err.message||
+"取得できません";
 
 }
 
@@ -839,24 +834,21 @@ if(
 img.complete &&
 img.naturalWidth>0
 ){
-
 return;
-
 }
 
-await new Promise(
+await new Promise((resolve,reject)=>{
 
-function(resolve,reject){
+img.onload=()=>resolve();
 
-img.onload=
-resolve;
-
-img.onerror=
-reject;
-
-}
-
+img.onerror=()=>
+reject(
+new Error(
+"画像を読み込めませんでした"
+)
 );
+
+});
 
 }
 
@@ -880,7 +872,6 @@ localStorage.getItem(
 )||"";
 
 const receive=
-
 await fetch(
 
 GAS_URL+
@@ -899,16 +890,16 @@ latestSerial
 
 );
 
-const receiveData=
+const result=
 await receive.json();
 
 if(
-!receiveData.success
+!result.success
 ){
 
 throw new Error(
 
-receiveData.message||
+result.message||
 
 "受領処理に失敗しました"
 
@@ -948,10 +939,6 @@ canvas.toDataURL(
 "image/png"
 );
 
-showImagePopup(
-image
-);
-
 const link=
 document.createElement(
 "a"
@@ -961,15 +948,30 @@ link.href=
 image;
 
 link.download=
+
 latestImageName||
-"tagoyama-certificate.png";
+
+("certificate-"+latestSerial+".png");
+
+document.body.appendChild(
+link
+);
 
 link.click();
+
+document.body.removeChild(
+link
+);
+
+showImagePopup(
+image
+);
 
 }catch(err){
 
 alert(
-err.message
+err.message||
+"保存できませんでした"
 );
 
 }finally{
@@ -1031,7 +1033,4 @@ alert(
 </script>
 
 </body>
-
 </html>
-
-
