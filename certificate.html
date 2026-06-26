@@ -81,7 +81,7 @@ overflow:hidden;
 .imageStage{
 position:relative;
 width:100%;
-aspect-ratio:2/3;
+aspect-ratio:1080 / 1920;
 border-radius:26px;
 overflow:hidden;
 background:#000;
@@ -106,84 +106,82 @@ pointer-events:none;
 
 .certTopMain{
 position:absolute;
-top:8.7%;
-left:5%;
-right:5%;
+left:50%;
+top:6.25%;
+transform:translate(-50%,-50%);
+width:92%;
 text-align:center;
-font-size:clamp(38px,9.2vw,74px);
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+font-size:clamp(16px,4.82vw,52px);
 font-weight:900;
-letter-spacing:.18em;
-line-height:1.05;
-color:#ffffff;
-text-shadow:
-0 3px 4px rgba(0,0,0,.55),
-0 0 10px rgba(255,255,255,.82),
-0 0 20px rgba(255,255,255,.55),
-0 0 34px rgba(255,245,210,.42);
+letter-spacing:.04em;
+line-height:1;
+color:#D6A93A;
+text-shadow:2px 3px 4px rgba(0,0,0,.65);
 }
 
 .certTopSub{
 position:absolute;
-top:18.8%;
-left:8%;
-right:8%;
+left:50%;
+top:10.94%;
+transform:translate(-50%,-50%);
+width:92%;
 text-align:center;
-font-size:clamp(28px,7vw,56px);
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+font-size:clamp(24px,7.22vw,78px);
 font-weight:900;
-letter-spacing:.06em;
-line-height:1.08;
-color:#f1d35f;
-text-shadow:
-0 3px 3px rgba(55,35,8,.9),
-0 0 8px rgba(0,0,0,.45),
-0 0 18px rgba(255,220,100,.42);
-}
-
-.certBottomCenter{
-position:absolute;
-left:4%;
-right:4%;
-bottom:8.7%;
-text-align:center;
+letter-spacing:.02em;
+line-height:1;
+color:#F2D16B;
+text-shadow:3px 4px 6px rgba(0,0,0,.75);
 }
 
 .certClimbText{
+position:absolute;
+left:50%;
+top:75.52%;
+transform:translate(-50%,-50%);
+width:92%;
+text-align:center;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(25px,6.6vw,52px);
+font-size:clamp(16px,4.63vw,50px);
 font-weight:900;
-letter-spacing:.02em;
-line-height:1.05;
-color:#fff;
-text-shadow:
-0 3px 2px rgba(0,0,0,.95),
-0 0 8px rgba(0,0,0,.9);
+letter-spacing:.01em;
+line-height:1;
+color:#FFFFFF;
+text-shadow:2px 3px 5px rgba(0,0,0,.75);
 }
 
 .certSerial{
-margin-top:8px;
-font-family:"Arial Black","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(42px,11.2vw,82px);
+position:absolute;
+left:50%;
+top:80.47%;
+transform:translate(-50%,-50%);
+width:92%;
+text-align:center;
+font-family:"Times New Roman","Georgia","Hiragino Mincho ProN",serif;
+font-size:clamp(24px,7.04vw,76px);
 font-weight:900;
 letter-spacing:.01em;
-line-height:.98;
-color:#ffe17a;
-text-shadow:
-0 4px 2px rgba(0,0,0,.72),
-0 0 10px rgba(0,0,0,.68),
-0 0 22px rgba(255,220,90,.32);
+line-height:1;
+color:#F5D36A;
+text-shadow:3px 4px 6px rgba(0,0,0,.8);
 }
 
 .certDate{
-margin-top:13px;
+position:absolute;
+left:50%;
+top:84.64%;
+transform:translate(-50%,-50%);
+width:92%;
+text-align:center;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(30px,7.3vw,60px);
+font-size:clamp(13px,3.52vw,38px);
 font-weight:900;
-letter-spacing:.02em;
-line-height:1.0;
-color:#fff;
-text-shadow:
-0 3px 2px rgba(0,0,0,.95),
-0 0 8px rgba(0,0,0,.88);
+letter-spacing:.01em;
+line-height:1;
+color:#FFFFFF;
+text-shadow:2px 3px 4px rgba(0,0,0,.7);
 }
 
 .btnArea{
@@ -362,12 +360,10 @@ referrerpolicy="no-referrer">
 登頂記念証
 </div>
 
-<div class="certBottomCenter">
-
 <div
 class="certClimbText"
 id="climbText">
-第--回登頂記念
+第--回 登頂記念
 </div>
 
 <div
@@ -380,8 +376,6 @@ No.----
 class="certDate"
 id="dateText">
 ----
-</div>
-
 </div>
 
 </div>
@@ -716,7 +710,7 @@ return null;
 function setCertificateText(){
 
 document.getElementById("climbText").innerText=
-"第"+latestCount+"回登頂記念";
+"第"+latestCount+"回 登頂記念";
 
 document.getElementById("serialText").innerText=
 "No."+latestSerial;
