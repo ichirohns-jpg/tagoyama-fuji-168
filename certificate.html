@@ -8,77 +8,48 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
+*{box-sizing:border-box;}
 body{
 margin:0;
 padding:0;
-font-family:
-"Hiragino Mincho ProN",
-"Yu Mincho",
-serif;
-background:
-linear-gradient(
-180deg,
-#130b05 0%,
-#2b1609 45%,
-#070302 100%
-);
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+background:linear-gradient(180deg,#130b05 0%,#2b1609 45%,#070302 100%);
 color:#fff8dc;
 min-height:100vh;
 }
-
 .wrap{
 width:100%;
 max-width:720px;
 margin:0 auto;
 padding:18px 14px 40px;
 }
-
 .header{
 text-align:center;
 padding:12px 0 16px;
 }
-
 .header .small{
 font-size:13px;
 letter-spacing:.12em;
 color:#e8d09a;
 }
-
 .header h1{
 margin:8px 0 4px;
 font-size:28px;
 letter-spacing:.08em;
 color:#ffd36a;
-text-shadow:
-0 2px 0 #4b2208,
-0 0 18px rgba(255,190,80,.35);
+text-shadow:0 2px 0 #4b2208,0 0 18px rgba(255,190,80,.35);
 }
-
 .header .sub{
 font-size:14px;
 color:#f4e1af;
 }
-
 .card{
-background:
-linear-gradient(
-180deg,
-rgba(90,48,18,.96),
-rgba(35,15,6,.98)
-);
+background:linear-gradient(180deg,rgba(90,48,18,.96),rgba(35,15,6,.98));
 border:2px solid #c99a3a;
 border-radius:22px;
-box-shadow:
-0 0 0 4px rgba(80,35,8,.9),
-0 18px 38px rgba(0,0,0,.55);
+box-shadow:0 0 0 4px rgba(80,35,8,.9),0 18px 38px rgba(0,0,0,.55);
 padding:14px;
 }
-
 #certificate{
 position:relative;
 width:100%;
@@ -87,7 +58,6 @@ border-radius:16px;
 overflow:hidden;
 border:1px solid rgba(255,215,120,.75);
 }
-
 #memorialImage{
 display:block;
 width:100%;
@@ -209,22 +179,12 @@ cursor:not-allowed;
 }
 
 .btn.save{
-background:
-linear-gradient(
-180deg,
-#fff1a8,
-#e0a82f
-);
+background:linear-gradient(180deg,#fff1a8,#e0a82f);
 color:#2e1602;
 }
 
 .btn.back{
-background:
-linear-gradient(
-180deg,
-#6c3b14,
-#3a1908
-);
+background:linear-gradient(180deg,#6c3b14,#3a1908);
 color:#ffe9a6;
 border:1px solid rgba(255,220,130,.55);
 }
@@ -347,211 +307,99 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.shareBtn{
-display:flex;
-align-items:center;
-justify-content:center;
-height:48px;
-border-radius:14px;
-text-decoration:none;
-font-size:15px;
-font-weight:bold;
-color:#fff;
-border:none;
-cursor:pointer;
+@media(max-width:480px){
+
+.wrap{
+padding:12px 10px 30px;
 }
 
-.line{
-background:#06c755;
+.header h1{
+font-size:24px;
 }
 
-.facebook{
-background:#1877f2;
-}
-
-.x{
-background:#111111;
-}
-
-.copy{
-background:#8b5a1f;
-}
-
-.loading{
-padding:50px 10px;
-text-align:center;
-font-size:18px;
-color:#ffd36a;
-}
-
-.error{
-padding:30px 14px;
-text-align:center;
-font-size:16px;
-line-height:1.8;
-color:#ffe0e0;
-}
-
-.popup{
-display:none;
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.86);
-z-index:9999;
-padding:18px;
-overflow:auto;
-}
-
-.popupInner{
-max-width:720px;
-margin:auto;
-background:#160b04;
-border:2px solid #c99a3a;
+.card{
+padding:10px;
 border-radius:18px;
-padding:14px;
 }
 
-.popupTitle{
-text-align:center;
-font-size:18px;
-font-weight:bold;
-color:#ffd36a;
-margin-bottom:12px;
+.infoRow{
+font-size:14px;
 }
 
-#savedImage{
-display:block;
-width:100%;
-height:auto;
-border-radius:12px;
-border:1px solid rgba(255,220,140,.6);
+.shareGrid{
+grid-template-columns:1fr;
 }
 
-.closeBtn{
-width:100%;
-margin-top:14px;
-padding:14px;
-border:none;
-border-radius:999px;
-background:#d8a13a;
-color:#2a1302;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
 }
 
-.shareBtn{
-display:flex;
-align-items:center;
-justify-content:center;
-height:48px;
-border-radius:14px;
-text-decoration:none;
-font-size:15px;
-font-weight:bold;
-color:#fff;
-border:none;
-cursor:pointer;
-}
+</style>
 
-.line{
-background:#06c755;
-}
+</head>
 
-.facebook{
-background:#1877f2;
-}
+<body>
 
-.x{
-background:#111111;
-}
+<div class="wrap">
 
-.copy{
-background:#8b5a1f;
-}
+<div class="header">
 
-.loading{
-padding:50px 10px;
-text-align:center;
-font-size:18px;
-color:#ffd36a;
-}
+<div class="small">
+田子山富士168の縁プロジェクト
+</div>
 
-.error{
-padding:30px 14px;
-text-align:center;
-font-size:16px;
-line-height:1.8;
-color:#ffe0e0;
-}
+<h1>
+登頂記念証
+</h1>
 
-.popup{
-display:none;
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.86);
-z-index:9999;
-padding:18px;
-overflow:auto;
-}
+<div class="sub">
+おめでとうございます
+</div>
 
-.popupInner{
-max-width:720px;
-margin:auto;
-background:#160b04;
-border:2px solid #c99a3a;
-border-radius:18px;
-padding:14px;
-}
+</div>
 
-.popupTitle{
-text-align:center;
-font-size:18px;
-font-weight:bold;
-color:#ffd36a;
-margin-bottom:12px;
-}
+<div
+class="card"
+id="mainCard">
 
-#savedImage{
-display:block;
-width:100%;
-height:auto;
-border-radius:12px;
-border:1px solid rgba(255,220,140,.6);
-}
+<div
+id="loading"
+class="loading">
 
-.closeBtn{
-width:100%;
-margin-top:14px;
-padding:14px;
-border:none;
-border-radius:999px;
-background:#d8a13a;
-color:#2a1302;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
+記念証を準備しています...
+
+</div>
+
+<div
+id="error"
+class="error"
+style="display:none;">
+</div>
+
+<div
+id="content"
+style="display:none;">
+
+<div
+id="certificate">
+
+<img
+id="memorialImage"
+src=""
+alt="登頂記念画像"
+crossorigin="anonymous"
+referrerpolicy="no-referrer">
+
+<div
+class="certOverlay">
 
 <div
 class="certTitle">
-
 田子山富士 登頂記念
-
 </div>
 
 <div
 class="certCount"
 id="countText">
-
 第 -- 回 登頂
-
 </div>
 
 <div
@@ -559,16 +407,12 @@ class="certBottom">
 
 <div
 id="serialText">
-
 No.----
-
 </div>
 
 <div
 id="dateText">
-
 ----
-
 </div>
 
 </div>
@@ -577,110 +421,79 @@ id="dateText">
 
 </div>
 
-<div
-class="infoBox">
+<div class="infoBox">
 
 <div class="infoRow">
-
 <span>登頂回数</span>
-
 <span id="infoCount">-</span>
-
 </div>
 
 <div class="infoRow">
-
 <span>シリアル</span>
-
 <span id="infoSerial">-</span>
-
 </div>
 
 <div class="infoRow">
-
 <span>登頂日</span>
-
 <span id="infoDate">-</span>
-
 </div>
 
 <div class="infoRow">
-
 <span>記念画像</span>
-
 <span id="infoImage">-</span>
-
 </div>
 
 </div>
 
-<div
-class="btnArea">
+<div class="btnArea">
 
 <button
 class="btn save"
 onclick="saveImage()">
-
 📜 記念証を授かる
-
 </button>
 
 <button
 class="btn back"
 onclick="history.back()">
-
 ← 戻る
-
 </button>
 
 </div>
 
-<div
-class="shareArea">
+<div class="shareArea">
 
-<div
-class="shareTitle">
-
+<div class="shareTitle">
 SNSでシェア
-
 </div>
 
-<div
-class="shareGrid">
+<div class="shareGrid">
 
 <a
 id="lineShare"
 class="shareBtn line"
 target="_blank">
-
 LINE
-
 </a>
 
 <a
 id="facebookShare"
 class="shareBtn facebook"
 target="_blank">
-
 Facebook
-
 </a>
 
 <a
 id="xShare"
 class="shareBtn x"
 target="_blank">
-
 X
-
 </a>
 
 <button
 class="shareBtn copy"
 onclick="copyLink()">
-
 リンクコピー
-
 </button>
 
 </div>
@@ -702,20 +515,15 @@ class="popupInner">
 
 <div
 class="popupTitle">
-
 登頂記念証
-
 </div>
 
-<img
-id="savedImage">
+<img id="savedImage">
 
 <button
 class="closeBtn"
 onclick="closePopup()">
-
 閉じる
-
 </button>
 
 </div>
@@ -787,23 +595,12 @@ data.message||
 );
 }
 
-latestSerial=
-data.serial||"";
-
-latestCount=
-Number(data.count||0);
-
-latestDate=
-data.date||"";
-
-latestImageName=
-data.imageName||"";
-
-latestImageUrl=
-data.imageUrl||"";
-
-latestShareUrl=
-location.href;
+latestSerial=data.serial||"";
+latestCount=Number(data.count||0);
+latestDate=data.date||"";
+latestImageName=data.imageName||"";
+latestImageUrl=data.imageUrl||"";
+latestShareUrl=location.href;
 
 const img=
 document.getElementById("memorialImage");
@@ -859,9 +656,7 @@ document.getElementById("infoImage").innerText=
 latestImageName;
 
 const share=
-encodeURIComponent(
-latestShareUrl
-);
+encodeURIComponent(latestShareUrl);
 
 document.getElementById("lineShare").href=
 "https://social-plugins.line.me/lineit/share?url="+share;
@@ -1058,5 +853,6 @@ alert("コピーできませんでした");
 </script>
 
 </body>
+
 </html>
 
