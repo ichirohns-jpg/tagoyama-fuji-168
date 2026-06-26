@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>開運おみくじ</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link
+rel="manifest"
+href="manifest.json">
+
+<meta
+name="theme-color"
+content="#111111">
+
+<link
+rel="icon"
+href="logo.png">
+
+<link
+rel="apple-touch-icon"
+href="logo.png">
 
 <style>
 
@@ -21,7 +36,11 @@ box-sizing:border-box;
 
 body{
 background:#0b0b0b;
-font-family:"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+font-family:
+"Hiragino Sans",
+"Yu Gothic",
+"Meiryo",
+sans-serif;
 color:#fff;
 }
 
@@ -37,12 +56,24 @@ padding:20px;
 }
 
 .card{
-background:linear-gradient(180deg,#1c1c1c,#0f0f0f);
+background:
+linear-gradient(
+180deg,
+#1c1c1c,
+#0f0f0f
+);
+
 border:2px solid #d4af37;
+
 border-radius:28px;
+
 padding:28px;
+
 text-align:center;
-box-shadow:0 12px 32px rgba(0,0,0,.45);
+
+box-shadow:
+0 12px 32px rgba(0,0,0,.45);
+
 }
 
 .logo{
@@ -69,130 +100,248 @@ margin-bottom:24px;
 }
 
 .drawBtn{
+
 width:100%;
+
 border:none;
+
 border-radius:20px;
+
 padding:22px;
+
 font-size:28px;
+
 font-weight:900;
+
 cursor:pointer;
+
 background:#d4af37;
+
 color:#000;
+
 }
 
 .resultBox{
+
 display:none;
+
 margin-top:30px;
+
 }
 
 .resultTitle{
+
 font-size:40px;
+
 font-weight:900;
+
 margin-bottom:20px;
+
 }
 
 .hit{
+
 color:#ffd700;
+
 }
 
 .miss{
+
 color:#ccc;
+
 }
 
 .omikujiImage{
+
 width:100%;
+
 display:none;
+
 border-radius:24px;
+
 margin-bottom:20px;
+
 border:2px solid #d4af37;
+
 }
 
 .message{
+
 font-size:24px;
+
 font-weight:900;
+
 line-height:1.8;
+
 margin-bottom:20px;
+
 color:#ffd700;
+
 }
 
 .btn{
+
 width:100%;
+
 border:none;
+
 border-radius:18px;
+
 padding:18px;
+
 margin-top:12px;
+
 font-size:22px;
+
 font-weight:900;
+
 cursor:pointer;
+
 }
 
-.save{background:#2ecc71;color:#fff;}
-.line{background:#06c755;color:#fff;}
-.fb{background:#1877f2;color:#fff;}
-.x{background:#000;color:#fff;}
-.copy{background:#607d8b;color:#fff;}
-.home{background:#37474f;color:#fff;}
+.save{
+
+background:#2ecc71;
+
+color:#fff;
+
+}
+
+.line{
+
+background:#06c755;
+
+color:#fff;
+
+}
+
+.fb{
+
+background:#1877f2;
+
+color:#fff;
+
+}
+
+.x{
+
+background:#000;
+
+color:#fff;
+
+}
+
+.copy{
+
+background:#607d8b;
+
+color:#fff;
+
+}
+
+.home{
+
+background:#37474f;
+
+color:#fff;
+
+}
 
 .fbGuide{
+
 background:#1c1c1c;
+
 border:1px solid #333;
+
 border-radius:12px;
+
 padding:10px 14px;
+
 margin-top:10px;
+
 margin-bottom:10px;
+
 font-size:15px;
+
 line-height:1.6;
+
 text-align:center;
+
 color:#d0d0d0;
+
 display:none;
+
 }
 
 .notice{
+
 margin-top:30px;
+
 padding:20px;
+
 border-radius:20px;
+
 background:#181818;
+
 border:1px solid #333;
+
 font-size:18px;
+
 line-height:1.8;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="hero">
-<img src="top.jpg" alt="田子山富士">
+
+<img
+src="top.jpg"
+alt="田子山富士">
+
 </div>
 
 <div class="wrap">
+
 <div class="card">
 
-<img src="logo.png"
+<img
+src="logo.png"
 class="logo"
 alt="田子山富士">
 
 <div class="title">
+
 🎋 開運おみくじ
+
 </div>
 
 <div class="sub">
+
 木花咲耶姫から届く<br>
+
 ご縁の開運カード
+
 </div>
 
-<button id="drawBtn"
+<button
+id="drawBtn"
 class="drawBtn">
 
 おみくじを引く
 
 </button>
 
-<div id="resultBox"
+<div
+id="resultBox"
 class="resultBox">
 
-<div id="resultTitle"
+<div
+id="resultTitle"
 class="resultTitle">
 
 結果
@@ -204,113 +353,177 @@ id="omikujiImage"
 class="omikujiImage"
 crossorigin="anonymous">
 
-<div id="message"
-class="message"></div>
+<div
+id="message"
+class="message">
 
-<button id="saveBtn"
-class="btn save"
-style="display:none;">
+</div>
 
-📱 画像を保存
+.fbGuide{
 
-</button>
+background:#1c1c1c;
 
-<button id="lineBtn"
-class="btn line"
-style="display:none;">
+border:1px solid #333;
 
-LINEで共有
+border-radius:12px;
 
-</button>
+padding:10px 14px;
 
-<button id="fbBtn"
-class="btn fb"
-style="display:none;">
+margin-top:10px;
 
-Facebookで共有
+margin-bottom:10px;
+
+font-size:15px;
+
+line-height:1.6;
+
+text-align:center;
+
+color:#d0d0d0;
+
+display:none;
+
+}
+
+.notice{
+
+margin-top:30px;
+
+padding:20px;
+
+border-radius:20px;
+
+background:#181818;
+
+border:1px solid #333;
+
+font-size:18px;
+
+line-height:1.8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<img
+src="top.jpg"
+alt="田子山富士">
+
+</div>
+
+<div class="wrap">
+
+<div class="card">
+
+<img
+src="logo.png"
+class="logo"
+alt="田子山富士">
+
+<div class="title">
+
+🎋 開運おみくじ
+
+</div>
+
+<div class="sub">
+
+木花咲耶姫から届く<br>
+
+ご縁の開運カード
+
+</div>
+
+<button
+id="drawBtn"
+class="drawBtn">
+
+おみくじを引く
 
 </button>
 
 <div
-id="fbGuide"
-class="fbGuide">
+id="resultBox"
+class="resultBox">
 
-📘 Facebookは
-「リンクコピー」→「投稿欄へ貼り付け」
-で画像付き共有になります
+<div
+id="resultTitle"
+class="resultTitle">
 
-</div>
-
-<button id="xBtn"
-class="btn x"
-style="display:none;">
-
-Xで共有
-
-</button>
-
-<button id="copyBtn"
-class="btn copy"
-style="display:none;">
-
-リンクコピー
-
-</button>
+結果
 
 </div>
 
-<a
-href="index.html"
-class="btn home"
-style="
-display:block;
-text-decoration:none;
-text-align:center;
-">
+<img
+id="omikujiImage"
+class="omikujiImage"
+crossorigin="anonymous">
 
-🏠 トップへ戻る
-
-</a>
-
-<div class="notice">
-
-おみくじは1日1回です。<br>
-当たりが出ると開運カードが届きます。<br>
-ご縁を大切にお持ちください。
+<div
+id="message"
+class="message">
 
 </div>
-
-</div>
-</div>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
-<script>
-
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwMTXiYx-ExMHVI1-B7Roh_SyWvAqWWNRs4WsOkuveJJajY8qXfC1YHget2yk_6MsHGYQ/exec";
-
-let currentCard = null;
 
 function hideShareButtons(){
 
-document.getElementById("saveBtn").style.display="none";
-document.getElementById("lineBtn").style.display="none";
-document.getElementById("fbBtn").style.display="none";
-document.getElementById("xBtn").style.display="none";
-document.getElementById("copyBtn").style.display="none";
-document.getElementById("fbGuide").style.display="none";
+document.getElementById(
+"receiveBtn"
+).style.display="none";
+
+document.getElementById(
+"lineBtn"
+).style.display="none";
+
+document.getElementById(
+"fbBtn"
+).style.display="none";
+
+document.getElementById(
+"xBtn"
+).style.display="none";
+
+document.getElementById(
+"copyBtn"
+).style.display="none";
+
+document.getElementById(
+"fbGuide"
+).style.display="none";
 
 }
 
 function showShareButtons(){
 
-document.getElementById("saveBtn").style.display="block";
-document.getElementById("lineBtn").style.display="block";
-document.getElementById("fbBtn").style.display="block";
-document.getElementById("xBtn").style.display="block";
-document.getElementById("copyBtn").style.display="block";
-document.getElementById("fbGuide").style.display="block";
+document.getElementById(
+"receiveBtn"
+).style.display="block";
+
+document.getElementById(
+"lineBtn"
+).style.display="block";
+
+document.getElementById(
+"fbBtn"
+).style.display="block";
+
+document.getElementById(
+"xBtn"
+).style.display="block";
+
+document.getElementById(
+"copyBtn"
+).style.display="block";
+
+document.getElementById(
+"fbGuide"
+).style.display="block";
 
 }
 
@@ -319,20 +532,17 @@ document.getElementById(
 ).onclick =
 async function(){
 
-const today =
-new Date()
-.toLocaleDateString(
+const today=
+new Date().toLocaleDateString(
 "ja-JP"
 );
 
-const last =
+const last=
 localStorage.getItem(
 "omikujiDate"
 );
 
-if(
-last === today
-){
+if(last===today){
 
 alert(
 "おみくじは1日1回です"
@@ -349,264 +559,150 @@ today
 
 document.getElementById(
 "resultBox"
-).style.display =
-"block";
+).style.display="block";
 
 document.getElementById(
 "resultTitle"
-).innerHTML =
-"抽選中...";
+).innerHTML="抽選中...";
 
 document.getElementById(
 "message"
-).innerHTML =
-"";
+).innerHTML="";
 
 hideShareButtons();
 
-const res =
+const res=
 await fetch(
-GAS_URL +
-"?mode=omikuji&userId=" +
+
+GAS_URL+
+"?mode=omikuji&userId="+
 encodeURIComponent(
 localStorage.getItem(
 "tagoyamaUserId"
-) || ""
+)||""
 )
+
 );
 
-const data =
+const data=
 await res.json();
 
-if(
-!data.hit
-){
+if(!data.hit){
 
 document.getElementById(
 "resultTitle"
-).innerHTML =
+).innerHTML=
 "🌸 また次回 🌸";
 
 document.getElementById(
 "resultTitle"
-).className =
+).className=
 "resultTitle miss";
 
 document.getElementById(
 "omikujiImage"
-).style.display =
+).style.display=
 "none";
 
 document.getElementById(
 "message"
-).innerHTML =
-data.text || "";
+).innerHTML=
+data.text||"";
 
 return;
 
 }
 
-currentCard = data;
+currentCard=data;
 
 document.getElementById(
 "resultTitle"
-).innerHTML =
+).innerHTML=
 "🎉 当たり 🎉";
 
 document.getElementById(
 "resultTitle"
-).className =
+).className=
 "resultTitle hit";
 
 document.getElementById(
 "omikujiImage"
-).src =
-data.imageUrl || "";
+).src=
+data.imageUrl||"";
 
 document.getElementById(
 "omikujiImage"
-).style.display =
+).style.display=
 "block";
 
 document.getElementById(
 "message"
-).innerHTML =
-data.text || "";
+).innerHTML=
+data.text||"";
 
 showShareButtons();
 
 };
 
 document.getElementById(
-"lineBtn"
-).onclick =
+"receiveBtn"
+).onclick=
 function(){
 
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-};
-
-document.getElementById(
-"fbBtn"
-).onclick =
-function(){
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-),
-"_blank"
-);
-
-};
-
-document.getElementById(
-"xBtn"
-).onclick =
-function(){
-
-const shareText =
-currentCard
-? (
-currentCard.shareText ||
-currentCard.text ||
-"開運おみくじ"
-)
-: "開運おみくじ";
-
-window.open(
-"https://twitter.com/intent/tweet?text=" +
-encodeURIComponent(
-shareText +
-"\n" +
-location.href
-),
-"_blank"
-);
-
-};
-
-document.getElementById(
-"copyBtn"
-).onclick =
-function(){
-
-navigator.clipboard.writeText(
-location.href
-);
-
-alert(
-"リンクをコピーしました"
-);
-
-};
-
-document.getElementById(
-"saveBtn"
-).onclick =
-async function(){
-
-const image =
+const image=
 document.getElementById(
 "omikujiImage"
 );
 
-if(!image.src){
-
-alert(
-"保存する画像がありません"
-);
-
-return;
-
-}
-
-try{
-
-const canvas =
+const overlay=
 document.createElement(
-"canvas"
+"div"
 );
 
-const ctx =
-canvas.getContext(
-"2d"
-);
+overlay.style=
+"position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;z-index:99999;";
 
-canvas.width =
-image.naturalWidth;
+overlay.innerHTML=`
 
-canvas.height =
-image.naturalHeight;
+<img src="${image.src}"
+style="max-width:100%;border-radius:20px;">
 
-ctx.drawImage(
-image,
-0,
-0
-);
+<button
+style="width:100%;margin-top:20px;padding:18px;border:none;border-radius:18px;background:#2ecc71;color:#fff;font-size:22px;font-weight:900;"
+onclick="window.open('${image.src}','_blank')">
 
-const link =
-document.createElement(
-"a"
-);
+📥 画像を保存する
 
-link.href =
-canvas.toDataURL(
-"image/png"
-);
+</button>
 
-link.download =
-"tagoyama-omikuji.png";
+<button
+style="width:100%;margin-top:12px;padding:18px;border:none;border-radius:18px;background:#d4af37;color:#000;font-size:22px;font-weight:900;"
+onclick="this.parentElement.remove()">
 
-link.click();
+⬅ 戻る
 
-}catch(err){
+</button>
 
-window.open(
-image.src,
-"_blank"
-);
+`;
 
-}
+document.body.appendChild(
+overlay);
 
 };
 
-</script>
+document.getElementById("lineBtn").onclick=()=>window.open("https://social-plugins.line.me/lineit/share?url="+encodeURIComponent(location.href));
 
-<script>
+document.getElementById("fbBtn").onclick=()=>window.open("https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href));
 
-if(
-"serviceWorker" in navigator
-){
+document.getElementById("xBtn").onclick=()=>window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent((currentCard?.shareText||currentCard?.text||"開運おみくじ")+"\n"+location.href));
 
-window.addEventListener(
-"load",
-function(){
+document.getElementById("copyBtn").onclick=()=>{
 
-navigator
-.serviceWorker
-.register(
-"sw.js"
-)
-.catch(
-function(err){
+navigator.clipboard.writeText(location.href);
 
-console.log(err);
+alert("リンクをコピーしました");
 
-}
-);
-
-}
-);
-
-}
+};
 
 </script>
 
