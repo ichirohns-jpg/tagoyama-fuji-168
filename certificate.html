@@ -184,6 +184,8 @@ font-weight:bold;
 color:#fff8dc;
 }
 
+/* 以下続き */
+
 .btnArea{
 margin-top:18px;
 display:grid;
@@ -768,8 +770,6 @@ String(err);
 
 }
 
-}
-
 async function waitImageLoaded(img){
 
 if(
@@ -813,14 +813,21 @@ encodeURIComponent(
 localStorage.getItem(
 "tagoyamaUserId"
 )||""
+)+
+
+"&serial="+
+encodeURIComponent(
+latestSerial
 )
 
 );
 
 await waitImageLoaded(
+
 document.getElementById(
 "memorialImage"
 )
+
 );
 
 const canvas=
