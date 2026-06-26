@@ -465,7 +465,7 @@ const CERTIFICATE_PAGE =
 
 let latestUserId="";
 let latestSerial="";
-let latestCount=0;
+let latestCount=1;
 let latestDate="";
 let latestImageName="";
 let latestImageUrl="";
@@ -542,12 +542,15 @@ data.message||
 );
 }
 
-latestCount=pickCount(data);
-latestSerial=pickSerial(data,latestCount);
-latestDate=pickDate(data);
-latestImageName=pickImageName(data);
-latestImageUrl=pickImageUrl(data);
-latestImageData=pickImageData(data);
+const fixed=
+resolveCertificateData(data);
+
+latestCount=fixed.count;
+latestSerial=fixed.serial;
+latestDate=fixed.date;
+latestImageName=fixed.imageName;
+latestImageUrl=fixed.imageUrl;
+latestImageData=fixed.imageData;
 
 setCertificateText();
 setShareLinks();
@@ -555,7 +558,7 @@ setShareLinks();
 loading.style.display="none";
 content.style.display="block";
 
-await loadMemorialImage();
+await loadCorrectImage();
 
 }catch(err){
 
@@ -570,13 +573,174 @@ err.message||
 
 }
 
+function resolveCertificateData(data){
+
+const countFromCount=
+safeNumber(
+data.count
+);
+
+const countFromImageNo=
+safeNumber(
+data.imageNo
+);
+
+const countFromSerial=
+serialToCount(
+data.serial ||
+data.serialNumber ||
+data.certificateNo ||
+data.certificateNumber ||
+data.no ||
+data.displaySerial ||
+data.serialText
+);
+
+let count=
+countFromCount ||
+countFromImageNo ||
+countFromSerial ||
+1;
+
+if(count<1 || count>168){
+count=1;
+}
+
+return {
+count:count,
+serial:createSerial(count),
+date:pickDate(data),
+imageName:pickImageName(data),
+imageUrl:pickImageUrl(data),
+imageData:pickImageData(data)
+};
+
+}
+
+function safeNumber(value){
+
+const n=
+Number(value);
+
+if(!Number.isFinite(n)){
+return 0;
+}
+
+const v=
+Math.floor(n);
+
+if(v<1 || v>168){
+return 0;
+}
+
+return v;
+
+}
+
+function serialToCount(value){
+
+const s=
+getString(value);
+
+if(!s){
+return 0;
+}
+
+if(s.length>30){
+return 0;
+}
+
+if(/^\d{4}-\d{2}-\d{2}/.test(s)){
+return 0;
+}
+
+if(/T\d{2}:\d{2}:\d{2}/.test(s)){
+return 0;
+}
+
+let m=
+s.match(/(?:No\.?|1-)?0*(\d{1,3})$/i);
+
+if(m && m[1]){
+return safeNumber(m[1]);
+}
+
+return 0;
+
+}
+
+function createSerial(count){
+
+const n=
+safeNumber(count) ||
+1;
+
+return "1-"+
+String(n).padStart(4,"0");
+
+}
+
+async function loadCorrectImage(){
+
+const imageInfo=
+await fetchImageInfo(
+latestCount
+);
+
+if(
+imageInfo &&
+imageInfo.success &&
+imageInfo.imageUrl
+){
+
+latestImageUrl=
+imageInfo.imageUrl;
+
+latestImageName=
+imageInfo.imageName ||
+latestImageName;
+
+}
+
+await loadMemorialImage();
+
+}
+
+async function fetchImageInfo(imageNo){
+
+try{
+
+const res=
+await fetch(
+GAS_URL+
+"?mode=image"+
+"&imageNo="+
+encodeURIComponent(imageNo)+
+"&t="+
+Date.now()
+);
+
+const data=
+await res.json();
+
+return data;
+
+}catch(e){
+
+return null;
+
+}
+
+}
+
 function setCertificateText(){
 
 document.getElementById("climbText").innerText=
-"第"+(latestCount||"--")+"回登頂記念";
+"第"+latestCount+"回登頂記念";
 
 document.getElementById("serialText").innerText=
-formatSerialForBig(latestSerial,latestCount);
+"No."+
+String(latestCount).padStart(4,"0");
 
 document.getElementById("dateText").innerText=
 latestDate || todayText();
@@ -611,33 +775,6 @@ return "";
 }
 
 return String(value).trim();
-
-}
-
-function pickCount(data){
-
-const candidates=[
-data.count,
-data.climbCount,
-data.totalCount,
-data.numberOfClimbs,
-data.visitCount,
-data.times,
-data.number
-];
-
-for(let i=0;i<candidates.length;i++){
-
-const n=
-Number(candidates[i]);
-
-if(Number.isFinite(n) && n>0){
-return n;
-}
-
-}
-
-return 1;
 
 }
 
@@ -816,101 +953,6 @@ return todayText();
 
 }
 
-function isDateLikeString(value){
-
-const s=
-getString(value);
-
-if(!s){
-return false;
-}
-
-if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(s)){
-return true;
-}
-
-if(/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(s)){
-return true;
-}
-
-if(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s)){
-return true;
-}
-
-return false;
-
-}
-
-function looksLikeSerial(value){
-
-const s=
-getString(value);
-
-if(!s){
-return false;
-}
-
-if(isDateLikeString(s)){
-return false;
-}
-
-if(s.length>40){
-return false;
-}
-
-return /[A-Za-z0-9]/.test(s);
-
-}
-
-function pickSerial(data,count){
-
-const candidates=[
-data.serial,
-data.serialNumber,
-data.certificateNo,
-data.certificateNumber,
-data.no,
-data.displaySerial,
-data.serialText
-];
-
-for(let i=0;i<candidates.length;i++){
-
-const s=
-getString(candidates[i]);
-
-if(looksLikeSerial(s)){
-return s.replace(/^No\.?/i,"").trim();
-}
-
-}
-
-return String(count||1).padStart(4,"0");
-
-}
-
-function formatSerialForBig(serial,count){
-
-let s=
-getString(serial);
-
-if(!s){
-s=String(count||1).padStart(4,"0");
-}
-
-s=s.replace(/^No\.?/i,"").trim();
-
-let m=
-s.match(/(\d{1,6})$/);
-
-if(m && m[1]){
-return "No."+String(Number(m[1])).padStart(4,"0");
-}
-
-return "No."+s;
-
-}
-
 function pickImageName(data){
 
 return getString(
@@ -1041,16 +1083,16 @@ if(id){
 
 addUnique(
 list,
-"https://lh3.googleusercontent.com/d/"+
+"https://drive.google.com/thumbnail?id="+
 encodeURIComponent(id)+
-"=w1800"
+"&sz=w1800"
 );
 
 addUnique(
 list,
-"https://drive.google.com/thumbnail?id="+
+"https://lh3.googleusercontent.com/d/"+
 encodeURIComponent(id)+
-"&sz=w1800"
+"=w1800"
 );
 
 addUnique(
@@ -1431,14 +1473,14 @@ reject(new Error("画像保存に失敗しました"));
 function makeSaveFileName(){
 
 const no=
-formatSerialForBig(
-latestSerial,
-latestCount
-)
-.replace("No.","no-")
-.replace(/[^\w\-]/g,"");
+"No."+
+String(latestCount||1).padStart(4,"0");
 
-return "tagoyama-certificate-"+no+".png";
+return "tagoyama-certificate-"+
+no
+.replace("No.","no-")
+.replace(/[^\w\-]/g,"")+
+".png";
 
 }
 
