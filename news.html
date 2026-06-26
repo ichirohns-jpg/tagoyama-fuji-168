@@ -2,14 +2,26 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>お知らせ</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link
+rel="manifest"
+href="manifest.json">
+
+<meta
+name="theme-color"
+content="#111111">
+
+<link
+rel="icon"
+href="logo.png">
+
+<link
+rel="apple-touch-icon"
+href="logo.png">
 
 <style>
 
@@ -205,6 +217,7 @@ color:#d4af37;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -222,11 +235,15 @@ alt="田子山富士">
 <div class="titleBox">
 
 <div class="title">
+
 📢 お知らせ
+
 </div>
 
 <div class="sub">
+
 田子山富士からのお知らせ
+
 </div>
 
 </div>
@@ -270,12 +287,19 @@ const GAS_URL =
 function shareFacebook(id){
 
 window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
+
+"https://www.facebook.com/sharer/sharer.php?u="+
+
 encodeURIComponent(
-location.origin +
-"/tagoyama-fuji-168/share-news.html?id=" +
+
+location.origin+
+
+"/tagoyama-fuji-168/share-news.html?id="+
+
 id
+
 )
+
 );
 
 }
@@ -283,12 +307,19 @@ id
 function shareLine(id){
 
 window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
+
+"https://social-plugins.line.me/lineit/share?url="+
+
 encodeURIComponent(
-location.origin +
-"/tagoyama-fuji-168/share-news.html?id=" +
+
+location.origin+
+
+"/tagoyama-fuji-168/share-news.html?id="+
+
 id
+
 )
+
 );
 
 }
@@ -296,12 +327,19 @@ id
 function shareX(id){
 
 window.open(
-"https://twitter.com/intent/tweet?url=" +
+
+"https://twitter.com/intent/tweet?url="+
+
 encodeURIComponent(
-location.origin +
-"/tagoyama-fuji-168/share-news.html?id=" +
+
+location.origin+
+
+"/tagoyama-fuji-168/share-news.html?id="+
+
 id
+
 )
+
 );
 
 }
@@ -309,38 +347,56 @@ id
 function copyLink(id){
 
 navigator.clipboard.writeText(
-location.origin +
-"/tagoyama-fuji-168/share-news.html?id=" +
+
+location.origin+
+
+"/tagoyama-fuji-168/share-news.html?id="+
+
 id
+
 );
 
 alert(
+
 "リンクをコピーしました"
+
 );
 
 }
 
 fetch(
-GAS_URL +
+
+GAS_URL+
+
 "?mode=news"
+
 )
+
 .then(
+
 r=>r.json()
+
 )
+
 .then(
+
 rows=>{
 
 document.getElementById(
-"loading"
-).style.display =
-"none";
 
-const newsList =
+"loading"
+
+).style.display="none";
+
+const newsList=
+
 document.getElementById(
+
 "newsList"
+
 );
 
-newsList.innerHTML = "";
+newsList.innerHTML="";
 
 rows.forEach((row,index)=>{
 
@@ -353,7 +409,7 @@ newsList.innerHTML +=
 <div class="newsCard">
 
 ${
-index === 0
+index===0
 ?
 '<div class="newBadge">NEW</div>'
 :
@@ -361,7 +417,9 @@ index === 0
 }
 
 <div class="newsTitle">
-${row.title || ""}
+
+${row.title||""}
+
 </div>
 
 ${
@@ -369,7 +427,9 @@ image
 ?
 `
 <div class="slider">
+
 <img src="${image}">
+
 </div>
 `
 :
@@ -377,13 +437,19 @@ image
 }
 
 <div class="newsDate">
-${String(row.date || "")
+
+${String(row.date||"")
+
 .replace("T15:00:00.000Z","")
+
 .replace(/-/g,"/")}
+
 </div>
 
 <div class="newsText">
-${row.text || ""}
+
+${row.text||""}
+
 </div>
 
 <div class="shareRow">
@@ -391,25 +457,33 @@ ${row.text || ""}
 <button
 class="shareBtn fb"
 onclick="shareFacebook(${index})">
+
 Facebook
+
 </button>
 
 <button
 class="shareBtn line"
 onclick="shareLine(${index})">
+
 LINE
+
 </button>
 
 <button
 class="shareBtn x"
 onclick="shareX(${index})">
+
 X
+
 </button>
 
 <button
 class="shareBtn copy"
 onclick="copyLink(${index})">
+
 コピー
+
 </button>
 
 </div>
@@ -417,7 +491,8 @@ onclick="copyLink(${index})">
 <div class="fbGuide">
 
 📘 Facebookは
-「コピー」を押して投稿欄へ貼り付けると
+「コピー」を押して
+投稿欄へ貼り付けると
 画像付きで共有できます
 
 </div>
@@ -429,11 +504,13 @@ onclick="copyLink(${index})">
 });
 
 })
+
 .catch(err=>{
 
 document.getElementById(
 "loading"
-).innerHTML =
+).innerHTML=
+
 "お知らせがありません";
 
 console.log(err);
@@ -444,4 +521,3 @@ console.log(err);
 
 </body>
 </html>
-  
