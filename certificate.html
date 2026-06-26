@@ -34,7 +34,7 @@ min-height:100vh;
 .wrap{
 width:100%;
 max-width:720px;
-margin:auto;
+margin:0 auto;
 padding:18px 14px 40px;
 }
 
@@ -45,14 +45,18 @@ padding:12px 0 16px;
 
 .header .small{
 font-size:13px;
-color:#e8d09a;
 letter-spacing:.12em;
+color:#e8d09a;
 }
 
 .header h1{
-margin:8px 0;
+margin:8px 0 4px;
 font-size:28px;
+letter-spacing:.08em;
 color:#ffd36a;
+text-shadow:
+0 2px 0 #4b2208,
+0 0 18px rgba(255,190,80,.35);
 }
 
 .header .sub{
@@ -61,23 +65,35 @@ color:#f4e1af;
 }
 
 .card{
-background:#2b1609;
+background:
+linear-gradient(
+180deg,
+rgba(90,48,18,.96),
+rgba(35,15,6,.98)
+);
 border:2px solid #c99a3a;
-border-radius:20px;
+border-radius:22px;
+box-shadow:
+0 0 0 4px rgba(80,35,8,.9),
+0 18px 38px rgba(0,0,0,.55);
 padding:14px;
 }
 
 #certificate{
 position:relative;
-overflow:hidden;
-border-radius:16px;
+width:100%;
 background:#000;
+border-radius:16px;
+overflow:hidden;
+border:1px solid rgba(255,215,120,.75);
 }
 
 #memorialImage{
 display:block;
 width:100%;
 height:auto;
+min-height:420px;
+object-fit:cover;
 background:#000;
 }
 
@@ -92,35 +108,48 @@ pointer-events:none;
 
 .certTitle{
 position:absolute;
-top:4%;
-left:0;
-right:0;
+top:4.5%;
+left:6%;
+right:6%;
 text-align:center;
-font-size:34px;
+font-size:clamp(20px,6vw,42px);
 font-weight:bold;
+letter-spacing:.12em;
 color:#fff4c2;
 }
 
 .certCount{
 position:absolute;
 top:15%;
-left:0;
-right:0;
+left:8%;
+right:8%;
 text-align:center;
-font-size:28px;
+font-size:clamp(17px,4.8vw,32px);
 font-weight:bold;
 color:#ffe08a;
 }
 
 .certBottom{
 position:absolute;
-left:5%;
-right:5%;
-bottom:5%;
+bottom:5.5%;
+left:6%;
+right:6%;
 display:flex;
 justify-content:space-between;
+gap:10px;
+font-size:clamp(11px,3.2vw,18px);
 font-weight:bold;
-color:white;
+color:#fff6d5;
+text-shadow:
+0 2px 3px #000,
+0 0 8px rgba(0,0,0,.9);
+}
+
+.certBottom div{
+background:rgba(0,0,0,.34);
+border:1px solid rgba(255,230,150,.55);
+border-radius:999px;
+padding:7px 10px;
 }
 
 .infoBox{
@@ -134,8 +163,8 @@ border-radius:16px;
 .infoRow{
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:10px 0;
+gap:12px;
+padding:9px 0;
 border-bottom:1px dashed rgba(255,220,150,.35);
 font-size:15px;
 }
@@ -146,9 +175,11 @@ border-bottom:none;
 
 .infoRow span:first-child{
 color:#e7c36c;
+white-space:nowrap;
 }
 
 .infoRow span:last-child{
+text-align:right;
 font-weight:bold;
 color:#fff8dc;
 }
@@ -163,24 +194,58 @@ gap:12px;
 width:100%;
 border:none;
 border-radius:999px;
-padding:15px;
+padding:15px 18px;
 font-size:17px;
 font-weight:bold;
 cursor:pointer;
+box-shadow:
+0 6px 0 rgba(70,30,5,.9),
+0 14px 24px rgba(0,0,0,.35);
+}
+
+.btn:disabled{
+opacity:.65;
+cursor:not-allowed;
 }
 
 .btn.save{
-background:#e0a82f;
+background:
+linear-gradient(
+180deg,
+#fff1a8,
+#e0a82f
+);
 color:#2e1602;
 }
 
 .btn.back{
-background:#5a3415;
-color:#fff3cf;
+background:
+linear-gradient(
+180deg,
+#6c3b14,
+#3a1908
+);
+color:#ffe9a6;
+border:1px solid rgba(255,220,130,.55);
 }
 
 .shareArea{
-margin-top:18px;
+margin-top:16px;
+padding:14px;
+background:rgba(255,245,210,.08);
+border:1px solid rgba(255,220,140,.5);
+border-radius:16px;
+}
+
+.shareTitle{
+text-align:center;
+font-size:16px;
+font-weight:bold;
+color:#ffd36a;
+margin-bottom:12px;
+}
+
+.shareGrid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
@@ -191,10 +256,13 @@ display:flex;
 align-items:center;
 justify-content:center;
 height:48px;
-border-radius:12px;
+border-radius:14px;
 text-decoration:none;
+font-size:15px;
 font-weight:bold;
 color:#fff;
+border:none;
+cursor:pointer;
 }
 
 .line{
@@ -211,16 +279,21 @@ background:#111111;
 
 .copy{
 background:#8b5a1f;
-border:none;
-font-size:15px;
-cursor:pointer;
 }
 
-.loading,
-.error{
-padding:40px 10px;
+.loading{
+padding:50px 10px;
 text-align:center;
 font-size:18px;
+color:#ffd36a;
+}
+
+.error{
+padding:30px 14px;
+text-align:center;
+font-size:16px;
+line-height:1.8;
+color:#ffe0e0;
 }
 
 .popup{
@@ -230,29 +303,40 @@ left:0;
 top:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.86);
 z-index:9999;
-padding:20px;
+padding:18px;
 overflow:auto;
 }
 
 .popupInner{
 max-width:720px;
 margin:auto;
-background:#1b0d04;
-border-radius:16px;
-padding:16px;
+background:#160b04;
+border:2px solid #c99a3a;
+border-radius:18px;
+padding:14px;
+}
+
+.popupTitle{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#ffd36a;
+margin-bottom:12px;
 }
 
 #savedImage{
-width:100%;
 display:block;
+width:100%;
+height:auto;
 border-radius:12px;
+border:1px solid rgba(255,220,140,.6);
 }
 
 .closeBtn{
 width:100%;
-margin-top:16px;
+margin-top:14px;
 padding:14px;
 border:none;
 border-radius:999px;
@@ -260,11 +344,29 @@ background:#d8a13a;
 color:#2a1302;
 font-size:16px;
 font-weight:bold;
+cursor:pointer;
 }
 
 @media(max-width:480px){
 
-.shareArea{
+.wrap{
+padding:12px 10px 30px;
+}
+
+.header h1{
+font-size:24px;
+}
+
+.card{
+padding:10px;
+border-radius:18px;
+}
+
+.infoRow{
+font-size:14px;
+}
+
+.shareGrid{
 grid-template-columns:1fr;
 }
 
@@ -316,7 +418,6 @@ class="loading">
 id="error"
 class="error"
 style="display:none;">
-
 </div>
 
 <div
@@ -435,6 +536,16 @@ onclick="history.back()">
 <div
 class="shareArea">
 
+<div
+class="shareTitle">
+
+SNSでシェア
+
+</div>
+
+<div
+class="shareGrid">
+
 <a
 id="lineShare"
 class="shareBtn line"
@@ -478,12 +589,21 @@ onclick="copyLink()">
 
 </div>
 
+</div>
+
 <div
 id="popup"
 class="popup">
 
 <div
 class="popupInner">
+
+<div
+class="popupTitle">
+
+登頂記念証
+
+</div>
 
 <img
 id="savedImage">
@@ -502,7 +622,7 @@ onclick="closePopup()">
 
 <script>
 
-const GAS_URL=
+const GAS_URL =
 "https://script.google.com/macros/s/AKfycbwqbCjVLj-O5zkQizJfOInFdY5JqAz32q3i8T_RuSmOqvVDB98bwIESsPZCJrbBGdaeOg/exec";
 
 let latestSerial="";
@@ -530,7 +650,9 @@ document.getElementById("content");
 try{
 
 const userId=
-localStorage.getItem("tagoyamaUserId")||"";
+localStorage.getItem(
+"tagoyamaUserId"
+)||"";
 
 if(!userId){
 
@@ -541,15 +663,11 @@ throw new Error(
 }
 
 const res=
-
 await fetch(
 
 GAS_URL+
-
 "?mode=certificate"+
-
 "&userId="+
-
 encodeURIComponent(userId)
 
 );
@@ -644,9 +762,7 @@ content.style.display="block";
 }catch(err){
 
 loading.style.display="none";
-
 error.style.display="block";
-
 error.innerText=
 String(err);
 
@@ -693,23 +809,18 @@ GAS_URL+
 "?mode=receive"+
 
 "&userId="+
-
 encodeURIComponent(
-
 localStorage.getItem(
 "tagoyamaUserId"
 )||""
-
 )
 
 );
 
 await waitImageLoaded(
-
 document.getElementById(
 "memorialImage"
 )
-
 );
 
 const canvas=
@@ -723,9 +834,7 @@ document.getElementById(
 {
 
 scale:3,
-
 useCORS:true,
-
 backgroundColor:null
 
 }
@@ -761,8 +870,7 @@ function showImagePopup(src){
 
 document.getElementById(
 "savedImage"
-).src=
-src;
+).src=src;
 
 document.getElementById(
 "popup"
@@ -805,5 +913,4 @@ alert(
 </script>
 
 </body>
-
 </html>
