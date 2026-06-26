@@ -1,3 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>田子山富士 登頂記念証</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+padding:0;
+font-family:
+"Hiragino Mincho ProN",
+"Yu Mincho",
+serif;
+background:
+linear-gradient(
+180deg,
+#130b05 0%,
+#2b1609 45%,
+#070302 100%
+);
+color:#fff8dc;
+min-height:100vh;
+}
+
+.wrap{
+width:100%;
+max-width:720px;
+margin:0 auto;
+padding:18px 14px 40px;
+}
+
+.header{
+text-align:center;
+padding:12px 0 16px;
+}
+
+.header .small{
+font-size:13px;
+letter-spacing:0.12em;
+color:#e8d09a;
+}
+
+.header h1{
+margin:8px 0 4px;
+font-size:28px;
+letter-spacing:0.08em;
+color:#ffd36a;
+text-shadow:
+0 2px 0 #4b2208,
+0 0 18px rgba(255,190,80,0.35);
+}
+
+.header .sub{
+font-size:14px;
+color:#f4e1af;
+}
+
+.card{
+background:
+linear-gradient(
+180deg,
+rgba(90,48,18,0.96),
+rgba(35,15,6,0.98)
+);
+border:2px solid #c99a3a;
+border-radius:22px;
+box-shadow:
+0 0 0 4px rgba(80,35,8,0.9),
+0 18px 38px rgba(0,0,0,0.55);
+padding:14px;
+}
+
+#certificate{
+position:relative;
+width:100%;
+background:#000;
+border-radius:16px;
+overflow:hidden;
+border:1px solid rgba(255,215,120,0.75);
+}
+
+#memorialImage{
+display:block;
+width:100%;
+height:auto;
+min-height:420px;
+object-fit:cover;
+background:#000;
+}
+
+.certOverlay{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.certTitle{
+position:absolute;
+top:4.5%;
+left:6%;
+right:6%;
+text-align:center;
+font-size:clamp(20px,6vw,42px);
+font-weight:bold;
+letter-spacing:0.12em;
+color:#fff4c2;
+text-shadow:
+0 2px 3px #000,
+0 0 10px #6b2600,
+0 0 18px rgba(255,210,100,0.85);
+}
+
+.certCount{
+position:absolute;
+top:15%;
+left:8%;
+right:8%;
+text-align:center;
+font-size:clamp(17px,4.8vw,32px);
+font-weight:bold;
+color:#ffe08a;
+text-shadow:
+0 2px 3px #000,
+0 0 12px rgba(0,0,0,0.9);
+}
+
+.certBottom{
+position:absolute;
+bottom:5.5%;
+left:6%;
+right:6%;
+display:flex;
+justify-content:space-between;
+gap:10px;
+font-size:clamp(11px,3.2vw,18px);
+font-weight:bold;
+color:#fff6d5;
+text-shadow:
+0 2px 3px #000,
+0 0 8px rgba(0,0,0,0.9);
+}
+
+.certBottom div{
+background:rgba(0,0,0,0.34);
+border:1px solid rgba(255,230,150,0.55);
+border-radius:999px;
+padding:7px 10px;
+}
+
+.infoBox{
+margin-top:16px;
+padding:14px;
+background:rgba(0,0,0,0.28);
+border:1px solid rgba(255,210,110,0.45);
+border-radius:16px;
+}
+
+.infoRow{
+display:flex;
+justify-content:space-between;
+gap:12px;
+border-bottom:1px dashed rgba(255,220,150,0.35);
+padding:9px 0;
+font-size:15px;
+}
+
+.infoRow:last-child{
+border-bottom:none;
+}
+
+.infoRow span:first-child{
+color:#e7c36c;
+white-space:nowrap;
+}
+
+.infoRow span:last-child{
+text-align:right;
+font-weight:bold;
+color:#fff8dc;
+}
+
+.btnArea{
+margin-top:18px;
+display:grid;
+gap:12px;
+}
+
+.btn{
+width:100%;
+border:none;
+border-radius:999px;
+padding:15px 18px;
+font-size:17px;
+font-weight:bold;
+letter-spacing:0.04em;
+cursor:pointer;
+box-shadow:
+0 6px 0 rgba(70,30,5,0.9),
+0 14px 24px rgba(0,0,0,0.35);
+}
+
+.btn:disabled{
+opacity:0.62;
+cursor:not-allowed;
+}
+
+.btn.save{
+background:
+linear-gradient(
+180deg,
+#fff1a8,
+#e0a82f
+);
+color:#2e1602;
+}
+
+.btn.back{
+background:
+linear-gradient(
+180deg,
+#6c3b14,
+#3a1908
+);
+color:#ffe9a6;
+border:1px solid rgba(255,220,130,0.55);
+}
+
+.shareArea{
+display:none;
+margin-top:16px;
+padding:14px;
+background:rgba(255,245,210,0.08);
+border:1px solid rgba(255,220,140,0.5);
+border-radius:16px;
+}
+
+.shareTitle{
+font-size:16px;
+font-weight:bold;
+color:#ffd36a;
+text-align:center;
+margin-bottom:12px;
+}
+
+.shareGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.shareBtn{
+display:block;
+text-align:center;
+text-decoration:none;
+border-radius:14px;
+padding:12px 8px;
+font-weight:bold;
+font-size:14px;
+color:#fff;
+border:1px solid rgba(255,255,255,0.22);
+}
+
+.line{
+background:#06c755;
+}
+
+.facebook{
+background:#1877f2;
+}
+
+.x{
+background:#111;
+}
+
+.copy{
+background:#8b5a1f;
+}
+
+.message{
+margin:16px 0 0;
+text-align:center;
+font-size:15px;
+line-height:1.7;
+color:#f7df9a;
+}
+
+.loading{
+text-align:center;
+padding:50px 10px;
+font-size:18px;
+color:#ffd36a;
+}
+
+.error{
+text-align:center;
+padding:30px 14px;
+font-size:16px;
+line-height:1.8;
+color:#ffe0e0;
+}
+
+.popup{
+display:none;
+position:fixed;
+z-index:9999;
+inset:0;
+background:rgba(0,0,0,0.86);
+padding:18px;
+overflow:auto;
+}
+
+.popupInner{
+max-width:720px;
+margin:0 auto;
+background:#160b04;
+border:2px solid #c99a3a;
+border-radius:18px;
+padding:14px;
+}
+
+.popupTitle{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#ffd36a;
+margin-bottom:12px;
+}
+
+#savedImage{
+display:block;
+width:100%;
+height:auto;
+border-radius:12px;
+border:1px solid rgba(255,220,140,0.6);
+}
+
+.closeBtn{
+margin-top:14px;
+width:100%;
+border:none;
+border-radius:999px;
+padding:14px;
+font-size:16px;
+font-weight:bold;
+background:#d8a13a;
+color:#2a1302;
+}
+
+.note{
+margin-top:10px;
+font-size:13px;
+line-height:1.6;
+color:#f0d99a;
+text-align:center;
+}
+
+@media(max-width:480px){
+
+.wrap{
+padding:12px 10px 30px;
+}
+
+.header h1{
+font-size:24px;
+}
+
+.card{
+padding:10px;
+border-radius:18px;
+}
+
+.infoRow{
+font-size:14px;
+}
+
+.shareGrid{
+grid-template-columns:1fr;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="header">
+<div class="small">田子山富士 168の縁プロジェクト</div>
+<h1>登頂記念証</h1>
+<div class="sub">おめでとうございます</div>
+</div>
+
+<div class="card" id="mainCard">
+
+<div id="loading" class="loading">
+記念証を準備しています...
+</div>
+
+<div id="error" class="error" style="display:none;"></div>
+
+<div id="content" style="display:none;">
+
+<div id="certificate">
+
+<img
+id="memorialImage"
+crossorigin="anonymous"
+referrerpolicy="no-referrer"
+src=""
+alt="登頂記念画像"
+>
+
+<div class="certOverlay">
+
+<div class="certTitle">
+田子山富士 登頂記念
+</div>
+
+<div
+class="certCount"
+id="countText">
+第 -- 回 登頂
+</div>
+
+<div class="certBottom">
+
+<div id="serialText">
+No.----
+</div>
+
+<div id="dateText">
+----
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="infoBox">
+
+<div class="infoRow">
+<span>登頂回数</span>
+<span id="infoCount">-</span>
+</div>
+
+<div class="infoRow">
+<span>シリアル</span>
+<span id="infoSerial">-</span>
+</div>
+
+<div class="infoRow">
+<span>登頂日</span>
+<span id="infoDate">-</span>
+</div>
+
+<div class="infoRow">
+<span>記念画像</span>
+<span id="infoImage">-</span>
+</div>
+
+</div>
+
+<div class="btnArea">
+
+<button
+class="btn save"
+onclick="saveImage()">
+
+📜 記念証を授かる
+
+</button>
+
+<button
+class="btn back"
+onclick="history.back()">
+
+← 戻る
+
+</button>
+
+</div>
+
+<div
+class="shareArea"
+id="shareArea">
+
+<div class="shareTitle">
+
+記念証を授かりました
+
+</div>
+
+<div class="shareGrid">
+
+<a
+id="lineShare"
+class="shareBtn line"
+target="_blank">
+
+LINE
+
+</a>
+
+<a
+id="facebookShare"
+class="shareBtn facebook"
+target="_blank">
+
+Facebook
+
+</a>
+
+<a
+id="xShare"
+class="shareBtn x"
+target="_blank">
+
+X
+
+</a>
+
+<button
+class="shareBtn copy"
+onclick="copyLink()">
+
+リンクコピー
+
+</button>
+
+</div>
+
+</div>
+
+<div class="message">
+
+田子山富士へお越しいただき
+ありがとうございました。
+
+これからも安全に登山を
+お楽しみください。
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+class="popup"
+id="popup">
+
+<div class="popupInner">
+
+<div class="popupTitle">
+
+保存用画像
+
+</div>
+
+<img
+id="savedImage">
+
+<button
+class="closeBtn"
+onclick="closePopup()">
+
+閉じる
+
+</button>
+
+<div class="note">
+
+画像を長押しして保存してください。
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const GAS_URL=
+"https://script.google.com/macros/s/あなたのGAS/exec";
+
+let latestSerial="";
+let latestCount=0;
+let latestDate="";
+let latestImageName="";
+let latestShareUrl=
+location.href;
+
+window.addEventListener(
+
+"load",
+
+loadCertificate
+
+);
+
+async function loadCertificate(){
+
+const loading=
+document.getElementById(
+"loading"
+);
+
+const content=
+document.getElementById(
+"content"
+);
+
+const error=
+document.getElementById(
+"error"
+);
+
+try{
+
+const userId=
+
+localStorage.getItem(
+"tagoyamaUserId"
+)||"";
+
+if(!userId){
+
+throw new Error(
+"ユーザー情報がありません"
+);
+
+}
+
+const res=
+await fetch(
+
+GAS_URL+
+
+"?mode=certificate"+
+
+"&userId="+
+
+encodeURIComponent(
+userId
+)
+
+);
+
+const data=
+await res.json();
+
+if(!data.success){
+
+throw new Error(
+
+data.message||
+
+"取得できません"
+
+);
+
+}
+
+latestSerial=
+data.serial;
+
+latestCount=
+data.count;
+
+latestDate=
+data.date;
+
+latestImageName=
+data.imageName;
+
+document
+.getElementById(
+"memorialImage"
+)
+.src=
+data.imageUrl;
+
+document
+.getElementById(
+"countText"
+)
+.innerText=
+
+"第 "+
+
+data.count+
+
+" 回 登頂";
+
+document
+.getElementById(
+"serialText"
+)
+.innerText=
+data.serial;
+
+document
+.getElementById(
+"dateText"
+)
+.innerText=
+data.date;
+
+document
+.getElementById(
+"infoCount"
+)
+.innerText=
+data.count+"回";
+
+document
+.getElementById(
+"infoSerial"
+)
+.innerText=
+data.serial;
+
+document
+.getElementById(
+"infoDate"
+)
+.innerText=
+data.date;
+
+document
+.getElementById(
+"infoImage"
+)
+.innerText=
+data.imageName;
+
+loading.style.display=
+"none";
+
+content.style.display=
+"block";
+
+}catch(e){
+
+loading.style.display=
+"none";
+
+error.style.display=
+"block";
+
+error.innerText=
+e.message;
+
+}
+
+}
+
+async function waitImageLoaded(img){
+
+if(img.complete && img.naturalWidth>0){
+return;
+}
+
+await new Promise(function(resolve,reject){
+
+img.onload=resolve;
+
+img.onerror=reject;
+
+});
+
+}
+
 async function saveImage(){
 
 const btn=
@@ -11,8 +800,6 @@ btn.innerText=
 "記念証を授与中...";
 
 try{
-
-/* ここで参加確定 */
 
 await fetch(
 
@@ -30,7 +817,6 @@ encodeURIComponent(
 localStorage.getItem(
 "tagoyamaUserId"
 )||""
-
 )
 
 );
@@ -71,12 +857,52 @@ canvas.toDataURL(
 
 );
 
+document.getElementById(
+"shareArea"
+).style.display="block";
+
+const text=
+
+encodeURIComponent(
+
+"田子山富士に登頂しました！\n"+
+"シリアル："+latestSerial
+
+);
+
+const url=
+
+encodeURIComponent(
+latestShareUrl
+);
+
+document.getElementById(
+"lineShare"
+).href=
+
+"https://social-plugins.line.me/lineit/share?url="+
+url;
+
+document.getElementById(
+"facebookShare"
+).href=
+
+"https://www.facebook.com/sharer/sharer.php?u="+
+url;
+
+document.getElementById(
+"xShare"
+).href=
+
+"https://twitter.com/intent/tweet?text="+
+text+
+"&url="+
+url;
+
 }catch(err){
 
 alert(
-
 "画像の作成に失敗しました"
-
 );
 
 }finally{
@@ -91,568 +917,49 @@ btn.innerText=
 
 }
 
-function receiveCertificate(p){
+function showImagePopup(src){
 
-const ss=
-SpreadsheetApp.openById(
-SHEET_ID
-);
+document.getElementById(
+"savedImage"
+).src=src;
 
-const sheet=
-ss.getSheetByName(
-SHEET_CLIMB
-);
-
-if(!sheet){
-
-return json({
-
-success:false,
-
-message:"登頂履歴がありません"
-
-});
+document.getElementById(
+"popup"
+).style.display="block";
 
 }
 
-const userId=
-String(
-p.userId||""
-);
+function closePopup(){
 
-const serial=
-String(
-p.serial||""
-);
-
-const values=
-
-sheet
-.getDataRange()
-.getValues();
-
-for(
-
-let i=1;
-
-i<values.length;
-
-i++
-
-){
-
-if(
-
-String(values[i][1])===userId &&
-
-String(values[i][3])===serial
-
-){
-
-sheet
-.getRange(
-i+1,
-7
-)
-.setValue(
-"受領"
-);
-
-break;
+document.getElementById(
+"popup"
+).style.display="none";
 
 }
 
-}
-
-return json({
-
-success:true,
-
-message:"受領しました"
-
-});
-
-}
-
-function saveClimb(userId){
-
-const lock=
-LockService.getScriptLock();
-
-lock.waitLock(30000);
+async function copyLink(){
 
 try{
 
-const ss=
-SpreadsheetApp.openById(
-SHEET_ID
+await navigator.clipboard.writeText(
+location.href
 );
 
-let sheet=
-ss.getSheetByName(
-SHEET_CLIMB
+alert(
+"リンクをコピーしました"
 );
 
-if(!sheet){
+}catch(e){
 
-sheet=
-ss.insertSheet(
-SHEET_CLIMB
-);
-
-sheet.appendRow([
-
-"日時",
-
-"userId",
-
-"回数",
-
-"シリアル",
-
-"画像URL",
-
-"画像名",
-
-"受領"
-
-]);
-
-}
-
-const values=
-
-sheet.getLastRow()>1
-
-?
-
-sheet.getRange(
-
-2,
-
-1,
-
-sheet.getLastRow()-1,
-
-7
-
-).getValues()
-
-:
-
-[];
-
-const today=
-
-Utilities.formatDate(
-
-new Date(),
-
-TZ,
-
-"yyyy/MM/dd"
-
-);
-
-let count=0;
-
-let already=false;
-
-let oldSerial="";
-
-let oldImageUrl="";
-
-let oldImageName="";
-
-let received="";
-
-for(
-
-let i=0;
-
-i<values.length;
-
-i++
-
-){
-
-const rowUser=
-String(values[i][1]||"");
-
-if(rowUser!==userId){
-
-continue;
-
-}
-
-count++;
-
-const rowDate=
-
-Utilities.formatDate(
-
-new Date(values[i][0]),
-
-TZ,
-
-"yyyy/MM/dd"
-
-);
-
-if(rowDate===today){
-
-already=true;
-
-oldSerial=values[i][3]||"";
-
-oldImageUrl=values[i][4]||"";
-
-oldImageName=values[i][5]||"";
-
-received=values[i][6]||"";
-
-}
-
-}
-
-if(already){
-
-return json({
-
-success:true,
-
-alreadyClimbed:true,
-
-received:received==="受領",
-
-count:count,
-
-serial:oldSerial,
-
-imageUrl:oldImageUrl,
-
-imageName:oldImageName,
-
-climbDate:today
-
-});
-
-}
-
-const climbCount=
-
-count+1;
-
-const serial=
-
-climbCount+
-
-"-"+
-
-String(
-
-values.length+1
-
-).padStart(
-
-4,
-
-"0"
-
-);
-
-const image=
-
-getImageData(
-
-ss,
-
-climbCount
-
-);
-
-sheet.appendRow([
-
-new Date(),
-
-userId,
-
-climbCount,
-
-serial,
-
-image.url,
-
-image.name,
-
-""
-
-]);
-
-return json({
-
-success:true,
-
-alreadyClimbed:false,
-
-received:false,
-
-count:climbCount,
-
-serial:serial,
-
-imageUrl:image.url,
-
-imageName:image.name,
-
-climbDate:today
-
-});
-
-}catch(err){
-
-return json({
-
-success:false,
-
-message:String(err)
-
-});
-
-}finally{
-
-lock.releaseLock();
-
-}
-
-function getImageData(
-
-ss,
-
-count
-
-){
-
-const sheet=
-
-ss.getSheetByName(
-
-SHEET_IMAGE
-
-);
-
-if(!sheet){
-
-throw new Error(
-
-"記念画像シートがありません"
-
+alert(
+"コピーできませんでした"
 );
 
 }
 
-const values=
-
-sheet
-.getDataRange()
-.getValues();
-
-for(
-
-let i=1;
-
-i<values.length;
-
-i++
-
-){
-
-if(
-
-Number(values[i][0])===count
-
-){
-
-return{
-
-url:
-values[i][1]||"",
-
-name:
-values[i][2]||""
-
-};
-
 }
 
-}
+</script>
 
-const last=
-
-values[
-values.length-1
-];
-
-return{
-
-url:
-last[1]||"",
-
-name:
-last[2]||""
-
-};
-
-}
-
-function getStats(){
-
-const ss=
-
-SpreadsheetApp.openById(
-SHEET_ID
-);
-
-const sheet=
-
-ss.getSheetByName(
-SHEET_CLIMB
-);
-
-if(!sheet){
-
-return json({
-
-success:true,
-
-participants:0
-
-});
-
-}
-
-/* 「受領」だけ人数にする */
-
-const values=
-
-sheet
-.getDataRange()
-.getValues();
-
-let participants=0;
-
-for(
-
-let i=1;
-
-i<values.length;
-
-i++
-
-){
-
-if(
-
-String(values[i][6])==="受領"
-
-){
-
-participants++;
-
-}
-
-}
-
-return json({
-
-success:true,
-
-participants:participants
-
-});
-
-function getGoen(){
-
-/* ここから下は現在のまま */
-
-}
-
-function saveKicho(data){
-
-/* ここから下は現在のまま */
-
-}
-
-function getNews(){
-
-/* ここから下は現在のまま */
-
-}
-
-function getOmikuji(){
-
-/* ここから下は現在のまま */
-
-}
-
-function getOmikujiList(){
-
-/* ここから下は現在のまま */
-
-}
-
-function saveOmikujiHistory(data){
-
-/* ここから下は現在のまま */
-
-}
-
-function listSheets(){
-
-const ss=
-SpreadsheetApp.openById(
-SHEET_ID
-);
-
-return json({
-
-success:true,
-
-sheets:
-ss.getSheets()
-.map(s=>s.getName())
-
-});
-
-}
-
-function formatDate(value){
-
-if(
-Object.prototype.toString.call(value)
-==="[object Date]"
-){
-
-return Utilities.formatDate(
-value,
-TZ,
-"yyyy/MM/dd HH:mm"
-);
-
-}
-
-return value||"";
-
-}
-
-function json(obj){
-
-return ContentService
-.createTextOutput(
-JSON.stringify(obj)
-)
-.setMimeType(
-ContentService.MimeType.JSON
-);
-
-}
+</body>
+</html>
