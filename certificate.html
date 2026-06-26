@@ -225,41 +225,55 @@ class="date">
 <button
 class="btn save"
 onclick="saveImage()">
+
 📜 記念証を授かる
+
 </button>
 
 <button
 class="btn copy"
 onclick="copyUrl()">
+
 ① リンクをコピー
+
 </button>
 
 <button
 class="btn fb"
 onclick="shareFacebook()">
+
 ② Facebookを開く
+
 </button>
 
 <button
 class="btn x"
 onclick="shareX()">
+
 X
+
 </button>
 
 <button
 class="btn line"
 onclick="shareLine()">
+
 LINE
+
 </button>
 
 <button
 class="btn home"
 onclick="location.href='index.html'">
+
 🏠 田子山富士へ戻る
+
 </button>
 
 <div class="footer">
+
 田子山富士168の縁プロジェクト
+
 </div>
 
 </div>
@@ -340,8 +354,24 @@ document.getElementById(
 
 if(latestImageUrl){
 
+img.crossOrigin =
+"anonymous";
+
+img.referrerPolicy =
+"no-referrer";
+
 img.src =
-latestImageUrl;
+latestImageUrl +
+(
+latestImageUrl.includes("?")
+?
+"&"
+:
+"?"
+)
++
+"t=" +
+Date.now();
 
 }
 
@@ -378,8 +408,8 @@ latestClimbDate;
 function copyUrl(){
 
 const shareUrl =
-SHARE_BASE +
-"?serial=" +
+SHARE_BASE+
+"?serial="+
 encodeURIComponent(
 latestSerial
 );
@@ -398,14 +428,14 @@ alert(
 function shareFacebook(){
 
 const shareUrl =
-SHARE_BASE +
-"?serial=" +
+SHARE_BASE+
+"?serial="+
 encodeURIComponent(
 latestSerial
 );
 
 window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
+"https://www.facebook.com/sharer/sharer.php?u="+
 encodeURIComponent(
 shareUrl
 ),
@@ -417,14 +447,14 @@ shareUrl
 function shareX(){
 
 const shareUrl =
-SHARE_BASE +
-"?serial=" +
+SHARE_BASE+
+"?serial="+
 encodeURIComponent(
 latestSerial
 );
 
 window.open(
-"https://twitter.com/intent/tweet?url=" +
+"https://twitter.com/intent/tweet?url="+
 encodeURIComponent(
 shareUrl
 ),
@@ -436,14 +466,14 @@ shareUrl
 function shareLine(){
 
 const shareUrl =
-SHARE_BASE +
-"?serial=" +
+SHARE_BASE+
+"?serial="+
 encodeURIComponent(
 latestSerial
 );
 
 window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
+"https://social-plugins.line.me/lineit/share?url="+
 encodeURIComponent(
 shareUrl
 ),
@@ -476,14 +506,14 @@ image.onerror=()=>resolve();
 
 async function saveImage(){
 
-const btn =
+const btn=
 document.querySelector(
 ".btn.save"
 );
 
-btn.disabled = true;
+btn.disabled=true;
 
-btn.innerText =
+btn.innerText=
 "保存画像を作成中...";
 
 try{
@@ -494,7 +524,7 @@ document.getElementById(
 )
 );
 
-const canvas =
+const canvas=
 await html2canvas(
 document.getElementById(
 "certificate"
@@ -520,9 +550,9 @@ alert(
 
 }finally{
 
-btn.disabled = false;
+btn.disabled=false;
 
-btn.innerText =
+btn.innerText=
 "📜 記念証を授かる";
 
 }
@@ -531,7 +561,7 @@ btn.innerText =
 
 function showImagePopup(dataUrl){
 
-const overlay =
+const overlay=
 document.createElement(
 "div"
 );
