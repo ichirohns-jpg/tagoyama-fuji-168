@@ -184,8 +184,6 @@ font-weight:bold;
 color:#fff8dc;
 }
 
-/* 以下続き */
-
 .btnArea{
 margin-top:18px;
 display:grid;
@@ -632,6 +630,7 @@ let latestCount=0;
 let latestDate="";
 let latestImageName="";
 let latestImageUrl="";
+let latestShareUrl="";
 
 window.addEventListener(
 "load",
@@ -641,17 +640,31 @@ loadCertificate
 async function loadCertificate(){
 
 const loading=
-document.getElementById("loading");
+document.getElementById(
+"loading"
+);
 
 const error=
-document.getElementById("error");
+document.getElementById(
+"error"
+);
 
 const content=
-document.getElementById("content");
+document.getElementById(
+"content"
+);
 
 try{
 
+const params=
+new URLSearchParams(
+location.search
+);
+
 const userId=
+
+params.get("userId")||
+
 localStorage.getItem(
 "tagoyamaUserId"
 )||"";
@@ -664,48 +677,86 @@ throw new Error(
 
 }
 
+localStorage.setItem(
+"tagoyamaUserId",
+userId
+);
+
 const res=
 await fetch(
 
 GAS_URL+
+
 "?mode=certificate"+
+
 "&userId="+
-encodeURIComponent(userId)
+encodeURIComponent(
+userId
+)
 
 );
 
 const data=
 await res.json();
 
-if(!data.success){
+if(
+!data.success
+){
 
 throw new Error(
+
 data.message||
+
 "取得できません"
+
 );
 
 }
 
-latestSerial=data.serial;
-latestCount=data.count;
-latestDate=data.date;
-latestImageName=data.imageName;
-latestImageUrl=data.imageUrl;
+latestSerial=
+data.serial||"";
+
+latestCount=
+Number(
+data.count||0
+);
+
+latestDate=
+data.date||"";
+
+latestImageName=
+data.imageName||"";
+
+latestImageUrl=
+data.imageUrl||"";
+
+latestShareUrl=
+location.href;
 
 const img=
 document.getElementById(
 "memorialImage"
 );
 
+img.crossOrigin=
+"anonymous";
+
+img.referrerPolicy=
+"no-referrer";
+
 img.src=
 latestImageUrl;
 
-await waitImageLoaded(img);
+await waitImageLoaded(
+img
+);
 
 document.getElementById(
 "countText"
 ).innerText=
-"第 "+latestCount+" 回 登頂";
+"第 "+
+latestCount+
+" 回 登頂";
 
 document.getElementById(
 "serialText"
@@ -720,7 +771,8 @@ latestDate;
 document.getElementById(
 "infoCount"
 ).innerText=
-latestCount+"回";
+latestCount+
+"回";
 
 document.getElementById(
 "infoSerial"
@@ -737,36 +789,47 @@ document.getElementById(
 ).innerText=
 latestImageName;
 
-const shareUrl=
-encodeURIComponent(location.href);
+const share=
+encodeURIComponent(
+latestShareUrl
+);
 
 document.getElementById(
 "lineShare"
 ).href=
 "https://social-plugins.line.me/lineit/share?url="+
-shareUrl;
+share;
 
 document.getElementById(
 "facebookShare"
 ).href=
 "https://www.facebook.com/sharer/sharer.php?u="+
-shareUrl;
+share;
 
 document.getElementById(
 "xShare"
 ).href=
 "https://twitter.com/intent/tweet?url="+
-shareUrl;
+share;
 
-loading.style.display="none";
-content.style.display="block";
+loading.style.display=
+"none";
+
+content.style.display=
+"block";
 
 }catch(err){
 
-loading.style.display="none";
-error.style.display="block";
+loading.style.display=
+"none";
+
+error.style.display=
+"block";
+
 error.innerText=
 String(err);
+
+}
 
 }
 
@@ -776,15 +839,24 @@ if(
 img.complete &&
 img.naturalWidth>0
 ){
+
 return;
+
 }
 
-await new Promise(function(resolve,reject){
+await new Promise(
 
-img.onload=resolve;
-img.onerror=reject;
+function(resolve,reject){
 
-});
+img.onload=
+resolve;
+
+img.onerror=
+reject;
+
+}
+
+);
 
 }
 
@@ -802,6 +874,13 @@ btn.innerText=
 
 try{
 
+const userId=
+localStorage.getItem(
+"tagoyamaUserId"
+)||"";
+
+const receive=
+
 await fetch(
 
 GAS_URL+
@@ -810,9 +889,7 @@ GAS_URL+
 
 "&userId="+
 encodeURIComponent(
-localStorage.getItem(
-"tagoyamaUserId"
-)||""
+userId
 )+
 
 "&serial="+
@@ -821,6 +898,23 @@ latestSerial
 )
 
 );
+
+const receiveData=
+await receive.json();
+
+if(
+!receiveData.success
+){
+
+throw new Error(
+
+receiveData.message||
+
+"受領処理に失敗しました"
+
+);
+
+}
 
 await waitImageLoaded(
 
@@ -842,24 +936,40 @@ document.getElementById(
 
 scale:3,
 useCORS:true,
+allowTaint:false,
 backgroundColor:null
 
 }
 
 );
 
-showImagePopup(
-
+const image=
 canvas.toDataURL(
 "image/png"
-)
-
 );
+
+showImagePopup(
+image
+);
+
+const link=
+document.createElement(
+"a"
+);
+
+link.href=
+image;
+
+link.download=
+latestImageName||
+"tagoyama-certificate.png";
+
+link.click();
 
 }catch(err){
 
 alert(
-"画像の作成に失敗しました"
+err.message
 );
 
 }finally{
@@ -877,7 +987,8 @@ function showImagePopup(src){
 
 document.getElementById(
 "savedImage"
-).src=src;
+).src=
+src;
 
 document.getElementById(
 "popup"
@@ -900,7 +1011,7 @@ async function copyLink(){
 try{
 
 await navigator.clipboard.writeText(
-location.href
+latestShareUrl
 );
 
 alert(
@@ -920,4 +1031,7 @@ alert(
 </script>
 
 </body>
+
 </html>
+
+
