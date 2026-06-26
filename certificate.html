@@ -464,13 +464,14 @@ onclick="closePopup()">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxPFpo9ma-1gHz00kUoStjAF4oy7S0thwVpdvdTaYsT3nF9YPVXlwMDrhYckQpOR7yK/exec";
+"https://script.google.com/macros/s/AKfycbwrSA6egJn-LFNNvoCYNTzRWMP1rvfV8TWfQajH7B8dTR18W35oDyclrpNC0Di25-h6/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
 let latestUserId="";
 let latestCount=1;
+let latestSerial="";
 let latestDate="";
 let latestImageName="";
 let latestImageUrl="";
@@ -551,6 +552,7 @@ const fixed=
 resolveCertificateData(data);
 
 latestCount=fixed.count;
+latestSerial=fixed.serial;
 latestDate=fixed.date;
 latestImageName=fixed.imageName;
 latestImageUrl=fixed.imageUrl;
@@ -590,8 +592,12 @@ if(!count){
 count=1;
 }
 
+let serial=
+pickSerial(data.serial,count);
+
 return {
 count:count,
+serial:serial,
 date:pickDate(data),
 imageName:pickImageName(data),
 imageUrl:pickImageUrl(data),
@@ -629,26 +635,28 @@ if(!s){
 return 0;
 }
 
-if(s.length>30){
-return 0;
-}
-
-if(/^\d{4}-\d{2}-\d{2}/.test(s)){
-return 0;
-}
-
-if(/T\d{2}:\d{2}:\d{2}/.test(s)){
-return 0;
-}
-
 const m=
-s.match(/(?:No\.?|1-)?0*(\d{1,3})$/i);
+s.match(/^(\d{1,3})-\d{1,4}$/);
 
 if(m && m[1]){
 return safeCount(m[1]);
 }
 
 return 0;
+
+}
+
+function pickSerial(value,count){
+
+const s=
+getString(value);
+
+if(/^\d{1,3}-\d{4}$/.test(s)){
+return s;
+}
+
+return String(count || 1)+
+"-0001";
 
 }
 
@@ -711,8 +719,7 @@ document.getElementById("climbText").innerText=
 "第"+latestCount+"回登頂記念";
 
 document.getElementById("serialText").innerText=
-"No."+
-String(latestCount).padStart(4,"0");
+"No."+latestSerial;
 
 document.getElementById("dateText").innerText=
 latestDate || todayText();
@@ -1411,7 +1418,7 @@ GAS_URL+
 "&userId="+
 encodeURIComponent(userId)+
 "&serial="+
-encodeURIComponent("1-"+String(latestCount).padStart(4,"0"))+
+encodeURIComponent(latestSerial)+
 "&t="+
 Date.now()
 );
@@ -1443,7 +1450,9 @@ reject(new Error("画像保存に失敗しました"));
 function makeSaveFileName(){
 
 return "tagoyama-certificate-no-"+
-String(latestCount||1).padStart(4,"0")+
+latestSerial
+.replace("-","-")
+.replace(/[^\w\-]/g,"")+
 ".png";
 
 }
