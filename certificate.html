@@ -5,10 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>田子山富士 登頂記念証</title>
 
+<meta property="og:title" content="田子山富士 登頂記念証">
+<meta property="og:description" content="田子山富士168の縁プロジェクト 登頂記念証">
+<meta property="og:type" content="website">
+
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-*{box-sizing:border-box;}
+*{
+box-sizing:border-box;
+}
 
 html,
 body{
@@ -143,7 +149,7 @@ text-align:center;
 
 .certClimbText{
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(25px,6.6vw,52px);
+font-size:clamp(24px,6.2vw,50px);
 font-weight:900;
 letter-spacing:.02em;
 line-height:1.05;
@@ -156,7 +162,7 @@ text-shadow:
 .certSerial{
 margin-top:8px;
 font-family:"Arial Black","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(50px,13.6vw,100px);
+font-size:clamp(46px,12.4vw,92px);
 font-weight:900;
 letter-spacing:.01em;
 line-height:.98;
@@ -170,7 +176,7 @@ text-shadow:
 .certDate{
 margin-top:13px;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(30px,7.3vw,60px);
+font-size:clamp(28px,6.9vw,56px);
 font-weight:900;
 letter-spacing:.02em;
 line-height:1.0;
@@ -458,13 +464,12 @@ onclick="closePopup()">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycby-DW8fHGJ15EthTG39we_7HuVzsaYPqxWE-0WAiH9bVbeIky9_LceyPDcatVpt2EzFHA/exec";
+"https://script.google.com/macros/s/AKfycbxPFpo9ma-1gHz00kUoStjAF4oy7S0thwVpdvdTaYsT3nF9YPVXlwMDrhYckQpOR7yK/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
 let latestUserId="";
-let latestSerial="";
 let latestCount=1;
 let latestDate="";
 let latestImageName="";
@@ -546,7 +551,6 @@ const fixed=
 resolveCertificateData(data);
 
 latestCount=fixed.count;
-latestSerial=fixed.serial;
 latestDate=fixed.date;
 latestImageName=fixed.imageName;
 latestImageUrl=fixed.imageUrl;
@@ -575,40 +579,19 @@ err.message||
 
 function resolveCertificateData(data){
 
-const countFromCount=
-safeNumber(
-data.count
-);
-
-const countFromImageNo=
-safeNumber(
-data.imageNo
-);
-
-const countFromSerial=
-serialToCount(
-data.serial ||
-data.serialNumber ||
-data.certificateNo ||
-data.certificateNumber ||
-data.no ||
-data.displaySerial ||
-data.serialText
-);
-
 let count=
-countFromCount ||
-countFromImageNo ||
-countFromSerial ||
-1;
+safeCount(data.count);
 
-if(count<1 || count>168){
+if(!count){
+count=serialToCount(data.serial);
+}
+
+if(!count){
 count=1;
 }
 
 return {
 count:count,
-serial:createSerial(count),
 date:pickDate(data),
 imageName:pickImageName(data),
 imageUrl:pickImageUrl(data),
@@ -617,7 +600,7 @@ imageData:pickImageData(data)
 
 }
 
-function safeNumber(value){
+function safeCount(value){
 
 const n=
 Number(value);
@@ -658,25 +641,14 @@ if(/T\d{2}:\d{2}:\d{2}/.test(s)){
 return 0;
 }
 
-let m=
+const m=
 s.match(/(?:No\.?|1-)?0*(\d{1,3})$/i);
 
 if(m && m[1]){
-return safeNumber(m[1]);
+return safeCount(m[1]);
 }
 
 return 0;
-
-}
-
-function createSerial(count){
-
-const n=
-safeNumber(count) ||
-1;
-
-return "1-"+
-String(n).padStart(4,"0");
 
 }
 
@@ -697,7 +669,7 @@ latestImageUrl=
 imageInfo.imageUrl;
 
 latestImageName=
-imageInfo.imageName ||
+imageInfo.imageName||
 latestImageName;
 
 }
@@ -1295,20 +1267,18 @@ const svg=
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1800" viewBox="0 0 1200 1800">
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#f7d8b6"/>
-<stop offset="45%" stop-color="#f4b77a"/>
-<stop offset="100%" stop-color="#55300e"/>
+<stop offset="0%" stop-color="#2b1609"/>
+<stop offset="45%" stop-color="#120804"/>
+<stop offset="100%" stop-color="#000000"/>
 </linearGradient>
-<radialGradient id="light" cx="50%" cy="22%" r="60%">
-<stop offset="0%" stop-color="#fff7df" stop-opacity="1"/>
-<stop offset="45%" stop-color="#ffdca0" stop-opacity=".65"/>
+<radialGradient id="light" cx="50%" cy="28%" r="60%">
+<stop offset="0%" stop-color="#d6ad3c" stop-opacity=".55"/>
+<stop offset="50%" stop-color="#6f4216" stop-opacity=".32"/>
 <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
 </radialGradient>
 </defs>
 <rect width="1200" height="1800" fill="url(#bg)"/>
 <rect width="1200" height="1800" fill="url(#light)"/>
-<path d="M80 1540 C250 1160 410 980 590 630 C760 980 940 1160 1120 1540 Z" fill="#4a2c13" opacity=".55"/>
-<circle cx="215" cy="690" r="85" fill="#ffd36a" opacity=".78"/>
 </svg>
 `;
 
@@ -1428,7 +1398,7 @@ latestUserId||
 localStorage.getItem("tagoyamaUserId")||
 "";
 
-if(!userId || !latestSerial){
+if(!userId){
 return;
 }
 
@@ -1441,7 +1411,7 @@ GAS_URL+
 "&userId="+
 encodeURIComponent(userId)+
 "&serial="+
-encodeURIComponent(latestSerial)+
+encodeURIComponent("1-"+String(latestCount).padStart(4,"0"))+
 "&t="+
 Date.now()
 );
@@ -1472,14 +1442,8 @@ reject(new Error("画像保存に失敗しました"));
 
 function makeSaveFileName(){
 
-const no=
-"No."+
-String(latestCount||1).padStart(4,"0");
-
-return "tagoyama-certificate-"+
-no
-.replace("No.","no-")
-.replace(/[^\w\-]/g,"")+
+return "tagoyama-certificate-no-"+
+String(latestCount||1).padStart(4,"0")+
 ".png";
 
 }
