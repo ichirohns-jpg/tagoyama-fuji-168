@@ -79,50 +79,48 @@ pointer-events:none;
 
 .certTitle{
 position:absolute;
-top:5.0%;
-left:5%;
-right:5%;
+top:4.5%;
+left:6%;
+right:6%;
 text-align:center;
-font-size:clamp(24px,6.2vw,46px);
+font-size:clamp(20px,6vw,42px);
 font-weight:bold;
-letter-spacing:.10em;
-line-height:1.25;
-color:#fff1a8;
+letter-spacing:.12em;
+line-height:1.22;
+color:#fff4c2;
 text-shadow:
-0 2px 0 rgba(55,25,6,.95),
-0 4px 8px rgba(0,0,0,.80),
-0 0 14px rgba(0,0,0,.65),
-0 0 24px rgba(255,210,100,.28);
+0 2px 3px rgba(0,0,0,.95),
+0 0 8px rgba(0,0,0,.9),
+0 0 16px rgba(255,220,120,.24);
 }
 
 .certCount{
 position:absolute;
-top:16.2%;
+top:15%;
 left:8%;
 right:8%;
 text-align:center;
-font-size:clamp(20px,5vw,34px);
+font-size:clamp(17px,4.8vw,32px);
 font-weight:bold;
-letter-spacing:.07em;
+letter-spacing:.04em;
 line-height:1.25;
 color:#ffe08a;
 text-shadow:
-0 2px 0 rgba(55,25,6,.95),
-0 4px 8px rgba(0,0,0,.78),
-0 0 14px rgba(0,0,0,.62),
-0 0 22px rgba(255,210,100,.24);
+0 2px 3px rgba(0,0,0,.95),
+0 0 8px rgba(0,0,0,.9),
+0 0 15px rgba(255,220,120,.22);
 }
 
 .certBottom{
 position:absolute;
-bottom:6.0%;
+bottom:5.5%;
 left:6%;
 right:6%;
 display:flex;
 justify-content:space-between;
 align-items:center;
 gap:10px;
-font-size:clamp(12px,3.1vw,17px);
+font-size:clamp(11px,3.2vw,18px);
 font-weight:bold;
 color:#fff6d5;
 text-shadow:
@@ -131,19 +129,11 @@ text-shadow:
 }
 
 .certBottom div{
-max-width:48%;
-min-width:130px;
-text-align:center;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-background:rgba(40,22,10,.48);
-border:1px solid rgba(255,230,150,.62);
-box-shadow:
-0 0 0 1px rgba(255,245,200,.14) inset,
-0 4px 12px rgba(0,0,0,.28);
+background:rgba(0,0,0,.34);
+border:1px solid rgba(255,230,150,.55);
 border-radius:999px;
-padding:8px 12px;
+padding:7px 10px;
+white-space:nowrap;
 }
 
 .infoBox{
@@ -356,25 +346,24 @@ grid-template-columns:1fr;
 }
 
 .certTitle{
-top:5.2%;
-font-size:clamp(22px,6.35vw,34px);
-letter-spacing:.08em;
+top:4.5%;
+font-size:clamp(20px,6vw,30px);
+letter-spacing:.10em;
 }
 
 .certCount{
-top:16.4%;
-font-size:clamp(18px,5.15vw,28px);
+top:15%;
+font-size:clamp(17px,4.8vw,25px);
 }
 
 .certBottom{
-bottom:5.8%;
+bottom:5.5%;
+font-size:clamp(11px,3.2vw,15px);
 gap:8px;
-font-size:clamp(11px,3.35vw,15px);
 }
 
 .certBottom div{
-min-width:124px;
-padding:8px 10px;
+padding:7px 10px;
 }
 
 }
@@ -737,7 +726,8 @@ data.climbCount,
 data.totalCount,
 data.numberOfClimbs,
 data.visitCount,
-data.times
+data.times,
+data.number
 ];
 
 for(let i=0;i<candidates.length;i++){
@@ -750,39 +740,7 @@ return n;
 
 }
 
-return 1;
-
-}
-
-function isIsoDateString(value){
-
-return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(
-getString(value)
-);
-
-}
-
-function isDateLikeString(value){
-
-const s=getString(value);
-
-if(!s){
-return false;
-}
-
-if(isIsoDateString(s)){
-return true;
-}
-
-if(/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(s)){
-return true;
-}
-
-if(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s)){
-return true;
-}
-
-return false;
+return 0;
 
 }
 
@@ -819,7 +777,8 @@ return null;
 
 }
 
-const s=getString(value);
+const s=
+getString(value);
 
 if(!s){
 return null;
@@ -848,7 +807,8 @@ s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
 
 if(m){
 
-let y=Number(m[3]);
+let y=
+Number(m[3]);
 
 if(y<100){
 y+=2000;
@@ -959,11 +919,32 @@ return formatDate(candidates[i]);
 
 }
 
-if(isUsableDate(data.serial)){
-return formatDate(data.serial);
+return todayText();
+
 }
 
-return todayText();
+function isDateLikeString(value){
+
+const s=
+getString(value);
+
+if(!s){
+return false;
+}
+
+if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(s)){
+return true;
+}
+
+if(/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(s)){
+return true;
+}
+
+if(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test(s)){
+return true;
+}
+
+return false;
 
 }
 
@@ -980,26 +961,26 @@ if(isDateLikeString(s)){
 return false;
 }
 
-if(/^\d{4}-\d{2}-\d{2}/.test(s)){
-return false;
-}
-
 if(s.length>30){
 return false;
 }
 
-if(/[A-Za-z0-9]/.test(s)){
-return true;
+if(/^\d+$/.test(s)){
+return false;
 }
 
-return false;
+return /[A-Za-z0-9]/.test(s);
 
 }
 
 function buildSerialFromCount(count){
 
 const n=
-Number(count||1);
+Number(count||0);
+
+if(!n){
+return "";
+}
 
 return "1-"+
 String(n).padStart(4,"0");
@@ -1014,7 +995,6 @@ data.serialNumber,
 data.certificateNo,
 data.certificateNumber,
 data.no,
-data.number,
 data.displaySerial,
 data.serialText
 ];
@@ -1100,7 +1080,6 @@ latestImageLoaded=false;
 latestImageSrc="";
 
 img.removeAttribute("crossorigin");
-img.crossOrigin="";
 
 const urls=
 makeImageCandidates(
@@ -1149,6 +1128,15 @@ addUnique(list,data);
 const url=
 getString(imageUrl);
 
+if(/^data:image\//i.test(url)){
+addUnique(list,url);
+return list;
+}
+
+if(url){
+addUnique(list,url);
+}
+
 const id=
 extractDriveId(url);
 
@@ -1180,10 +1168,6 @@ encodeURIComponent(id)+
 "=w1600"
 );
 
-}
-
-if(url){
-addUnique(list,url);
 }
 
 return list;
@@ -1367,60 +1351,32 @@ test.src=src;
 
 function makeFallbackImage(){
 
-const title=
-"田子山富士 登頂記念";
-
-const count=
-"第 "+(latestCount||"--")+" 回 登頂";
-
-const serial=
-formatSerialForOverlay(latestSerial);
-
-const date=
-latestDate || todayText();
-
 const svg=
 `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#2b1609"/>
-<stop offset="48%" stop-color="#130b05"/>
+<stop offset="0%" stop-color="#1a0d05"/>
+<stop offset="48%" stop-color="#2b1609"/>
 <stop offset="100%" stop-color="#050201"/>
 </linearGradient>
-<radialGradient id="gold" cx="50%" cy="38%" r="55%">
-<stop offset="0%" stop-color="#f6d978" stop-opacity="0.96"/>
-<stop offset="45%" stop-color="#9c6424" stop-opacity="0.52"/>
+<radialGradient id="gold" cx="50%" cy="43%" r="58%">
+<stop offset="0%" stop-color="#f6d978" stop-opacity="0.88"/>
+<stop offset="42%" stop-color="#9c6424" stop-opacity="0.48"/>
 <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
 </radialGradient>
 </defs>
 <rect width="1200" height="1500" fill="url(#bg)"/>
 <rect x="42" y="42" width="1116" height="1416" rx="48" fill="none" stroke="#c99a3a" stroke-width="12"/>
 <rect x="76" y="76" width="1048" height="1348" rx="36" fill="none" stroke="#6f4216" stroke-width="4"/>
-<circle cx="600" cy="570" r="430" fill="url(#gold)"/>
-<path d="M210 1070 C360 760 455 620 600 360 C755 650 850 780 1000 1070 Z" fill="#1d0e06" stroke="#d6a94c" stroke-width="8"/>
-<path d="M480 580 L600 360 L725 590 C675 560 620 560 570 592 C540 610 510 610 480 580 Z" fill="#fff4c2" opacity="0.92"/>
-<text x="600" y="190" text-anchor="middle" font-size="72" font-weight="700" fill="#fff1a8" font-family="serif">${escapeSvg(title)}</text>
-<text x="600" y="305" text-anchor="middle" font-size="58" font-weight="700" fill="#ffe08a" font-family="serif">${escapeSvg(count)}</text>
-<text x="350" y="1285" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(serial)}</text>
-<text x="850" y="1285" text-anchor="middle" font-size="38" font-weight="700" fill="#fff6d5" font-family="serif">${escapeSvg(date)}</text>
-<text x="600" y="1370" text-anchor="middle" font-size="34" fill="#e8d09a" font-family="serif">記念画像を準備中です</text>
+<circle cx="600" cy="620" r="430" fill="url(#gold)"/>
+<path d="M210 1095 C360 785 455 645 600 385 C755 675 850 805 1000 1095 Z" fill="#1d0e06" stroke="#d6a94c" stroke-width="8"/>
+<path d="M480 605 L600 385 L725 615 C675 585 620 585 570 617 C540 635 510 635 480 605 Z" fill="#fff4c2" opacity="0.92"/>
 </svg>
 `;
 
 return "data:image/svg+xml;charset=utf-8,"+
 encodeURIComponent(svg);
-
-}
-
-function escapeSvg(text){
-
-return String(text||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#39;");
 
 }
 
@@ -1465,7 +1421,8 @@ document.getElementById("certificate"),
 scale:2,
 useCORS:true,
 allowTaint:true,
-backgroundColor:null
+backgroundColor:null,
+logging:false
 }
 );
 
