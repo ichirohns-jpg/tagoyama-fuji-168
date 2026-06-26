@@ -1,509 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>登頂記念証</title>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#050505;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-padding:20px;
-color:#fff;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-}
-
-.card{
-background:#000;
-border:2px solid #d4af37;
-border-radius:32px;
-padding:18px;
-box-shadow:
-0 10px 30px rgba(0,0,0,.5);
-}
-
-.certificateImageBox{
-position:relative;
-overflow:hidden;
-border-radius:24px;
-background:#111;
-min-height:420px;
-}
-
-.memorialImage{
-width:100%;
-display:block;
-background:#111;
-}
-
-.overlay{
-position:absolute;
-inset:0;
-padding:20px;
-}
-
-.topArea{
-text-align:center;
-padding-top:10px;
-}
-
-.shrine{
-font-size:28px;
-font-weight:900;
-letter-spacing:4px;
-color:#fff;
-font-family:"Yu Mincho",serif;
-text-shadow:
-0 0 4px rgba(255,255,255,.95),
-0 0 10px rgba(255,255,255,.8),
-0 0 18px rgba(255,220,120,.45),
-0 2px 6px rgba(0,0,0,.9);
-}
-
-.project{
-margin-top:8px;
-font-size:20px;
-font-weight:900;
-color:#f3d57a;
-}
-
-.bottomArea{
-position:absolute;
-left:0;
-right:0;
-bottom:35px;
-text-align:center;
-}
-
-.round{
-font-size:22px;
-font-weight:900;
-color:#fff;
-}
-
-.serial{
-font-size:42px;
-font-weight:900;
-color:#f3d57a;
-}
-
-.date{
-font-size:16px;
-font-weight:700;
-color:#fff;
-margin-top:10px;
-}
-
-.btn{
-width:100%;
-padding:16px;
-margin-top:12px;
-border:none;
-border-radius:18px;
-font-size:20px;
-font-weight:900;
-cursor:pointer;
-}
-
-.save{
-background:#2ecc71;
-color:#fff;
-}
-
-.copy{
-background:#607d8b;
-color:#fff;
-}
-
-.fb{
-background:#1877f2;
-color:#fff;
-}
-
-.x{
-background:#000;
-color:#fff;
-}
-
-.line{
-background:#06c755;
-color:#fff;
-}
-
-.home{
-background:#d4af37;
-color:#000;
-}
-
-.footer{
-margin-top:20px;
-text-align:center;
-color:#aaa;
-font-size:14px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="wrap">
-
-<div
-id="certificate"
-class="card">
-
-<div
-class="certificateImageBox">
-
-<img
-id="memorialImage"
-class="memorialImage"
-src=""
-alt="記念画像"
-crossorigin="anonymous">
-
-<div class="overlay">
-
-<div class="topArea">
-
-<div class="shrine">
-田子山富士
-</div>
-
-<div class="project">
-登頂記念証
-</div>
-
-</div>
-
-<div class="bottomArea">
-
-<div
-id="round"
-class="round">
--
-</div>
-
-<div
-id="serial"
-class="serial">
--
-</div>
-
-<div
-id="date"
-class="date">
--
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<button
-class="btn save"
-onclick="saveImage()">
-
-📜 記念証を授かる
-
-</button>
-
-<button
-class="btn copy"
-onclick="copyUrl()">
-
-① リンクをコピー
-
-</button>
-
-<button
-class="btn fb"
-onclick="shareFacebook()">
-
-② Facebookを開く
-
-</button>
-
-<button
-class="btn x"
-onclick="shareX()">
-
-X
-
-</button>
-
-<button
-class="btn line"
-onclick="shareLine()">
-
-LINE
-
-</button>
-
-<button
-class="btn home"
-onclick="location.href='index.html'">
-
-🏠 田子山富士へ戻る
-
-</button>
-
-<div class="footer">
-
-田子山富士168の縁プロジェクト
-
-</div>
-
-</div>
-
-<script>
-
-const SHARE_BASE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
-
-const params =
-new URLSearchParams(
-location.search
-);
-
-const latestSerial =
-params.get("serial")
-||
-sessionStorage.getItem(
-"latestSerial"
-)
-||
-localStorage.getItem(
-"latestSerial"
-)
-||
-"1-0001";
-
-const latestImageUrl =
-params.get("imageUrl")
-||
-params.get("image")
-||
-sessionStorage.getItem(
-"latestImageUrl"
-)
-||
-localStorage.getItem(
-"latestImageUrl"
-)
-||
-"";
-
-let latestClimbDate =
-params.get("climbDate")
-||
-sessionStorage.getItem(
-"latestClimbDate"
-)
-||
-localStorage.getItem(
-"latestClimbDate"
-)
-||
-"";
-
-if(!latestClimbDate){
-
-const d =
-new Date();
-
-latestClimbDate =
-d.getFullYear()
-+"/"+
-String(
-d.getMonth()+1
-).padStart(2,"0")
-+"/"+
-String(
-d.getDate()
-).padStart(2,"0");
-
-}
-
-const img =
-document.getElementById(
-"memorialImage"
-);
-
-if(latestImageUrl){
-
-img.crossOrigin =
-"anonymous";
-
-img.referrerPolicy =
-"no-referrer";
-
-img.src =
-latestImageUrl +
-(
-latestImageUrl.includes("?")
-?
-"&"
-:
-"?"
-)
-+
-"t=" +
-Date.now();
-
-}
-
-const serialParts =
-latestSerial.split("-");
-
-const climbCount =
-parseInt(
-serialParts[0]||"1",
-10
-);
-
-const serialNo =
-serialParts[1]||"0001";
-
-document.getElementById(
-"round"
-).innerText =
-"第"+
-climbCount+
-"回登頂記念";
-
-document.getElementById(
-"serial"
-).innerText =
-"No."+
-serialNo;
-
-document.getElementById(
-"date"
-).innerText =
-latestClimbDate;
-
-function copyUrl(){
-
-const shareUrl =
-SHARE_BASE+
-"?serial="+
-encodeURIComponent(
-latestSerial
-);
-
-navigator.clipboard
-.writeText(
-shareUrl
-);
-
-alert(
-"共有リンクをコピーしました"
-);
-
-}
-
-function shareFacebook(){
-
-const shareUrl =
-SHARE_BASE+
-"?serial="+
-encodeURIComponent(
-latestSerial
-);
-
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u="+
-encodeURIComponent(
-shareUrl
-),
-"_blank"
-);
-
-}
-
-function shareX(){
-
-const shareUrl =
-SHARE_BASE+
-"?serial="+
-encodeURIComponent(
-latestSerial
-);
-
-window.open(
-"https://twitter.com/intent/tweet?url="+
-encodeURIComponent(
-shareUrl
-),
-"_blank"
-);
-
-}
-
-function shareLine(){
-
-const shareUrl =
-SHARE_BASE+
-"?serial="+
-encodeURIComponent(
-latestSerial
-);
-
-window.open(
-"https://social-plugins.line.me/lineit/share?url="+
-encodeURIComponent(
-shareUrl
-),
-"_blank"
-);
-
-}
-
-function waitImageLoaded(image){
-
-return new Promise(resolve=>{
-
-if(
-!image ||
-!image.src ||
-image.complete
-){
-
-resolve();
-return;
-
-}
-
-image.onload=()=>resolve();
-image.onerror=()=>resolve();
-
-});
-
-}
-
 async function saveImage(){
 
 const btn=
@@ -514,38 +8,75 @@ document.querySelector(
 btn.disabled=true;
 
 btn.innerText=
-"保存画像を作成中...";
+"記念証を授与中...";
 
 try{
 
+/* ここで参加確定 */
+
+await fetch(
+
+GAS_URL+
+
+"?mode=receiveCertificate"+
+
+"&serial="+
+encodeURIComponent(
+latestSerial
+)+
+
+"&userId="+
+encodeURIComponent(
+localStorage.getItem(
+"tagoyamaUserId"
+)||""
+
+)
+
+);
+
 await waitImageLoaded(
+
 document.getElementById(
 "memorialImage"
 )
+
 );
 
 const canvas=
+
 await html2canvas(
+
 document.getElementById(
 "certificate"
 ),
+
 {
+
 scale:3,
+
 useCORS:true,
+
 backgroundColor:"#000000"
+
 }
+
 );
 
 showImagePopup(
+
 canvas.toDataURL(
 "image/png"
 )
+
 );
 
 }catch(err){
 
 alert(
+
 "画像の作成に失敗しました"
+
 );
 
 }finally{
@@ -553,52 +84,575 @@ alert(
 btn.disabled=false;
 
 btn.innerText=
+
 "📜 記念証を授かる";
 
 }
 
 }
 
-function showImagePopup(dataUrl){
+function receiveCertificate(p){
 
-const overlay=
-document.createElement(
-"div"
+const ss=
+SpreadsheetApp.openById(
+SHEET_ID
 );
 
-overlay.style=
-"position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;z-index:99999;";
+const sheet=
+ss.getSheetByName(
+SHEET_CLIMB
+);
 
-overlay.innerHTML=`
+if(!sheet){
 
-<img
-src="${dataUrl}"
-style="max-width:100%;border-radius:20px;">
+return json({
 
-<button
-style="width:100%;margin-top:20px;padding:18px;border:none;border-radius:18px;background:#2ecc71;color:#fff;font-size:22px;font-weight:900;"
-onclick="window.open('${dataUrl}','_blank')">
+success:false,
 
-📥 画像を保存する
+message:"登頂履歴がありません"
 
-</button>
-
-<button
-style="width:100%;margin-top:12px;padding:18px;border:none;border-radius:18px;background:#d4af37;color:#000;font-size:22px;font-weight:900;"
-onclick="this.parentElement.remove()">
-
-⬅ 戻る
-
-</button>
-
-`;
-
-document.body.appendChild(
-overlay);
+});
 
 }
 
-</script>
+const userId=
+String(
+p.userId||""
+);
 
-</body>
-</html>
+const serial=
+String(
+p.serial||""
+);
+
+const values=
+
+sheet
+.getDataRange()
+.getValues();
+
+for(
+
+let i=1;
+
+i<values.length;
+
+i++
+
+){
+
+if(
+
+String(values[i][1])===userId &&
+
+String(values[i][3])===serial
+
+){
+
+sheet
+.getRange(
+i+1,
+7
+)
+.setValue(
+"受領"
+);
+
+break;
+
+}
+
+}
+
+return json({
+
+success:true,
+
+message:"受領しました"
+
+});
+
+}
+
+function saveClimb(userId){
+
+const lock=
+LockService.getScriptLock();
+
+lock.waitLock(30000);
+
+try{
+
+const ss=
+SpreadsheetApp.openById(
+SHEET_ID
+);
+
+let sheet=
+ss.getSheetByName(
+SHEET_CLIMB
+);
+
+if(!sheet){
+
+sheet=
+ss.insertSheet(
+SHEET_CLIMB
+);
+
+sheet.appendRow([
+
+"日時",
+
+"userId",
+
+"回数",
+
+"シリアル",
+
+"画像URL",
+
+"画像名",
+
+"受領"
+
+]);
+
+}
+
+const values=
+
+sheet.getLastRow()>1
+
+?
+
+sheet.getRange(
+
+2,
+
+1,
+
+sheet.getLastRow()-1,
+
+7
+
+).getValues()
+
+:
+
+[];
+
+const today=
+
+Utilities.formatDate(
+
+new Date(),
+
+TZ,
+
+"yyyy/MM/dd"
+
+);
+
+let count=0;
+
+let already=false;
+
+let oldSerial="";
+
+let oldImageUrl="";
+
+let oldImageName="";
+
+let received="";
+
+for(
+
+let i=0;
+
+i<values.length;
+
+i++
+
+){
+
+const rowUser=
+String(values[i][1]||"");
+
+if(rowUser!==userId){
+
+continue;
+
+}
+
+count++;
+
+const rowDate=
+
+Utilities.formatDate(
+
+new Date(values[i][0]),
+
+TZ,
+
+"yyyy/MM/dd"
+
+);
+
+if(rowDate===today){
+
+already=true;
+
+oldSerial=values[i][3]||"";
+
+oldImageUrl=values[i][4]||"";
+
+oldImageName=values[i][5]||"";
+
+received=values[i][6]||"";
+
+}
+
+}
+
+if(already){
+
+return json({
+
+success:true,
+
+alreadyClimbed:true,
+
+received:received==="受領",
+
+count:count,
+
+serial:oldSerial,
+
+imageUrl:oldImageUrl,
+
+imageName:oldImageName,
+
+climbDate:today
+
+});
+
+}
+
+const climbCount=
+
+count+1;
+
+const serial=
+
+climbCount+
+
+"-"+
+
+String(
+
+values.length+1
+
+).padStart(
+
+4,
+
+"0"
+
+);
+
+const image=
+
+getImageData(
+
+ss,
+
+climbCount
+
+);
+
+sheet.appendRow([
+
+new Date(),
+
+userId,
+
+climbCount,
+
+serial,
+
+image.url,
+
+image.name,
+
+""
+
+]);
+
+return json({
+
+success:true,
+
+alreadyClimbed:false,
+
+received:false,
+
+count:climbCount,
+
+serial:serial,
+
+imageUrl:image.url,
+
+imageName:image.name,
+
+climbDate:today
+
+});
+
+}catch(err){
+
+return json({
+
+success:false,
+
+message:String(err)
+
+});
+
+}finally{
+
+lock.releaseLock();
+
+}
+
+function getImageData(
+
+ss,
+
+count
+
+){
+
+const sheet=
+
+ss.getSheetByName(
+
+SHEET_IMAGE
+
+);
+
+if(!sheet){
+
+throw new Error(
+
+"記念画像シートがありません"
+
+);
+
+}
+
+const values=
+
+sheet
+.getDataRange()
+.getValues();
+
+for(
+
+let i=1;
+
+i<values.length;
+
+i++
+
+){
+
+if(
+
+Number(values[i][0])===count
+
+){
+
+return{
+
+url:
+values[i][1]||"",
+
+name:
+values[i][2]||""
+
+};
+
+}
+
+}
+
+const last=
+
+values[
+values.length-1
+];
+
+return{
+
+url:
+last[1]||"",
+
+name:
+last[2]||""
+
+};
+
+}
+
+function getStats(){
+
+const ss=
+
+SpreadsheetApp.openById(
+SHEET_ID
+);
+
+const sheet=
+
+ss.getSheetByName(
+SHEET_CLIMB
+);
+
+if(!sheet){
+
+return json({
+
+success:true,
+
+participants:0
+
+});
+
+}
+
+/* 「受領」だけ人数にする */
+
+const values=
+
+sheet
+.getDataRange()
+.getValues();
+
+let participants=0;
+
+for(
+
+let i=1;
+
+i<values.length;
+
+i++
+
+){
+
+if(
+
+String(values[i][6])==="受領"
+
+){
+
+participants++;
+
+}
+
+}
+
+return json({
+
+success:true,
+
+participants:participants
+
+});
+
+function getGoen(){
+
+/* ここから下は現在のまま */
+
+}
+
+function saveKicho(data){
+
+/* ここから下は現在のまま */
+
+}
+
+function getNews(){
+
+/* ここから下は現在のまま */
+
+}
+
+function getOmikuji(){
+
+/* ここから下は現在のまま */
+
+}
+
+function getOmikujiList(){
+
+/* ここから下は現在のまま */
+
+}
+
+function saveOmikujiHistory(data){
+
+/* ここから下は現在のまま */
+
+}
+
+function listSheets(){
+
+const ss=
+SpreadsheetApp.openById(
+SHEET_ID
+);
+
+return json({
+
+success:true,
+
+sheets:
+ss.getSheets()
+.map(s=>s.getName())
+
+});
+
+}
+
+function formatDate(value){
+
+if(
+Object.prototype.toString.call(value)
+==="[object Date]"
+){
+
+return Utilities.formatDate(
+value,
+TZ,
+"yyyy/MM/dd HH:mm"
+);
+
+}
+
+return value||"";
+
+}
+
+function json(obj){
+
+return ContentService
+.createTextOutput(
+JSON.stringify(obj)
+)
+.setMimeType(
+ContentService.MimeType.JSON
+);
+
+}
