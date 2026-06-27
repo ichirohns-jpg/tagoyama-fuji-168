@@ -193,6 +193,12 @@ background:linear-gradient(180deg,#6e7f88,#4f626c);
 background:linear-gradient(180deg,#232323,#050505);
 }
 
+.menuGrid{
+display:grid;
+gap:18px;
+margin-top:18px;
+}
+
 .inputLabel{
 display:block;
 margin:18px 0 8px;
@@ -296,6 +302,10 @@ font-weight:700;
 line-height:1.7;
 color:#fff;
 white-space:pre-line;
+}
+
+.closeSectionBtn{
+margin-top:26px;
 }
 
 .footer{
@@ -405,6 +415,39 @@ href="#">
 <section class="card">
 
 <h2 class="cardTitle">
+メニュー
+</h2>
+
+<p class="cardText">
+使いたい項目を<br>
+選んでください。
+</p>
+
+<div class="menuGrid">
+
+<button class="btn goldBtn" onclick="openSection('omikujiSection')">
+🎴 おみくじ
+</button>
+
+<button class="btn blueBtn" onclick="openSection('newsSection')">
+📢 お知らせ
+</button>
+
+<button class="btn greenBtn" onclick="openSection('kichoSection')">
+📖 参拝記帳
+</button>
+
+<button class="btn grayBtn" onclick="openSection('goenSection')">
+🌸 ご縁帳
+</button>
+
+</div>
+
+</section>
+
+<section class="card hidden" id="omikujiSection">
+
+<h2 class="cardTitle">
 🎴 おみくじ
 </h2>
 
@@ -431,9 +474,13 @@ href="#">
 
 </div>
 
+<button class="btn blackBtn closeSectionBtn" onclick="closeSection('omikujiSection')">
+閉じる
+</button>
+
 </section>
 
-<section class="card">
+<section class="card hidden" id="newsSection">
 
 <h2 class="cardTitle">
 📢 お知らせ
@@ -447,9 +494,13 @@ href="#">
 </div>
 </div>
 
+<button class="btn blackBtn closeSectionBtn" onclick="closeSection('newsSection')">
+閉じる
+</button>
+
 </section>
 
-<section class="card">
+<section class="card hidden" id="kichoSection">
 
 <h2 class="cardTitle">
 📖 参拝記帳
@@ -485,9 +536,13 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 </button>
 </div>
 
+<button class="btn blackBtn closeSectionBtn" onclick="closeSection('kichoSection')">
+閉じる
+</button>
+
 </section>
 
-<section class="card">
+<section class="card hidden" id="goenSection">
 
 <h2 class="cardTitle">
 🌸 ご縁帳
@@ -500,6 +555,10 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 </p>
 </div>
 </div>
+
+<button class="btn blackBtn closeSectionBtn" onclick="closeSection('goenSection')">
+閉じる
+</button>
 
 </section>
 
@@ -523,6 +582,12 @@ let currentUserId =
 
 let qrUserId =
 "";
+
+let newsLoaded =
+false;
+
+let goenLoaded =
+false;
 
 window.addEventListener(
 "load",
@@ -555,10 +620,6 @@ async function init(){
 
   await handleClimb();
 
-  loadNews();
-
-  loadGoen();
-
 }
 
 function getUserIdFromUrl(){
@@ -572,6 +633,54 @@ function getUserIdFromUrl(){
     params.get("uid") ||
     ""
   );
+
+}
+
+function openSection(id){
+
+  const section =
+  document.getElementById(id);
+
+  if(!section){
+    return;
+  }
+
+  section.classList.remove("hidden");
+
+  if(id === "newsSection" && !newsLoaded){
+    loadNews();
+  }
+
+  if(id === "goenSection" && !goenLoaded){
+    loadGoen();
+  }
+
+  setTimeout(function(){
+
+    section.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+  },80);
+
+}
+
+function closeSection(id){
+
+  const section =
+  document.getElementById(id);
+
+  if(!section){
+    return;
+  }
+
+  section.classList.add("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
@@ -791,9 +900,6 @@ async function drawOmikuji(){
     result.lucky ||
     "今日もよいご縁があります。";
 
-    box.style.display =
-    "block";
-
   }catch(err){
 
     title.innerText =
@@ -802,16 +908,13 @@ async function drawOmikuji(){
     message.innerText =
     "ただいまおみくじを引けません。\n時間をおいてお試しください。";
 
-    box.style.display =
-    "block";
-
   }finally{
 
     btn.disabled =
     false;
 
     btn.innerText =
-    "もう一度引く";
+    "おみくじを引く";
 
   }
 
@@ -821,6 +924,9 @@ async function loadNews(){
 
   const list =
   document.getElementById("newsList");
+
+  newsLoaded =
+  true;
 
   try{
 
@@ -955,7 +1061,11 @@ async function saveKicho(){
 
     alert("記帳しました");
 
-    loadGoen();
+    goenLoaded =
+    false;
+
+    document.getElementById("goenList").innerHTML =
+    '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
 
   }catch(err){
 
@@ -977,6 +1087,9 @@ async function loadGoen(){
 
   const list =
   document.getElementById("goenList");
+
+  goenLoaded =
+  true;
 
   try{
 
