@@ -9,17 +9,18 @@
 <meta property="og:description" content="田子山富士168の縁プロジェクト 登頂記念証">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=2">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=2">
+
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 <meta property="og:image:alt" content="田子山富士 登頂記念証">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 登頂記念証">
 <meta name="twitter:description" content="田子山富士168の縁プロジェクト 登頂記念証">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=2">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
-<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=2">
+<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -383,6 +384,20 @@ color:#ffe8a6;
 border:1px solid rgba(255,220,140,.55);
 }
 
+.shareGuide{
+margin:0;
+padding:16px 14px;
+border-radius:18px;
+background:rgba(0,0,0,.38);
+border:1px solid rgba(255,220,140,.45);
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:16px;
+line-height:1.7;
+font-weight:900;
+color:#fff3c4;
+text-align:center;
+}
+
 .copy{
 background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
@@ -506,6 +521,10 @@ min-height:72px;
 border-radius:24px;
 }
 
+.shareGuide{
+font-size:15px;
+}
+
 }
 
 </style>
@@ -595,12 +614,16 @@ onclick="copyLink()">
 ① リンクをコピー
 </button>
 
+<div class="shareGuide">
+Facebookに投稿する場合は、上の「リンクをコピー」を押してからFacebookボタンで投稿してください。
+</div>
+
 <a
 id="facebookShare"
 class="shareBtn facebook"
 target="_blank"
 rel="noopener">
-② Facebookで紹介
+② Facebookで投稿
 </a>
 
 <a
@@ -729,7 +752,7 @@ latestShareUrl=
 CERTIFICATE_PAGE+
 "?userId="+
 encodeURIComponent(userId)+
-"&og=2";
+"&og=30";
 
 const res=
 await fetch(
