@@ -326,11 +326,6 @@ box-shadow:
 0 10px 18px rgba(0,0,0,.28);
 }
 
-.newsNative{
-background:linear-gradient(180deg,#d6b73c,#9e7418);
-color:#1d1002;
-}
-
 .newsFacebook{
 background:linear-gradient(180deg,#1688ff,#075ec9);
 }
@@ -1341,42 +1336,11 @@ function makeNewsShareButtons(title,body,link,imageUrl){
     "｜田子山富士168の縁プロジェクト"
   );
 
-  const safeImage =
-  escapeAttr(imageUrl || "");
-
-  const safeTitle =
-  escapeAttr(title || "");
-
-  const safeBody =
-  escapeAttr(body || "");
-
   const safeShareUrl =
   escapeAttr(shareTargetUrl);
 
-  let nativeButton =
-  "";
-
-  if(imageUrl){
-
-    nativeButton =
-    '<button class="newsShareBtn newsNative" onclick="shareNewsWithImage(this)" data-title="' +
-    safeTitle +
-    '" data-text="' +
-    safeBody +
-    '" data-image="' +
-    safeImage +
-    '" data-url="' +
-    safeShareUrl +
-    '">' +
-    '画像付きで共有' +
-    '</button>';
-
-  }
-
   return '' +
   '<div class="newsShareArea">' +
-
-  nativeButton +
 
   '<a class="newsShareBtn newsFacebook" href="' +
   'https://www.facebook.com/sharer/sharer.php?u=' +
@@ -1408,87 +1372,6 @@ function makeNewsShareButtons(title,body,link,imageUrl){
   '</button>' +
 
   '</div>';
-
-}
-
-async function shareNewsWithImage(button){
-
-  const title =
-  button.getAttribute("data-title") ||
-  "田子山富士168の縁プロジェクト";
-
-  const text =
-  button.getAttribute("data-text") ||
-  title;
-
-  const imageUrl =
-  button.getAttribute("data-image") ||
-  "";
-
-  const shareUrl =
-  button.getAttribute("data-url") ||
-  location.href;
-
-  if(!navigator.share){
-
-    window.open(imageUrl || shareUrl,"_blank");
-
-    return;
-
-  }
-
-  try{
-
-    if(imageUrl){
-
-      const res =
-      await fetch(imageUrl,{
-        mode:"cors",
-        cache:"no-store"
-      });
-
-      const blob =
-      await res.blob();
-
-      const file =
-      new File(
-        [blob],
-        "tagoyama-news.png",
-        {
-          type:blob.type || "image/png"
-        }
-      );
-
-      if(
-        navigator.canShare &&
-        navigator.canShare({
-          files:[file]
-        })
-      ){
-
-        await navigator.share({
-          files:[file],
-          title:title,
-          text:text
-        });
-
-        return;
-
-      }
-
-    }
-
-    await navigator.share({
-      title:title,
-      text:text,
-      url:shareUrl
-    });
-
-  }catch(e){
-
-    window.open(imageUrl || shareUrl,"_blank");
-
-  }
 
 }
 
