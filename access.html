@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>田子山富士への行き方</title>
+
+<meta property="og:title" content="田子山富士への行き方">
+<meta property="og:description" content="田子山富士塚までGoogleマップで道案内します">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/access.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士への行き方">
+<meta name="twitter:description" content="田子山富士塚までGoogleマップで道案内します">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+html,
+body{
+margin:0;
+padding:0;
+width:100%;
+min-height:100vh;
+background:#050505;
+color:#fff;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+
+body{
+background:
+radial-gradient(circle at 50% 0%,rgba(130,92,24,.28),rgba(0,0,0,0) 34%),
+linear-gradient(180deg,#050505 0%,#090909 45%,#000 100%);
+}
+
+.wrap{
+width:100%;
+max-width:760px;
+margin:0 auto;
+padding:24px 18px 56px;
+}
+
+.hero{
+text-align:center;
+padding:8px 0 24px;
+}
+
+.logoBox{
+width:100%;
+max-width:620px;
+margin:0 auto 18px;
+border-radius:30px;
+overflow:hidden;
+background:#050505;
+}
+
+.logoBox img{
+display:block;
+width:100%;
+height:auto;
+}
+
+.siteTitle{
+margin:0;
+font-size:clamp(38px,9.5vw,72px);
+font-weight:900;
+letter-spacing:.04em;
+line-height:1.12;
+color:#fff;
+text-shadow:
+0 4px 5px rgba(0,0,0,.9),
+0 0 18px rgba(255,255,255,.18);
+}
+
+.siteSub{
+margin:20px 0 0;
+font-size:clamp(24px,6.5vw,46px);
+font-weight:900;
+letter-spacing:.04em;
+line-height:1.2;
+color:#d9b638;
+text-shadow:
+0 3px 4px rgba(0,0,0,.95),
+0 0 16px rgba(225,180,52,.18);
+}
+
+.card{
+margin:28px 0;
+padding:34px 24px;
+border:3px solid #d6b73c;
+border-radius:30px;
+background:rgba(24,24,24,.92);
+box-shadow:
+0 0 0 1px rgba(255,230,150,.1) inset,
+0 12px 28px rgba(0,0,0,.42);
+}
+
+.cardTitle{
+margin:0 0 22px;
+font-size:clamp(30px,7.5vw,52px);
+font-weight:900;
+line-height:1.25;
+color:#d9b638;
+}
+
+.cardText{
+margin:0;
+font-size:clamp(21px,5.5vw,34px);
+font-weight:800;
+line-height:1.75;
+color:#fff;
+text-align:center;
+}
+
+.placeBox{
+margin-top:24px;
+padding:20px 16px;
+border-radius:22px;
+background:rgba(0,0,0,.35);
+border:1px solid rgba(214,183,60,.45);
+text-align:center;
+}
+
+.placeName{
+margin:0 0 10px;
+font-size:clamp(24px,6vw,40px);
+font-weight:900;
+line-height:1.3;
+color:#ffdf72;
+}
+
+.placeAddress{
+margin:0;
+font-size:clamp(18px,4.8vw,28px);
+font-weight:800;
+line-height:1.65;
+color:#fff;
+}
+
+.btnArea{
+display:grid;
+gap:20px;
+margin-top:28px;
+}
+
+.btn{
+width:100%;
+min-height:78px;
+border:none;
+border-radius:24px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+font-size:clamp(23px,6vw,40px);
+font-weight:900;
+letter-spacing:.02em;
+color:#fff;
+cursor:pointer;
+box-shadow:
+0 8px 0 rgba(0,0,0,.32),
+0 16px 26px rgba(0,0,0,.35);
+text-align:center;
+}
+
+.mapBtn{
+background:linear-gradient(180deg,#35df86,#19b75e);
+}
+
+.backBtn{
+background:linear-gradient(180deg,#8b5a1f,#3a1d08);
+color:#ffe8a6;
+border:1px solid rgba(255,220,140,.55);
+}
+
+.mapFrameBox{
+margin-top:24px;
+border-radius:24px;
+overflow:hidden;
+border:2px solid rgba(214,183,60,.65);
+background:#000;
+box-shadow:0 12px 28px rgba(0,0,0,.38);
+}
+
+.mapFrame{
+display:block;
+width:100%;
+height:360px;
+border:0;
+background:#000;
+}
+
+.note{
+margin:18px 0 0;
+font-size:16px;
+line-height:1.7;
+font-weight:700;
+color:#d8c98d;
+text-align:center;
+}
+
+.footer{
+margin-top:38px;
+padding:24px 0 0;
+text-align:center;
+font-size:14px;
+line-height:1.7;
+color:#c7b77a;
+}
+
+@media(max-width:480px){
+
+.wrap{
+padding:22px 14px 48px;
+}
+
+.card{
+padding:30px 20px;
+border-radius:28px;
+}
+
+.logoBox{
+border-radius:26px;
+}
+
+.mapFrame{
+height:320px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+
+<div class="logoBox">
+<img src="logo.png" alt="田子山富士">
+</div>
+
+<h1 class="siteTitle">
+田子山富士への行き方
+</h1>
+
+<div class="siteSub">
+Googleマップで道案内
+</div>
+
+</header>
+
+<section class="card">
+
+<h2 class="cardTitle">
+📍 目的地
+</h2>
+
+<p class="cardText">
+下のボタンを押すと、<br>
+現在地から田子山富士まで<br>
+Googleマップで案内できます。
+</p>
+
+<div class="placeBox">
+
+<p class="placeName">
+田子山富士塚
+</p>
+
+<p class="placeAddress">
+埼玉県志木市本町2丁目9番<br>
+敷島神社境内
+</p>
+
+</div>
+
+<div class="btnArea">
+
+<a
+id="routeBtn"
+class="btn mapBtn"
+href="https://www.google.com/maps/dir/?api=1&destination=%E7%94%B0%E5%AD%90%E5%B1%B1%E5%AF%8C%E5%A3%AB%E5%A1%9A%20%E5%9F%BC%E7%8E%89%E7%9C%8C%E5%BF%97%E6%9C%A8%E5%B8%82%E6%9C%AC%E7%94%BA2%E4%B8%81%E7%9B%AE9%E7%95%AA%20%E6%95%B7%E5%B3%B6%E7%A5%9E%E7%A4%BE%E5%A2%83%E5%86%85&travelmode=walking"
+target="_blank"
+rel="noopener">
+📍 Googleマップで道案内
+</a>
+
+<a
+class="btn backBtn"
+href="index.html">
+← トップへ戻る
+</a>
+
+</div>
+
+<p class="note">
+スマホの現在地許可をオンにすると、今いる場所から案内できます。
+</p>
+
+</section>
+
+<section class="card">
+
+<h2 class="cardTitle">
+🗺️ 地図
+</h2>
+
+<div class="mapFrameBox">
+
+<iframe
+class="mapFrame"
+loading="lazy"
+allowfullscreen
+referrerpolicy="no-referrer-when-downgrade"
+src="https://www.google.com/maps?q=%E7%94%B0%E5%AD%90%E5%B1%B1%E5%AF%8C%E5%A3%AB%E5%A1%9A%20%E5%9F%BC%E7%8E%89%E7%9C%8C%E5%BF%97%E6%9C%A8%E5%B8%82%E6%9C%AC%E7%94%BA2%E4%B8%81%E7%9B%AE9%E7%95%AA%20%E6%95%B7%E5%B3%B6%E7%A5%9E%E7%A4%BE%E5%A2%83%E5%86%85&output=embed">
+</iframe>
+
+</div>
+
+<p class="note">
+地図が見にくい場合は、上の「Googleマップで道案内」を押してください。
+</p>
+
+</section>
+
+<footer class="footer">
+田子山富士 168の縁プロジェクト<br>
+登頂記念・ご縁帳・おみくじ
+</footer>
+
+</div>
+
+</body>
+</html>
