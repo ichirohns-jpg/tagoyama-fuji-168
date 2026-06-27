@@ -9,7 +9,6 @@
 <meta property="og:description" content="田子山富士の登頂記念・ご縁帳・おみくじ">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
-
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 <meta property="og:image:alt" content="田子山富士168の縁プロジェクト">
@@ -412,15 +411,11 @@ box-shadow:
 0 0 22px rgba(255,215,90,.18);
 }
 
-.omikujiResult.hit .omikujiImageBox{
-display:block;
-}
-
 .omikujiImage{
 display:block;
 width:100%;
 height:auto;
-max-height:360px;
+max-height:none;
 object-fit:contain;
 background:#000;
 }
@@ -613,10 +608,6 @@ border-radius:28px;
 
 .logoBox{
 border-radius:26px;
-}
-
-.omikujiImage{
-max-height:320px;
 }
 
 }
@@ -988,7 +979,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 
 <p class="omikujiPopupGuide">
 共有画面で「画像を保存」を選んでください。<br>
-うまくいかない場合は画像を長押しして保存してください。
+うまくいかない場合は、もう一度保存ボタンを押してください。
 </p>
 
 <img id="omikujiSavedImage" alt="田子山富士おみくじ当たり画像">
@@ -1008,7 +999,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzMVJDrzVn5T4peQyRH-3yC_X-Fg3RZBwcB1Dmmd0KIWcmM-R4GZrEcv88zGWR-J8iE/exec";
+"https://script.google.com/macros/s/AKfycbynLgrqzPTeMR9Ulgvp0Jhkc5b6F6Otvzwv3kq_eH5hSGSc3ullR_o-J2MmnNNeMwN1/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1404,7 +1395,7 @@ async function drawOmikuji(){
   "";
 
   latestOmikujiShareUrl =
-  HOME_PAGE + "?open=omikuji&v=008";
+  HOME_PAGE + "?open=omikuji&v=009";
 
   if(!userId){
 
@@ -1520,19 +1511,21 @@ async function drawOmikuji(){
     date.innerText =
     todayText();
 
-    const imageUrl =
+    const imageSource =
     getString(
+      result.imageDataUrl ||
+      data.imageDataUrl ||
+      result.imageDataURL ||
+      data.imageDataURL ||
       result.imageUrl ||
       data.imageUrl ||
-      result.imageURL ||
-      data.imageURL ||
       ""
     );
 
-    if(isHit && imageUrl){
+    if(isHit && imageSource){
 
       img.src =
-      imageUrl;
+      imageSource;
 
       imgBox.style.display =
       "block";
@@ -1558,7 +1551,7 @@ async function drawOmikuji(){
       "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
       latestOmikujiShareUrl =
-      HOME_PAGE + "?open=omikuji&v=008";
+      HOME_PAGE + "?open=omikuji&v=009";
 
       setupOmikujiShareLinks();
 
