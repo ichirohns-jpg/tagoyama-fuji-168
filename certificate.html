@@ -243,7 +243,7 @@ left:0;
 top:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.88);
+background:rgba(0,0,0,.90);
 z-index:9999;
 padding:16px;
 overflow:auto;
@@ -260,7 +260,7 @@ padding:14px;
 
 .popupTitle{
 text-align:center;
-font-size:20px;
+font-size:24px;
 font-weight:bold;
 color:#ffd36a;
 margin-bottom:10px;
@@ -269,10 +269,10 @@ margin-bottom:10px;
 .popupGuide{
 text-align:center;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:15px;
-line-height:1.6;
+font-size:17px;
+line-height:1.7;
 color:#fff3c4;
-margin-bottom:12px;
+margin-bottom:14px;
 }
 
 #savedImage{
@@ -284,14 +284,28 @@ border:1px solid rgba(255,220,140,.6);
 background:#000;
 }
 
-.closeBtn{
+.photoBtn{
 width:100%;
 margin-top:16px;
+padding:20px 12px;
+border:none;
+border-radius:999px;
+background:linear-gradient(180deg,#32df80,#20bd62);
+color:#fff;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+font-size:22px;
+font-weight:900;
+cursor:pointer;
+}
+
+.closeBtn{
+width:100%;
+margin-top:12px;
 padding:16px;
 border:none;
 border-radius:999px;
-background:#d8a13a;
-color:#2a1302;
+background:#3a3a3a;
+color:#fff;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
@@ -439,11 +453,17 @@ class="popup">
 </div>
 
 <div class="popupGuide">
-共有画面で「画像を保存」<br>
-または画像を長押しして保存
+下のボタンを押して<br>
+共有画面で「画像を保存」を選んでください
 </div>
 
 <img id="savedImage">
+
+<button
+class="photoBtn"
+onclick="shareSavedImage()">
+写真に保存する
+</button>
 
 <button
 class="closeBtn"
@@ -473,6 +493,8 @@ let latestImageData="";
 let latestShareUrl="";
 let latestImageSrc="";
 let latestImageCors=false;
+let latestSaveFile=null;
+let latestSaveImageUrl="";
 
 window.addEventListener(
 "load",
@@ -1294,7 +1316,7 @@ const btn=
 document.querySelector(".btn.save");
 
 btn.disabled=true;
-btn.innerText="記念証を授与中...";
+btn.innerText="保存画像を作成中...";
 
 try{
 
@@ -1319,7 +1341,7 @@ await canvasToBlob(canvas);
 const fileName=
 makeSaveFileName();
 
-const file=
+latestSaveFile=
 new File(
 [blob],
 fileName,
@@ -1328,65 +1350,90 @@ type:"image/png"
 }
 );
 
-const imageUrl=
-URL.createObjectURL(blob);
-
-showImagePopup(imageUrl);
-
-if(
-navigator.canShare &&
-navigator.canShare({
-files:[file]
-})
-){
-
-await navigator.share({
-files:[file],
-title:"田子山富士 登頂記念証",
-text:"田子山富士 登頂記念証"
-});
-
-return;
-
+if(latestSaveImageUrl){
+URL.revokeObjectURL(latestSaveImageUrl);
+latestSaveImageUrl="";
 }
 
-downloadBlob(blob,fileName);
+latestSaveImageUrl=
+URL.createObjectURL(blob);
+
+showImagePopup(latestSaveImageUrl);
+
+await openNativeImageShare(false);
 
 }catch(err){
 
-try{
-
-const canvas=
-await html2canvas(
-document.getElementById("certificate"),
-{
-scale:2,
-useCORS:true,
-allowTaint:true,
-backgroundColor:null,
-logging:false,
-imageTimeout:15000
-}
-);
-
-const image=
-canvas.toDataURL("image/png");
-
-showImagePopup(image);
-downloadDataUrl(image,makeSaveFileName());
-
-}catch(e){
-
 alert(
-"保存画像を作れませんでした。画面をスクリーンショットで保存してください。"
+"保存画像を作れませんでした。もう一度お試しください。"
 );
-
-}
 
 }finally{
 
 btn.disabled=false;
 btn.innerText="📜 記念証を授かる";
+
+}
+
+}
+
+async function shareSavedImage(){
+
+const ok=
+await openNativeImageShare(true);
+
+if(!ok){
+
+alert(
+"この画面では自動保存画面を開けませんでした。表示された記念証画像を長押しして「写真に保存」を選んでください。"
+);
+
+}
+
+}
+
+async function openNativeImageShare(showAlert){
+
+if(!latestSaveFile){
+return false;
+}
+
+if(!navigator.share){
+return false;
+}
+
+const fileShareData={
+files:[
+latestSaveFile
+]
+};
+
+if(
+navigator.canShare &&
+!navigator.canShare(fileShareData)
+){
+return false;
+}
+
+try{
+
+await navigator.share({
+files:[
+latestSaveFile
+],
+title:"田子山富士 登頂記念証",
+text:"田子山富士 登頂記念証"
+});
+
+return true;
+
+}catch(e){
+
+if(e && e.name==="AbortError"){
+return true;
+}
+
+return false;
 
 }
 
@@ -1451,41 +1498,6 @@ latestSerial
 
 }
 
-function downloadBlob(blob,fileName){
-
-const url=
-URL.createObjectURL(blob);
-
-const link=
-document.createElement("a");
-
-link.href=url;
-link.download=fileName;
-
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-
-setTimeout(function(){
-URL.revokeObjectURL(url);
-},30000);
-
-}
-
-function downloadDataUrl(dataUrl,fileName){
-
-const link=
-document.createElement("a");
-
-link.href=dataUrl;
-link.download=fileName;
-
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-
-}
-
 function showImagePopup(src){
 
 document.getElementById("savedImage").src=src;
@@ -1494,13 +1506,6 @@ document.getElementById("popup").style.display="block";
 }
 
 function closePopup(){
-
-const img=
-document.getElementById("savedImage");
-
-if(img.src.indexOf("blob:")===0){
-URL.revokeObjectURL(img.src);
-}
 
 document.getElementById("popup").style.display="none";
 
