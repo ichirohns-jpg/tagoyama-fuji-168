@@ -649,7 +649,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxUFd4MlR7A6chGFb40wQIAKf3D7aVNvzV_6nV7swQkOfBXDMc2vX7l8PrJxlE9SONz/exec";
+"https://script.google.com/macros/s/AKfycbzU1VqYGWdOvxpKEsLPJVQHU3bAUeI_vTe83Y3jpoPWUJJvH6NdMW3t-vosqVeLAyx8/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1322,6 +1322,8 @@ async function saveKicho(){
     document.getElementById("goenList").innerHTML =
     '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
 
+    openSection("goenSection");
+
   }catch(err){
 
     alert(err.message || "記帳できませんでした");
@@ -1373,7 +1375,7 @@ async function loadGoen(){
     list.innerHTML =
     "";
 
-    items.slice(0,12).forEach(function(item){
+    items.slice(0,20).forEach(function(item){
 
       const div =
       document.createElement("div");
@@ -1394,14 +1396,10 @@ async function loadGoen(){
       getString(item.message || item.body || item.text || "");
 
       const body =
-      escapeHtml(
-        message ||
-        item.name ||
-        ""
-      );
+      escapeHtml(message || "");
 
       const nameLine =
-      message && name ?
+      name ?
       '<p class="itemDate">記帳：' + name + '</p>' :
       '';
 
