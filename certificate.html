@@ -117,7 +117,7 @@ content:"";
 position:absolute;
 inset:0;
 background:
-linear-gradient(180deg,rgba(0,0,0,.20) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 62%,rgba(0,0,0,.24) 100%);
+linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 62%,rgba(0,0,0,.24) 100%);
 pointer-events:none;
 z-index:1;
 }
@@ -155,69 +155,75 @@ z-index:3;
 .certTopMain{
 position:absolute;
 left:50%;
-top:6.3%;
+top:7.5%;
 transform:translate(-50%,-50%);
-width:94%;
+width:86%;
+padding:7px 10px 6px;
+border-radius:999px;
+background:rgba(0,0,0,.42);
+border:1px solid rgba(242,209,107,.55);
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(22px,6.5vw,68px);
+font-size:clamp(19px,5.4vw,54px);
 font-weight:900;
-letter-spacing:.08em;
+letter-spacing:.10em;
 line-height:1;
-color:#e6bd45;
+color:#ffe08a;
 text-shadow:
-0 2px 1px rgba(80,45,0,.85),
-2px 4px 5px rgba(0,0,0,.78),
-0 0 10px rgba(255,245,180,.40),
-0 0 20px rgba(255,210,85,.22);
--webkit-text-stroke:.35px rgba(80,45,0,.46);
+0 2px 2px rgba(0,0,0,1),
+0 4px 8px rgba(0,0,0,.95),
+0 0 12px rgba(255,225,120,.35);
+-webkit-text-stroke:.25px rgba(70,38,0,.50);
 z-index:5;
 }
 
 .certTopSub{
 position:absolute;
 left:50%;
-top:10.95%;
+top:12.5%;
 transform:translate(-50%,-50%);
-width:94%;
+width:90%;
+padding:8px 10px 7px;
+border-radius:999px;
+background:rgba(0,0,0,.50);
+border:1.5px solid rgba(242,209,107,.72);
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(24px,7.3vw,78px);
+font-size:clamp(23px,6.8vw,70px);
 font-weight:900;
-letter-spacing:.06em;
+letter-spacing:.08em;
 line-height:1;
-color:#f6d56f;
+color:#ffd966;
 text-shadow:
-0 2px 1px rgba(80,45,0,.82),
-3px 5px 7px rgba(0,0,0,.80),
-0 0 12px rgba(255,245,180,.42),
-0 0 22px rgba(255,210,85,.24);
--webkit-text-stroke:.35px rgba(80,45,0,.45);
+0 2px 2px rgba(0,0,0,1),
+0 5px 9px rgba(0,0,0,.96),
+0 0 16px rgba(255,225,120,.38);
+-webkit-text-stroke:.28px rgba(70,38,0,.54);
 z-index:5;
 }
 
 .certBottomPlate{
 position:absolute;
 left:50%;
-top:81.0%;
+top:80.8%;
 transform:translate(-50%,-50%);
-width:82%;
-min-height:15.2%;
-padding:18px 16px 17px;
+width:86%;
+min-height:16.4%;
+padding:22px 16px 20px;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 text-align:center;
-border-radius:24px;
-border:1.7px solid rgba(242,209,107,.78);
+border-radius:26px;
+border:2px solid rgba(242,209,107,.86);
 background:
-linear-gradient(180deg,rgba(22,15,5,.58),rgba(0,0,0,.44)),
-radial-gradient(ellipse at center,rgba(255,224,125,.13),rgba(0,0,0,0) 62%);
+linear-gradient(180deg,rgba(0,0,0,.68),rgba(0,0,0,.52)),
+radial-gradient(ellipse at center,rgba(255,224,125,.18),rgba(0,0,0,0) 66%);
 box-shadow:
-0 0 0 1px rgba(255,245,190,.14) inset,
-0 10px 22px rgba(0,0,0,.42),
-0 0 22px rgba(255,215,90,.12);
+0 0 0 1px rgba(255,245,190,.18) inset,
+0 12px 26px rgba(0,0,0,.54),
+0 0 28px rgba(255,215,90,.18);
 z-index:5;
 }
 
@@ -244,9 +250,9 @@ linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.55),rgba(242,209,107
 }
 
 .certOrnament{
-width:66%;
-height:12px;
-margin:0 0 7px;
+width:72%;
+height:14px;
+margin:0 0 8px;
 position:relative;
 }
 
@@ -275,28 +281,28 @@ position:absolute;
 left:50%;
 top:50%;
 transform:translate(-50%,-50%);
-font-size:12px;
+font-size:13px;
 line-height:1;
-color:#f5d36a;
+color:#ffd966;
 text-shadow:0 1px 2px rgba(0,0,0,.85);
 }
 
 .certClimbText{
 position:relative;
 width:100%;
-margin:0 0 8px;
+margin:0 0 10px;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(15px,4.2vw,44px);
+font-size:clamp(18px,5vw,50px);
 font-weight:900;
-letter-spacing:.07em;
+letter-spacing:.09em;
 line-height:1.05;
-color:#ffffff;
+color:#fff7d0;
 text-shadow:
-0 2px 2px rgba(0,0,0,.96),
-2px 3px 5px rgba(0,0,0,.94),
-0 0 8px rgba(0,0,0,.86);
--webkit-text-stroke:.24px rgba(0,0,0,.44);
+0 2px 2px rgba(0,0,0,1),
+0 4px 8px rgba(0,0,0,.96),
+0 0 12px rgba(255,240,180,.22);
+-webkit-text-stroke:.25px rgba(0,0,0,.55);
 white-space:nowrap;
 z-index:6;
 }
@@ -304,20 +310,19 @@ z-index:6;
 .certSerial{
 position:relative;
 width:100%;
-margin:0 0 8px;
+margin:0 0 10px;
 text-align:center;
 font-family:"Times New Roman","Georgia","Hiragino Mincho ProN",serif;
-font-size:clamp(27px,7.2vw,76px);
+font-size:clamp(34px,8.4vw,86px);
 font-weight:900;
-letter-spacing:.025em;
+letter-spacing:.03em;
 line-height:1;
-color:#f7d66f;
+color:#ffd966;
 text-shadow:
-0 2px 1px rgba(90,50,0,.78),
-0 3px 3px rgba(0,0,0,.96),
-4px 5px 7px rgba(0,0,0,.84),
-0 0 13px rgba(255,229,120,.28);
--webkit-text-stroke:.36px rgba(73,42,0,.48);
+0 2px 1px rgba(90,50,0,.92),
+0 4px 5px rgba(0,0,0,1),
+0 0 18px rgba(255,229,120,.36);
+-webkit-text-stroke:.42px rgba(73,42,0,.62);
 white-space:nowrap;
 z-index:6;
 }
@@ -328,16 +333,16 @@ width:100%;
 margin:0;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(13px,3.3vw,36px);
+font-size:clamp(15px,3.8vw,38px);
 font-weight:900;
-letter-spacing:.11em;
+letter-spacing:.13em;
 line-height:1;
 color:#ffffff;
 text-shadow:
-0 2px 2px rgba(0,0,0,.96),
-2px 3px 4px rgba(0,0,0,.86),
-0 0 8px rgba(0,0,0,.78);
--webkit-text-stroke:.22px rgba(0,0,0,.42);
+0 2px 2px rgba(0,0,0,1),
+0 4px 7px rgba(0,0,0,.92),
+0 0 10px rgba(255,255,255,.20);
+-webkit-text-stroke:.24px rgba(0,0,0,.55);
 white-space:nowrap;
 z-index:6;
 }
@@ -504,10 +509,24 @@ border-radius:32px;
 border-radius:24px;
 }
 
+.certTopMain{
+top:7.6%;
+width:86%;
+padding:6px 8px 6px;
+}
+
+.certTopSub{
+top:12.7%;
+width:90%;
+padding:7px 8px 7px;
+}
+
 .certBottomPlate{
-width:84%;
-border-radius:22px;
-padding:16px 12px 15px;
+top:80.9%;
+width:88%;
+min-height:16.8%;
+padding:20px 12px 18px;
+border-radius:24px;
 }
 
 .btnArea{
