@@ -21,8 +21,6 @@
 
 <link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <style>
 *{
 box-sizing:border-box;
@@ -484,15 +482,6 @@ gap:12px;
 margin-top:18px;
 }
 
-.omikujiActionTitle{
-margin:4px 0 0;
-font-size:19px;
-font-weight:900;
-line-height:1.5;
-text-align:center;
-color:#ffdf72;
-}
-
 .omikujiShareNote{
 margin:0;
 font-size:14px;
@@ -500,10 +489,6 @@ font-weight:800;
 line-height:1.6;
 text-align:center;
 color:#fff3c4;
-}
-
-.omikujiNative{
-background:linear-gradient(180deg,#ffb347,#d77800);
 }
 
 .omikujiSave{
@@ -774,14 +759,6 @@ alt="田子山富士おみくじ当たり画像">
 
 <div class="omikujiActions hidden" id="omikujiActions">
 
-<div class="omikujiActionTitle">
-🎉 当たりを自慢する
-</div>
-
-<button class="omikujiShareBtn omikujiNative" onclick="nativeShareOmikuji()">
-🎉 SNSで自慢する
-</button>
-
 <button class="omikujiShareBtn omikujiSave" onclick="saveOmikujiImage(this)">
 📸 当たり画像を保存
 </button>
@@ -1029,6 +1006,9 @@ let latestOmikujiFile =
 null;
 
 let latestOmikujiImageUrl =
+"";
+
+let latestOmikujiImageDataUrl =
 "";
 
 window.addEventListener(
@@ -1391,6 +1371,9 @@ async function drawOmikuji(){
 
   img.removeAttribute("src");
 
+  latestOmikujiImageDataUrl =
+  "";
+
   latestOmikujiShareText =
   "";
 
@@ -1511,18 +1494,32 @@ async function drawOmikuji(){
     date.innerText =
     todayText();
 
-    const imageSource =
+    const imageDataUrl =
     getString(
       result.imageDataUrl ||
       data.imageDataUrl ||
       result.imageDataURL ||
       data.imageDataURL ||
-      result.imageUrl ||
-      data.imageUrl ||
       ""
     );
 
+    const imageUrl =
+    getString(
+      result.imageUrl ||
+      data.imageUrl ||
+      result.imageURL ||
+      data.imageURL ||
+      ""
+    );
+
+    const imageSource =
+    imageDataUrl ||
+    imageUrl;
+
     if(isHit && imageSource){
+
+      latestOmikujiImageDataUrl =
+      imageDataUrl;
 
       img.src =
       imageSource;
@@ -1612,45 +1609,6 @@ function setupOmikujiShareLinks(){
 
 }
 
-async function nativeShareOmikuji(){
-
-  const text =
-  latestOmikujiShareText ||
-  "田子山富士168の縁プロジェクトでおみくじに当たりました！";
-
-  const url =
-  latestOmikujiShareUrl ||
-  HOME_PAGE;
-
-  if(navigator.share){
-
-    try{
-
-      await navigator.share({
-        title:"田子山富士おみくじ 大当たり",
-        text:text,
-        url:url
-      });
-
-      return;
-
-    }catch(e){
-
-      if(e && e.name === "AbortError"){
-        return;
-      }
-
-    }
-
-  }
-
-  await copyText(
-    text + "\n" + url,
-    "投稿文をコピーしました"
-  );
-
-}
-
 async function copyOmikujiPost(){
 
   const text =
@@ -1671,94 +1629,62 @@ async function copyOmikujiPost(){
 
 }
 
-async function waitImagesInElement(el){
-
-  const imgs =
-  Array.from(el.querySelectorAll("img"));
-
-  const waits =
-  imgs.map(function(img){
-
-    if(img.complete && img.naturalWidth > 0){
-      return Promise.resolve();
-    }
-
-    return new Promise(function(resolve){
-
-      img.onload =
-      function(){
-        resolve();
-      };
-
-      img.onerror =
-      function(){
-        resolve();
-      };
-
-    });
-
-  });
-
-  await Promise.all(waits);
-
-}
-
 async function saveOmikujiImage(btn){
 
-  const target =
-  document.getElementById("omikujiResult");
+  const dataUrl =
+  latestOmikujiImageDataUrl ||
+  (
+    document.getElementById("omikujiImage") &&
+    document.getElementById("omikujiImage").src.indexOf("data:image/") === 0
+    ? document.getElementById("omikujiImage").src
+    : ""
+  );
 
-  if(!target || target.style.display === "none"){
+  if(!dataUrl){
 
-    alert("保存するおみくじがありません");
+    alert(
+      "保存用の画像データが取得できていません。\nページを更新してからもう一度お試しください。"
+    );
 
     return;
 
   }
 
   if(btn){
-    btn.disabled = true;
-    btn.innerText = "画像を作成中...";
+
+    btn.disabled =
+    true;
+
+    btn.innerText =
+    "画像を準備中...";
+
   }
 
   try{
 
-    await waitImagesInElement(target);
-
-    const canvas =
-    await html2canvas(
-      target,
-      {
-        scale:2,
-        backgroundColor:null,
-        useCORS:true,
-        allowTaint:false,
-        logging:false
-      }
+    const file =
+    dataUrlToFile(
+      dataUrl,
+      "tagoyama-omikuji-atari.png"
     );
-
-    const blob =
-    await canvasToBlob(canvas);
 
     latestOmikujiFile =
-    new File(
-      [blob],
-      "tagoyama-omikuji-atari.png",
-      {
-        type:"image/png"
-      }
-    );
+    file;
 
     if(latestOmikujiImageUrl){
+
       URL.revokeObjectURL(latestOmikujiImageUrl);
-      latestOmikujiImageUrl = "";
+
+      latestOmikujiImageUrl =
+      "";
+
     }
 
     latestOmikujiImageUrl =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(file);
 
     document.getElementById("omikujiSavedImage").src =
-    latestOmikujiImageUrl;
+    dataUrl;
 
     document.getElementById("omikujiPopup").style.display =
     "block";
@@ -1767,34 +1693,68 @@ async function saveOmikujiImage(btn){
 
   }catch(e){
 
-    alert("保存画像を作れませんでした。もう一度お試しください。");
+    alert(
+      "画像を保存用に準備できませんでした。\nもう一度お試しください。"
+    );
 
   }finally{
 
     if(btn){
-      btn.disabled = false;
-      btn.innerText = "📸 当たり画像を保存";
+
+      btn.disabled =
+      false;
+
+      btn.innerText =
+      "📸 当たり画像を保存";
+
     }
 
   }
 
 }
 
-function canvasToBlob(canvas){
+function dataUrlToFile(dataUrl,fileName){
 
-  return new Promise(function(resolve,reject){
+  const parts =
+  dataUrl.split(",");
 
-    canvas.toBlob(function(blob){
+  const header =
+  parts[0] || "";
 
-      if(blob){
-        resolve(blob);
-      }else{
-        reject(new Error("画像保存に失敗しました"));
-      }
+  const base64 =
+  parts[1] || "";
 
-    },"image/png",1);
+  const mimeMatch =
+  header.match(/data:(.*?);base64/);
 
-  });
+  const mime =
+  mimeMatch && mimeMatch[1]
+  ? mimeMatch[1]
+  : "image/png";
+
+  const binary =
+  atob(base64);
+
+  const length =
+  binary.length;
+
+  const bytes =
+  new Uint8Array(length);
+
+  for(let i=0;i<length;i++){
+
+    bytes[i] =
+    binary.charCodeAt(i);
+
+  }
+
+  return new File(
+    [bytes],
+    fileName,
+    {
+      type:mime
+    }
+  );
 
 }
 
@@ -1810,6 +1770,8 @@ async function shareSavedOmikujiImage(){
 
   if(!navigator.share){
 
+    alert("この端末では共有保存画面を開けません");
+
     return false;
 
   }
@@ -1822,6 +1784,8 @@ async function shareSavedOmikujiImage(){
   };
 
   if(navigator.canShare && !navigator.canShare({files:[latestOmikujiFile]})){
+
+    alert("この端末では画像ファイル共有ができません");
 
     return false;
 
