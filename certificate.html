@@ -29,7 +29,7 @@ color:#fff;
 
 body{
 background:
-radial-gradient(circle at 50% 10%,rgba(80,42,12,.36),rgba(0,0,0,0) 34%),
+radial-gradient(circle at 50% 8%,rgba(120,78,18,.32),rgba(0,0,0,0) 34%),
 linear-gradient(180deg,#030201 0%,#090401 48%,#000 100%);
 }
 
@@ -70,12 +70,23 @@ width:100%;
 padding:18px;
 border:3px solid #d6ad3c;
 border-radius:34px;
-background:#020202;
+background:
+linear-gradient(180deg,#151008 0%,#050403 45%,#000 100%);
 box-shadow:
-0 0 0 1px rgba(255,235,150,.18) inset,
+0 0 0 1px rgba(255,235,150,.20) inset,
 0 0 28px rgba(255,190,70,.18),
 0 20px 42px rgba(0,0,0,.62);
 overflow:hidden;
+}
+
+#certificate::before{
+content:"";
+position:absolute;
+inset:8px;
+border:1px solid rgba(255,223,115,.28);
+border-radius:28px;
+pointer-events:none;
+z-index:0;
 }
 
 .imageStage{
@@ -85,6 +96,17 @@ aspect-ratio:1080 / 1920;
 border-radius:26px;
 overflow:hidden;
 background:#000;
+z-index:1;
+}
+
+.imageStage::after{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(180deg,rgba(0,0,0,.14) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 62%,rgba(0,0,0,.20) 100%);
+pointer-events:none;
+z-index:1;
 }
 
 #memorialImage{
@@ -102,6 +124,7 @@ top:0;
 width:100%;
 height:100%;
 pointer-events:none;
+z-index:2;
 }
 
 .certTopMain{
@@ -112,12 +135,15 @@ transform:translate(-50%,-50%);
 width:92%;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(16px,4.82vw,52px);
+font-size:clamp(18px,5.1vw,56px);
 font-weight:900;
-letter-spacing:.04em;
+letter-spacing:.05em;
 line-height:1;
 color:#D6A93A;
-text-shadow:2px 3px 4px rgba(0,0,0,.65);
+text-shadow:
+2px 3px 4px rgba(0,0,0,.72),
+0 0 10px rgba(255,235,170,.28);
+z-index:3;
 }
 
 .certTopSub{
@@ -128,60 +154,122 @@ transform:translate(-50%,-50%);
 width:92%;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(24px,7.22vw,78px);
+font-size:clamp(25px,7.4vw,80px);
 font-weight:900;
-letter-spacing:.02em;
+letter-spacing:.03em;
 line-height:1;
 color:#F2D16B;
-text-shadow:3px 4px 6px rgba(0,0,0,.75);
+text-shadow:
+3px 4px 6px rgba(0,0,0,.78),
+0 0 12px rgba(255,235,160,.32);
+z-index:3;
+}
+
+.certBottomPlate{
+position:absolute;
+left:50%;
+top:80.3%;
+transform:translate(-50%,-50%);
+width:76%;
+min-height:13.2%;
+padding:14px 12px 13px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+border-radius:22px;
+border:1.5px solid rgba(242,209,107,.72);
+background:
+linear-gradient(180deg,rgba(20,14,5,.48),rgba(0,0,0,.36)),
+radial-gradient(ellipse at center,rgba(255,220,110,.10),rgba(0,0,0,0) 62%);
+box-shadow:
+0 0 0 1px rgba(255,245,190,.12) inset,
+0 8px 18px rgba(0,0,0,.34),
+0 0 20px rgba(255,215,90,.10);
+z-index:3;
+}
+
+.certBottomPlate::before{
+content:"";
+position:absolute;
+left:14%;
+right:14%;
+top:10px;
+height:1px;
+background:
+linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.72),rgba(242,209,107,0));
+}
+
+.certBottomPlate::after{
+content:"";
+position:absolute;
+left:14%;
+right:14%;
+bottom:10px;
+height:1px;
+background:
+linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.45),rgba(242,209,107,0));
 }
 
 .certClimbText{
-position:absolute;
-left:50%;
-top:75.52%;
-transform:translate(-50%,-50%);
-width:92%;
+position:relative;
+width:100%;
+margin:0 0 6px;
 text-align:center;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(16px,4.63vw,50px);
+font-size:clamp(14px,3.9vw,42px);
 font-weight:900;
-letter-spacing:.01em;
-line-height:1;
+letter-spacing:.03em;
+line-height:1.05;
 color:#FFFFFF;
-text-shadow:2px 3px 5px rgba(0,0,0,.75);
+text-shadow:
+0 2px 2px rgba(0,0,0,.95),
+2px 3px 5px rgba(0,0,0,.92),
+0 0 8px rgba(0,0,0,.85);
+-webkit-text-stroke:.22px rgba(0,0,0,.42);
+white-space:nowrap;
+z-index:4;
 }
 
 .certSerial{
-position:absolute;
-left:50%;
-top:80.47%;
-transform:translate(-50%,-50%);
-width:92%;
+position:relative;
+width:100%;
+margin:0 0 6px;
 text-align:center;
 font-family:"Times New Roman","Georgia","Hiragino Mincho ProN",serif;
-font-size:clamp(24px,7.04vw,76px);
+font-size:clamp(22px,5.9vw,64px);
 font-weight:900;
-letter-spacing:.01em;
+letter-spacing:.02em;
 line-height:1;
 color:#F5D36A;
-text-shadow:3px 4px 6px rgba(0,0,0,.8);
+text-shadow:
+0 2px 2px rgba(0,0,0,.95),
+3px 4px 6px rgba(0,0,0,.86),
+0 0 12px rgba(0,0,0,.72);
+-webkit-text-stroke:.30px rgba(0,0,0,.46);
+white-space:nowrap;
+z-index:4;
 }
 
 .certDate{
-position:absolute;
-left:50%;
-top:84.64%;
-transform:translate(-50%,-50%);
-width:92%;
+position:relative;
+width:100%;
+margin:0;
 text-align:center;
 font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(13px,3.52vw,38px);
+font-size:clamp(12px,3.0vw,32px);
 font-weight:900;
-letter-spacing:.01em;
+letter-spacing:.02em;
 line-height:1;
 color:#FFFFFF;
-text-shadow:2px 3px 4px rgba(0,0,0,.7);
+text-shadow:
+0 2px 2px rgba(0,0,0,.95),
+2px 3px 4px rgba(0,0,0,.85),
+0 0 8px rgba(0,0,0,.75);
+-webkit-text-stroke:.22px rgba(0,0,0,.40);
+white-space:nowrap;
+z-index:4;
 }
 
 .btnArea{
@@ -326,6 +414,12 @@ border-radius:32px;
 border-radius:24px;
 }
 
+.certBottomPlate{
+width:78%;
+border-radius:20px;
+padding:13px 10px 12px;
+}
+
 .btnArea{
 margin-top:24px;
 gap:20px;
@@ -374,6 +468,8 @@ referrerpolicy="no-referrer">
 登頂記念証
 </div>
 
+<div class="certBottomPlate">
+
 <div
 class="certClimbText"
 id="climbText">
@@ -390,6 +486,8 @@ No.----
 class="certDate"
 id="dateText">
 ----
+</div>
+
 </div>
 
 </div>
@@ -478,7 +576,7 @@ onclick="closePopup()">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxUFd4MlR7A6chGFb40wQIAKf3D7aVNvzV_6nV7swQkOfBXDMc2vX7l8PrJxlE9SONz/exec";
+"https://script.google.com/macros/s/AKfycbzU1VqYGWdOvxpKEsLPJVQHU3bAUeI_vTe83Y3jpoPWUJJvH6NdMW3t-vosqVeLAyx8/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
