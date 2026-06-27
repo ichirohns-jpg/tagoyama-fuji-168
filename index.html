@@ -734,7 +734,7 @@ href="#">
 🎉 SNSで自慢する
 </button>
 
-<button class="omikujiShareBtn omikujiSave" onclick="saveOmikujiImage()">
+<button class="omikujiShareBtn omikujiSave" onclick="saveOmikujiImage(this)">
 📸 当たり画像を保存
 </button>
 
@@ -1301,7 +1301,22 @@ async function drawOmikuji(){
   document.getElementById("omikujiActions");
 
   const userId =
-  getUserIdFromUrl();
+  getUserIdFromUrl() ||
+  currentUserId ||
+  localStorage.getItem("tagoyamaUserId") ||
+  "";
+
+  if(userId){
+
+    currentUserId =
+    userId;
+
+    localStorage.setItem(
+      "tagoyamaUserId",
+      userId
+    );
+
+  }
 
   box.style.display =
   "block";
@@ -1519,10 +1534,7 @@ async function copyOmikujiPost(){
 
 }
 
-async function saveOmikujiImage(){
-
-  const btn =
-  event && event.currentTarget ? event.currentTarget : null;
+async function saveOmikujiImage(btn){
 
   const target =
   document.getElementById("omikujiResult");
