@@ -295,6 +295,7 @@ font-size:clamp(20px,5.2vw,32px);
 font-weight:700;
 line-height:1.7;
 color:#fff;
+white-space:pre-line;
 }
 
 .footer{
@@ -408,8 +409,8 @@ href="#">
 </h2>
 
 <p class="cardText">
-今日のご縁を<br>
-おみくじで占えます。
+登頂した方だけが<br>
+おみくじを引けます。
 </p>
 
 <div class="btnArea">
@@ -520,6 +521,9 @@ const CERTIFICATE_PAGE =
 let currentUserId =
 "";
 
+let qrUserId =
+"";
+
 window.addEventListener(
 "load",
 init
@@ -527,14 +531,17 @@ init
 
 async function init(){
 
-  currentUserId =
+  qrUserId =
   getUserIdFromUrl();
 
-  if(currentUserId){
+  if(qrUserId){
+
+    currentUserId =
+    qrUserId;
 
     localStorage.setItem(
       "tagoyamaUserId",
-      currentUserId
+      qrUserId
     );
 
   }else{
@@ -725,6 +732,27 @@ async function drawOmikuji(){
   const message =
   document.getElementById("omikujiMessage");
 
+  const userId =
+  getUserIdFromUrl();
+
+  box.style.display =
+  "block";
+
+  if(!userId){
+
+    title.innerText =
+    "まだ登頂していません";
+
+    message.innerText =
+    "山頂QRコードを読み取って\n登頂受付をすると\nおみくじを引けます。";
+
+    btn.innerText =
+    "おみくじを引く";
+
+    return;
+
+  }
+
   btn.disabled =
   true;
 
@@ -732,11 +760,6 @@ async function drawOmikuji(){
   "おみくじ中...";
 
   try{
-
-    const userId =
-    currentUserId ||
-    localStorage.getItem("tagoyamaUserId") ||
-    "";
 
     const data =
     await fetchJson(
@@ -766,7 +789,7 @@ async function drawOmikuji(){
     result.message ||
     data.message ||
     result.lucky ||
-    "";
+    "今日もよいご縁があります。";
 
     box.style.display =
     "block";
@@ -777,7 +800,7 @@ async function drawOmikuji(){
     "おみくじ";
 
     message.innerText =
-    "ただいまおみくじを引けません。時間をおいてお試しください。";
+    "ただいまおみくじを引けません。\n時間をおいてお試しください。";
 
     box.style.display =
     "block";
@@ -833,7 +856,7 @@ async function loadNews(){
       div.className =
       "item";
 
-      const title =
+      const itemTitle =
       escapeHtml(item.title || "お知らせ");
 
       const date =
@@ -847,7 +870,7 @@ async function loadNews(){
 
       div.innerHTML =
       '<h3 class="itemTitle">' +
-      title +
+      itemTitle +
       '</h3>' +
       (
         date ?
