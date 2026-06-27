@@ -8,7 +8,19 @@
 <meta property="og:title" content="田子山富士 168の縁プロジェクト">
 <meta property="og:description" content="田子山富士の登頂記念・ご縁帳・おみくじ">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
+
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+<meta property="og:image:alt" content="田子山富士168の縁プロジェクト">
+<meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 168の縁プロジェクト">
+<meta name="twitter:description" content="田子山富士の登頂記念・ご縁帳・おみくじ">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+
+<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
 
 <style>
 *{
@@ -1147,9 +1159,6 @@ async function loadNews(){
       const imageUrls =
       collectNewsImages(item);
 
-      const firstImage =
-      imageUrls.length ? imageUrls[0] : "";
-
       const youtubeUrl =
       getString(item.youtube || "");
 
@@ -1160,8 +1169,7 @@ async function loadNews(){
       makeNewsShareButtons(
         rawTitle,
         rawBody,
-        normalLink,
-        firstImage
+        normalLink
       );
 
       let imageHtml =
@@ -1312,16 +1320,11 @@ function isImageLikeUrl(url){
 
 }
 
-function makeNewsShareButtons(title,body,link,imageUrl){
-
-  const homeNewsUrl =
-  HOME_PAGE +
-  "?open=news";
+function makeNewsShareButtons(title,body,link){
 
   const shareTargetUrl =
-  getString(imageUrl) ||
-  getString(link) ||
-  homeNewsUrl;
+  HOME_PAGE +
+  "?open=news&og=10";
 
   const shareText =
   getString(title) ||
