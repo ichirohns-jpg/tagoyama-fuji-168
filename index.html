@@ -534,6 +534,60 @@ href="#">
 ご縁帳に残せます。
 </p>
 
+<label class="inputLabel" for="kichoArea">
+どこから来ましたか
+</label>
+
+<select
+id="kichoArea"
+class="input">
+
+<option value="">
+選択してください
+</option>
+
+<option value="志木市">
+志木市
+</option>
+
+<option value="朝霞市">
+朝霞市
+</option>
+
+<option value="新座市">
+新座市
+</option>
+
+<option value="和光市">
+和光市
+</option>
+
+<option value="富士見市">
+富士見市
+</option>
+
+<option value="ふじみ野市">
+ふじみ野市
+</option>
+
+<option value="さいたま市">
+さいたま市
+</option>
+
+<option value="東京都">
+東京都
+</option>
+
+<option value="埼玉県内">
+埼玉県内
+</option>
+
+<option value="その他">
+その他
+</option>
+
+</select>
+
 <label class="inputLabel" for="kichoName">
 お名前
 </label>
@@ -661,6 +715,8 @@ function getUserIdFromUrl(){
 
 function openSection(id){
 
+  closeAllSections();
+
   const section =
   document.getElementById(id);
 
@@ -685,7 +741,30 @@ function openSection(id){
       block:"start"
     });
 
-  },80);
+  },100);
+
+}
+
+function closeAllSections(){
+
+  const ids =
+  [
+    "omikujiSection",
+    "newsSection",
+    "kichoSection",
+    "goenSection"
+  ];
+
+  ids.forEach(function(id){
+
+    const section =
+    document.getElementById(id);
+
+    if(section){
+      section.classList.add("hidden");
+    }
+
+  });
 
 }
 
@@ -694,16 +773,25 @@ function closeSection(id){
   const section =
   document.getElementById(id);
 
-  if(!section){
-    return;
+  if(section){
+    section.classList.add("hidden");
   }
 
-  section.classList.add("hidden");
+  const menu =
+  document.querySelector(".menuGrid");
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  if(menu){
+
+    setTimeout(function(){
+
+      menu.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    },80);
+
+  }
 
 }
 
@@ -1153,6 +1241,9 @@ function isImageLikeUrl(url){
 
 async function saveKicho(){
 
+  const areaEl =
+  document.getElementById("kichoArea");
+
   const nameEl =
   document.getElementById("kichoName");
 
@@ -1162,11 +1253,22 @@ async function saveKicho(){
   const btn =
   document.getElementById("kichoBtn");
 
+  const area =
+  getString(areaEl.value);
+
   const name =
   getString(nameEl.value) || "匿名";
 
   const message =
   getString(messageEl.value);
+
+  if(!area){
+
+    alert("どこから来たかを選択してください");
+
+    return;
+
+  }
 
   if(!message){
 
@@ -1184,14 +1286,23 @@ async function saveKicho(){
 
   try{
 
+    const userId =
+    currentUserId ||
+    localStorage.getItem("tagoyamaUserId") ||
+    "";
+
     const data =
     await fetchJson(
       GAS_URL +
       "?mode=saveKicho" +
+      "&area=" +
+      encodeURIComponent(area) +
       "&name=" +
       encodeURIComponent(name) +
       "&message=" +
       encodeURIComponent(message) +
+      "&userId=" +
+      encodeURIComponent(userId) +
       "&t=" +
       Date.now()
     );
@@ -1262,7 +1373,7 @@ async function loadGoen(){
     list.innerHTML =
     "";
 
-    items.slice(0,8).forEach(function(item){
+    items.slice(0,12).forEach(function(item){
 
       const div =
       document.createElement("div");
@@ -1270,18 +1381,33 @@ async function loadGoen(){
       div.className =
       "item";
 
+      const area =
+      escapeHtml(item.area || "その他");
+
       const name =
-      escapeHtml(item.name || item.area || "匿名");
+      escapeHtml(item.name || "匿名");
 
       const date =
       escapeHtml(item.date || "");
 
+      const message =
+      getString(item.message || item.body || item.text || "");
+
       const body =
-      escapeHtml(item.message || item.body || item.text || "");
+      escapeHtml(
+        message ||
+        item.name ||
+        ""
+      );
+
+      const nameLine =
+      message && name ?
+      '<p class="itemDate">記帳：' + name + '</p>' :
+      '';
 
       div.innerHTML =
       '<h3 class="itemTitle">' +
-      name +
+      area +
       '</h3>' +
       (
         date ?
@@ -1290,7 +1416,8 @@ async function loadGoen(){
       ) +
       '<p class="itemBody">' +
       body +
-      '</p>';
+      '</p>' +
+      nameLine;
 
       list.appendChild(div);
 
