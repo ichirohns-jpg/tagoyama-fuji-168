@@ -419,8 +419,9 @@ display:block;
 .omikujiImage{
 display:block;
 width:100%;
-height:220px;
-object-fit:cover;
+height:auto;
+max-height:360px;
+object-fit:contain;
 background:#000;
 }
 
@@ -615,7 +616,7 @@ border-radius:26px;
 }
 
 .omikujiImage{
-height:190px;
+max-height:320px;
 }
 
 }
@@ -750,10 +751,11 @@ href="#">
 
 <div class="omikujiResult" id="omikujiResult">
 
-<div class="omikujiImageBox">
+<div class="omikujiImageBox" id="omikujiImageBox">
 <img
+id="omikujiImage"
 class="omikujiImage"
-src="top.jpg?v=30"
+src=""
 alt="田子山富士おみくじ当たり画像">
 </div>
 
@@ -1006,7 +1008,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbxuoNNfu5QCqaJxNrcs5kL2slFYta5M6M2GmIVMsFhc03HG2Yca-m4EYC1dZvwDd5vV/exec";
+"https://script.google.com/macros/s/AKfycbzMVJDrzVn5T4peQyRH-3yC_X-Fg3RZBwcB1Dmmd0KIWcmM-R4GZrEcv88zGWR-J8iE/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1358,6 +1360,12 @@ async function drawOmikuji(){
   const already =
   document.getElementById("omikujiAlready");
 
+  const imgBox =
+  document.getElementById("omikujiImageBox");
+
+  const img =
+  document.getElementById("omikujiImage");
+
   const userId =
   getUserIdFromUrl() ||
   currentUserId ||
@@ -1387,11 +1395,16 @@ async function drawOmikuji(){
   already.style.display =
   "none";
 
+  imgBox.style.display =
+  "none";
+
+  img.removeAttribute("src");
+
   latestOmikujiShareText =
   "";
 
   latestOmikujiShareUrl =
-  HOME_PAGE + "?open=omikuji&v=007";
+  HOME_PAGE + "?open=omikuji&v=008";
 
   if(!userId){
 
@@ -1507,6 +1520,25 @@ async function drawOmikuji(){
     date.innerText =
     todayText();
 
+    const imageUrl =
+    getString(
+      result.imageUrl ||
+      data.imageUrl ||
+      result.imageURL ||
+      data.imageURL ||
+      ""
+    );
+
+    if(isHit && imageUrl){
+
+      img.src =
+      imageUrl;
+
+      imgBox.style.display =
+      "block";
+
+    }
+
     const alreadyDrawn =
     data.alreadyDrawn === true ||
     result.alreadyDrawn === true;
@@ -1526,7 +1558,7 @@ async function drawOmikuji(){
       "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
       latestOmikujiShareUrl =
-      HOME_PAGE + "?open=omikuji&v=007";
+      HOME_PAGE + "?open=omikuji&v=008";
 
       setupOmikujiShareLinks();
 
