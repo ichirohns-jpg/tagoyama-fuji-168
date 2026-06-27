@@ -278,6 +278,29 @@ color:#9fd0ff;
 word-break:break-all;
 }
 
+.newsImage{
+display:block;
+width:100%;
+height:auto;
+border-radius:18px;
+margin:16px 0;
+border:1px solid rgba(255,220,140,.45);
+background:#000;
+}
+
+.newsYoutube{
+display:block;
+margin-top:14px;
+padding:14px 16px;
+border-radius:16px;
+background:rgba(255,255,255,.08);
+font-size:17px;
+font-weight:900;
+color:#ffdf72;
+text-decoration:none;
+word-break:break-all;
+}
+
 .omikujiResult{
 display:none;
 margin-top:22px;
@@ -940,6 +963,7 @@ async function loadNews(){
     const items =
     data.items ||
     data.news ||
+    data.data ||
     [];
 
     if(!items.length){
@@ -969,10 +993,42 @@ async function loadNews(){
       escapeHtml(item.date || "");
 
       const body =
-      escapeHtml(item.body || item.message || "");
+      escapeHtml(item.body || item.text || item.message || "");
 
-      const url =
-      getString(item.url || "");
+      const imageUrls =
+      collectNewsImages(item);
+
+      const youtubeUrl =
+      getString(item.youtube || "");
+
+      const normalLink =
+      getNormalNewsLink(item);
+
+      let imageHtml =
+      "";
+
+      imageUrls.forEach(function(src){
+
+        imageHtml +=
+        '<img class="newsImage" src="' +
+        escapeAttr(src) +
+        '" alt="">';
+
+      });
+
+      const youtubeHtml =
+      youtubeUrl ?
+      '<a class="newsYoutube" href="' +
+      escapeAttr(youtubeUrl) +
+      '" target="_blank" rel="noopener">YouTubeを見る</a>' :
+      '';
+
+      const linkHtml =
+      normalLink ?
+      '<a class="itemLink" href="' +
+      escapeAttr(normalLink) +
+      '" target="_blank" rel="noopener">詳しく見る</a>' :
+      '';
 
       div.innerHTML =
       '<h3 class="itemTitle">' +
@@ -983,16 +1039,12 @@ async function loadNews(){
         '<p class="itemDate">' + date + '</p>' :
         ''
       ) +
+      imageHtml +
       '<p class="itemBody">' +
       body +
       '</p>' +
-      (
-        url ?
-        '<a class="itemLink" href="' +
-        escapeAttr(url) +
-        '" target="_blank" rel="noopener">詳しく見る</a>' :
-        ''
-      );
+      youtubeHtml +
+      linkHtml;
 
       list.appendChild(div);
 
@@ -1004,6 +1056,98 @@ async function loadNews(){
     '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
 
   }
+
+}
+
+function collectNewsImages(item){
+
+  const list =
+  [];
+
+  const candidates =
+  [
+    item.image1,
+    item.image2,
+    item.image3,
+    item.image4,
+    item.image5,
+    item.image,
+    item.url,
+    item.link
+  ];
+
+  candidates.forEach(function(value){
+
+    const url =
+    getString(value);
+
+    if(!url){
+      return;
+    }
+
+    if(isImageLikeUrl(url)){
+
+      if(list.indexOf(url) === -1){
+        list.push(url);
+      }
+
+    }
+
+  });
+
+  return list;
+
+}
+
+function getNormalNewsLink(item){
+
+  const candidates =
+  [
+    item.link,
+    item.url
+  ];
+
+  for(let i=0;i<candidates.length;i++){
+
+    const url =
+    getString(candidates[i]);
+
+    if(!url){
+      continue;
+    }
+
+    if(!isImageLikeUrl(url)){
+      return url;
+    }
+
+  }
+
+  return "";
+
+}
+
+function isImageLikeUrl(url){
+
+  url =
+  getString(url);
+
+  if(!url){
+    return false;
+  }
+
+  if(url.indexOf("drive.google.com/thumbnail") !== -1){
+    return true;
+  }
+
+  if(url.indexOf("googleusercontent.com") !== -1){
+    return true;
+  }
+
+  if(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i.test(url)){
+    return true;
+  }
+
+  return false;
 
 }
 
@@ -1103,6 +1247,7 @@ async function loadGoen(){
     const items =
     data.items ||
     data.goen ||
+    data.data ||
     [];
 
     if(!items.length){
@@ -1126,13 +1271,13 @@ async function loadGoen(){
       "item";
 
       const name =
-      escapeHtml(item.name || "匿名");
+      escapeHtml(item.name || item.area || "匿名");
 
       const date =
       escapeHtml(item.date || "");
 
       const body =
-      escapeHtml(item.message || item.body || "");
+      escapeHtml(item.message || item.body || item.text || "");
 
       div.innerHTML =
       '<h3 class="itemTitle">' +
