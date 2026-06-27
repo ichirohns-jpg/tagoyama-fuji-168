@@ -10,17 +10,17 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
 
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 <meta property="og:image:alt" content="田子山富士168の縁プロジェクト">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 168の縁プロジェクト">
 <meta name="twitter:description" content="田子山富士の登頂記念・ご縁帳・おみくじ">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
-<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=10">
+<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
 <style>
 *{
@@ -317,6 +317,14 @@ word-break:break-all;
 display:grid;
 gap:10px;
 margin-top:18px;
+}
+
+.newsShareNote{
+margin:4px 0 2px;
+font-size:14px;
+line-height:1.6;
+color:#fff3c4;
+text-align:center;
 }
 
 .newsShareBtn{
@@ -1324,7 +1332,7 @@ function makeNewsShareButtons(title,body,link){
 
   const shareTargetUrl =
   HOME_PAGE +
-  "?open=news&og=10";
+  "share-news.html?v=30";
 
   const shareText =
   getString(title) ||
@@ -1342,15 +1350,23 @@ function makeNewsShareButtons(title,body,link){
   const safeShareUrl =
   escapeAttr(shareTargetUrl);
 
+  const safeShareText =
+  escapeAttr(shareText);
+
   return '' +
   '<div class="newsShareArea">' +
 
-  '<a class="newsShareBtn newsFacebook" href="' +
-  'https://www.facebook.com/sharer/sharer.php?u=' +
-  encodedUrl +
-  '" target="_blank" rel="noopener">' +
-  'Facebookで紹介' +
-  '</a>' +
+  '<div class="newsShareNote">' +
+  'Facebookは下のボタンで文章をコピーして、Facebookに貼り付けて投稿してください。' +
+  '</div>' +
+
+  '<button class="newsShareBtn newsFacebook" onclick="copyFacebookPost(this)" data-title="' +
+  safeShareText +
+  '" data-url="' +
+  safeShareUrl +
+  '">' +
+  'Facebook用にコピー' +
+  '</button>' +
 
   '<a class="newsShareBtn newsLine" href="' +
   'https://social-plugins.line.me/lineit/share?url=' +
@@ -1375,6 +1391,40 @@ function makeNewsShareButtons(title,body,link){
   '</button>' +
 
   '</div>';
+
+}
+
+async function copyFacebookPost(button){
+
+  const title =
+  button.getAttribute("data-title") ||
+  "田子山富士168の縁プロジェクト";
+
+  const url =
+  button.getAttribute("data-url") ||
+  HOME_PAGE +
+  "share-news.html?v=30";
+
+  const text =
+  title +
+  "\n\n田子山富士168の縁プロジェクト\n" +
+  url;
+
+  try{
+
+    await navigator.clipboard.writeText(text);
+
+    alert(
+      "Facebook用の文章をコピーしました。\nFacebookを開いて、貼り付けて投稿してください。"
+    );
+
+  }catch(e){
+
+    alert(
+      "コピーできませんでした。リンクをコピーしてFacebookに貼り付けてください。"
+    );
+
+  }
 
 }
 
