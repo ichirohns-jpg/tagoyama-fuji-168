@@ -1338,54 +1338,48 @@ function makeNewsShareButtons(title,body,link){
   getString(title) ||
   "田子山富士168の縁プロジェクト";
 
-  const encodedUrl =
-  encodeURIComponent(shareTargetUrl);
+  const facebookText =
+  shareText +
+  "\n\n田子山富士168の縁プロジェクト\n" +
+  shareTargetUrl;
 
-  const encodedText =
-  encodeURIComponent(
-    shareText +
-    "｜田子山富士168の縁プロジェクト"
-  );
+  const lineText =
+  shareText +
+  "\n" +
+  shareTargetUrl;
 
-  const safeShareUrl =
-  escapeAttr(shareTargetUrl);
-
-  const safeShareText =
-  escapeAttr(shareText);
+  const xText =
+  shareText +
+  "｜田子山富士168の縁プロジェクト\n" +
+  shareTargetUrl;
 
   return '' +
   '<div class="newsShareArea">' +
 
   '<div class="newsShareNote">' +
-  'Facebookは下のボタンで文章をコピーして、Facebookに貼り付けて投稿してください。' +
+  'SNSに投稿するときは、下のボタンで文章をコピーして貼り付けてください。' +
   '</div>' +
 
-  '<button class="newsShareBtn newsFacebook" onclick="copyFacebookPost(this)" data-title="' +
-  safeShareText +
-  '" data-url="' +
-  safeShareUrl +
+  '<button class="newsShareBtn newsFacebook" onclick="copySnsPost(this)" data-text="' +
+  escapeAttr(facebookText) +
   '">' +
   'Facebook用にコピー' +
   '</button>' +
 
-  '<a class="newsShareBtn newsLine" href="' +
-  'https://social-plugins.line.me/lineit/share?url=' +
-  encodedUrl +
-  '" target="_blank" rel="noopener">' +
-  'LINEで送る' +
-  '</a>' +
+  '<button class="newsShareBtn newsLine" onclick="copySnsPost(this)" data-text="' +
+  escapeAttr(lineText) +
+  '">' +
+  'LINE用にコピー' +
+  '</button>' +
 
-  '<a class="newsShareBtn newsX" href="' +
-  'https://twitter.com/intent/tweet?text=' +
-  encodedText +
-  '&url=' +
-  encodedUrl +
-  '" target="_blank" rel="noopener">' +
-  'Xで投稿' +
-  '</a>' +
+  '<button class="newsShareBtn newsX" onclick="copySnsPost(this)" data-text="' +
+  escapeAttr(xText) +
+  '">' +
+  'X用にコピー' +
+  '</button>' +
 
   '<button class="newsShareBtn newsCopy" onclick="copyNewsLink(this)" data-url="' +
-  safeShareUrl +
+  escapeAttr(shareTargetUrl) +
   '">' +
   'リンクをコピー' +
   '</button>' +
@@ -1394,34 +1388,25 @@ function makeNewsShareButtons(title,body,link){
 
 }
 
-async function copyFacebookPost(button){
-
-  const title =
-  button.getAttribute("data-title") ||
-  "田子山富士168の縁プロジェクト";
-
-  const url =
-  button.getAttribute("data-url") ||
-  HOME_PAGE +
-  "share-news.html?v=30";
+async function copySnsPost(button){
 
   const text =
-  title +
-  "\n\n田子山富士168の縁プロジェクト\n" +
-  url;
+  button.getAttribute("data-text") ||
+  HOME_PAGE +
+  "share-news.html?v=30";
 
   try{
 
     await navigator.clipboard.writeText(text);
 
     alert(
-      "Facebook用の文章をコピーしました。\nFacebookを開いて、貼り付けて投稿してください。"
+      "投稿用の文章をコピーしました。\nSNSを開いて、貼り付けて投稿してください。"
     );
 
   }catch(e){
 
     alert(
-      "コピーできませんでした。リンクをコピーしてFacebookに貼り付けてください。"
+      "コピーできませんでした。リンクをコピーしてSNSに貼り付けてください。"
     );
 
   }
@@ -1432,7 +1417,8 @@ async function copyNewsLink(button){
 
   const url =
   button.getAttribute("data-url") ||
-  location.href;
+  HOME_PAGE +
+  "share-news.html?v=30";
 
   try{
 
