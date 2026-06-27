@@ -526,7 +526,6 @@ font-size:15px;
 }
 
 }
-
 </style>
 </head>
 
@@ -684,7 +683,7 @@ onclick="closePopup()">
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzU1VqYGWdOvxpKEsLPJVQHU3bAUeI_vTe83Y3jpoPWUJJvH6NdMW3t-vosqVeLAyx8/exec";
+"https://script.google.com/macros/s/AKfycbx2rRwLRW_wOqrzC8-9cb5lXc4y5r4JORZGcJgof8_efLA4jpmo_DQEMR4sl7UUzChj/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1722,18 +1721,6 @@ document.getElementById("popup").style.display="none";
 }
 
 function goBack(){
-
-if(
-document.referrer &&
-document.referrer.indexOf(
-"ichirohns-jpg.github.io/tagoyama-fuji-168"
-) !== -1
-){
-
-history.back();
-return;
-
-}
 
 location.href =
 HOME_PAGE +
