@@ -71,10 +71,10 @@ padding:18px;
 border:3px solid #d6ad3c;
 border-radius:34px;
 background:
-linear-gradient(180deg,#151008 0%,#050403 45%,#000 100%);
+linear-gradient(180deg,#161007 0%,#050403 45%,#000 100%);
 box-shadow:
 0 0 0 1px rgba(255,235,150,.20) inset,
-0 0 28px rgba(255,190,70,.18),
+0 0 30px rgba(255,190,70,.20),
 0 20px 42px rgba(0,0,0,.62);
 overflow:hidden;
 }
@@ -83,7 +83,7 @@ overflow:hidden;
 content:"";
 position:absolute;
 inset:8px;
-border:1px solid rgba(255,223,115,.28);
+border:1px solid rgba(255,223,115,.30);
 border-radius:28px;
 pointer-events:none;
 z-index:0;
@@ -99,14 +99,26 @@ background:#000;
 z-index:1;
 }
 
-.imageStage::after{
+.imageStage::before{
 content:"";
 position:absolute;
 inset:0;
 background:
-linear-gradient(180deg,rgba(0,0,0,.14) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 62%,rgba(0,0,0,.20) 100%);
+linear-gradient(180deg,rgba(0,0,0,.20) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 62%,rgba(0,0,0,.24) 100%);
 pointer-events:none;
 z-index:1;
+}
+
+.imageStage::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:26px;
+box-shadow:
+0 0 0 1px rgba(255,230,150,.18) inset,
+0 0 36px rgba(0,0,0,.45) inset;
+pointer-events:none;
+z-index:2;
 }
 
 #memorialImage{
@@ -124,132 +136,177 @@ top:0;
 width:100%;
 height:100%;
 pointer-events:none;
-z-index:2;
+z-index:3;
 }
 
 .certTopMain{
 position:absolute;
 left:50%;
-top:6.25%;
+top:6.3%;
 transform:translate(-50%,-50%);
-width:92%;
+width:94%;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(18px,5.1vw,56px);
+font-size:clamp(22px,6.5vw,68px);
 font-weight:900;
-letter-spacing:.05em;
+letter-spacing:.08em;
 line-height:1;
-color:#D6A93A;
+color:#e6bd45;
 text-shadow:
-2px 3px 4px rgba(0,0,0,.72),
-0 0 10px rgba(255,235,170,.28);
-z-index:3;
+0 2px 1px rgba(80,45,0,.85),
+2px 4px 5px rgba(0,0,0,.78),
+0 0 10px rgba(255,245,180,.40),
+0 0 20px rgba(255,210,85,.22);
+-webkit-text-stroke:.35px rgba(80,45,0,.46);
+z-index:5;
 }
 
 .certTopSub{
 position:absolute;
 left:50%;
-top:10.94%;
+top:10.95%;
 transform:translate(-50%,-50%);
-width:92%;
+width:94%;
 text-align:center;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(25px,7.4vw,80px);
+font-size:clamp(24px,7.3vw,78px);
 font-weight:900;
-letter-spacing:.03em;
+letter-spacing:.06em;
 line-height:1;
-color:#F2D16B;
+color:#f6d56f;
 text-shadow:
-3px 4px 6px rgba(0,0,0,.78),
-0 0 12px rgba(255,235,160,.32);
-z-index:3;
+0 2px 1px rgba(80,45,0,.82),
+3px 5px 7px rgba(0,0,0,.80),
+0 0 12px rgba(255,245,180,.42),
+0 0 22px rgba(255,210,85,.24);
+-webkit-text-stroke:.35px rgba(80,45,0,.45);
+z-index:5;
 }
 
 .certBottomPlate{
 position:absolute;
 left:50%;
-top:80.3%;
+top:81.0%;
 transform:translate(-50%,-50%);
-width:76%;
-min-height:13.2%;
-padding:14px 12px 13px;
+width:82%;
+min-height:15.2%;
+padding:18px 16px 17px;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 text-align:center;
-border-radius:22px;
-border:1.5px solid rgba(242,209,107,.72);
+border-radius:24px;
+border:1.7px solid rgba(242,209,107,.78);
 background:
-linear-gradient(180deg,rgba(20,14,5,.48),rgba(0,0,0,.36)),
-radial-gradient(ellipse at center,rgba(255,220,110,.10),rgba(0,0,0,0) 62%);
+linear-gradient(180deg,rgba(22,15,5,.58),rgba(0,0,0,.44)),
+radial-gradient(ellipse at center,rgba(255,224,125,.13),rgba(0,0,0,0) 62%);
 box-shadow:
-0 0 0 1px rgba(255,245,190,.12) inset,
-0 8px 18px rgba(0,0,0,.34),
-0 0 20px rgba(255,215,90,.10);
-z-index:3;
+0 0 0 1px rgba(255,245,190,.14) inset,
+0 10px 22px rgba(0,0,0,.42),
+0 0 22px rgba(255,215,90,.12);
+z-index:5;
 }
 
 .certBottomPlate::before{
 content:"";
 position:absolute;
-left:14%;
-right:14%;
-top:10px;
+left:12%;
+right:12%;
+top:12px;
 height:1px;
 background:
-linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.72),rgba(242,209,107,0));
+linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.82),rgba(242,209,107,0));
 }
 
 .certBottomPlate::after{
 content:"";
 position:absolute;
-left:14%;
-right:14%;
-bottom:10px;
+left:12%;
+right:12%;
+bottom:12px;
 height:1px;
 background:
-linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.45),rgba(242,209,107,0));
+linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.55),rgba(242,209,107,0));
+}
+
+.certOrnament{
+width:66%;
+height:12px;
+margin:0 0 7px;
+position:relative;
+}
+
+.certOrnament::before,
+.certOrnament::after{
+content:"";
+position:absolute;
+top:50%;
+width:42%;
+height:1px;
+background:
+linear-gradient(90deg,rgba(242,209,107,0),rgba(242,209,107,.70));
+}
+
+.certOrnament::before{
+left:0;
+}
+
+.certOrnament::after{
+right:0;
+transform:scaleX(-1);
+}
+
+.certOrnament span{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+font-size:12px;
+line-height:1;
+color:#f5d36a;
+text-shadow:0 1px 2px rgba(0,0,0,.85);
 }
 
 .certClimbText{
 position:relative;
 width:100%;
-margin:0 0 6px;
+margin:0 0 8px;
 text-align:center;
-font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(14px,3.9vw,42px);
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+font-size:clamp(15px,4.2vw,44px);
 font-weight:900;
-letter-spacing:.03em;
+letter-spacing:.07em;
 line-height:1.05;
-color:#FFFFFF;
+color:#ffffff;
 text-shadow:
-0 2px 2px rgba(0,0,0,.95),
-2px 3px 5px rgba(0,0,0,.92),
-0 0 8px rgba(0,0,0,.85);
--webkit-text-stroke:.22px rgba(0,0,0,.42);
+0 2px 2px rgba(0,0,0,.96),
+2px 3px 5px rgba(0,0,0,.94),
+0 0 8px rgba(0,0,0,.86);
+-webkit-text-stroke:.24px rgba(0,0,0,.44);
 white-space:nowrap;
-z-index:4;
+z-index:6;
 }
 
 .certSerial{
 position:relative;
 width:100%;
-margin:0 0 6px;
+margin:0 0 8px;
 text-align:center;
 font-family:"Times New Roman","Georgia","Hiragino Mincho ProN",serif;
-font-size:clamp(22px,5.9vw,64px);
+font-size:clamp(27px,7.2vw,76px);
 font-weight:900;
-letter-spacing:.02em;
+letter-spacing:.025em;
 line-height:1;
-color:#F5D36A;
+color:#f7d66f;
 text-shadow:
-0 2px 2px rgba(0,0,0,.95),
-3px 4px 6px rgba(0,0,0,.86),
-0 0 12px rgba(0,0,0,.72);
--webkit-text-stroke:.30px rgba(0,0,0,.46);
+0 2px 1px rgba(90,50,0,.78),
+0 3px 3px rgba(0,0,0,.96),
+4px 5px 7px rgba(0,0,0,.84),
+0 0 13px rgba(255,229,120,.28);
+-webkit-text-stroke:.36px rgba(73,42,0,.48);
 white-space:nowrap;
-z-index:4;
+z-index:6;
 }
 
 .certDate{
@@ -257,19 +314,19 @@ position:relative;
 width:100%;
 margin:0;
 text-align:center;
-font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(12px,3.0vw,32px);
+font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+font-size:clamp(13px,3.3vw,36px);
 font-weight:900;
-letter-spacing:.02em;
+letter-spacing:.11em;
 line-height:1;
-color:#FFFFFF;
+color:#ffffff;
 text-shadow:
-0 2px 2px rgba(0,0,0,.95),
-2px 3px 4px rgba(0,0,0,.85),
-0 0 8px rgba(0,0,0,.75);
--webkit-text-stroke:.22px rgba(0,0,0,.40);
+0 2px 2px rgba(0,0,0,.96),
+2px 3px 4px rgba(0,0,0,.86),
+0 0 8px rgba(0,0,0,.78);
+-webkit-text-stroke:.22px rgba(0,0,0,.42);
 white-space:nowrap;
-z-index:4;
+z-index:6;
 }
 
 .btnArea{
@@ -415,9 +472,9 @@ border-radius:24px;
 }
 
 .certBottomPlate{
-width:78%;
-border-radius:20px;
-padding:13px 10px 12px;
+width:84%;
+border-radius:22px;
+padding:16px 12px 15px;
 }
 
 .btnArea{
@@ -469,6 +526,10 @@ referrerpolicy="no-referrer">
 </div>
 
 <div class="certBottomPlate">
+
+<div class="certOrnament">
+<span>◆</span>
+</div>
 
 <div
 class="certClimbText"
