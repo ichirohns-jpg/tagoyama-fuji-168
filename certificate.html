@@ -377,6 +377,12 @@ cursor:not-allowed;
 background:linear-gradient(180deg,#32df80,#20bd62);
 }
 
+.backBtn{
+background:linear-gradient(180deg,#8b5a1f,#3a1d08);
+color:#ffe8a6;
+border:1px solid rgba(255,220,140,.55);
+}
+
 .copy{
 background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
@@ -578,6 +584,12 @@ onclick="saveImage()">
 </button>
 
 <button
+class="btn backBtn"
+onclick="goBack()">
+← トップへ戻る
+</button>
+
+<button
 class="shareBtn copy"
 onclick="copyLink()">
 ① リンクをコピー
@@ -653,6 +665,9 @@ const GAS_URL =
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
+
+const HOME_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
 let latestUserId="";
 let latestCount=1;
@@ -1680,6 +1695,27 @@ document.getElementById("popup").style.display="block";
 function closePopup(){
 
 document.getElementById("popup").style.display="none";
+
+}
+
+function goBack(){
+
+if(
+document.referrer &&
+document.referrer.indexOf(
+"ichirohns-jpg.github.io/tagoyama-fuji-168"
+) !== -1
+){
+
+history.back();
+return;
+
+}
+
+location.href =
+HOME_PAGE +
+"?v=" +
+Date.now();
 
 }
 
