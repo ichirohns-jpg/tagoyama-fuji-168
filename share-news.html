@@ -1,140 +1,138 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
+<title>田子山富士168の縁プロジェクト お知らせ</title>
 
-<title>
-田子山富士168の縁
-</title>
+<meta property="og:title" content="田子山富士168の縁プロジェクト">
+<meta property="og:description" content="田子山富士からのお知らせ・登頂記念・ご縁帳・おみくじ">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
 
-<meta
-name="description"
-content="霊峰に登り、縁を結ぶ。田子山富士168の縁プロジェクト">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
+<meta property="og:image:alt" content="田子山富士168の縁プロジェクト">
+<meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 
-<meta
-property="og:type"
-content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士168の縁プロジェクト">
+<meta name="twitter:description" content="田子山富士からのお知らせ・登頂記念・ご縁帳・おみくじ">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
-<meta
-property="og:title"
-content="田子山富士168の縁">
-
-<meta
-property="og:description"
-content="霊峰に登り、縁を結ぶ。田子山富士168の縁プロジェクト">
-
-<meta
-property="og:image"
-content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
-
-<meta
-property="og:url"
-content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
-
-<meta
-name="twitter:card"
-content="summary_large_image">
-
-<meta
-name="twitter:title"
-content="田子山富士168の縁">
-
-<meta
-name="twitter:description"
-content="霊峰に登り、縁を結ぶ。田子山富士168の縁プロジェクト">
-
-<meta
-name="twitter:image"
-content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
-
-<link
-rel="icon"
-href="logo.png">
+<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
 <style>
-
 *{
-margin:0;
-padding:0;
 box-sizing:border-box;
 }
 
+html,
 body{
-background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
+margin:0;
+padding:0;
+width:100%;
+min-height:100vh;
+background:#050505;
 color:#fff;
+font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+
+body{
+background:
+radial-gradient(circle at 50% 0%,rgba(130,92,24,.30),rgba(0,0,0,0) 34%),
+linear-gradient(180deg,#050505 0%,#090909 45%,#000 100%);
 }
 
 .wrap{
-max-width:900px;
-margin:auto;
-padding:20px;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:24px 16px;
 }
 
 .card{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:24px;
-padding:20px;
+width:100%;
+max-width:760px;
+padding:28px 18px 30px;
+border:3px solid #d6b73c;
+border-radius:30px;
+background:rgba(24,24,24,.94);
+box-shadow:
+0 0 0 1px rgba(255,230,150,.12) inset,
+0 14px 32px rgba(0,0,0,.48),
+0 0 28px rgba(214,183,60,.12);
+text-align:center;
 }
 
-.hero{
-width:100%;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.hero img{
-width:100%;
+.banner{
 display:block;
+width:100%;
+height:auto;
+border-radius:24px;
+border:1px solid rgba(255,220,140,.45);
+background:#000;
+margin:0 auto 24px;
 }
 
 .title{
-font-size:42px;
+margin:0 0 16px;
+font-size:clamp(32px,8.6vw,62px);
 font-weight:900;
-text-align:center;
-color:#d4af37;
-margin-bottom:10px;
+line-height:1.25;
+letter-spacing:.03em;
+color:#d9b638;
+text-shadow:
+0 4px 4px rgba(0,0,0,.88),
+0 0 14px rgba(255,220,100,.20);
 }
 
-.sub{
-font-size:22px;
-text-align:center;
+.text{
+margin:0 0 26px;
+font-size:clamp(18px,5vw,30px);
+line-height:1.75;
+font-weight:800;
 color:#fff;
-margin-bottom:20px;
 }
 
-.desc{
-font-size:22px;
-line-height:1.8;
-text-align:center;
-color:#ddd;
-margin-bottom:20px;
-}
-
-.loading{
-font-size:26px;
+.btn{
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+min-height:72px;
+border-radius:24px;
+background:linear-gradient(180deg,#35df86,#19b75e);
+color:#fff;
+font-size:clamp(22px,6vw,38px);
 font-weight:900;
-text-align:center;
-padding:50px 0;
-color:#d4af37;
+text-decoration:none;
+box-shadow:
+0 8px 0 rgba(0,0,0,.32),
+0 16px 26px rgba(0,0,0,.35);
 }
 
+.note{
+margin:18px 0 0;
+font-size:14px;
+line-height:1.7;
+color:#c7b77a;
+}
+
+@media(max-width:480px){
+
+.card{
+border-radius:26px;
+padding:24px 14px 26px;
+}
+
+.banner{
+border-radius:20px;
+}
+
+}
 </style>
 </head>
 
@@ -144,147 +142,41 @@ color:#d4af37;
 
 <div class="card">
 
-<div class="hero">
-
 <img
-src="ogp.jpg"
-alt="田子山富士168の縁">
+class="banner"
+src="top.jpg?v=30"
+alt="田子山富士168の縁プロジェクト">
 
-</div>
+<h1 class="title">
+田子山富士168の縁プロジェクト
+</h1>
 
-<div class="title">
-田子山富士168の縁
-</div>
+<p class="text">
+田子山富士からのお知らせページへ<br>
+移動します。
+</p>
 
-<div class="sub">
-霊峰に登り、縁を結ぶ
-</div>
+<a
+class="btn"
+href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/?open=news&v=30">
+お知らせを見る
+</a>
 
-<div
-id="loading"
-class="loading">
-
-読込中...
-
-</div>
-
-<div
-id="content"
-style="display:none;">
-
-<div
-id="desc"
-class="desc">
-
-</div>
-
-</div>
+<p class="note">
+自動で移動しない場合は、上のボタンを押してください。
+</p>
 
 </div>
 
 </div>
 
 <script>
+setTimeout(function(){
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
+  location.href =
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/?open=news&v=30";
 
-const params =
-new URLSearchParams(
-location.search
-);
-
-const id =
-params.get("id") || "0";
-
-fetch(
-GAS_URL +
-"?mode=news"
-)
-.then(r=>r.json())
-.then(rows=>{
-
-const row =
-rows[Number(id)] || rows[0];
-
-document.getElementById(
-"loading"
-).style.display =
-"none";
-
-document.getElementById(
-"content"
-).style.display =
-"block";
-
-document.getElementById(
-"desc"
-).innerHTML =
-`
-<strong style="
-font-size:28px;
-color:#d4af37;
-display:block;
-margin-bottom:15px;
-">
-${row.title || ""}
-</strong>
-
-${row.text || ""}
-
-<br><br>
-
-<a
-href="news.html"
-style="
-display:block;
-background:#37474f;
-color:#fff;
-padding:18px;
-border-radius:16px;
-text-decoration:none;
-font-size:22px;
-font-weight:900;
-text-align:center;
-margin-top:15px;
-">
-
-📢 お知らせ一覧へ戻る
-
-</a>
-
-<a
-href="index.html"
-style="
-display:block;
-background:#d4af37;
-color:#000;
-padding:18px;
-border-radius:16px;
-text-decoration:none;
-font-size:22px;
-font-weight:900;
-text-align:center;
-margin-top:15px;
-">
-
-🏠 田子山富士へ戻る
-
-</a>
-`;
-
-})
-.catch(err=>{
-
-document.getElementById(
-"loading"
-).innerHTML =
-"記事を読み込めません";
-
-console.log(err);
-
-});
-
+},1500);
 </script>
 
 </body>
