@@ -468,6 +468,20 @@ letter-spacing:.08em;
 color:#d8c98d;
 }
 
+.omikujiAlready{
+display:none;
+margin:18px auto 0;
+padding:12px 14px;
+border-radius:16px;
+background:rgba(0,0,0,.34);
+border:1px solid rgba(255,220,140,.42);
+font-size:15px;
+font-weight:900;
+line-height:1.6;
+color:#fff3c4;
+text-align:center;
+}
+
 .omikujiActions{
 display:grid;
 gap:12px;
@@ -759,6 +773,10 @@ alt="田子山富士おみくじ当たり画像">
 --
 </div>
 
+<div class="omikujiAlready" id="omikujiAlready">
+おみくじは1回のみです。前回の結果を表示しています。
+</div>
+
 </div>
 
 <div class="omikujiActions hidden" id="omikujiActions">
@@ -988,7 +1006,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbx2rRwLRW_wOqrzC8-9cb5lXc4y5r4JORZGcJgof8_efLA4jpmo_DQEMR4sl7UUzChj/exec";
+"https://script.google.com/macros/s/AKfycbxuoNNfu5QCqaJxNrcs5kL2slFYta5M6M2GmIVMsFhc03HG2Yca-m4EYC1dZvwDd5vV/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1337,6 +1355,9 @@ async function drawOmikuji(){
   const actions =
   document.getElementById("omikujiActions");
 
+  const already =
+  document.getElementById("omikujiAlready");
+
   const userId =
   getUserIdFromUrl() ||
   currentUserId ||
@@ -1363,11 +1384,14 @@ async function drawOmikuji(){
 
   actions.classList.add("hidden");
 
+  already.style.display =
+  "none";
+
   latestOmikujiShareText =
   "";
 
   latestOmikujiShareUrl =
-  HOME_PAGE + "?open=omikuji&v=006";
+  HOME_PAGE + "?open=omikuji&v=007";
 
   if(!userId){
 
@@ -1381,6 +1405,9 @@ async function drawOmikuji(){
 
     date.innerText =
     todayText();
+
+    btn.disabled =
+    false;
 
     btn.innerText =
     "おみくじを引く";
@@ -1407,14 +1434,47 @@ async function drawOmikuji(){
       Date.now()
     );
 
-    if(!data.success){
-      throw new Error(data.message || "おみくじを引けませんでした");
-    }
-
     const result =
     data.result ||
     data.omikuji ||
     data;
+
+    const notClimbed =
+    data.notClimbed === true ||
+    result.notClimbed === true ||
+    data.type === "none" ||
+    result.type === "none";
+
+    if(notClimbed){
+
+      box.classList.add("miss");
+
+      title.innerText =
+      result.title ||
+      data.title ||
+      "まだ登頂していません";
+
+      message.innerText =
+      result.message ||
+      data.message ||
+      "山頂QRコードを読み取って\n登頂受付をすると\nおみくじを引けます。";
+
+      date.innerText =
+      todayText();
+
+      btn.disabled =
+      false;
+
+      btn.innerText =
+      "おみくじを引く";
+
+      return;
+
+    }
+
+    if(!data.success){
+      throw new Error(data.message || "おみくじを引けませんでした");
+    }
 
     const isHit =
     data.hit === true ||
@@ -1447,6 +1507,17 @@ async function drawOmikuji(){
     date.innerText =
     todayText();
 
+    const alreadyDrawn =
+    data.alreadyDrawn === true ||
+    result.alreadyDrawn === true;
+
+    if(alreadyDrawn){
+
+      already.style.display =
+      "block";
+
+    }
+
     if(isHit){
 
       latestOmikujiShareText =
@@ -1455,13 +1526,19 @@ async function drawOmikuji(){
       "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
       latestOmikujiShareUrl =
-      HOME_PAGE + "?open=omikuji&v=006";
+      HOME_PAGE + "?open=omikuji&v=007";
 
       setupOmikujiShareLinks();
 
       actions.classList.remove("hidden");
 
     }
+
+    btn.disabled =
+    true;
+
+    btn.innerText =
+    "おみくじは1回のみです";
 
   }catch(err){
 
@@ -1475,8 +1552,6 @@ async function drawOmikuji(){
 
     date.innerText =
     todayText();
-
-  }finally{
 
     btn.disabled =
     false;
