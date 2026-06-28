@@ -2201,21 +2201,18 @@ function isImageLikeUrl(url){
 
 function makeNewsShareButtons(title,body,link,image,date){
 
+  const newsKey =
+  makeNewsKey(
+    title,
+    date,
+    body
+  );
+
   const shareTargetUrl =
   HOME_PAGE +
-  "share-news.html" +
-  "?title=" +
-  encodeURIComponent(getString(title || "田子山富士 お知らせ")) +
-  "&body=" +
-  encodeURIComponent(getString(body || "田子山富士168の縁プロジェクトのお知らせです。")) +
-  "&date=" +
-  encodeURIComponent(getString(date || "")) +
-  "&image=" +
-  encodeURIComponent(getString(image || "")) +
-  "&link=" +
-  encodeURIComponent(getString(link || "")) +
-  "&v=" +
-  Date.now();
+  "share-news.html?key=" +
+  encodeURIComponent(newsKey) +
+  "&v=1";
 
   const shareText =
   getString(title) ||
@@ -2270,6 +2267,31 @@ function makeNewsShareButtons(title,body,link,image,date){
   '</button>' +
 
   '</div>';
+
+}
+
+function makeNewsKey(title,date,body){
+
+  const base =
+  getString(title) +
+  "|" +
+  getString(date) +
+  "|" +
+  getString(body).slice(0,80);
+
+  let hash = 0;
+
+  for(let i=0;i<base.length;i++){
+
+    hash =
+    ((hash << 5) - hash) +
+    base.charCodeAt(i);
+
+    hash |= 0;
+
+  }
+
+  return "n" + Math.abs(hash).toString(36);
 
 }
 
