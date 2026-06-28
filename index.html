@@ -23,7 +23,6 @@
     :root{
       --bg:#f4ecd9;
       --paper:#fffaf0;
-      --paper2:#fff4d6;
       --ink:#2b2118;
       --muted:#786858;
       --green:#1f6f43;
@@ -717,7 +716,7 @@
 
             <p class="omikujiShareNote">
               Facebookに投稿する場合は、下の「投稿文をコピー」を押してからFacebookボタンで投稿してください。<br>
-              シェア先では当たり画像が表示される専用URLを使います。
+              シェア先は当たり画像が出るGitHub固定ページです。
             </p>
 
             <button class="omikujiShareBtn omikujiCopy" onclick="copyOmikujiPost()">
@@ -779,11 +778,17 @@ const HOME_PAGE =
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
+const STATIC_OMIKUJI_SHARE_URL =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=1";
+
+const STATIC_OMIKUJI_SHARE_TEXT =
+"田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
+
 let currentUserId = "";
 let latestOmikujiImageDataUrl = "";
 let latestOmikujiImageUrl = "";
-let latestOmikujiShareText = "";
-let latestOmikujiShareUrl = "";
+let latestOmikujiShareText = STATIC_OMIKUJI_SHARE_TEXT;
+let latestOmikujiShareUrl = STATIC_OMIKUJI_SHARE_URL;
 let newsLoaded = false;
 let goenLoaded = false;
 
@@ -813,6 +818,8 @@ document.addEventListener("DOMContentLoaded",function(){
     localStorage.getItem("tagoyamaUserId") || "";
 
   }
+
+  setupOmikujiStaticShareLinks();
 
   loadStats();
 
@@ -1044,6 +1051,7 @@ function openSection(name){
   if(name === "omikuji"){
 
     document.getElementById("omikujiSection").classList.add("active");
+    setupOmikujiStaticShareLinks();
     scrollToSection("omikujiSection");
     return;
 
@@ -1364,10 +1372,10 @@ function drawOmikuji(btn){
   "";
 
   latestOmikujiShareText =
-  "";
+  STATIC_OMIKUJI_SHARE_TEXT;
 
   latestOmikujiShareUrl =
-  "";
+  STATIC_OMIKUJI_SHARE_URL;
 
   resultBox.style.display =
   "block";
@@ -1439,42 +1447,23 @@ function drawOmikuji(btn){
       ""
     );
 
-    const shareUrl =
-    getString(
-      result.shareUrl ||
-      data.shareUrl ||
-      ""
-    );
-
-    const shareText =
-    getString(
-      result.shareText ||
-      data.shareText ||
-      "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト"
-    );
-
     title.textContent =
     resultTitle;
 
     message.textContent =
     resultMessage;
 
-    latestOmikujiShareText =
-    shareText;
-
-    latestOmikujiShareUrl =
-    shareUrl ||
-    (
-      HOME_PAGE +
-      "?open=omikuji&v=" +
-      Date.now()
-    );
-
     latestOmikujiImageDataUrl =
     imageDataUrl;
 
     latestOmikujiImageUrl =
     imageUrl;
+
+    latestOmikujiShareText =
+    STATIC_OMIKUJI_SHARE_TEXT;
+
+    latestOmikujiShareUrl =
+    STATIC_OMIKUJI_SHARE_URL;
 
     if(isHit){
 
@@ -1494,13 +1483,7 @@ function drawOmikuji(btn){
       actions.style.display =
       "block";
 
-      setupOmikujiShareLinks({
-        shareUrl:latestOmikujiShareUrl,
-        shareText:latestOmikujiShareText,
-        facebookShareUrl:getString(result.facebookShareUrl || data.facebookShareUrl || ""),
-        lineShareUrl:getString(result.lineShareUrl || data.lineShareUrl || ""),
-        xShareUrl:getString(result.xShareUrl || data.xShareUrl || "")
-      });
+      setupOmikujiStaticShareLinks();
 
       status.textContent =
       data.alreadyDrawn || result.alreadyDrawn ?
@@ -1543,49 +1526,54 @@ function drawOmikuji(btn){
 
 }
 
-function setupOmikujiShareLinks(info){
+function setupOmikujiStaticShareLinks(){
 
-  const shareUrl =
-  getString(info.shareUrl) ||
-  HOME_PAGE;
+  latestOmikujiShareUrl =
+  STATIC_OMIKUJI_SHARE_URL;
 
-  const shareText =
-  getString(info.shareText) ||
-  "田子山富士168の縁プロジェクトでおみくじに当たりました！";
+  latestOmikujiShareText =
+  STATIC_OMIKUJI_SHARE_TEXT;
 
-  const fb =
-  getString(info.facebookShareUrl) ||
-  (
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(shareUrl)
-  );
+  const facebook =
+  document.getElementById("omikujiFacebook");
 
   const line =
-  getString(info.lineShareUrl) ||
-  (
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(shareUrl) +
-    "&text=" +
-    encodeURIComponent(shareText + "\n" + shareUrl)
-  );
+  document.getElementById("omikujiLine");
 
   const x =
-  getString(info.xShareUrl) ||
-  (
-    "https://twitter.com/intent/tweet?url=" +
-    encodeURIComponent(shareUrl) +
+  document.getElementById("omikujiX");
+
+  if(facebook){
+
+    facebook.href =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(STATIC_OMIKUJI_SHARE_URL);
+
+  }
+
+  if(line){
+
+    line.href =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(STATIC_OMIKUJI_SHARE_URL) +
     "&text=" +
-    encodeURIComponent(shareText)
-  );
+    encodeURIComponent(
+      STATIC_OMIKUJI_SHARE_TEXT +
+      "\n\n" +
+      STATIC_OMIKUJI_SHARE_URL
+    );
 
-  document.getElementById("omikujiFacebook").href =
-  fb;
+  }
 
-  document.getElementById("omikujiLine").href =
-  line;
+  if(x){
 
-  document.getElementById("omikujiX").href =
-  x;
+    x.href =
+    "https://twitter.com/intent/tweet?url=" +
+    encodeURIComponent(STATIC_OMIKUJI_SHARE_URL) +
+    "&text=" +
+    encodeURIComponent(STATIC_OMIKUJI_SHARE_TEXT);
+
+  }
 
 }
 
@@ -1741,15 +1729,9 @@ function dataUrlToFile(dataUrl,fileName){
 function copyOmikujiPost(){
 
   const text =
-  (
-    latestOmikujiShareText ||
-    "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト"
-  ) +
+  STATIC_OMIKUJI_SHARE_TEXT +
   "\n\n" +
-  (
-    latestOmikujiShareUrl ||
-    HOME_PAGE
-  );
+  STATIC_OMIKUJI_SHARE_URL;
 
   copyText(text).then(function(){
 
