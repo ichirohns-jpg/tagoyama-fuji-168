@@ -984,9 +984,6 @@ const CERTIFICATE_PAGE =
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
-const FACEBOOK_OMIKUJI_SHARE_PAGE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=1";
-
 let currentUserId =
 "";
 
@@ -1554,7 +1551,11 @@ async function drawOmikuji(){
       "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
       latestOmikujiShareUrl =
-      HOME_PAGE + "?open=omikuji&v=010";
+      HOME_PAGE +
+      "share-omikuji.html?userId=" +
+      encodeURIComponent(userId) +
+      "&v=" +
+      Date.now();
 
       actions.classList.remove("hidden");
 
@@ -1666,27 +1667,36 @@ async function saveOmikujiImage(btn){
 
 async function shareOmikujiImage(targetName){
 
+  const userId =
+  getUserIdFromUrl() ||
+  currentUserId ||
+  localStorage.getItem("tagoyamaUserId") ||
+  "";
+
   const text =
   latestOmikujiShareText ||
   "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
-  const normalShareUrl =
-  latestOmikujiShareUrl ||
-  HOME_PAGE;
+  const omikujiShareUrl =
+  HOME_PAGE +
+  "share-omikuji.html?userId=" +
+  encodeURIComponent(userId) +
+  "&v=" +
+  Date.now();
 
   if(targetName === "Facebook"){
 
     try{
 
       await copyTextOnly(
-        text + "\n" + FACEBOOK_OMIKUJI_SHARE_PAGE
+        text + "\n" + omikujiShareUrl
       );
 
     }catch(e){}
 
     location.href =
     "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(FACEBOOK_OMIKUJI_SHARE_PAGE);
+    encodeURIComponent(omikujiShareUrl);
 
     return;
 
@@ -1698,7 +1708,7 @@ async function shareOmikujiImage(targetName){
     "https://x.com/intent/tweet?text=" +
     encodeURIComponent(text) +
     "&url=" +
-    encodeURIComponent(normalShareUrl);
+    encodeURIComponent(omikujiShareUrl);
 
     return;
 
@@ -1719,14 +1729,14 @@ async function shareOmikujiImage(targetName){
         latestOmikujiFile,
         text,
         targetName,
-        normalShareUrl
+        omikujiShareUrl
       );
 
       if(!ok){
 
         location.href =
         "https://social-plugins.line.me/lineit/share?url=" +
-        encodeURIComponent(normalShareUrl);
+        encodeURIComponent(omikujiShareUrl);
 
       }
 
@@ -1734,7 +1744,7 @@ async function shareOmikujiImage(targetName){
 
       location.href =
       "https://social-plugins.line.me/lineit/share?url=" +
-      encodeURIComponent(normalShareUrl);
+      encodeURIComponent(omikujiShareUrl);
 
     }
 
@@ -1910,7 +1920,7 @@ async function shareSavedOmikujiImage(){
     latestOmikujiFile,
     "田子山富士おみくじ 大当たり",
     "保存",
-    HOME_PAGE + "?open=omikuji"
+    latestOmikujiShareUrl || HOME_PAGE + "?open=omikuji"
   );
 
   if(!ok){
