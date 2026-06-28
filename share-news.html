@@ -20,9 +20,7 @@
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 html,
 body{
@@ -243,30 +241,116 @@ color:#c7b77a;
 
 <script>
 
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbzvMzzESm9atr6QWKvFwVlVMFYSAsj_oF0ZTCE7L0ojrX1VJhRWGaoLCD1Judga8vSb/exec";
+
 window.addEventListener(
 "load",
 init
 );
 
-function init(){
+async function init(){
 
   const params =
   new URLSearchParams(location.search);
 
+  const key =
+  getString(params.get("key") || "");
+
+  try{
+
+    const data =
+    await fetchJson(
+      GAS_URL +
+      "?mode=news&t=" +
+      Date.now()
+    );
+
+    const items =
+    data.items ||
+    data.news ||
+    data.data ||
+    [];
+
+    if(!items.length){
+      throw new Error("お知らせがありません");
+    }
+
+    let found =
+    items[0];
+
+    if(key){
+
+      for(let i=0;i<items.length;i++){
+
+        const item =
+        items[i];
+
+        const itemTitle =
+        getString(item.title || "お知らせ");
+
+        const itemBody =
+        getString(item.body || item.text || item.message || "");
+
+        const itemDate =
+        getString(item.date || "");
+
+        const itemKey =
+        makeNewsKey(
+          itemTitle,
+          itemDate,
+          itemBody
+        );
+
+        if(itemKey === key){
+
+          found =
+          item;
+
+          break;
+
+        }
+
+      }
+
+    }
+
+    renderNews(found);
+
+  }catch(err){
+
+    document.getElementById("newsTitle").innerText =
+    "お知らせを表示できません";
+
+    document.getElementById("newsBody").innerText =
+    err.message || "時間をおいてお試しください。";
+
+    document.getElementById("newsDate").innerText =
+    todayText();
+
+    document.getElementById("status").innerText =
+    "田子山富士DXからもう一度お試しください。";
+
+  }
+
+}
+
+function renderNews(item){
+
   const title =
-  getString(params.get("title") || "田子山富士 お知らせ");
+  getString(item.title || "田子山富士 お知らせ");
 
   const body =
-  getString(params.get("body") || "田子山富士168の縁プロジェクトのお知らせです。");
+  getString(item.body || item.text || item.message || "");
 
   const date =
-  getString(params.get("date") || "");
+  getString(item.date || "");
 
-  const image =
-  getString(params.get("image") || "");
+  const images =
+  collectNewsImages(item);
 
   const link =
-  getString(params.get("link") || "");
+  getNormalNewsLink(item);
 
   document.title =
   title;
@@ -275,7 +359,7 @@ function init(){
   title;
 
   document.getElementById("newsBody").innerText =
-  body;
+  body || "田子山富士168の縁プロジェクトのお知らせです。";
 
   document.getElementById("newsDate").innerText =
   date || todayText();
@@ -283,10 +367,10 @@ function init(){
   document.getElementById("status").innerText =
   "このページは、選択されたお知らせ記事です。";
 
-  if(image){
+  if(images.length){
 
     document.getElementById("newsImage").src =
-    image;
+    images[0];
 
     document.getElementById("imageBox").style.display =
     "block";
@@ -303,6 +387,150 @@ function init(){
 
     detailBtn.style.display =
     "flex";
+
+  }
+
+}
+
+function collectNewsImages(item){
+
+  const list = [];
+
+  const candidates = [
+    item.image1,
+    item.image2,
+    item.image3,
+    item.image4,
+    item.image5,
+    item.image,
+    item.url,
+    item.link
+  ];
+
+  candidates.forEach(function(value){
+
+    const url =
+    getString(value);
+
+    if(!url){
+      return;
+    }
+
+    if(isImageLikeUrl(url)){
+
+      if(list.indexOf(url) === -1){
+        list.push(url);
+      }
+
+    }
+
+  });
+
+  return list;
+
+}
+
+function getNormalNewsLink(item){
+
+  const candidates = [
+    item.link,
+    item.url
+  ];
+
+  for(let i=0;i<candidates.length;i++){
+
+    const url =
+    getString(candidates[i]);
+
+    if(!url){
+      continue;
+    }
+
+    if(!isImageLikeUrl(url)){
+      return url;
+    }
+
+  }
+
+  return "";
+
+}
+
+function isImageLikeUrl(url){
+
+  url =
+  getString(url);
+
+  if(!url){
+    return false;
+  }
+
+  if(url.indexOf("drive.google.com/thumbnail") !== -1){
+    return true;
+  }
+
+  if(url.indexOf("googleusercontent.com") !== -1){
+    return true;
+  }
+
+  if(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i.test(url)){
+    return true;
+  }
+
+  return false;
+
+}
+
+function makeNewsKey(title,date,body){
+
+  const base =
+  getString(title) +
+  "|" +
+  getString(date) +
+  "|" +
+  getString(body).slice(0,80);
+
+  let hash = 0;
+
+  for(let i=0;i<base.length;i++){
+
+    hash =
+    ((hash << 5) - hash) +
+    base.charCodeAt(i);
+
+    hash |= 0;
+
+  }
+
+  return "n" + Math.abs(hash).toString(36);
+
+}
+
+async function fetchJson(url){
+
+  const res =
+  await fetch(url,{
+    method:"GET",
+    cache:"no-store"
+  });
+
+  const text =
+  await res.text();
+
+  try{
+
+    return JSON.parse(text);
+
+  }catch(e){
+
+    const m =
+    text.match(/^[^(]+\((.*)\);?$/);
+
+    if(m && m[1]){
+      return JSON.parse(m[1]);
+    }
+
+    throw e;
 
   }
 
