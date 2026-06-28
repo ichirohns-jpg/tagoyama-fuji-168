@@ -91,18 +91,7 @@ height:100%;
 object-fit:cover;
 display:block;
 background:#111;
-}
-
-.fallbackBg{
-position:absolute;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at 50% 20%,rgba(210,170,70,.18),rgba(0,0,0,0) 36%),
-linear-gradient(180deg,#171717 0%,#070707 100%);
-display:none;
+z-index:1;
 }
 
 .frameOuter{
@@ -118,6 +107,7 @@ box-shadow:
 0 0 0 6px rgba(210,170,60,.42),
 inset 0 0 28px rgba(0,0,0,.36);
 pointer-events:none;
+z-index:2;
 }
 
 .frameInner{
@@ -131,16 +121,18 @@ border:1.5px solid rgba(246,220,135,.44);
 box-shadow:
 inset 0 0 42px rgba(0,0,0,.30);
 pointer-events:none;
+z-index:3;
 }
 
 .topTitle{
 position:absolute;
 left:0;
-top:9.7%;
+top:10.8%;
 width:100%;
 text-align:center;
-padding:0 7%;
+padding:0 8%;
 pointer-events:none;
+z-index:4;
 }
 
 .topTitleSmall{
@@ -148,51 +140,49 @@ font-family:
 "Hiragino Mincho ProN",
 "Yu Mincho",
 "YuMincho",
-"Times New Roman",
 serif;
-font-size:clamp(24px,6.0vw,62px);
+font-size:clamp(28px,6.2vw,60px);
 font-weight:700;
-letter-spacing:.12em;
+letter-spacing:.13em;
 line-height:1.12;
 color:#F0E6C8;
 text-shadow:
-0 2px 3px rgba(0,0,0,.62),
-0 0 8px rgba(240,225,178,.16);
--webkit-text-stroke:.25px rgba(70,45,15,.35);
+0 2px 3px rgba(0,0,0,.52),
+0 0 7px rgba(240,230,190,.14);
+-webkit-text-stroke:.2px rgba(60,42,18,.25);
 }
 
 .topTitleMain{
-margin-top:1.4%;
+margin-top:1.6%;
 font-family:
 "Hiragino Mincho ProN",
 "Yu Mincho",
 "YuMincho",
-"Times New Roman",
 serif;
-font-size:clamp(27px,6.6vw,68px);
+font-size:clamp(32px,7.2vw,68px);
 font-weight:800;
-letter-spacing:.12em;
-line-height:1.14;
+letter-spacing:.13em;
+line-height:1.12;
 color:#D9B85C;
 text-shadow:
-0 2px 4px rgba(0,0,0,.64),
-0 0 10px rgba(230,190,90,.18);
--webkit-text-stroke:.35px rgba(70,45,15,.40);
+0 2px 4px rgba(0,0,0,.54),
+0 0 9px rgba(225,190,95,.15);
+-webkit-text-stroke:.25px rgba(70,45,15,.30);
 }
 
 .infoPanel{
 position:absolute;
-left:9%;
-bottom:7.6%;
-width:82%;
-height:22%;
+left:9.5%;
+bottom:8.0%;
+width:81%;
+height:21.5%;
 border-radius:32px;
-background:rgba(0,0,0,.42);
-border:2.6px solid rgba(218,181,83,.76);
+background:rgba(0,0,0,.40);
+border:2.6px solid rgba(218,181,83,.72);
 box-shadow:
 0 0 0 1px rgba(255,244,190,.10) inset,
-0 8px 18px rgba(0,0,0,.34),
-0 0 18px rgba(218,181,83,.12);
+0 8px 18px rgba(0,0,0,.30),
+0 0 16px rgba(218,181,83,.10);
 backdrop-filter:blur(3px);
 -webkit-backdrop-filter:blur(3px);
 display:flex;
@@ -201,6 +191,7 @@ align-items:center;
 justify-content:center;
 padding:4.8% 5% 4.2%;
 pointer-events:none;
+z-index:5;
 }
 
 .infoOrnament{
@@ -208,18 +199,23 @@ position:absolute;
 top:8.5%;
 left:50%;
 transform:translateX(-50%) rotate(45deg);
-width:14px;
-height:14px;
+width:13px;
+height:13px;
 background:linear-gradient(135deg,#E8CE77,#B9872D);
 box-shadow:
-0 0 8px rgba(232,206,119,.35),
-0 1px 2px rgba(0,0,0,.55);
+0 0 7px rgba(232,206,119,.30),
+0 1px 2px rgba(0,0,0,.45);
 }
 
 .infoLine{
-width:44%;
+width:42%;
 height:1px;
-background:linear-gradient(90deg,rgba(220,185,90,0),rgba(220,185,90,.70),rgba(220,185,90,0));
+background:linear-gradient(
+90deg,
+rgba(220,185,90,0),
+rgba(220,185,90,.64),
+rgba(220,185,90,0)
+);
 margin:0 auto 3.0%;
 }
 
@@ -229,53 +225,53 @@ font-family:
 "Yu Mincho",
 "YuMincho",
 serif;
-font-size:clamp(18px,4.0vw,40px);
+font-size:clamp(20px,4.7vw,40px);
 font-weight:800;
-letter-spacing:.12em;
-line-height:1.25;
+letter-spacing:.13em;
+line-height:1.24;
 color:#F7F3EA;
 text-align:center;
 text-shadow:
-0 2px 3px rgba(0,0,0,.62);
+0 2px 3px rgba(0,0,0,.55);
 white-space:nowrap;
 }
 
 .serialText{
-margin-top:3.0%;
+margin-top:2.8%;
 font-family:
 "Hiragino Mincho ProN",
 "Yu Mincho",
 "YuMincho",
 "Times New Roman",
 serif;
-font-size:clamp(34px,8.9vw,74px);
+font-size:clamp(38px,9.2vw,74px);
 font-weight:900;
-letter-spacing:.045em;
-line-height:1.05;
+letter-spacing:.035em;
+line-height:1.02;
 color:#E0BE58;
 text-align:center;
 text-shadow:
-0 2px 3px rgba(0,0,0,.68),
-0 0 10px rgba(226,193,95,.16);
--webkit-text-stroke:.35px rgba(64,42,12,.55);
+0 2px 3px rgba(0,0,0,.62),
+0 0 8px rgba(226,193,95,.14);
+-webkit-text-stroke:.25px rgba(64,42,12,.42);
 white-space:nowrap;
 }
 
 .dateText{
-margin-top:3.4%;
+margin-top:3.3%;
 font-family:
 "Hiragino Mincho ProN",
 "Yu Mincho",
 "YuMincho",
 serif;
-font-size:clamp(15px,3.6vw,34px);
+font-size:clamp(16px,3.8vw,34px);
 font-weight:800;
 letter-spacing:.14em;
 line-height:1.2;
 color:#F4F1EA;
 text-align:center;
 text-shadow:
-0 2px 3px rgba(0,0,0,.62);
+0 2px 3px rgba(0,0,0,.52);
 white-space:nowrap;
 }
 
@@ -365,8 +361,6 @@ border-radius:28px;
 <div class="certificateWrap">
 
 <div class="certificateCard" id="certificateCard">
-
-<div class="fallbackBg" id="fallbackBg"></div>
 
 <img
 id="bgImage"
@@ -526,40 +520,15 @@ async function loadCertificate(){
     const bg =
     document.getElementById("bgImage");
 
-    const fallback =
-    document.getElementById("fallbackBg");
-
-    bg.onerror =
-    function(){
-
-      bg.style.display =
-      "none";
-
-      fallback.style.display =
-      "block";
-
-      setStatus("画像を読み込めませんでした。記念証情報は表示しています。");
-
-    };
-
     if(imageUrl){
-
-      bg.style.display =
-      "block";
-
-      fallback.style.display =
-      "none";
 
       bg.src =
       imageUrl;
 
     }else{
 
-      bg.style.display =
-      "none";
-
-      fallback.style.display =
-      "block";
+      bg.style.background =
+      "linear-gradient(180deg,#222,#000)";
 
     }
 
@@ -641,19 +610,39 @@ function getCertificateSerial(data){
 
   data = data || {};
 
-  return cleanSerial(
-    data.serial ||
-    data.serialNo ||
-    data.serialNumber ||
-    data.certificateNo ||
-    data.certificateNumber ||
-    data.number ||
-    data.no ||
-    data.climbSerial ||
-    data.recordNo ||
-    data.recordNumber ||
-    ""
-  );
+  const candidates = [
+    data.serial,
+    data.serialNo,
+    data.serialNumber,
+    data.certificateNo,
+    data.certificateNumber,
+    data.climbSerial,
+    data.recordNo,
+    data.recordNumber
+  ];
+
+  for(let i=0;i<candidates.length;i++){
+
+    const value =
+    cleanSerial(candidates[i]);
+
+    if(/^\d{1,3}-\d{4}$/.test(value)){
+      return value;
+    }
+
+  }
+
+  const text =
+  JSON.stringify(data);
+
+  const match =
+  text.match(/(?:No\.?\s*)?(\d{1,3}-\d{4})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  return "";
 
 }
 
@@ -661,14 +650,33 @@ function getCertificateDate(data){
 
   data = data || {};
 
-  return getString(
+  const value =
+  getString(
     data.date ||
     data.createdAt ||
     data.created ||
     data.time ||
     data.datetime ||
-    todayText()
+    ""
   );
+
+  if(value){
+
+    const m =
+    value.match(/\d{4}\/\d{2}\/\d{2}/) ||
+    value.match(/\d{4}-\d{2}-\d{2}/);
+
+    if(m && m[0]){
+
+      return m[0].replace(/-/g,"/");
+
+    }
+
+    return value;
+
+  }
+
+  return todayText();
 
 }
 
@@ -858,7 +866,7 @@ function waitForImage(img){
 
   return new Promise(function(resolve){
 
-    if(!img || !img.src || img.style.display === "none"){
+    if(!img || !img.src){
       resolve();
       return;
     }
