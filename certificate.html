@@ -93,6 +93,18 @@ display:block;
 background:#111;
 }
 
+.fallbackBg{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 50% 20%,rgba(210,170,70,.18),rgba(0,0,0,0) 36%),
+linear-gradient(180deg,#171717 0%,#070707 100%);
+display:none;
+}
+
 .frameOuter{
 position:absolute;
 left:2.6%;
@@ -354,10 +366,11 @@ border-radius:28px;
 
 <div class="certificateCard" id="certificateCard">
 
+<div class="fallbackBg" id="fallbackBg"></div>
+
 <img
 id="bgImage"
 class="bgImage"
-crossorigin="anonymous"
 src=""
 alt="田子山富士 登頂記念証">
 
@@ -498,35 +511,66 @@ async function loadCertificate(){
 
     }
 
-    certificateData =
+    const item =
+    data.result ||
+    data.certificate ||
+    data.data ||
     data;
 
+    certificateData =
+    item;
+
     const imageUrl =
-    getString(data.imageUrl || data.image || "");
+    getCertificateImageUrl(item);
 
     const bg =
     document.getElementById("bgImage");
 
+    const fallback =
+    document.getElementById("fallbackBg");
+
+    bg.onerror =
+    function(){
+
+      bg.style.display =
+      "none";
+
+      fallback.style.display =
+      "block";
+
+      setStatus("画像を読み込めませんでした。記念証情報は表示しています。");
+
+    };
+
     if(imageUrl){
+
+      bg.style.display =
+      "block";
+
+      fallback.style.display =
+      "none";
 
       bg.src =
       imageUrl;
 
     }else{
 
-      bg.style.background =
-      "linear-gradient(180deg,#222,#000)";
+      bg.style.display =
+      "none";
+
+      fallback.style.display =
+      "block";
 
     }
 
     const count =
-    getString(data.count || data.round || "");
+    getCertificateCount(item);
 
     const serial =
-    cleanSerial(data.serial || data.serialNo || "");
+    getCertificateSerial(item);
 
     const date =
-    getString(data.date || data.createdAt || todayText());
+    getCertificateDate(item);
 
     document.getElementById("countText").innerText =
     "第" +
@@ -541,8 +585,8 @@ async function loadCertificate(){
     date || todayText();
 
     document.title =
-    "田子山富士 登頂記念証 No." +
-    (serial || "");
+    "田子山富士 登頂記念証" +
+    (serial ? " No." + serial : "");
 
     setStatus("登頂記念証を表示しました。");
 
@@ -554,6 +598,77 @@ async function loadCertificate(){
     );
 
   }
+
+}
+
+function getCertificateImageUrl(data){
+
+  data = data || {};
+
+  return getString(
+    data.imageUrl ||
+    data.imageURL ||
+    data.image ||
+    data.url ||
+    data.backgroundImage ||
+    data.bgImage ||
+    data.certificateImage ||
+    data.certificateImageUrl ||
+    data.photoUrl ||
+    data.photoURL ||
+    ""
+  );
+
+}
+
+function getCertificateCount(data){
+
+  data = data || {};
+
+  return getString(
+    data.count ||
+    data.round ||
+    data.climbCount ||
+    data.climbNo ||
+    data.climbNumber ||
+    data.times ||
+    ""
+  );
+
+}
+
+function getCertificateSerial(data){
+
+  data = data || {};
+
+  return cleanSerial(
+    data.serial ||
+    data.serialNo ||
+    data.serialNumber ||
+    data.certificateNo ||
+    data.certificateNumber ||
+    data.number ||
+    data.no ||
+    data.climbSerial ||
+    data.recordNo ||
+    data.recordNumber ||
+    ""
+  );
+
+}
+
+function getCertificateDate(data){
+
+  data = data || {};
+
+  return getString(
+    data.date ||
+    data.createdAt ||
+    data.created ||
+    data.time ||
+    data.datetime ||
+    todayText()
+  );
 
 }
 
@@ -626,7 +741,7 @@ async function shareCertificateLink(btn){
 
   const serial =
   certificateData
-  ? cleanSerial(certificateData.serial || certificateData.serialNo || "")
+  ? getCertificateSerial(certificateData)
   : "";
 
   const url =
@@ -678,7 +793,7 @@ async function makeCertificateFile(){
       backgroundColor:null,
       scale:3,
       useCORS:true,
-      allowTaint:false,
+      allowTaint:true,
       logging:false
     }
   );
@@ -743,7 +858,7 @@ function waitForImage(img){
 
   return new Promise(function(resolve){
 
-    if(!img || !img.src){
+    if(!img || !img.src || img.style.display === "none"){
       resolve();
       return;
     }
