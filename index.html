@@ -984,6 +984,9 @@ const CERTIFICATE_PAGE =
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
+const OMIKUJI_LOCK_PREFIX =
+"tagoyamaOmikujiLocked_";
+
 let currentUserId =
 "";
 
@@ -1042,6 +1045,8 @@ async function init(){
 
   await handleClimb();
 
+  applyOmikujiLock();
+
   const params =
   new URLSearchParams(location.search);
 
@@ -1077,6 +1082,66 @@ function getUserIdFromUrl(){
 
 }
 
+function getOmikujiLockUserId(){
+
+  return getUserIdFromUrl() ||
+  currentUserId ||
+  localStorage.getItem("tagoyamaUserId") ||
+  "";
+
+}
+
+function getOmikujiLockKey(){
+
+  let userId =
+  getOmikujiLockUserId();
+
+  if(!userId){
+    userId = "guest";
+  }
+
+  return OMIKUJI_LOCK_PREFIX + userId;
+
+}
+
+function isOmikujiLocked(){
+
+  return localStorage.getItem(getOmikujiLockKey()) === "1";
+
+}
+
+function setOmikujiLocked(){
+
+  localStorage.setItem(
+    getOmikujiLockKey(),
+    "1"
+  );
+
+  applyOmikujiLock();
+
+}
+
+function applyOmikujiLock(){
+
+  const btn =
+  document.getElementById("omikujiBtn");
+
+  if(!btn){
+    return;
+  }
+
+  if(isOmikujiLocked()){
+
+    btn.disabled =
+    true;
+
+    btn.innerText =
+    "おみくじは1回のみです";
+
+  }
+
+}
+
 function openSection(id){
 
   closeAllSections();
@@ -1096,6 +1161,10 @@ function openSection(id){
 
   if(id === "goenSection" && !goenLoaded){
     loadGoen();
+  }
+
+  if(id === "omikujiSection"){
+    applyOmikujiLock();
   }
 
   setTimeout(function(){
@@ -1355,6 +1424,16 @@ async function drawOmikuji(){
 
   }
 
+  if(userId && isOmikujiLocked()){
+
+    applyOmikujiLock();
+
+    alert("おみくじは1回のみです。");
+
+    return;
+
+  }
+
   box.style.display =
   "block";
 
@@ -1555,6 +1634,8 @@ async function drawOmikuji(){
       actions.classList.remove("hidden");
 
     }
+
+    setOmikujiLocked();
 
     btn.disabled =
     true;
