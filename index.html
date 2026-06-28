@@ -2046,7 +2046,9 @@ async function loadNews(){
       makeNewsShareButtons(
         rawTitle,
         rawBody,
-        normalLink
+        normalLink,
+        imageUrls.length ? imageUrls[0] : "",
+        item.date || ""
       );
 
       let imageHtml =
@@ -2197,11 +2199,23 @@ function isImageLikeUrl(url){
 
 }
 
-function makeNewsShareButtons(title,body,link){
+function makeNewsShareButtons(title,body,link,image,date){
 
   const shareTargetUrl =
   HOME_PAGE +
-  "share-news.html?v=30";
+  "share-news.html" +
+  "?title=" +
+  encodeURIComponent(getString(title || "田子山富士 お知らせ")) +
+  "&body=" +
+  encodeURIComponent(getString(body || "田子山富士168の縁プロジェクトのお知らせです。")) +
+  "&date=" +
+  encodeURIComponent(getString(date || "")) +
+  "&image=" +
+  encodeURIComponent(getString(image || "")) +
+  "&link=" +
+  encodeURIComponent(getString(link || "")) +
+  "&v=" +
+  Date.now();
 
   const shareText =
   getString(title) ||
