@@ -764,36 +764,36 @@ alt="田子山富士おみくじ当たり画像">
 </button>
 
 <p class="omikujiShareNote">
-Facebookに投稿する場合は、下の「投稿文をコピー」を押してからFacebookボタンで投稿してください。
+Facebookに投稿する場合は、先に「投稿文をコピー」を押してから、下の共有ボタンで画像を投稿してください。
 </p>
 
 <button class="omikujiShareBtn omikujiCopy" onclick="copyOmikujiPost()">
 投稿文をコピー
 </button>
 
-<a
+<button
+type="button"
 id="omikujiFacebook"
 class="omikujiShareBtn omikujiFacebook"
-target="_blank"
-rel="noopener">
+onclick="shareOmikujiImage('Facebook')">
 Facebookで投稿
-</a>
+</button>
 
-<a
+<button
+type="button"
 id="omikujiLine"
 class="omikujiShareBtn omikujiLine"
-target="_blank"
-rel="noopener">
+onclick="shareOmikujiImage('LINE')">
 LINEで送る
-</a>
+</button>
 
-<a
+<button
+type="button"
 id="omikujiX"
 class="omikujiShareBtn omikujiX"
-target="_blank"
-rel="noopener">
+onclick="shareOmikujiImage('X')">
 Xで投稿
-</a>
+</button>
 
 </div>
 
@@ -955,7 +955,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 </p>
 
 <p class="omikujiPopupGuide">
-共有画面で「画像を保存」を選んでください。<br>
+共有画面で「画像を保存」または「写真に保存」を選んでください。<br>
 うまくいかない場合は、もう一度保存ボタンを押してください。
 </p>
 
@@ -983,9 +983,6 @@ const CERTIFICATE_PAGE =
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
-const OMIKUJI_LOCK_PREFIX =
-"tagoyamaOmikujiLocked_";
 
 let currentUserId =
 "";
@@ -1045,8 +1042,6 @@ async function init(){
 
   await handleClimb();
 
-  applyOmikujiLock();
-
   const params =
   new URLSearchParams(location.search);
 
@@ -1082,66 +1077,6 @@ function getUserIdFromUrl(){
 
 }
 
-function getOmikujiLockUserId(){
-
-  return getUserIdFromUrl() ||
-  currentUserId ||
-  localStorage.getItem("tagoyamaUserId") ||
-  "";
-
-}
-
-function getOmikujiLockKey(){
-
-  let userId =
-  getOmikujiLockUserId();
-
-  if(!userId){
-    userId = "guest";
-  }
-
-  return OMIKUJI_LOCK_PREFIX + userId;
-
-}
-
-function isOmikujiLocked(){
-
-  return localStorage.getItem(getOmikujiLockKey()) === "1";
-
-}
-
-function setOmikujiLocked(){
-
-  localStorage.setItem(
-    getOmikujiLockKey(),
-    "1"
-  );
-
-  applyOmikujiLock();
-
-}
-
-function applyOmikujiLock(){
-
-  const btn =
-  document.getElementById("omikujiBtn");
-
-  if(!btn){
-    return;
-  }
-
-  if(isOmikujiLocked()){
-
-    btn.disabled =
-    true;
-
-    btn.innerText =
-    "おみくじは1回のみです";
-
-  }
-
-}
-
 function openSection(id){
 
   closeAllSections();
@@ -1161,10 +1096,6 @@ function openSection(id){
 
   if(id === "goenSection" && !goenLoaded){
     loadGoen();
-  }
-
-  if(id === "omikujiSection"){
-    applyOmikujiLock();
   }
 
   setTimeout(function(){
@@ -1290,7 +1221,6 @@ async function handleClimb(){
       "第" +
       count +
       "回 登頂記念<br>" +
-      "No." +
       serial;
 
       certificateBtn.href =
@@ -1424,16 +1354,6 @@ async function drawOmikuji(){
 
   }
 
-  if(userId && isOmikujiLocked()){
-
-    applyOmikujiLock();
-
-    alert("おみくじは1回のみです。");
-
-    return;
-
-  }
-
   box.style.display =
   "block";
 
@@ -1458,6 +1378,14 @@ async function drawOmikuji(){
 
   latestOmikujiShareUrl =
   HOME_PAGE + "?open=omikuji&v=010";
+
+  if(latestOmikujiImageUrl){
+    URL.revokeObjectURL(latestOmikujiImageUrl);
+    latestOmikujiImageUrl = "";
+  }
+
+  latestOmikujiFile =
+  null;
 
   if(!userId){
 
@@ -1591,17 +1519,13 @@ async function drawOmikuji(){
       ""
     );
 
-    const imageSource =
-    imageDataUrl ||
-    imageUrl;
+    latestOmikujiImageDataUrl =
+    imageDataUrl;
 
-    if(isHit && imageSource){
-
-      latestOmikujiImageDataUrl =
-      imageDataUrl;
+    if(isHit && (imageDataUrl || imageUrl)){
 
       img.src =
-      imageSource;
+      imageDataUrl || imageUrl;
 
       imgBox.style.display =
       "block";
@@ -1629,13 +1553,11 @@ async function drawOmikuji(){
       latestOmikujiShareUrl =
       HOME_PAGE + "?open=omikuji&v=010";
 
-      setupOmikujiShareLinks();
-
       actions.classList.remove("hidden");
 
-    }
+      await prepareOmikujiShareFile();
 
-    setOmikujiLocked();
+    }
 
     btn.disabled =
     true;
@@ -1666,30 +1588,6 @@ async function drawOmikuji(){
 
 }
 
-function setupOmikujiShareLinks(){
-
-  const encodedUrl =
-  encodeURIComponent(latestOmikujiShareUrl);
-
-  const encodedText =
-  encodeURIComponent(latestOmikujiShareText);
-
-  document.getElementById("omikujiFacebook").href =
-  "https://www.facebook.com/sharer/sharer.php?u=" +
-  encodedUrl;
-
-  document.getElementById("omikujiLine").href =
-  "https://social-plugins.line.me/lineit/share?url=" +
-  encodedUrl;
-
-  document.getElementById("omikujiX").href =
-  "https://twitter.com/intent/tweet?text=" +
-  encodedText +
-  "&url=" +
-  encodedUrl;
-
-}
-
 async function copyOmikujiPost(){
 
   const text =
@@ -1712,25 +1610,6 @@ async function copyOmikujiPost(){
 
 async function saveOmikujiImage(btn){
 
-  const dataUrl =
-  latestOmikujiImageDataUrl ||
-  (
-    document.getElementById("omikujiImage") &&
-    document.getElementById("omikujiImage").src.indexOf("data:image/") === 0
-    ? document.getElementById("omikujiImage").src
-    : ""
-  );
-
-  if(!dataUrl){
-
-    alert(
-      "保存用の画像データが取得できていません。\nページを更新してからもう一度お試しください。"
-    );
-
-    return;
-
-  }
-
   if(btn){
 
     btn.disabled =
@@ -1743,29 +1622,17 @@ async function saveOmikujiImage(btn){
 
   try{
 
-    const file =
-    dataUrlToFile(
-      dataUrl,
-      "tagoyama-omikuji-atari.png"
-    );
+    await prepareOmikujiShareFile();
 
-    latestOmikujiFile =
-    file;
-
-    if(latestOmikujiImageUrl){
-
-      URL.revokeObjectURL(latestOmikujiImageUrl);
-
-      latestOmikujiImageUrl =
-      "";
-
+    if(!latestOmikujiFile){
+      throw new Error("保存用の画像が準備できませんでした");
     }
 
-    latestOmikujiImageUrl =
-    URL.createObjectURL(file);
-
     document.getElementById("omikujiSavedImage").src =
-    dataUrl;
+    latestOmikujiImageDataUrl ||
+    latestOmikujiImageUrl ||
+    document.getElementById("omikujiImage").src ||
+    "";
 
     document.getElementById("omikujiPopup").style.display =
     "block";
@@ -1775,7 +1642,7 @@ async function saveOmikujiImage(btn){
   }catch(e){
 
     alert(
-      "画像を保存用に準備できませんでした。\nもう一度お試しください。"
+      "保存用の画像データが取得できていません。\nページを更新してからもう一度お試しください。"
     );
 
   }finally{
@@ -1791,6 +1658,104 @@ async function saveOmikujiImage(btn){
     }
 
   }
+
+}
+
+async function shareOmikujiImage(targetName){
+
+  try{
+
+    await prepareOmikujiShareFile();
+
+    if(!latestOmikujiFile){
+      throw new Error("共有用の画像が準備できませんでした");
+    }
+
+    const ok =
+    await shareOmikujiFile(
+      latestOmikujiFile,
+      latestOmikujiShareText,
+      targetName
+    );
+
+    if(!ok){
+      alert("この端末では画像共有ができません");
+    }
+
+  }catch(e){
+
+    alert("画像共有の準備に失敗しました");
+
+  }
+
+}
+
+async function prepareOmikujiShareFile(){
+
+  if(latestOmikujiFile){
+    return latestOmikujiFile;
+  }
+
+  if(latestOmikujiImageDataUrl){
+
+    latestOmikujiFile =
+    dataUrlToFile(
+      latestOmikujiImageDataUrl,
+      "tagoyama-omikuji-atari.png"
+    );
+
+    if(latestOmikujiImageUrl){
+      URL.revokeObjectURL(latestOmikujiImageUrl);
+      latestOmikujiImageUrl = "";
+    }
+
+    latestOmikujiImageUrl =
+    URL.createObjectURL(latestOmikujiFile);
+
+    return latestOmikujiFile;
+
+  }
+
+  const img =
+  document.getElementById("omikujiImage");
+
+  const src =
+  getString(img ? img.src : "");
+
+  if(!src){
+    throw new Error("画像がありません");
+  }
+
+  const response =
+  await fetch(src,{
+    cache:"no-store"
+  });
+
+  if(!response.ok){
+    throw new Error("画像取得に失敗しました");
+  }
+
+  const blob =
+  await response.blob();
+
+  latestOmikujiFile =
+  new File(
+    [blob],
+    "tagoyama-omikuji-atari.png",
+    {
+      type:blob.type || "image/png"
+    }
+  );
+
+  if(latestOmikujiImageUrl){
+    URL.revokeObjectURL(latestOmikujiImageUrl);
+    latestOmikujiImageUrl = "";
+  }
+
+  latestOmikujiImageUrl =
+  URL.createObjectURL(latestOmikujiFile);
+
+  return latestOmikujiFile;
 
 }
 
@@ -1839,42 +1804,29 @@ function dataUrlToFile(dataUrl,fileName){
 
 }
 
-async function shareSavedOmikujiImage(){
-
-  if(!latestOmikujiFile){
-
-    alert("先に当たり画像を作成してください");
-
-    return false;
-
-  }
+async function shareOmikujiFile(file,text,targetName){
 
   if(!navigator.share){
-
-    alert("この端末では共有保存画面を開けません");
-
     return false;
-
   }
 
-  const data =
+  const shareData =
   {
-    files:[latestOmikujiFile],
-    title:"田子山富士おみくじ 大当たり",
-    text:"田子山富士おみくじ 大当たり"
+    files:[file],
+    title:"田子山富士おみくじ",
+    text:text || "田子山富士おみくじ"
   };
 
-  if(navigator.canShare && !navigator.canShare({files:[latestOmikujiFile]})){
-
-    alert("この端末では画像ファイル共有ができません");
-
+  if(
+    navigator.canShare &&
+    !navigator.canShare({files:[file]})
+  ){
     return false;
-
   }
 
   try{
 
-    await navigator.share(data);
+    await navigator.share(shareData);
 
     return true;
 
@@ -1887,6 +1839,32 @@ async function shareSavedOmikujiImage(){
     return false;
 
   }
+
+}
+
+async function shareSavedOmikujiImage(){
+
+  if(!latestOmikujiFile){
+
+    alert("先に当たり画像を作成してください");
+
+    return false;
+
+  }
+
+  const ok =
+  await shareOmikujiFile(
+    latestOmikujiFile,
+    "田子山富士おみくじ 大当たり",
+    "保存"
+  );
+
+  if(!ok){
+    alert("この端末では画像ファイル共有ができません");
+    return false;
+  }
+
+  return true;
 
 }
 
