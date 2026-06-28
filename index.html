@@ -764,7 +764,7 @@ alt="田子山富士おみくじ当たり画像">
 </button>
 
 <p class="omikujiShareNote">
-Facebookに投稿する場合は、先に「投稿文をコピー」を押してから、下の共有ボタンで画像を投稿してください。
+Facebookは投稿文をコピーしてからFacebook投稿画面を開きます。Xは文章入り投稿画面を開きます。LINEは画像共有のままです。
 </p>
 
 <button class="omikujiShareBtn omikujiCopy" onclick="copyOmikujiPost()">
@@ -983,6 +983,9 @@ const CERTIFICATE_PAGE =
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
+
+const FACEBOOK_OMIKUJI_SHARE_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=1";
 
 let currentUserId =
 "";
@@ -1593,7 +1596,7 @@ async function copyOmikujiPost(){
   const text =
   (
     latestOmikujiShareText ||
-    "田子山富士168の縁プロジェクトでおみくじに当たりました！"
+    "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト"
   ) +
   "\n" +
   (
@@ -1663,28 +1666,77 @@ async function saveOmikujiImage(btn){
 
 async function shareOmikujiImage(targetName){
 
-  try{
+  const text =
+  latestOmikujiShareText ||
+  "田子山富士168の縁プロジェクトでおみくじに当たりました！\n田子山富士でご縁をいただきました。\n\n#田子山富士\n#168の縁プロジェクト";
 
-    await prepareOmikujiShareFile();
+  const normalShareUrl =
+  latestOmikujiShareUrl ||
+  HOME_PAGE;
 
-    if(!latestOmikujiFile){
-      throw new Error("共有用の画像が準備できませんでした");
+  if(targetName === "Facebook"){
+
+    try{
+
+      await copyTextOnly(
+        text + "\n" + FACEBOOK_OMIKUJI_SHARE_PAGE
+      );
+
+    }catch(e){}
+
+    location.href =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(FACEBOOK_OMIKUJI_SHARE_PAGE);
+
+    return;
+
+  }
+
+  if(targetName === "X"){
+
+    location.href =
+    "https://x.com/intent/tweet?text=" +
+    encodeURIComponent(text) +
+    "&url=" +
+    encodeURIComponent(normalShareUrl);
+
+    return;
+
+  }
+
+  if(targetName === "LINE"){
+
+    try{
+
+      await prepareOmikujiShareFile();
+
+      if(!latestOmikujiFile){
+        throw new Error("共有用の画像が準備できませんでした");
+      }
+
+      const ok =
+      await shareOmikujiFile(
+        latestOmikujiFile,
+        text,
+        targetName,
+        normalShareUrl
+      );
+
+      if(!ok){
+
+        location.href =
+        "https://social-plugins.line.me/lineit/share?url=" +
+        encodeURIComponent(normalShareUrl);
+
+      }
+
+    }catch(e){
+
+      location.href =
+      "https://social-plugins.line.me/lineit/share?url=" +
+      encodeURIComponent(normalShareUrl);
+
     }
-
-    const ok =
-    await shareOmikujiFile(
-      latestOmikujiFile,
-      latestOmikujiShareText,
-      targetName
-    );
-
-    if(!ok){
-      alert("この端末では画像共有ができません");
-    }
-
-  }catch(e){
-
-    alert("画像共有の準備に失敗しました");
 
   }
 
@@ -1804,7 +1856,7 @@ function dataUrlToFile(dataUrl,fileName){
 
 }
 
-async function shareOmikujiFile(file,text,targetName){
+async function shareOmikujiFile(file,text,targetName,shareUrl){
 
   if(!navigator.share){
     return false;
@@ -1813,8 +1865,9 @@ async function shareOmikujiFile(file,text,targetName){
   const shareData =
   {
     files:[file],
-    title:"田子山富士おみくじ",
-    text:text || "田子山富士おみくじ"
+    title:"田子山富士おみくじ 大当たり",
+    text:text || "田子山富士おみくじ 大当たり",
+    url:shareUrl || HOME_PAGE
   };
 
   if(
@@ -1856,13 +1909,50 @@ async function shareSavedOmikujiImage(){
   await shareOmikujiFile(
     latestOmikujiFile,
     "田子山富士おみくじ 大当たり",
-    "保存"
+    "保存",
+    HOME_PAGE + "?open=omikuji"
   );
 
   if(!ok){
     alert("この端末では画像ファイル共有ができません");
     return false;
   }
+
+  return true;
+
+}
+
+async function copyTextOnly(text){
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+
+    await navigator.clipboard.writeText(text);
+
+    return true;
+
+  }
+
+  const textarea =
+  document.createElement("textarea");
+
+  textarea.value =
+  text;
+
+  textarea.style.position =
+  "fixed";
+
+  textarea.style.left =
+  "-9999px";
+
+  document.body.appendChild(textarea);
+
+  textarea.focus();
+
+  textarea.select();
+
+  document.execCommand("copy");
+
+  document.body.removeChild(textarea);
 
   return true;
 
