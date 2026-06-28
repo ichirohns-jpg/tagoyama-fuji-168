@@ -4,24 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>田子山富士168の縁プロジェクト お知らせ</title>
+<title>田子山富士 お知らせ</title>
 
-<meta property="og:title" content="田子山富士168の縁プロジェクト">
-<meta property="og:description" content="田子山富士からのお知らせ・登頂記念・ご縁帳・おみくじ">
-<meta property="og:type" content="website">
+<meta property="og:title" content="田子山富士 お知らせ">
+<meta property="og:description" content="田子山富士168の縁プロジェクトのお知らせです。">
+<meta property="og:type" content="article">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
-
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
-<meta property="og:image:alt" content="田子山富士168の縁プロジェクト">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="田子山富士168の縁プロジェクト">
-<meta name="twitter:description" content="田子山富士からのお知らせ・登頂記念・ご縁帳・おみくじ">
+<meta name="twitter:title" content="田子山富士 お知らせ">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクトのお知らせです。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
-
-<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=30">
 
 <style>
 *{
@@ -41,97 +37,149 @@ font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
 
 body{
 background:
-radial-gradient(circle at 50% 0%,rgba(130,92,24,.30),rgba(0,0,0,0) 34%),
+radial-gradient(circle at 50% 0%,rgba(130,92,24,.28),rgba(0,0,0,0) 34%),
 linear-gradient(180deg,#050505 0%,#090909 45%,#000 100%);
 }
 
 .wrap{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:24px 16px;
+width:100%;
+max-width:760px;
+margin:0 auto;
+padding:24px 16px 54px;
 }
 
 .card{
-width:100%;
-max-width:760px;
-padding:28px 18px 30px;
+margin:0 auto;
+padding:26px 20px 30px;
 border:3px solid #d6b73c;
 border-radius:30px;
 background:rgba(24,24,24,.94);
 box-shadow:
-0 0 0 1px rgba(255,230,150,.12) inset,
-0 14px 32px rgba(0,0,0,.48),
-0 0 28px rgba(214,183,60,.12);
-text-align:center;
+0 0 0 1px rgba(255,230,150,.1) inset,
+0 12px 28px rgba(0,0,0,.42);
 }
 
-.banner{
-display:block;
-width:100%;
-height:auto;
-border-radius:24px;
-border:1px solid rgba(255,220,140,.45);
-background:#000;
-margin:0 auto 24px;
+.label{
+display:inline-block;
+margin:0 auto 18px;
+padding:9px 18px;
+border-radius:999px;
+background:#9b1f16;
+color:#fff;
+font-size:16px;
+font-weight:900;
+line-height:1.2;
 }
 
 .title{
-margin:0 0 16px;
-font-size:clamp(32px,8.6vw,62px);
+margin:0 0 18px;
+font-size:clamp(30px,8vw,54px);
 font-weight:900;
-line-height:1.25;
-letter-spacing:.03em;
-color:#d9b638;
+line-height:1.28;
+color:#ffdf72;
+text-align:center;
 text-shadow:
-0 4px 4px rgba(0,0,0,.88),
-0 0 14px rgba(255,220,100,.20);
+0 4px 4px rgba(0,0,0,.85),
+0 0 18px rgba(255,220,95,.24);
 }
 
-.text{
-margin:0 0 26px;
-font-size:clamp(18px,5vw,30px);
-line-height:1.75;
+.imageBox{
+display:none;
+width:100%;
+margin:0 auto 22px;
+border-radius:24px;
+overflow:hidden;
+border:2px solid rgba(255,220,95,.78);
+background:#111;
+box-shadow:
+0 0 0 1px rgba(255,245,190,.14) inset,
+0 10px 22px rgba(0,0,0,.46),
+0 0 22px rgba(255,215,90,.18);
+}
+
+.imageBox img{
+display:block;
+width:100%;
+height:auto;
+background:#000;
+}
+
+.bodyText{
+margin:18px 0 0;
+font-size:clamp(19px,5vw,30px);
 font-weight:800;
+line-height:1.75;
 color:#fff;
+white-space:pre-wrap;
+text-align:left;
+}
+
+.date{
+margin-top:18px;
+font-size:15px;
+font-weight:900;
+letter-spacing:.08em;
+color:#d8c98d;
+text-align:center;
+}
+
+.status{
+margin:20px 0 0;
+padding:16px;
+border-radius:18px;
+background:rgba(0,0,0,.34);
+border:1px solid rgba(214,183,60,.45);
+font-size:17px;
+font-weight:800;
+line-height:1.7;
+color:#fff3c4;
+text-align:center;
+}
+
+.btnArea{
+display:grid;
+gap:14px;
+margin-top:24px;
 }
 
 .btn{
+width:100%;
+min-height:64px;
+border:none;
+border-radius:22px;
 display:flex;
 align-items:center;
 justify-content:center;
-width:100%;
-min-height:72px;
-border-radius:24px;
-background:linear-gradient(180deg,#35df86,#19b75e);
-color:#fff;
-font-size:clamp(22px,6vw,38px);
-font-weight:900;
 text-decoration:none;
+font-size:clamp(19px,5vw,32px);
+font-weight:900;
+letter-spacing:.02em;
+color:#fff;
+cursor:pointer;
 box-shadow:
-0 8px 0 rgba(0,0,0,.32),
-0 16px 26px rgba(0,0,0,.35);
+0 7px 0 rgba(0,0,0,.32),
+0 14px 24px rgba(0,0,0,.35);
 }
 
-.note{
-margin:18px 0 0;
+.greenBtn{
+background:linear-gradient(180deg,#35df86,#19b75e);
+}
+
+.goldBtn{
+background:linear-gradient(180deg,#e4c24d,#b98a20);
+color:#261402;
+}
+
+.blackBtn{
+background:linear-gradient(180deg,#232323,#050505);
+}
+
+.footer{
+margin-top:28px;
+text-align:center;
 font-size:14px;
 line-height:1.7;
 color:#c7b77a;
-}
-
-@media(max-width:480px){
-
-.card{
-border-radius:26px;
-padding:24px 14px 26px;
-}
-
-.banner{
-border-radius:20px;
-}
-
 }
 </style>
 </head>
@@ -142,41 +190,152 @@ border-radius:20px;
 
 <div class="card">
 
-<img
-class="banner"
-src="top.jpg?v=30"
-alt="田子山富士168の縁プロジェクト">
-
-<h1 class="title">
+<div style="text-align:center;">
+<div class="label">
 田子山富士168の縁プロジェクト
+</div>
+</div>
+
+<h1 class="title" id="newsTitle">
+田子山富士 お知らせ
 </h1>
 
-<p class="text">
-田子山富士からのお知らせページへ<br>
-移動します。
-</p>
+<div class="imageBox" id="imageBox">
+<img id="newsImage" src="" alt="田子山富士お知らせ画像">
+</div>
 
-<a
-class="btn"
-href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/?open=news&v=30">
-お知らせを見る
+<div class="bodyText" id="newsBody">
+お知らせを読み込んでいます。
+</div>
+
+<div class="date" id="newsDate">
+--
+</div>
+
+<div class="status" id="status">
+少しお待ちください。
+</div>
+
+<div class="btnArea">
+
+<a class="btn goldBtn" id="detailBtn" href="#" target="_blank" rel="noopener" style="display:none;">
+詳しく見る
 </a>
 
-<p class="note">
-自動で移動しない場合は、上のボタンを押してください。
-</p>
+<a class="btn greenBtn" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/?open=news">
+田子山富士DXのお知らせを開く
+</a>
 
+<a class="btn blackBtn" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
+トップへ戻る
+</a>
+
+</div>
+
+</div>
+
+<div class="footer">
+田子山富士 168の縁プロジェクト<br>
+お知らせ
 </div>
 
 </div>
 
 <script>
-setTimeout(function(){
 
-  location.href =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/?open=news&v=30";
+window.addEventListener(
+"load",
+init
+);
 
-},1500);
+function init(){
+
+  const params =
+  new URLSearchParams(location.search);
+
+  const title =
+  getString(params.get("title") || "田子山富士 お知らせ");
+
+  const body =
+  getString(params.get("body") || "田子山富士168の縁プロジェクトのお知らせです。");
+
+  const date =
+  getString(params.get("date") || "");
+
+  const image =
+  getString(params.get("image") || "");
+
+  const link =
+  getString(params.get("link") || "");
+
+  document.title =
+  title;
+
+  document.getElementById("newsTitle").innerText =
+  title;
+
+  document.getElementById("newsBody").innerText =
+  body;
+
+  document.getElementById("newsDate").innerText =
+  date || todayText();
+
+  document.getElementById("status").innerText =
+  "このページは、選択されたお知らせ記事です。";
+
+  if(image){
+
+    document.getElementById("newsImage").src =
+    image;
+
+    document.getElementById("imageBox").style.display =
+    "block";
+
+  }
+
+  if(link){
+
+    const detailBtn =
+    document.getElementById("detailBtn");
+
+    detailBtn.href =
+    link;
+
+    detailBtn.style.display =
+    "flex";
+
+  }
+
+}
+
+function todayText(){
+
+  const d =
+  new Date();
+
+  const y =
+  d.getFullYear();
+
+  const m =
+  String(d.getMonth() + 1).padStart(2,"0");
+
+  const day =
+  String(d.getDate()).padStart(2,"0");
+
+  return y + "/" + m + "/" + day;
+
+}
+
+function getString(value){
+
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+
+}
+
 </script>
 
 </body>
