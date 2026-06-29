@@ -518,12 +518,7 @@ top:5.7%;
 width:84%;
 }
 
-.certTopMain{
-font-size:clamp(21px,5.8vw,58px);
-}
-
 .certTopSub{
-font-size:clamp(30px,8.1vw,82px);
 margin-top:6px;
 }
 
@@ -714,9 +709,6 @@ onclick="closePopup()">
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbx2rRwLRW_wOqrzC8-9cb5lXc4y5r4JORZGcJgof8_efLA4jpmo_DQEMR4sl7UUzChj/exec";
 
-const IMAGE_GAS_URL =
-"https://script.google.com/macros/s/AKfycbzvMzzESm9atr6QWKvFwVlVMFYSAsj_oF0ZTCE7L0ojrX1VJhRWGaoLCD1Judga8vSb/exec";
-
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
@@ -731,8 +723,6 @@ let latestImageName = "";
 let latestImageUrl = "";
 let latestImageData = "";
 let latestShareUrl = "";
-let latestImageSrc = "";
-let latestImageCors = false;
 let latestSaveFile = null;
 let latestSaveImageUrl = "";
 
@@ -792,13 +782,21 @@ async function loadCertificate(){
     "&og=30";
 
     const data =
-    await fetchCertificateInfo(userId);
+    await fetchJson(
+      GAS_URL +
+      "?mode=certificate" +
+      "&userId=" +
+      encodeURIComponent(userId) +
+      "&t=" +
+      Date.now()
+    );
 
-    if(!data.success){
+    if(!data || !data.success){
 
       throw new Error(
-        data.message ||
-        "取得できません"
+        data && data.message
+        ? data.message
+        : "取得できません"
       );
 
     }
@@ -834,7 +832,7 @@ async function loadCertificate(){
     content.style.display =
     "block";
 
-    await loadCorrectImage();
+    await loadMemorialImage();
 
   }catch(err){
 
@@ -857,493 +855,58 @@ async function loadCertificate(){
 
 function resolveCertificateData(data){
 
-  const item =
-  pickLatestCertificateObject(data);
+  const count =
+  safeCount(
+    data.count ||
+    data.round ||
+    data.climbCount ||
+    data.climbNo ||
+    data.climbNumber
+  ) ||
+  serialToCount(
+    data.serial ||
+    data.serialNo ||
+    data.certificateNo
+  ) ||
+  1;
 
-  let count =
-  certificateCountFromObject(item);
+  const serial =
+  pickSerial(
+    data.serial ||
+    data.serialNo ||
+    data.certificateNo ||
+    data.certificateNumber,
+    count
+  );
 
-  if(!count){
-    count =
-    1;
-  }
+  const imageNo =
+  safeCount(
+    data.imageNo ||
+    data.imageNumber ||
+    data.no ||
+    count
+  ) ||
+  count;
 
-  let serial =
-  certificateSerialFromObject(item);
+  const imageData =
+  pickImageData(
+    data
+  );
 
-  if(!serial){
-    serial =
-    pickSerial(
-      item.serial,
-      count
-    );
-  }
+  const imageUrl =
+  pickImageUrl(
+    data
+  );
 
   return {
     count:count,
     serial:serial,
-    date:pickDate(item),
-    imageName:pickImageName(item),
-    imageUrl:pickImageUrl(item),
-    imageData:pickImageData(item)
+    date:pickDate(data),
+    imageNo:imageNo,
+    imageName:pickImageName(data),
+    imageUrl:imageUrl,
+    imageData:imageData
   };
-
-}
-
-async function fetchCertificateInfo(userId){
-
-  const urls = [
-    IMAGE_GAS_URL +
-    "?mode=certificate" +
-    "&userId=" +
-    encodeURIComponent(userId) +
-    "&t=" +
-    Date.now(),
-
-    GAS_URL +
-    "?mode=certificate" +
-    "&userId=" +
-    encodeURIComponent(userId) +
-    "&t=" +
-    Date.now()
-  ];
-
-  let bestData =
-  null;
-
-  let bestScore =
-  -1;
-
-  let firstError =
-  null;
-
-  for(let i=0;i<urls.length;i++){
-
-    try{
-
-      const data =
-      await fetchJson(
-        urls[i]
-      );
-
-      if(
-        data &&
-        data.success
-      ){
-
-        const score =
-        scoreCertificateData(data);
-
-        if(score > bestScore){
-
-          bestScore =
-          score;
-
-          bestData =
-          data;
-
-        }
-
-      }
-
-    }catch(e){
-
-      if(!firstError){
-        firstError =
-        e;
-      }
-
-    }
-
-  }
-
-  if(bestData){
-    return bestData;
-  }
-
-  if(firstError){
-    throw firstError;
-  }
-
-  throw new Error("登頂記念証を取得できませんでした");
-
-}
-
-function scoreCertificateData(data){
-
-  const item =
-  pickLatestCertificateObject(data);
-
-  const count =
-  certificateCountFromObject(item);
-
-  const serial =
-  certificateSerialFromObject(item);
-
-  let score =
-  count * 100;
-
-  if(serial){
-    score += 20;
-  }
-
-  if(pickImageData(item)){
-    score += 5;
-  }
-
-  if(pickImageUrl(item)){
-    score += 3;
-  }
-
-  return score;
-
-}
-
-function pickLatestCertificateObject(data){
-
-  const list =
-  getCertificateCandidateList(data);
-
-  let best =
-  data || {};
-
-  let bestScore =
-  -1;
-
-  list.forEach(function(item){
-
-    const count =
-    certificateCountFromObject(item);
-
-    const serial =
-    certificateSerialFromObject(item);
-
-    let score =
-    count * 100;
-
-    if(serial){
-      score += 20;
-    }
-
-    if(pickImageData(item)){
-      score += 5;
-    }
-
-    if(pickImageUrl(item)){
-      score += 3;
-    }
-
-    if(score > bestScore){
-
-      bestScore =
-      score;
-
-      best =
-      item;
-
-    }
-
-  });
-
-  return Object.assign(
-    {},
-    data || {},
-    best || {}
-  );
-
-}
-
-function getCertificateCandidateList(data){
-
-  const list =
-  [];
-
-  function add(value){
-
-    if(
-      value &&
-      typeof value === "object" &&
-      !Array.isArray(value)
-    ){
-
-      list.push(value);
-
-    }
-
-  }
-
-  add(data);
-
-  if(!data){
-    return list;
-  }
-
-  add(data.result);
-  add(data.certificate);
-  add(data.record);
-  add(data.latest);
-  add(data.item);
-
-  if(
-    data.data &&
-    !Array.isArray(data.data)
-  ){
-    add(data.data);
-  }
-
-  const arrays = [
-    data.items,
-    data.records,
-    data.history,
-    data.certificates,
-    Array.isArray(data.data) ? data.data : null
-  ];
-
-  arrays.forEach(function(arr){
-
-    if(!Array.isArray(arr)){
-      return;
-    }
-
-    arr.forEach(function(item){
-      add(item);
-    });
-
-  });
-
-  return list;
-
-}
-
-function certificateCountFromObject(data){
-
-  data =
-  data || {};
-
-  return (
-    safeCount(data.count) ||
-    safeCount(data.round) ||
-    safeCount(data.climbCount) ||
-    safeCount(data.climbNo) ||
-    safeCount(data.climbNumber) ||
-    safeCount(data.times) ||
-    serialToCount(certificateSerialFromObject(data)) ||
-    0
-  );
-
-}
-
-function certificateSerialFromObject(data){
-
-  data =
-  data || {};
-
-  const candidates = [
-    data.serial,
-    data.serialNo,
-    data.serialNumber,
-    data.certificateNo,
-    data.certificateNumber,
-    data.climbSerial,
-    data.recordNo,
-    data.recordNumber,
-    data.no,
-    data.number
-  ];
-
-  for(let i=0;i<candidates.length;i++){
-
-    const value =
-    getString(candidates[i])
-    .replace(/^No\.?\s*/i,"")
-    .trim();
-
-    if(/^\d{1,3}-\d{4}$/.test(value)){
-      return value;
-    }
-
-  }
-
-  let text =
-  "";
-
-  try{
-
-    text =
-    JSON.stringify(data);
-
-  }catch(e){
-
-    text =
-    "";
-
-  }
-
-  const match =
-  text.match(/(?:No\.?\s*)?(\d{1,3}-\d{4})/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  return "";
-
-}
-
-function safeCount(value){
-
-  const n =
-  Number(value);
-
-  if(!Number.isFinite(n)){
-    return 0;
-  }
-
-  const v =
-  Math.floor(n);
-
-  if(v < 1 || v > 168){
-    return 0;
-  }
-
-  return v;
-
-}
-
-function serialToCount(value){
-
-  const s =
-  getString(value);
-
-  if(!s){
-    return 0;
-  }
-
-  const m =
-  s.match(/^(\d{1,3})-\d{1,4}$/);
-
-  if(m && m[1]){
-    return safeCount(m[1]);
-  }
-
-  return 0;
-
-}
-
-function pickSerial(value,count){
-
-  const s =
-  getString(value);
-
-  if(/^\d{1,3}-\d{4}$/.test(s)){
-    return s;
-  }
-
-  return String(count || 1) +
-  "-0001";
-
-}
-
-async function loadCorrectImage(){
-
-  const imageInfo =
-  await fetchImageInfo(
-    latestCount
-  );
-
-  if(
-    imageInfo &&
-    (
-      imageInfo.success ||
-      imageInfo.imageDataUrl ||
-      imageInfo.imageDataURL ||
-      imageInfo.imageData ||
-      imageInfo.dataUrl ||
-      imageInfo.dataURL ||
-      imageInfo.base64 ||
-      imageInfo.imageUrl ||
-      imageInfo.url
-    )
-  ){
-
-    const imageData =
-    pickImageData(imageInfo);
-
-    const imageUrl =
-    pickImageUrl(imageInfo);
-
-    if(imageData){
-      latestImageData =
-      imageData;
-    }
-
-    if(imageUrl){
-      latestImageUrl =
-      imageUrl;
-    }
-
-    latestImageName =
-    imageInfo.imageName ||
-    imageInfo.name ||
-    latestImageName;
-
-  }
-
-  await loadMemorialImage();
-
-}
-
-async function fetchImageInfo(imageNo){
-
-  const urls = [
-    IMAGE_GAS_URL +
-    "?mode=image" +
-    "&imageNo=" +
-    encodeURIComponent(imageNo) +
-    "&t=" +
-    Date.now(),
-
-    GAS_URL +
-    "?mode=image" +
-    "&imageNo=" +
-    encodeURIComponent(imageNo) +
-    "&t=" +
-    Date.now()
-  ];
-
-  for(let i=0;i<urls.length;i++){
-
-    try{
-
-      const data =
-      await fetchJson(
-        urls[i]
-      );
-
-      if(
-        data &&
-        (
-          data.success ||
-          data.imageDataUrl ||
-          data.imageDataURL ||
-          data.imageData ||
-          data.dataUrl ||
-          data.dataURL ||
-          data.base64 ||
-          data.imageUrl ||
-          data.url
-        )
-      ){
-
-        return data;
-
-      }
-
-    }catch(e){}
-
-  }
-
-  return null;
 
 }
 
@@ -1489,24 +1052,12 @@ async function loadMemorialImage(){
   const img =
   document.getElementById("memorialImage");
 
-  latestImageSrc =
-  "";
-
-  latestImageCors =
-  false;
-
   if(latestImageData){
 
     img.removeAttribute("crossorigin");
 
     img.src =
     latestImageData;
-
-    latestImageSrc =
-    latestImageData;
-
-    latestImageCors =
-    true;
 
     await waitForImage(img);
 
@@ -1521,12 +1072,6 @@ async function loadMemorialImage(){
     img.src =
     latestImageUrl;
 
-    latestImageSrc =
-    latestImageUrl;
-
-    latestImageCors =
-    false;
-
     await waitForImage(img);
 
     return;
@@ -1537,9 +1082,6 @@ async function loadMemorialImage(){
 
   img.src =
   "top.jpg?v=30";
-
-  latestImageSrc =
-  img.src;
 
   await waitForImage(img);
 
@@ -1676,25 +1218,12 @@ async function ensureCaptureSafeImage(){
 
   }
 
-  const imageInfo =
-  await fetchImageInfo(
-    latestCount
-  );
-
-  const imageData =
-  imageInfo
-  ? pickImageData(imageInfo)
-  : "";
-
-  if(imageData){
-
-    latestImageData =
-    imageData;
+  if(latestImageUrl){
 
     img.removeAttribute("crossorigin");
 
     img.src =
-    latestImageData;
+    latestImageUrl;
 
     await waitForImage(img);
 
@@ -1702,91 +1231,7 @@ async function ensureCaptureSafeImage(){
 
   }
 
-  if(latestImageUrl){
-
-    const converted =
-    await urlToDataUrl(
-      latestImageUrl
-    );
-
-    if(converted){
-
-      latestImageData =
-      converted;
-
-      img.removeAttribute("crossorigin");
-
-      img.src =
-      latestImageData;
-
-      await waitForImage(img);
-
-      return true;
-
-    }
-
-  }
-
   throw new Error("保存用の画像データを取得できませんでした");
-
-}
-
-async function urlToDataUrl(url){
-
-  try{
-
-    const res =
-    await fetch(
-      url,
-      {
-        method:"GET",
-        cache:"no-store"
-      }
-    );
-
-    if(!res.ok){
-      return "";
-    }
-
-    const blob =
-    await res.blob();
-
-    return await blobToDataUrl(blob);
-
-  }catch(e){
-
-    return "";
-
-  }
-
-}
-
-function blobToDataUrl(blob){
-
-  return new Promise(function(resolve){
-
-    const reader =
-    new FileReader();
-
-    reader.onloadend =
-    function(){
-
-      resolve(
-        reader.result || ""
-      );
-
-    };
-
-    reader.onerror =
-    function(){
-
-      resolve("");
-
-    };
-
-    reader.readAsDataURL(blob);
-
-  });
 
 }
 
@@ -2019,6 +1464,61 @@ function parseJsonText(text){
     throw e;
 
   }
+
+}
+
+function safeCount(value){
+
+  const n =
+  Number(
+    String(value || "")
+    .replace(/[^\d]/g,"")
+  );
+
+  if(!Number.isFinite(n)){
+    return 0;
+  }
+
+  const v =
+  Math.floor(n);
+
+  if(v < 1 || v > 99999){
+    return 0;
+  }
+
+  return v;
+
+}
+
+function serialToCount(value){
+
+  const s =
+  getString(value);
+
+  const m =
+  s.match(/^(\d{1,5})-\d{1,5}$/);
+
+  if(m && m[1]){
+    return safeCount(m[1]);
+  }
+
+  return 0;
+
+}
+
+function pickSerial(value,count){
+
+  const s =
+  getString(value)
+  .replace(/^No\.?\s*/i,"")
+  .trim();
+
+  if(/^\d{1,5}-\d{4}$/.test(s)){
+    return s;
+  }
+
+  return String(count || 1) +
+  "-0001";
 
 }
 
