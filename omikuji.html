@@ -15,8 +15,8 @@
       padding:0;
       font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
       background:
-        radial-gradient(circle at top,#fff7df 0%,#f4e1b6 38%,#d4a94f 100%);
-      color:#2b1b08;
+        radial-gradient(circle at top,#fff8dd 0%,#f0d18a 42%,#b87522 100%);
+      color:#2b1700;
       min-height:100vh;
     }
 
@@ -27,133 +27,134 @@
       padding:18px 14px 36px;
     }
 
-    .hero{
-      background:rgba(255,255,255,0.88);
-      border:4px solid #7a1f13;
-      border-radius:24px;
-      padding:20px 16px;
-      box-shadow:0 10px 24px rgba(0,0,0,0.22);
+    .panel{
+      background:rgba(255,255,255,0.94);
+      border:4px solid #7b140d;
+      border-radius:26px;
+      padding:18px 15px 20px;
+      box-shadow:0 10px 26px rgba(0,0,0,0.25);
       text-align:center;
     }
 
-    .badge{
+    .label{
       display:inline-block;
-      background:#7a1f13;
-      color:#fff7da;
+      background:#7b140d;
+      color:#fff2c2;
       border-radius:999px;
-      padding:7px 16px;
+      padding:7px 15px;
+      font-size:13px;
       font-weight:900;
-      font-size:14px;
       letter-spacing:0.08em;
       margin-bottom:10px;
     }
 
     h1{
-      margin:6px 0 8px;
-      font-size:32px;
-      line-height:1.2;
-      color:#7a1f13;
+      margin:6px 0 10px;
+      color:#7b140d;
+      font-size:34px;
+      line-height:1.18;
       font-weight:900;
     }
 
     .lead{
-      margin:0 auto 14px;
+      margin:0;
+      color:#4b2c05;
       font-size:16px;
       line-height:1.7;
-      color:#4a3218;
-      font-weight:700;
+      font-weight:800;
     }
 
     .user-box{
-      margin:12px auto 0;
+      margin:14px 0 0;
       padding:10px 12px;
-      border-radius:14px;
-      background:#fff4d5;
-      border:2px solid #d5a23a;
+      background:#fff2cf;
+      border:2px solid #c8912b;
+      border-radius:16px;
+      color:#4b2c05;
       font-size:13px;
       line-height:1.5;
-      word-break:break-all;
-      color:#513100;
       font-weight:800;
+      word-break:break-all;
     }
 
     .main-button{
       width:100%;
       margin-top:18px;
+      padding:20px 14px;
       border:none;
-      border-radius:20px;
-      padding:20px 16px;
-      background:linear-gradient(180deg,#d82016,#8e150d);
+      border-radius:22px;
+      background:linear-gradient(180deg,#dc261c,#8e150d);
       color:#fff;
       font-size:25px;
       font-weight:900;
-      box-shadow:0 8px 0 #5b0b07,0 14px 24px rgba(0,0,0,0.28);
+      box-shadow:0 8px 0 #5a0b07,0 15px 26px rgba(0,0,0,0.28);
       cursor:pointer;
     }
 
     .main-button:active{
       transform:translateY(4px);
-      box-shadow:0 4px 0 #5b0b07,0 8px 16px rgba(0,0,0,0.24);
+      box-shadow:0 4px 0 #5a0b07,0 8px 16px rgba(0,0,0,0.22);
     }
 
     .main-button:disabled{
-      opacity:0.7;
+      opacity:0.65;
       cursor:wait;
     }
 
     .status{
       display:none;
-      margin-top:16px;
+      margin-top:15px;
       padding:13px 12px;
+      border-radius:17px;
       background:#fff;
-      border:2px solid #c9a34c;
-      border-radius:16px;
+      border:2px solid #c8912b;
+      color:#3c2404;
       font-size:16px;
       line-height:1.7;
       font-weight:800;
-      color:#4b3000;
       white-space:pre-wrap;
+      text-align:left;
     }
 
     .notice{
       display:none;
-      margin-top:16px;
+      margin-top:15px;
       padding:15px 13px;
       border-radius:18px;
-      background:#fff1c7;
-      border:3px solid #a86d00;
-      color:#7a1f13;
+      background:#fff0bd;
+      border:3px solid #9d5c00;
+      color:#7b140d;
       font-size:18px;
       line-height:1.7;
       font-weight:900;
-      text-align:center;
       white-space:pre-wrap;
+      text-align:center;
     }
 
     .result-card{
       display:none;
       margin-top:18px;
-      background:rgba(255,255,255,0.95);
-      border:4px solid #7a1f13;
-      border-radius:24px;
+      background:rgba(255,255,255,0.96);
+      border:4px solid #7b140d;
+      border-radius:26px;
       padding:16px;
-      box-shadow:0 10px 24px rgba(0,0,0,0.24);
+      box-shadow:0 10px 26px rgba(0,0,0,0.25);
       text-align:center;
     }
 
     .result-title{
-      margin:4px 0 10px;
-      font-size:30px;
+      margin:4px 0 12px;
+      color:#7b140d;
+      font-size:31px;
       line-height:1.25;
-      color:#7a1f13;
       font-weight:900;
     }
 
     .result-text{
       margin:0 0 14px;
+      color:#2f1d05;
       font-size:17px;
       line-height:1.75;
-      color:#3b280f;
       font-weight:800;
       white-space:pre-wrap;
       text-align:left;
@@ -162,15 +163,15 @@
     .result-image{
       display:none;
       width:100%;
-      max-width:420px;
+      max-width:430px;
       margin:12px auto 0;
       border-radius:18px;
-      border:3px solid #d6a748;
-      box-shadow:0 6px 16px rgba(0,0,0,0.22);
+      border:3px solid #d3a23d;
       background:#fff;
+      box-shadow:0 7px 18px rgba(0,0,0,0.24);
     }
 
-    .action-grid{
+    .actions{
       display:none;
       grid-template-columns:1fr;
       gap:10px;
@@ -179,43 +180,43 @@
 
     .action-button{
       width:100%;
+      display:block;
       border:none;
-      border-radius:16px;
+      border-radius:17px;
       padding:15px 12px;
+      color:#fff;
       font-size:18px;
       font-weight:900;
-      color:#fff;
-      background:#7a1f13;
-      box-shadow:0 5px 0 #4d1009;
-      cursor:pointer;
-      text-decoration:none;
-      display:block;
       text-align:center;
+      text-decoration:none;
+      cursor:pointer;
+      background:#7b140d;
+      box-shadow:0 5px 0 #4b0905;
     }
 
     .action-button:active{
       transform:translateY(3px);
-      box-shadow:0 2px 0 #4d1009;
+      box-shadow:0 2px 0 #4b0905;
     }
 
     .save{
-      background:#0f6b3f;
-      box-shadow:0 5px 0 #084326;
+      background:#0b6a3f;
+      box-shadow:0 5px 0 #064326;
     }
 
     .copy{
-      background:#805300;
-      box-shadow:0 5px 0 #553600;
+      background:#865500;
+      box-shadow:0 5px 0 #563700;
     }
 
     .facebook{
       background:#1877f2;
-      box-shadow:0 5px 0 #0b4fa7;
+      box-shadow:0 5px 0 #0b4ea5;
     }
 
     .line{
       background:#06c755;
-      box-shadow:0 5px 0 #058c3d;
+      box-shadow:0 5px 0 #058b3d;
     }
 
     .x{
@@ -228,12 +229,12 @@
       box-shadow:0 5px 0 #333;
     }
 
-    .small-note{
-      margin:16px 2px 0;
+    .note{
+      margin:16px 4px 0;
+      color:#5c3908;
       font-size:13px;
       line-height:1.6;
-      color:#5f4216;
-      font-weight:700;
+      font-weight:800;
       text-align:left;
     }
   </style>
@@ -243,8 +244,8 @@
 
   <div class="page">
 
-    <div class="hero">
-      <div class="badge">田子山富士168の縁プロジェクト</div>
+    <div class="panel">
+      <div class="label">田子山富士168の縁プロジェクト</div>
 
       <h1>田子山富士<br>おみくじ</h1>
 
@@ -270,7 +271,7 @@
       <div class="result-text" id="resultText"></div>
       <img class="result-image" id="resultImage" alt="おみくじ結果画像">
 
-      <div class="action-grid" id="actionGrid">
+      <div class="actions" id="actions">
         <button class="action-button save" onclick="saveImage()">
           📸 画像を保存
         </button>
@@ -297,9 +298,9 @@
       </div>
     </div>
 
-    <div class="small-note">
-      ※同じ日に何度押しても、新しく引き直しません。<br>
-      ※2回目以降は「本日のおみくじは終了しました」と表示され、同じ結果が表示されます。
+    <div class="note">
+      ※同じ日にもう一度押しても、新しく引き直しません。<br>
+      ※2回目以降は「本日のおみくじは終了しました。明日またお引きください。」と表示されます。
     </div>
 
   </div>
@@ -329,6 +330,11 @@ window.addEventListener("load",function(){
 
     localStorage.setItem(
       "tagoyamaUserId",
+      currentUserId
+    );
+
+    localStorage.setItem(
+      "tagoyamaFujiUserId",
       currentUserId
     );
 
@@ -401,11 +407,17 @@ async function drawOmikuji(){
     "&t=" +
     Date.now();
 
-    const res =
-    await fetch(url);
+    const response =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store"
+      }
+    );
 
     const data =
-    await res.json();
+    await response.json();
 
     if(!data || data.success === false){
 
@@ -434,24 +446,27 @@ async function drawOmikuji(){
         "本日のおみくじは終了しました。明日またお引きください。"
       );
 
-      button.innerText =
-      "本日分を確認する";
+      showStatus(
+        "本日分のおみくじ結果を表示しています。"
+      );
 
     }else{
+
+      hideNotice();
 
       showStatus(
         "おみくじ結果が出ました。\n同じ日にもう一度押しても、新しく引き直しません。"
       );
-
-      button.innerText =
-      "本日分を確認する";
 
     }
 
     button.disabled =
     false;
 
-  }catch(err){
+    button.innerText =
+    "本日分を確認する";
+
+  }catch(e){
 
     showStatus(
       "通信エラーです。\n少し待ってからもう一度押してください。"
@@ -481,8 +496,8 @@ function renderResult(data){
   const resultImage =
   document.getElementById("resultImage");
 
-  const actionGrid =
-  document.getElementById("actionGrid");
+  const actions =
+  document.getElementById("actions");
 
   const title =
   String(
@@ -549,12 +564,12 @@ function renderResult(data){
 
   if(data.notClimbed){
 
-    actionGrid.style.display =
+    actions.style.display =
     "none";
 
   }else{
 
-    actionGrid.style.display =
+    actions.style.display =
     "grid";
 
   }
@@ -568,15 +583,15 @@ function makeShareText(data){
   "omikuji.html?userId=" +
   encodeURIComponent(currentUserId);
 
-  const base =
+  const fromGas =
   String(
     data.shareText ||
     ""
   ).trim();
 
-  if(base){
+  if(fromGas){
 
-    return base +
+    return fromGas +
     "\n\n" +
     pageUrl;
 
@@ -795,14 +810,13 @@ function shareFacebook(){
 
 function shareLine(){
 
-  const url =
-  HOME_URL +
-  "omikuji.html?userId=" +
-  encodeURIComponent(currentUserId);
+  const text =
+  currentShareText ||
+  "田子山富士168の縁プロジェクトでおみくじを引きました。";
 
   const shareUrl =
-  "https://social-plugins.line.me/lineit/share?url=" +
-  encodeURIComponent(url);
+  "https://line.me/R/msg/text/?" +
+  encodeURIComponent(text);
 
   window.open(
     shareUrl,
