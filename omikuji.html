@@ -531,7 +531,7 @@ class="resultDate">
 <div
 id="already"
 class="already">
-おみくじは1回のみです。前回の結果を表示しています。
+本日のおみくじ結果を表示しています。
 </div>
 
 <div
@@ -541,8 +541,14 @@ class="btnArea shareActions">
 <button
 class="btn greenBtn"
 onclick="saveOmikujiImage(this)">
-📸 画像を保存
+📸 当たり画像を保存
 </button>
+
+<a
+class="linkBtn blackBtn"
+href="./">
+← トップへ戻る
+</a>
 
 <p class="shareNote">
 Facebookは投稿文をコピーしてから投稿画面を開きます。LINEは画像共有を優先します。
@@ -782,14 +788,23 @@ async function drawOmikuji(){
 
     renderResult(data);
 
-    status.innerText =
-    "おみくじ結果を表示しました。";
+    if(data.alreadyDrawn || data.alreadyDrawnToday){
+
+      status.innerText =
+      "本日のおみくじ結果を表示しました。";
+
+    }else{
+
+      status.innerText =
+      "おみくじ結果を表示しました。";
+
+    }
 
     btn.disabled =
     true;
 
     btn.innerText =
-    "おみくじは1回のみです";
+    "本日のおみくじは完了です";
 
   }catch(err){
 
@@ -926,7 +941,7 @@ function renderResult(data){
   date.innerText =
   todayText();
 
-  if(data.alreadyDrawn === true){
+  if(data.alreadyDrawn === true || data.alreadyDrawnToday === true){
 
     already.style.display =
     "block";
@@ -1185,7 +1200,7 @@ async function saveOmikujiImage(btn){
       false;
 
       btn.innerText =
-      "📸 画像を保存";
+      "📸 当たり画像を保存";
 
     }
 
