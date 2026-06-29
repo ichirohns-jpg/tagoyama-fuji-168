@@ -714,6 +714,9 @@ onclick="closePopup()">
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbx2rRwLRW_wOqrzC8-9cb5lXc4y5r4JORZGcJgof8_efLA4jpmo_DQEMR4sl7UUzChj/exec";
 
+const IMAGE_GAS_URL =
+"https://script.google.com/macros/s/AKfycbzvMzzESm9atr6QWKvFwVlVMFYSAsj_oF0ZTCE7L0ojrX1VJhRWGaoLCD1Judga8vSb/exec";
+
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
@@ -788,8 +791,8 @@ async function loadCertificate(){
     encodeURIComponent(userId) +
     "&og=30";
 
-    const res =
-    await fetch(
+    const data =
+    await fetchJson(
       GAS_URL +
       "?mode=certificate" +
       "&userId=" +
@@ -797,9 +800,6 @@ async function loadCertificate(){
       "&t=" +
       Date.now()
     );
-
-    const data =
-    await res.json();
 
     if(!data.success){
 
@@ -957,7 +957,17 @@ async function loadCorrectImage(){
 
   if(
     imageInfo &&
-    imageInfo.success
+    (
+      imageInfo.success ||
+      imageInfo.imageDataUrl ||
+      imageInfo.imageDataURL ||
+      imageInfo.imageData ||
+      imageInfo.dataUrl ||
+      imageInfo.dataURL ||
+      imageInfo.base64 ||
+      imageInfo.imageUrl ||
+      imageInfo.url
+    )
   ){
 
     const imageData =
@@ -989,28 +999,55 @@ async function loadCorrectImage(){
 
 async function fetchImageInfo(imageNo){
 
-  try{
+  const urls = [
+    IMAGE_GAS_URL +
+    "?mode=image" +
+    "&imageNo=" +
+    encodeURIComponent(imageNo) +
+    "&t=" +
+    Date.now(),
 
-    const res =
-    await fetch(
-      GAS_URL +
-      "?mode=image" +
-      "&imageNo=" +
-      encodeURIComponent(imageNo) +
-      "&t=" +
-      Date.now()
-    );
+    GAS_URL +
+    "?mode=image" +
+    "&imageNo=" +
+    encodeURIComponent(imageNo) +
+    "&t=" +
+    Date.now()
+  ];
 
-    const data =
-    await res.json();
+  for(let i=0;i<urls.length;i++){
 
-    return data;
+    try{
 
-  }catch(e){
+      const data =
+      await fetchJson(
+        urls[i]
+      );
 
-    return null;
+      if(
+        data &&
+        (
+          data.success ||
+          data.imageDataUrl ||
+          data.imageDataURL ||
+          data.imageData ||
+          data.dataUrl ||
+          data.dataURL ||
+          data.base64 ||
+          data.imageUrl ||
+          data.url
+        )
+      ){
+
+        return data;
+
+      }
+
+    }catch(e){}
 
   }
+
+  return null;
 
 }
 
@@ -1111,15 +1148,43 @@ function pickImageUrl(data){
 
 function pickImageData(data){
 
-  return getString(
-    data.imageData ||
+  data =
+  data || {};
+
+  let value =
+  getString(
     data.imageDataUrl ||
     data.imageDataURL ||
+    data.imageData ||
     data.dataUrl ||
     data.dataURL ||
     data.base64 ||
     ""
   );
+
+  if(!value){
+    return "";
+  }
+
+  if(value.indexOf("data:image") === 0){
+    return value;
+  }
+
+  if(value.length > 100){
+
+    if(value.indexOf("/9j/") === 0){
+      return "data:image/jpeg;base64," + value;
+    }
+
+    if(value.indexOf("UklGR") === 0){
+      return "data:image/webp;base64," + value;
+    }
+
+    return "data:image/png;base64," + value;
+
+  }
+
+  return "";
 
 }
 
@@ -1147,6 +1212,8 @@ async function loadMemorialImage(){
     latestImageCors =
     true;
 
+    await waitForImage(img);
+
     return;
 
   }
@@ -1164,6 +1231,8 @@ async function loadMemorialImage(){
     latestImageCors =
     false;
 
+    await waitForImage(img);
+
     return;
 
   }
@@ -1175,6 +1244,8 @@ async function loadMemorialImage(){
 
   latestImageSrc =
   img.src;
+
+  await waitForImage(img);
 
 }
 
@@ -1220,6 +1291,8 @@ async function makeSaveFile(){
     return latestSaveFile;
   }
 
+  await ensureCaptureSafeImage();
+
   const target =
   document.getElementById("certificate");
 
@@ -1242,7 +1315,7 @@ async function makeSaveFile(){
       backgroundColor:null,
       scale:3,
       useCORS:true,
-      allowTaint:true,
+      allowTaint:false,
       logging:false
     }
   );
@@ -1270,7 +1343,8 @@ async function makeSaveFile(){
     throw new Error("画像作成に失敗しました");
   }
 
-  return new File(
+  latestSaveFile =
+  new File(
     [blob],
     "tagoyama-certificate-" +
     latestSerial +
@@ -1279,6 +1353,144 @@ async function makeSaveFile(){
       type:"image/png"
     }
   );
+
+  return latestSaveFile;
+
+}
+
+async function ensureCaptureSafeImage(){
+
+  const img =
+  document.getElementById("memorialImage");
+
+  if(latestImageData){
+
+    if(img.src !== latestImageData){
+
+      img.removeAttribute("crossorigin");
+
+      img.src =
+      latestImageData;
+
+      await waitForImage(img);
+
+    }
+
+    return true;
+
+  }
+
+  const imageInfo =
+  await fetchImageInfo(
+    latestCount
+  );
+
+  const imageData =
+  imageInfo
+  ? pickImageData(imageInfo)
+  : "";
+
+  if(imageData){
+
+    latestImageData =
+    imageData;
+
+    img.removeAttribute("crossorigin");
+
+    img.src =
+    latestImageData;
+
+    await waitForImage(img);
+
+    return true;
+
+  }
+
+  if(latestImageUrl){
+
+    const converted =
+    await urlToDataUrl(
+      latestImageUrl
+    );
+
+    if(converted){
+
+      latestImageData =
+      converted;
+
+      img.removeAttribute("crossorigin");
+
+      img.src =
+      latestImageData;
+
+      await waitForImage(img);
+
+      return true;
+
+    }
+
+  }
+
+  throw new Error("保存用の画像データを取得できませんでした");
+
+}
+
+async function urlToDataUrl(url){
+
+  try{
+
+    const res =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store"
+      }
+    );
+
+    if(!res.ok){
+      return "";
+    }
+
+    const blob =
+    await res.blob();
+
+    return await blobToDataUrl(blob);
+
+  }catch(e){
+
+    return "";
+
+  }
+
+}
+
+function blobToDataUrl(blob){
+
+  return new Promise(function(resolve){
+
+    const reader =
+    new FileReader();
+
+    reader.onloadend =
+    function(){
+
+      resolve(
+        reader.result || ""
+      );
+
+    };
+
+    reader.onerror =
+    function(){
+
+      resolve("");
+
+    };
+
+    reader.readAsDataURL(blob);
+
+  });
 
 }
 
@@ -1291,20 +1503,55 @@ function waitForImage(img){
       return;
     }
 
-    if(img.complete){
+    let doneCalled =
+    false;
+
+    const done =
+    function(){
+
+      if(doneCalled){
+        return;
+      }
+
+      doneCalled =
+      true;
+
+      if(img.decode){
+
+        img.decode()
+        .then(function(){
+          resolve();
+        })
+        .catch(function(){
+          resolve();
+        });
+
+        return;
+
+      }
+
       resolve();
+
+    };
+
+    if(img.complete && img.naturalWidth !== 0){
+      done();
       return;
     }
 
     img.onload =
     function(){
-      resolve();
+      done();
     };
 
     img.onerror =
     function(){
       resolve();
     };
+
+    setTimeout(function(){
+      resolve();
+    },8000);
 
   });
 
@@ -1437,6 +1684,45 @@ function closePopup(){
 
   document.getElementById("popup").style.display =
   "none";
+
+}
+
+async function fetchJson(url){
+
+  const res =
+  await fetch(
+    url,
+    {
+      method:"GET",
+      cache:"no-store"
+    }
+  );
+
+  const text =
+  await res.text();
+
+  return parseJsonText(text);
+
+}
+
+function parseJsonText(text){
+
+  try{
+
+    return JSON.parse(text);
+
+  }catch(e){
+
+    const m =
+    text.match(/^[^(]+\((.*)\);?$/);
+
+    if(m && m[1]){
+      return JSON.parse(m[1]);
+    }
+
+    throw e;
+
+  }
 
 }
 
