@@ -446,6 +446,13 @@ href="omikuji.html">
 🎴 開運おみくじ
 </a>
 
+<a
+id="certificateBookLink"
+class="linkBtn goldBtn"
+href="certificate-book.html">
+📚 登頂記念帳
+</a>
+
 <button class="btn blueBtn" onclick="openSection('newsSection')">
 📢 お知らせ
 </button>
@@ -623,6 +630,9 @@ const CERTIFICATE_PAGE =
 const OMIKUJI_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
+const CERTIFICATE_BOOK_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate-book.html";
+
 let currentUserId =
 "";
 
@@ -713,24 +723,48 @@ function updateUserLinks(){
   const omikujiLink =
   document.getElementById("omikujiLink");
 
-  if(!omikujiLink){
-    return;
+  if(omikujiLink){
+
+    if(currentUserId){
+
+      omikujiLink.href =
+      OMIKUJI_PAGE +
+      "?userId=" +
+      encodeURIComponent(currentUserId) +
+      "&v=" +
+      Date.now();
+
+    }else{
+
+      omikujiLink.href =
+      "omikuji.html?v=" +
+      Date.now();
+
+    }
+
   }
 
-  if(currentUserId){
+  const certificateBookLink =
+  document.getElementById("certificateBookLink");
 
-    omikujiLink.href =
-    OMIKUJI_PAGE +
-    "?userId=" +
-    encodeURIComponent(currentUserId) +
-    "&v=" +
-    Date.now();
+  if(certificateBookLink){
 
-  }else{
+    if(currentUserId){
 
-    omikujiLink.href =
-    "omikuji.html?v=" +
-    Date.now();
+      certificateBookLink.href =
+      CERTIFICATE_BOOK_PAGE +
+      "?userId=" +
+      encodeURIComponent(currentUserId) +
+      "&v=" +
+      Date.now();
+
+    }else{
+
+      certificateBookLink.href =
+      "certificate-book.html?v=" +
+      Date.now();
+
+    }
 
   }
 
@@ -830,11 +864,6 @@ async function handleClimb(){
     data.certificateNo ||
     "";
 
-    const participantNo =
-    data.participantNo ||
-    data.personNo ||
-    "";
-
     climbMessage.innerHTML =
     "おめでとうございます。<br>" +
     "<strong>登頂受付が完了しました。</strong>";
@@ -846,12 +875,10 @@ async function handleClimb(){
     "No." +
     serial;
 
-    if(participantNo){
+    if(data.alreadyClimbedToday === true){
 
       statusText +=
-      "<br>あなたは" +
-      participantNo +
-      "人目のご縁です";
+      "<br>本日の登頂受付は完了しています";
 
     }
 
@@ -867,9 +894,12 @@ async function handleClimb(){
 
     certificateBtn.classList.remove("hidden");
 
-    await loadStats();
+    currentUserId =
+    urlUserId;
 
     updateUserLinks();
+
+    await loadStats();
 
   }catch(err){
 
