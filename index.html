@@ -976,7 +976,7 @@ placeholder="参拝の記録やひとことを書いてください"></textarea>
 <script>
 
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzvMzzESm9atr6QWKvFwVlVMFYSAsj_oF0ZTCE7L0ojrX1VJhRWGaoLCD1Judga8vSb/exec";
+"https://script.google.com/macros/s/AKfycbx5BW2uWfE-jDFK-DaOj5dPxEc3DHh_EbCfsePpf1HR3wKTJzhNssyyV5U5Td4Se_V4/exec";
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
@@ -1211,7 +1211,7 @@ async function handleClimb(){
       data.count || "";
 
       const serial =
-      data.serial || "";
+      data.serial || data.serialNo || "";
 
       climbMessage.innerHTML =
       "おめでとうございます。<br>" +
