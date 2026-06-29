@@ -273,6 +273,11 @@ cursor:not-allowed;
 background:linear-gradient(180deg,#32df80,#20bd62);
 }
 
+.bookBtn{
+background:linear-gradient(180deg,#ffe27a,#c79218);
+color:#251400;
+}
+
 .backBtn{
 background:linear-gradient(180deg,#8b5a1f,#3a1d08);
 color:#ffe8a6;
@@ -498,6 +503,13 @@ onclick="saveImage()">
 記念証を授かる
 </button>
 
+<a
+id="bookLink"
+class="btn bookBtn"
+href="#">
+登頂記念帳を見る
+</a>
+
 <button
 class="btn backBtn"
 onclick="goBack()">
@@ -585,6 +597,9 @@ const GAS_URL =
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
+const BOOK_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate-book.html";
+
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
@@ -653,6 +668,8 @@ async function loadCertificate(){
     "?userId=" +
     encodeURIComponent(userId) +
     "&og=30";
+
+    setBookLink();
 
     let data =
     await fetchJson(
@@ -737,6 +754,24 @@ async function loadCertificate(){
     "取得できません";
 
   }
+
+}
+
+function setBookLink(){
+
+  const link =
+  document.getElementById("bookLink");
+
+  if(!link){
+    return;
+  }
+
+  link.href =
+  BOOK_PAGE +
+  "?userId=" +
+  encodeURIComponent(latestUserId) +
+  "&v=" +
+  Date.now();
 
 }
 
