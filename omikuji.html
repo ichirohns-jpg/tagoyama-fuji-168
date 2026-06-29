@@ -522,7 +522,7 @@ class="btnArea shareActions">
 <button
 class="btn greenBtn"
 onclick="saveOmikujiImage(this)">
-📸 当たり画像を保存
+📸 画像を保存
 </button>
 
 <button
@@ -944,12 +944,14 @@ function renderResult(data){
   "&v=" +
   Date.now();
 
-  if(hit){
+  if(!notClimbed){
 
     shareActions.style.display =
     "grid";
 
-    prepareFileSilent();
+    if(latestImageSource){
+      prepareFileSilent();
+    }
 
   }else{
 
@@ -1148,7 +1150,7 @@ async function saveOmikujiImage(btn){
       false;
 
       btn.innerText =
-      "📸 当たり画像を保存";
+      "📸 画像を保存";
 
     }
 
