@@ -125,26 +125,6 @@ object-fit:cover;
 background:#000;
 }
 
-.noImageMessage{
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-width:84%;
-padding:0;
-text-align:center;
-font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
-font-size:clamp(19px,5vw,38px);
-font-weight:900;
-line-height:1.7;
-letter-spacing:.03em;
-color:#ffe9a6;
-text-shadow:
-0 3px 3px rgba(0,0,0,.9),
-0 0 16px rgba(255,220,120,.20);
-z-index:2;
-}
-
 .certOverlay{
 position:absolute;
 left:0;
@@ -200,7 +180,7 @@ text-shadow:
 .certBottom{
 position:absolute;
 left:50%;
-top:80.8%;
+top:82.4%;
 transform:translate(-50%,-50%);
 width:94%;
 text-align:center;
@@ -210,7 +190,7 @@ z-index:5;
 .certClimbText{
 margin:0 0 12px;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(25px,6.4vw,64px);
+font-size:clamp(26px,6.7vw,66px);
 font-weight:900;
 letter-spacing:.08em;
 line-height:1.08;
@@ -227,7 +207,7 @@ white-space:nowrap;
 .certSerial{
 margin:0 0 14px;
 font-family:"Times New Roman","Georgia","Hiragino Mincho ProN",serif;
-font-size:clamp(45px,11vw,110px);
+font-size:clamp(46px,11.3vw,112px);
 font-weight:900;
 letter-spacing:.025em;
 line-height:1;
@@ -242,9 +222,9 @@ white-space:nowrap;
 }
 
 .certDate{
-margin:0 0 10px;
+margin:0;
 font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(20px,4.9vw,48px);
+font-size:clamp(21px,5vw,50px);
 font-weight:900;
 letter-spacing:.13em;
 line-height:1.08;
@@ -254,22 +234,6 @@ text-shadow:
 0 5px 7px rgba(0,0,0,1),
 0 0 12px rgba(255,255,255,.25);
 -webkit-text-stroke:.26px rgba(0,0,0,.64);
-white-space:nowrap;
-}
-
-.certPerson{
-margin:10px 0 0;
-font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
-font-size:clamp(18px,4.4vw,42px);
-font-weight:900;
-letter-spacing:.08em;
-line-height:1.2;
-color:#fff3bd;
-text-shadow:
-0 2px 1px rgba(0,0,0,1),
-0 4px 6px rgba(0,0,0,.98),
-0 0 12px rgba(255,230,150,.30);
--webkit-text-stroke:.22px rgba(0,0,0,.60);
 white-space:nowrap;
 }
 
@@ -440,7 +404,7 @@ top:5.4%;
 }
 
 .certBottom{
-top:80.6%;
+top:82.4%;
 }
 
 .btnArea{
@@ -484,13 +448,6 @@ src=""
 alt="田子山富士 登頂記念画像"
 referrerpolicy="no-referrer">
 
-<div
-id="noImageMessage"
-class="noImageMessage">
-記念画像が未設定です<br>
-スプレッドシートの記念画像シートを確認してください
-</div>
-
 <div class="certOverlay">
 
 <div class="certTop">
@@ -522,12 +479,6 @@ No.----
 <div
 class="certDate"
 id="dateText">
-----
-</div>
-
-<div
-class="certPerson"
-id="personText">
 ----
 </div>
 
@@ -639,13 +590,11 @@ const HOME_PAGE =
 
 let latestUserId = "";
 let latestCount = 1;
-let latestParticipantNo = "";
 let latestSerial = "";
 let latestDate = "";
 let latestImageName = "";
 let latestImageUrl = "";
 let latestImageData = "";
-let latestImageReady = false;
 let latestShareUrl = "";
 let latestSaveFile = null;
 let latestSaveImageUrl = "";
@@ -705,7 +654,7 @@ async function loadCertificate(){
     encodeURIComponent(userId) +
     "&og=30";
 
-    const data =
+    let data =
     await fetchJson(
       GAS_URL +
       "?mode=certificate" +
@@ -714,6 +663,20 @@ async function loadCertificate(){
       "&t=" +
       Date.now()
     );
+
+    if(!data || !data.success){
+
+      data =
+      await fetchJson(
+        GAS_URL +
+        "?mode=saveClimb" +
+        "&userId=" +
+        encodeURIComponent(userId) +
+        "&t=" +
+        Date.now()
+      );
+
+    }
 
     if(!data || !data.success){
 
@@ -731,9 +694,6 @@ async function loadCertificate(){
     latestCount =
     fixed.count;
 
-    latestParticipantNo =
-    fixed.participantNo;
-
     latestSerial =
     fixed.serial;
 
@@ -748,9 +708,6 @@ async function loadCertificate(){
 
     latestImageData =
     fixed.imageData;
-
-    latestImageReady =
-    fixed.imageReady;
 
     setCertificateText();
 
@@ -800,26 +757,13 @@ function resolveCertificateData(data){
   ) ||
   1;
 
-  const participantNo =
-  safeCount(
-    data.participantNo ||
-    data.personNo ||
-    ""
-  ) ||
-  participantNoFromSerial(
-    data.serial ||
-    data.serialNo ||
-    data.certificateNo
-  );
-
   const serial =
   pickSerial(
     data.serial ||
     data.serialNo ||
     data.certificateNo ||
     data.certificateNumber,
-    count,
-    participantNo
+    count
   );
 
   const imageData =
@@ -828,22 +772,13 @@ function resolveCertificateData(data){
   const imageUrl =
   pickImageUrl(data);
 
-  const imageReady =
-  data.imageReady === true &&
-  (
-    imageData ||
-    imageUrl
-  );
-
   return {
     count:count,
-    participantNo:participantNo,
     serial:serial,
     date:pickDate(data),
     imageName:pickImageName(data),
     imageUrl:imageUrl,
-    imageData:imageData,
-    imageReady:imageReady
+    imageData:imageData
   };
 
 }
@@ -858,27 +793,6 @@ function setCertificateText(){
 
   document.getElementById("dateText").innerText =
   latestDate || todayText();
-
-  const personText =
-  document.getElementById("personText");
-
-  if(latestParticipantNo){
-
-    personText.innerText =
-    "第" + latestParticipantNo + "番目のご縁";
-
-    personText.style.display =
-    "block";
-
-  }else{
-
-    personText.innerText =
-    "";
-
-    personText.style.display =
-    "none";
-
-  }
 
 }
 
@@ -1008,7 +922,9 @@ function pickImageData(data){
       return "data:image/webp;base64," + value;
     }
 
-    return "data:image/png;base64," + value;
+    if(value.indexOf("iVBOR") === 0){
+      return "data:image/png;base64," + value;
+    }
 
   }
 
@@ -1021,14 +937,8 @@ async function loadMemorialImage(){
   const img =
   document.getElementById("memorialImage");
 
-  const noImageMessage =
-  document.getElementById("noImageMessage");
-
   img.style.display =
   "none";
-
-  noImageMessage.style.display =
-  "block";
 
   if(latestImageData){
 
@@ -1043,9 +953,6 @@ async function loadMemorialImage(){
 
       img.style.display =
       "block";
-
-      noImageMessage.style.display =
-      "none";
 
     }
 
@@ -1066,9 +973,6 @@ async function loadMemorialImage(){
 
       img.style.display =
       "block";
-
-      noImageMessage.style.display =
-      "none";
 
     }
 
@@ -1459,23 +1363,7 @@ function serialToCount(value){
 
 }
 
-function participantNoFromSerial(value){
-
-  const s =
-  getString(value);
-
-  const m =
-  s.match(/^\d{1,6}-(\d{1,6})$/);
-
-  if(m && m[1]){
-    return safeCount(m[1]);
-  }
-
-  return 0;
-
-}
-
-function pickSerial(value,count,participantNo){
+function pickSerial(value,count){
 
   const s =
   getString(value)
@@ -1486,14 +1374,8 @@ function pickSerial(value,count,participantNo){
     return s;
   }
 
-  const person =
-  participantNo
-  ? String(participantNo).padStart(4,"0")
-  : "0001";
-
   return String(count || 1) +
-  "-" +
-  person;
+  "-0001";
 
 }
 
