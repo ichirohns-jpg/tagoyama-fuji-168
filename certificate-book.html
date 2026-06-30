@@ -445,7 +445,7 @@ async function loadBook(){
       return normalizeHistoryItem(row);
     })
     .filter(function(item){
-      return item.userId && item.imageUrl;
+      return item.userId && item.imageUrl && item.count;
     });
 
     if(historyItems.length === 0){
@@ -508,20 +508,6 @@ function extractRows(data){
     return data.list;
   }
 
-  if(
-    data.userId &&
-    (
-      data.climbCount ||
-      data.count ||
-      data.serialNo ||
-      data.serial ||
-      data.imageUrl ||
-      data.imageName
-    )
-  ){
-    return [data];
-  }
-
   return [];
 }
 
@@ -541,7 +527,6 @@ function normalizeHistoryItem(row){
   Number(
     row.climbCount ||
     row.count ||
-    row.no ||
     0
   );
 
@@ -681,6 +666,11 @@ function renderBookItem(item,index){
   '<a class="linkBtn greenBtn" href="' +
   escapeHtml(buildCertificateUrl(item)) +
   '">記念証を開く</a>';
+
+  html +=
+  '<a class="linkBtn goldBtn" href="' +
+  escapeHtml(item.imageUrl) +
+  '" target="_blank" rel="noopener">画像を開く・保存</a>';
 
   html +=
   '<button class="btn grayBtn" onclick="copyCertificatePost(' +
