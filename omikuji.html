@@ -570,7 +570,7 @@ const HOME_PAGE =
 SITE_BASE;
 
 const SHARE_VERSION =
-"20260630-atari-1";
+"20260630-atari-fb-2";
 
 const DONE_MESSAGE =
 "本日のおみくじは終了しました。\n次回の登頂時にまたお楽しみください。";
@@ -1187,6 +1187,14 @@ function buildShareUrl(hit){
   params.toString();
 }
 
+function buildFacebookAtariUrl(){
+  return SHARE_OMIKUJI_ATARI_PAGE +
+  "?v=" +
+  encodeURIComponent(SHARE_VERSION) +
+  "&t=" +
+  Date.now();
+}
+
 function buildShareText(data,hit){
   if(hit){
     return [
@@ -1222,13 +1230,23 @@ async function shareOmikuji(type){
   const hit =
   latestIsHit === true;
 
-  const url =
+  let url =
   latestShareUrl || buildShareUrl(hit);
 
-  const text =
+  let text =
   latestShareText || buildShareText(latestResultData,hit);
 
   if(type === "facebook"){
+    url =
+    buildFacebookAtariUrl();
+
+    text =
+    [
+      "田子山富士168の縁プロジェクトでおみくじを引きました。",
+      "#田子山富士",
+      "#168の縁プロジェクト"
+    ].join("\n");
+
     try{
       await copyText(text + "\n" + url);
     }catch(e){}
