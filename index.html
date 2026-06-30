@@ -279,7 +279,7 @@ body{
 }
 
 .itemBody{
-  margin:0;
+  margin:14px 0 0;
   font-size:18px;
   line-height:1.7;
   color:#fff;
@@ -295,13 +295,20 @@ body{
   word-break:break-all;
 }
 
+.newsImageWrap{
+  display:block;
+  width:100%;
+  margin:16px 0 0;
+  border-radius:18px;
+  border:1px solid rgba(255,220,140,.45);
+  background:#000;
+  overflow:hidden;
+}
+
 .newsImage{
   display:block;
   width:100%;
   height:auto;
-  border-radius:18px;
-  margin:16px 0;
-  border:1px solid rgba(255,220,140,.45);
   background:#000;
 }
 
@@ -579,15 +586,18 @@ let currentUserId = "";
 let newsLoaded = false;
 let goenLoaded = false;
 
-window.addEventListener("load",init);
+window.addEventListener("load", init);
 
 async function init(){
-  const urlUserId = getUserIdFromUrl();
+  const urlUserId =
+  getUserIdFromUrl();
 
   if(urlUserId){
-    currentUserId = urlUserId;
-    localStorage.setItem("tagoyamaUserId",urlUserId);
-    localStorage.setItem("tagoyamaFujiUserId",urlUserId);
+    currentUserId =
+    urlUserId;
+
+    localStorage.setItem("tagoyamaUserId", urlUserId);
+    localStorage.setItem("tagoyamaFujiUserId", urlUserId);
   }else{
     currentUserId =
     localStorage.getItem("tagoyamaUserId") ||
@@ -600,29 +610,31 @@ async function init(){
   await loadStats();
   await handleClimb();
 
-  const params = new URLSearchParams(location.search);
+  const params =
+  new URLSearchParams(location.search);
 
   if(params.get("open") === "news"){
     setTimeout(function(){
       openSection("newsSection");
-    },300);
+    }, 300);
   }
 
   if(params.get("open") === "goen"){
     setTimeout(function(){
       openSection("goenSection");
-    },300);
+    }, 300);
   }
 
   if(params.get("open") === "kicho"){
     setTimeout(function(){
       openSection("kichoSection");
-    },300);
+    }, 300);
   }
 }
 
 function getUserIdFromUrl(){
-  const params = new URLSearchParams(location.search);
+  const params =
+  new URLSearchParams(location.search);
 
   return getString(
     params.get("userId") ||
@@ -633,7 +645,8 @@ function getUserIdFromUrl(){
 }
 
 function updateUserLinks(){
-  const omikujiLink = document.getElementById("omikujiLink");
+  const omikujiLink =
+  document.getElementById("omikujiLink");
 
   if(omikujiLink){
     if(currentUserId){
@@ -650,7 +663,8 @@ function updateUserLinks(){
     }
   }
 
-  const certificateBookLink = document.getElementById("certificateBookLink");
+  const certificateBookLink =
+  document.getElementById("certificateBookLink");
 
   if(certificateBookLink){
     if(currentUserId){
@@ -669,11 +683,17 @@ function updateUserLinks(){
 }
 
 async function handleClimb(){
-  const urlUserId = getUserIdFromUrl();
+  const urlUserId =
+  getUserIdFromUrl();
 
-  const climbMessage = document.getElementById("climbMessage");
-  const climbStatus = document.getElementById("climbStatus");
-  const certificateBtn = document.getElementById("certificateBtn");
+  const climbMessage =
+  document.getElementById("climbMessage");
+
+  const climbStatus =
+  document.getElementById("climbStatus");
+
+  const certificateBtn =
+  document.getElementById("certificateBtn");
 
   if(!urlUserId){
     if(certificateBtn){
@@ -682,28 +702,35 @@ async function handleClimb(){
     return;
   }
 
-  climbMessage.innerHTML =
-  "登頂受付を<br><strong>確認しています</strong>";
+  if(climbMessage){
+    climbMessage.innerHTML =
+    "登頂受付を<br><strong>確認しています</strong>";
+  }
 
-  climbStatus.classList.remove("hidden");
-  climbStatus.innerText =
-  "登頂記録を保存しています...";
+  if(climbStatus){
+    climbStatus.classList.remove("hidden");
+    climbStatus.innerText =
+    "登頂記録を保存しています...";
+  }
 
   try{
     const sessionKey =
     "tagoyamaClimbSaved:" +
     urlUserId;
 
-    let data = null;
+    let data =
+    null;
 
     const cached =
     sessionStorage.getItem(sessionKey);
 
     if(cached){
       try{
-        data = JSON.parse(cached);
+        data =
+        JSON.parse(cached);
       }catch(e){
-        data = null;
+        data =
+        null;
       }
     }
 
@@ -726,7 +753,7 @@ async function handleClimb(){
       }
     }
 
-    if(!data || !data.success){
+    if(!data || data.success === false){
       throw new Error(
         data && data.message
         ? data.message
@@ -745,9 +772,11 @@ async function handleClimb(){
     data.certificateNo ||
     "";
 
-    climbMessage.innerHTML =
-    "おめでとうございます。<br>" +
-    "<strong>登頂受付が完了しました。</strong>";
+    if(climbMessage){
+      climbMessage.innerHTML =
+      "おめでとうございます。<br>" +
+      "<strong>登頂受付が完了しました。</strong>";
+    }
 
     let statusText =
     "第" +
@@ -761,39 +790,58 @@ async function handleClimb(){
       "<br>本日の登頂受付は完了しています";
     }
 
-    climbStatus.innerHTML =
-    statusText;
+    if(climbStatus){
+      climbStatus.innerHTML =
+      statusText;
+    }
 
-    certificateBtn.href =
-    CERTIFICATE_PAGE +
-    "?userId=" +
-    encodeURIComponent(urlUserId) +
-    "&v=" +
-    Date.now();
+    if(certificateBtn){
+      certificateBtn.href =
+      CERTIFICATE_PAGE +
+      "?userId=" +
+      encodeURIComponent(urlUserId) +
+      "&v=" +
+      Date.now();
 
-    certificateBtn.classList.remove("hidden");
+      certificateBtn.classList.remove("hidden");
+    }
 
     currentUserId =
     urlUserId;
+
+    localStorage.setItem("tagoyamaUserId", urlUserId);
+    localStorage.setItem("tagoyamaFujiUserId", urlUserId);
 
     updateUserLinks();
 
     await loadStats();
 
   }catch(err){
-    climbMessage.innerHTML =
-    "登頂受付で<br><strong>エラーが発生しました</strong>";
+    if(climbMessage){
+      climbMessage.innerHTML =
+      "登頂受付で<br><strong>エラーが発生しました</strong>";
+    }
 
-    climbStatus.innerText =
-    err.message ||
-    "もう一度QRコードからお試しください";
+    if(climbStatus){
+      climbStatus.innerText =
+      err && err.message
+      ? err.message
+      : "もう一度QRコードからお試しください";
+    }
 
-    certificateBtn.classList.add("hidden");
+    if(certificateBtn){
+      certificateBtn.classList.add("hidden");
+    }
   }
 }
 
 async function loadStats(){
-  const el = document.getElementById("participants");
+  const el =
+  document.getElementById("participants");
+
+  if(!el){
+    return;
+  }
 
   try{
     const data =
@@ -805,12 +853,16 @@ async function loadStats(){
 
     if(data && data.success){
       const n =
-      Number(data.participants || data.count);
+      Number(
+        data.participants ||
+        data.count ||
+        data.total ||
+        0
+      );
 
-      if(Number.isFinite(n)){
+      if(Number.isFinite(n) && n >= 0){
         el.innerText =
         String(n);
-
         return;
       }
     }
@@ -836,7 +888,10 @@ function openSection(id){
 
   section.classList.remove("hidden");
 
-  if(id === "newsSection" && !newsLoaded){
+  if(id === "newsSection"){
+    newsLoaded =
+    false;
+
     loadNews();
   }
 
@@ -849,7 +904,7 @@ function openSection(id){
       behavior:"smooth",
       block:"start"
     });
-  },80);
+  }, 80);
 }
 
 function closeAllSections(){
@@ -896,7 +951,7 @@ async function loadNews(){
     );
 
     const rows =
-    getArrayFromResponse(data);
+    getArrayFromResponse(data, "news");
 
     if(!rows || rows.length === 0){
       list.innerHTML =
@@ -946,11 +1001,19 @@ function renderNewsItem(row){
     '</div>';
   }
 
-  if(news.image){
-    html +=
-    '<img class="newsImage" src="' +
-    escapeHtml(news.image) +
-    '" alt="">';
+  if(news.images && news.images.length > 0){
+    news.images.forEach(function(candidates){
+      if(candidates && candidates.length > 0){
+        html +=
+        '<div class="newsImageWrap">' +
+        '<img class="newsImage" src="' +
+        escapeHtml(candidates[0]) +
+        '" data-srcs="' +
+        escapeHtml(JSON.stringify(candidates)) +
+        '" data-index="0" onerror="fallbackNewsImage(this)" alt="">' +
+        '</div>';
+      }
+    });
   }
 
   if(news.body){
@@ -958,9 +1021,6 @@ function renderNewsItem(row){
     '<p class="itemBody">' +
     escapeHtml(news.body) +
     '</p>';
-  }else{
-    html +=
-    '<p class="itemBody">詳細は画像をご確認ください。</p>';
   }
 
   if(news.youtube){
@@ -983,6 +1043,44 @@ function renderNewsItem(row){
   return html;
 }
 
+function fallbackNewsImage(img){
+  if(!img){
+    return;
+  }
+
+  let list =
+  [];
+
+  try{
+    list =
+    JSON.parse(img.getAttribute("data-srcs") || "[]");
+  }catch(e){
+    list =
+    [];
+  }
+
+  let index =
+  Number(img.getAttribute("data-index") || "0");
+
+  index =
+  index + 1;
+
+  if(index < list.length){
+    img.setAttribute("data-index", String(index));
+    img.src =
+    list[index];
+    return;
+  }
+
+  const wrap =
+  img.parentNode;
+
+  if(wrap){
+    wrap.style.display =
+    "none";
+  }
+}
+
 function normalizeNewsRow(row){
   row =
   row || {};
@@ -991,120 +1089,132 @@ function normalizeNewsRow(row){
     return normalizeNewsArray(row);
   }
 
-  const values =
-  Object.keys(row).map(function(key){
-    return getString(row[key]);
-  }).filter(Boolean);
+  const allStrings =
+  collectStringsDeep(row);
 
-  let title =
-  getString(
-    row.title ||
-    row.タイトル ||
-    row.subject ||
-    row.件名 ||
-    row.name ||
-    row.見出し ||
-    ""
-  );
+  const allUrls =
+  collectUrlsDeep(row);
 
-  let date =
-  getString(
-    row.date ||
-    row.日付 ||
-    row.datetime ||
-    row.createdAt ||
-    row.created ||
-    row.time ||
-    row.日時 ||
-    ""
-  );
+  const title =
+  getFirst([
+    row.title,
+    row["タイトル"],
+    row.subject,
+    row["件名"],
+    row.name,
+    row["見出し"],
+    row.heading
+  ]) ||
+  findTitleText(allStrings);
 
-  let body =
-  getString(
-    row.text ||
-    row.本文 ||
-    row.body ||
-    row.message ||
-    row.内容 ||
-    row.description ||
-    row.summary ||
-    row.説明 ||
-    row.detail ||
-    row.article ||
-    row.記事 ||
-    ""
-  );
+  const date =
+  getFirst([
+    row.date,
+    row["日付"],
+    row.datetime,
+    row.createdAt,
+    row.created,
+    row.time,
+    row["日時"]
+  ]) ||
+  findFirstText(allStrings, looksLikeDate);
 
-  let image =
-  getString(
-    row.image ||
-    row.imageUrl ||
-    row.imageURL ||
-    row.image1 ||
-    row.画像 ||
-    row.画像URL ||
-    row.img ||
-    row.photo ||
-    ""
-  );
+  const directBody =
+  getFirst([
+    row.text,
+    row["本文"],
+    row.body,
+    row.message,
+    row["内容"],
+    row.description,
+    row.summary,
+    row["概要"],
+    row["説明"],
+    row.detail,
+    row.article,
+    row["記事"],
+    row.caption,
+    row["キャプション"]
+  ]);
+
+  const youtube =
+  getFirst([
+    row.youtube,
+    row.youtubeUrl,
+    row.video,
+    row.videoUrl,
+    row["動画"]
+  ]) ||
+  findFirstText(allUrls, isYoutubeUrl);
+
+  const imageUrls =
+  [];
+
+  allUrls.forEach(function(url){
+    if(isImageSource(url)){
+      addUnique(imageUrls, cleanUrl(url));
+    }
+  });
+
+  [
+    row.image,
+    row.imageUrl,
+    row.imageURL,
+    row.image1,
+    row.image2,
+    row.image3,
+    row.image4,
+    row.image5,
+    row["画像"],
+    row["画像URL"],
+    row.img,
+    row.photo,
+    row.thumbnail
+  ].forEach(function(v){
+    const text =
+    getString(v);
+
+    if(text){
+      extractUrlsFromText(text).forEach(function(u){
+        if(isImageSource(u)){
+          addUnique(imageUrls, cleanUrl(u));
+        }
+      });
+
+      if(isImageSource(text)){
+        addUnique(imageUrls, cleanUrl(text));
+      }
+    }
+  });
 
   let link =
-  getString(
-    row.link ||
-    row.url ||
-    row.URL ||
-    row.リンク ||
-    row.detailUrl ||
-    row.pageUrl ||
-    ""
-  );
-
-  let youtube =
-  getString(
-    row.youtube ||
-    row.youtubeUrl ||
-    row.video ||
-    row.videoUrl ||
-    row.動画 ||
-    ""
-  );
-
-  if(!title){
-    title = findFirstText(values,function(v){
-      return !looksLikeUrl(v) && !looksLikeDate(v) && v.length <= 80;
-    });
-  }
-
-  if(!date){
-    date = findFirstText(values,looksLikeDate);
-  }
-
-  if(!image){
-    image = findFirstText(values,isImageUrl);
-  }
-
-  if(!youtube){
-    youtube = findFirstText(values,isYoutubeUrl);
-  }
+  getFirst([
+    row.link,
+    row["リンク"],
+    row.detailUrl,
+    row.pageUrl
+  ]);
 
   if(!link){
-    link = findFirstText(values,function(v){
-      return looksLikeUrl(v) && !isImageUrl(v) && !isYoutubeUrl(v);
+    link =
+    findFirstText(allUrls, function(v){
+      return looksLikeUrl(v) &&
+      !isImageSource(v) &&
+      !isYoutubeUrl(v);
     });
   }
 
+  let body =
+  directBody;
+
   if(!body){
-    body = findFirstText(values,function(v){
-      return (
-        v &&
-        v !== title &&
-        v !== date &&
-        v !== image &&
-        v !== link &&
-        v !== youtube &&
-        !looksLikeUrl(v) &&
-        !looksLikeDate(v)
-      );
+    body =
+    findBodyText(allStrings, {
+      title:title,
+      date:date,
+      link:link,
+      youtube:youtube,
+      imageUrls:imageUrls
     });
   }
 
@@ -1112,86 +1222,87 @@ function normalizeNewsRow(row){
     title:title,
     date:date,
     body:body,
-    image:normalizeImageUrl(image),
+    images:imageUrls.map(makeImageCandidates),
     link:link,
     youtube:youtube
   };
 }
 
 function normalizeNewsArray(row){
-  const values =
-  row.map(function(v){
-    return getString(v);
-  }).filter(Boolean);
+  const allStrings =
+  collectStringsDeep(row);
+
+  const allUrls =
+  collectUrlsDeep(row);
 
   let date =
-  findFirstText(values,looksLikeDate);
+  findFirstText(allStrings, looksLikeDate);
 
-  let image =
-  findFirstText(values,isImageUrl);
+  const imageUrls =
+  [];
+
+  allUrls.forEach(function(url){
+    if(isImageSource(url)){
+      addUnique(imageUrls, cleanUrl(url));
+    }
+  });
 
   let youtube =
-  findFirstText(values,isYoutubeUrl);
+  findFirstText(allUrls, isYoutubeUrl);
 
   let link =
-  findFirstText(values,function(v){
-    return looksLikeUrl(v) && !isImageUrl(v) && !isYoutubeUrl(v);
+  findFirstText(allUrls, function(v){
+    return looksLikeUrl(v) &&
+    !isImageSource(v) &&
+    !isYoutubeUrl(v);
   });
 
   let title =
   "";
 
-  let body =
-  "";
+  for(let i = 0; i < allStrings.length; i++){
+    const text =
+    allStrings[i];
 
-  for(let i = 0; i < values.length; i++){
-    const v =
-    values[i];
-
-    if(
-      v === date ||
-      v === image ||
-      v === youtube ||
-      v === link ||
-      looksLikeUrl(v)
-    ){
+    if(!text){
       continue;
     }
 
-    if(!title){
-      title =
-      v;
+    if(text === date){
       continue;
     }
 
-    if(!body && v !== title){
-      body =
-      v;
-      break;
+    if(looksLikeDate(text)){
+      continue;
     }
+
+    if(looksLikeUrl(text)){
+      continue;
+    }
+
+    if(text.length > 90){
+      continue;
+    }
+
+    title =
+    text;
+    break;
   }
 
-  if(!body){
-    body =
-    findFirstText(values,function(v){
-      return (
-        v &&
-        v !== title &&
-        v !== date &&
-        v !== image &&
-        v !== youtube &&
-        v !== link &&
-        !looksLikeUrl(v) &&
-        !looksLikeDate(v)
-      );
-    });
-  }
+  const body =
+  findBodyText(allStrings, {
+    title:title,
+    date:date,
+    link:link,
+    youtube:youtube,
+    imageUrls:imageUrls
+  });
 
   return {
     title:title,
     date:date,
     body:body,
-    image:normalizeImageUrl(image),
+    images:imageUrls.map(makeImageCandidates),
     link:link,
     youtube:youtube
   };
@@ -1217,7 +1328,7 @@ async function loadGoen(){
     );
 
     const rows =
-    getArrayFromResponse(data);
+    getArrayFromResponse(data, "goen");
 
     if(!rows || rows.length === 0){
       list.innerHTML =
@@ -1263,22 +1374,54 @@ function renderGoenItem(row){
   "";
 
   if(Array.isArray(row)){
-    date = getString(row[0]);
-    area = getString(row[1]);
-    name = getString(row[2]);
-    message = getString(row[3]);
-  }else{
     date =
-    getString(row.date || row.日時 || row.createdAt || row.time || "");
+    getString(row[0]);
 
     area =
-    getString(row.area || row.地域 || row.from || row.どこから || "");
+    getString(row[1]);
 
     name =
-    getString(row.name || row.名前 || row.お名前 || "");
+    getString(row[2]);
 
     message =
-    getString(row.message || row.text || row.本文 || row.メッセージ || row.comment || "");
+    getString(row[3]);
+  }else{
+    date =
+    getString(
+      row.date ||
+      row["日時"] ||
+      row.createdAt ||
+      row.time ||
+      ""
+    );
+
+    area =
+    getString(
+      row.area ||
+      row["地域"] ||
+      row.from ||
+      row["どこから"] ||
+      ""
+    );
+
+    name =
+    getString(
+      row.name ||
+      row["名前"] ||
+      row["お名前"] ||
+      ""
+    );
+
+    message =
+    getString(
+      row.message ||
+      row.text ||
+      row.body ||
+      row["本文"] ||
+      row["メッセージ"] ||
+      row.comment ||
+      ""
+    );
   }
 
   let html =
@@ -1317,13 +1460,19 @@ async function saveKicho(){
   document.getElementById("kichoBtn");
 
   const area =
-  getString(document.getElementById("kichoArea").value);
+  getString(
+    document.getElementById("kichoArea").value
+  );
 
   const name =
-  getString(document.getElementById("kichoName").value);
+  getString(
+    document.getElementById("kichoName").value
+  );
 
   const message =
-  getString(document.getElementById("kichoMessage").value);
+  getString(
+    document.getElementById("kichoMessage").value
+  );
 
   if(!message){
     alert("メッセージを入力してください。");
@@ -1331,8 +1480,11 @@ async function saveKicho(){
   }
 
   if(btn){
-    btn.disabled = true;
-    btn.innerText = "記帳中...";
+    btn.disabled =
+    true;
+
+    btn.innerText =
+    "記帳中...";
   }
 
   try{
@@ -1375,18 +1527,24 @@ async function saveKicho(){
 
   }finally{
     if(btn){
-      btn.disabled = false;
-      btn.innerText = "記帳する";
+      btn.disabled =
+      false;
+
+      btn.innerText =
+      "記帳する";
     }
   }
 }
 
 async function fetchJson(url){
   const res =
-  await fetch(url,{
-    method:"GET",
-    cache:"no-store"
-  });
+  await fetch(
+    url,
+    {
+      method:"GET",
+      cache:"no-store"
+    }
+  );
 
   const text =
   await res.text();
@@ -1411,13 +1569,17 @@ async function fetchJson(url){
   throw new Error("データを読み込めませんでした");
 }
 
-function getArrayFromResponse(data){
+function getArrayFromResponse(data, key){
   if(Array.isArray(data)){
     return data;
   }
 
   if(!data){
     return [];
+  }
+
+  if(key && Array.isArray(data[key])){
+    return data[key];
   }
 
   return (
@@ -1427,11 +1589,258 @@ function getArrayFromResponse(data){
     data.data ||
     data.goen ||
     data.list ||
+    data.records ||
     []
   );
 }
 
-function findFirstText(values,checker){
+function collectStringsDeep(value){
+  const result =
+  [];
+
+  function walk(v){
+    if(v === null || v === undefined){
+      return;
+    }
+
+    if(Array.isArray(v)){
+      v.forEach(walk);
+      return;
+    }
+
+    if(typeof v === "object"){
+      Object.keys(v).forEach(function(key){
+        walk(v[key]);
+      });
+      return;
+    }
+
+    const text =
+    getString(v);
+
+    if(text){
+      result.push(cleanText(text));
+    }
+  }
+
+  walk(value);
+
+  return uniqueList(result.filter(Boolean));
+}
+
+function collectUrlsDeep(value){
+  const result =
+  [];
+
+  const strings =
+  collectStringsDeep(value);
+
+  strings.forEach(function(text){
+    extractUrlsFromText(text).forEach(function(url){
+      addUnique(result, url);
+    });
+  });
+
+  try{
+    const raw =
+    JSON.stringify(value);
+
+    extractUrlsFromText(raw).forEach(function(url){
+      addUnique(result, url);
+    });
+  }catch(e){}
+
+  return uniqueList(result);
+}
+
+function extractUrlsFromText(text){
+  text =
+  cleanText(text);
+
+  const urls =
+  [];
+
+  const matches =
+  text.match(/https?:\/\/[^\s"'<>\\\)\]]+/g);
+
+  if(matches){
+    matches.forEach(function(url){
+      url =
+      cleanUrl(url);
+
+      if(url){
+        addUnique(urls, url);
+      }
+    });
+  }
+
+  return urls;
+}
+
+function makeImageCandidates(url){
+  url =
+  cleanUrl(url);
+
+  const list =
+  [];
+
+  if(!url){
+    return list;
+  }
+
+  const driveId =
+  getDriveId(url);
+
+  if(driveId){
+    addUnique(
+      list,
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(driveId) +
+      "&sz=w1600"
+    );
+
+    addUnique(
+      list,
+      "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(driveId) +
+      "=w1600"
+    );
+
+    addUnique(
+      list,
+      "https://drive.google.com/uc?export=view&id=" +
+      encodeURIComponent(driveId)
+    );
+
+    addUnique(
+      list,
+      url
+    );
+
+    return list;
+  }
+
+  addUnique(list, url);
+
+  return list;
+}
+
+function getDriveId(url){
+  url =
+  cleanUrl(url);
+
+  let match =
+  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match =
+  url.match(/[?&]id=([^&]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match =
+  url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  return "";
+}
+
+function findTitleText(values){
+  return findFirstText(values, function(text){
+    return text &&
+    !looksLikeDate(text) &&
+    !looksLikeUrl(text) &&
+    text.length <= 90;
+  });
+}
+
+function findBodyText(values, used){
+  used =
+  used || {};
+
+  const candidates =
+  [];
+
+  values.forEach(function(text){
+    text =
+    cleanText(text);
+
+    if(!text){
+      return;
+    }
+
+    if(text === used.title){
+      return;
+    }
+
+    if(text === used.date){
+      return;
+    }
+
+    if(text === used.link){
+      return;
+    }
+
+    if(text === used.youtube){
+      return;
+    }
+
+    if(looksLikeDate(text)){
+      return;
+    }
+
+    if(looksLikeUrl(text)){
+      return;
+    }
+
+    if(text.length <= 1){
+      return;
+    }
+
+    candidates.push(text);
+  });
+
+  const unique =
+  uniqueList(candidates);
+
+  if(unique.length === 0){
+    return "";
+  }
+
+  const longTexts =
+  unique.filter(function(text){
+    return text.length > 20;
+  });
+
+  if(longTexts.length > 0){
+    return longTexts.join("\n");
+  }
+
+  return unique.join("\n");
+}
+
+function getFirst(list){
+  for(let i = 0; i < list.length; i++){
+    const text =
+    getString(list[i]);
+
+    if(text){
+      return text;
+    }
+  }
+
+  return "";
+}
+
+function findFirstText(values, checker){
   for(let i = 0; i < values.length; i++){
     const value =
     getString(values[i]);
@@ -1444,6 +1853,30 @@ function findFirstText(values,checker){
   return "";
 }
 
+function addUnique(list, value){
+  value =
+  getString(value);
+
+  if(!value){
+    return;
+  }
+
+  if(list.indexOf(value) < 0){
+    list.push(value);
+  }
+}
+
+function uniqueList(list){
+  const result =
+  [];
+
+  list.forEach(function(value){
+    addUnique(result, value);
+  });
+
+  return result;
+}
+
 function looksLikeDate(value){
   value =
   getString(value);
@@ -1452,7 +1885,8 @@ function looksLikeDate(value){
     /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(value) ||
     /^\d{4}年\d{1,2}月\d{1,2}日/.test(value) ||
     value.indexOf("T00:00:00") >= 0 ||
-    value.indexOf("T15:00:00") >= 0
+    value.indexOf("T15:00:00") >= 0 ||
+    value.indexOf("GMT") >= 0
   );
 }
 
@@ -1460,26 +1894,12 @@ function looksLikeUrl(value){
   value =
   getString(value);
 
-  return /^https?:\/\//i.test(value) ||
-  value.indexOf("drive.google.com") >= 0 ||
-  value.indexOf("youtu.be") >= 0 ||
-  value.indexOf("youtube.com") >= 0;
-}
-
-function isImageUrl(value){
-  value =
-  getString(value);
-
-  const lower =
-  value.toLowerCase();
-
   return (
-    lower.indexOf(".jpg") >= 0 ||
-    lower.indexOf(".jpeg") >= 0 ||
-    lower.indexOf(".png") >= 0 ||
-    lower.indexOf(".webp") >= 0 ||
-    lower.indexOf(".gif") >= 0 ||
-    lower.indexOf("drive.google.com") >= 0
+    /^https?:\/\//i.test(value) ||
+    value.indexOf("drive.google.com") >= 0 ||
+    value.indexOf("googleusercontent.com") >= 0 ||
+    value.indexOf("youtu.be") >= 0 ||
+    value.indexOf("youtube.com") >= 0
   );
 }
 
@@ -1493,33 +1913,31 @@ function isYoutubeUrl(value){
   );
 }
 
-function normalizeImageUrl(url){
-  url =
-  getString(url);
+function isImageSource(value){
+  value =
+  cleanUrl(value);
 
-  if(!url){
-    return "";
+  const lower =
+  value.toLowerCase();
+
+  if(!value){
+    return false;
   }
 
-  const fileMatch =
-  url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
-
-  if(fileMatch && fileMatch[1]){
-    return "https://drive.google.com/uc?export=view&id=" +
-    encodeURIComponent(fileMatch[1]);
+  if(isYoutubeUrl(value)){
+    return false;
   }
 
-  if(url.indexOf("drive.google.com") >= 0){
-    const idMatch =
-    url.match(/[?&]id=([^&]+)/);
-
-    if(idMatch && idMatch[1]){
-      return "https://drive.google.com/uc?export=view&id=" +
-      encodeURIComponent(idMatch[1]);
-    }
-  }
-
-  return url;
+  return (
+    lower.indexOf(".jpg") >= 0 ||
+    lower.indexOf(".jpeg") >= 0 ||
+    lower.indexOf(".png") >= 0 ||
+    lower.indexOf(".webp") >= 0 ||
+    lower.indexOf(".gif") >= 0 ||
+    lower.indexOf("drive.google.com") >= 0 ||
+    lower.indexOf("googleusercontent.com") >= 0 ||
+    lower.indexOf("thumbnail") >= 0
+  );
 }
 
 function formatDateText(value){
@@ -1531,18 +1949,49 @@ function formatDateText(value){
   }
 
   return value
-  .replace("T15:00:00.000Z","")
-  .replace("T00:00:00.000Z","")
-  .replace(/-/g,"/");
+  .replace("T15:00:00.000Z", "")
+  .replace("T00:00:00.000Z", "")
+  .replace(/-/g, "/");
+}
+
+function cleanText(value){
+  value =
+  getString(value);
+
+  return value
+  .replace(/\\u0026/g, "&")
+  .replace(/\\\//g, "/")
+  .replace(/&amp;/g, "&")
+  .replace(/&quot;/g, '"')
+  .replace(/&#039;/g, "'")
+  .replace(/\s+\n/g, "\n")
+  .replace(/\n\s+/g, "\n")
+  .trim();
+}
+
+function cleanUrl(value){
+  value =
+  cleanText(value);
+
+  value =
+  value
+  .replace(/\\u003d/g, "=")
+  .replace(/\\u0026/g, "&")
+  .replace(/\\\//g, "/")
+  .replace(/&amp;/g, "&")
+  .replace(/[),.;]+$/g, "")
+  .trim();
+
+  return value;
 }
 
 function escapeHtml(value){
   return getString(value)
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;");
 }
 
 function getString(value){
