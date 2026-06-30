@@ -268,11 +268,6 @@ body{
     0 8px 14px rgba(0,0,0,.30);
 }
 
-.goldBtn{
-  background:linear-gradient(180deg,#ffe27a,#c79218);
-  color:#251400;
-}
-
 .greenBtn{
   background:linear-gradient(180deg,#35df86,#19b75e);
 }
@@ -304,10 +299,6 @@ body{
   font-size:14px;
   line-height:1.7;
   color:#c7b77a;
-}
-
-.hidden{
-  display:none !important;
 }
 
 @media(max-width:480px){
@@ -454,15 +445,16 @@ async function loadBook(){
   }
 
   try{
+    const url =
+    GAS_URL +
+    "?mode=climbHistory" +
+    "&userId=" +
+    encodeURIComponent(currentUserId) +
+    "&t=" +
+    Date.now();
+
     const data =
-    await fetchJson(
-      GAS_URL +
-      "?mode=climbHistory" +
-      "&userId=" +
-      encodeURIComponent(currentUserId) +
-      "&t=" +
-      Date.now()
-    );
+    await getJson(url);
 
     if(!data || data.success === false){
       throw new Error(
@@ -504,9 +496,12 @@ async function loadBook(){
     [];
 
     setStatus(
-      err && err.message
-      ? err.message
-      : "登頂記念帳を読み込めませんでした"
+      "登頂記念帳を読み込めませんでした。\n" +
+      (
+        err && err.message
+        ? err.message
+        : "時間をおいて再度お試しください。"
+      )
     );
   }
 }
@@ -536,17 +531,32 @@ function normalizeHistoryItem(row){
     )
   );
 
-  const imageUrl =
-  normalizeImageUrl(
-    row.imageUrl ||
-    row.image ||
-    row.url ||
-    (
-      row.image && row.image.imageUrl
-      ? row.image.imageUrl
-      : ""
-    )
-  );
+  let imageUrl =
+  "";
+
+  if(row.imageUrl){
+    imageUrl =
+    row.imageUrl;
+  }else if(row.imageURL){
+    imageUrl =
+    row.imageURL;
+  }else if(row.image && typeof row.image === "object"){
+    imageUrl =
+    row.image.imageUrl ||
+    row.image.imageURL ||
+    row.image.url ||
+    row.image.src ||
+    "";
+  }else if(row.image && typeof row.image === "string"){
+    imageUrl =
+    row.image;
+  }else if(row.url){
+    imageUrl =
+    row.url;
+  }
+
+  imageUrl =
+  normalizeImageUrl(imageUrl);
 
   const date =
   formatDateText(
@@ -869,35 +879,131 @@ async function shareCertificateBook(index,type){
   }
 }
 
-async function fetchJson(url){
-  const res =
-  await fetch(
-    url,
-    {
-      method:"GET",
-      cache:"no-store"
-    }
-  );
-
-  const text =
-  await res.text();
-
-  if(!res.ok){
-    throw new Error("通信エラーが発生しました");
+async function getJson(url){
+  try{
+    return await fetchJson(url,12000);
+  }catch(err){
+    return await jsonp(url,15000);
   }
+}
+
+async function fetchJson(url,timeoutMs){
+  const controller =
+  new AbortController();
+
+  const timer =
+  setTimeout(function(){
+    controller.abort();
+  },timeoutMs || 12000);
 
   try{
-    return JSON.parse(text);
-  }catch(e){}
+    const res =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
 
-  const match =
-  text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+    const text =
+    await res.text();
 
-  if(match && match[1]){
-    return JSON.parse(match[1]);
+    if(!res.ok){
+      throw new Error("通信エラーが発生しました");
+    }
+
+    try{
+      return JSON.parse(text);
+    }catch(e){}
+
+    const match =
+    text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+
+    if(match && match[1]){
+      return JSON.parse(match[1]);
+    }
+
+    throw new Error("データを読み込めませんでした");
+
+  }finally{
+    clearTimeout(timer);
   }
+}
 
-  throw new Error("データを読み込めませんでした");
+function jsonp(url,timeoutMs){
+  return new Promise(function(resolve,reject){
+    const callbackName =
+    "__tagoyamaBookCallback_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 100000);
+
+    const sep =
+    url.indexOf("?") >= 0
+    ? "&"
+    : "?";
+
+    const script =
+    document.createElement("script");
+
+    let done =
+    false;
+
+    const timer =
+    setTimeout(function(){
+      cleanup();
+
+      reject(
+        new Error("読み込みが時間切れになりました")
+      );
+    },timeoutMs || 15000);
+
+    function cleanup(){
+      if(done){
+        return;
+      }
+
+      done =
+      true;
+
+      clearTimeout(timer);
+
+      try{
+        delete window[callbackName];
+      }catch(e){
+        window[callbackName] =
+        undefined;
+      }
+
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
+      }
+    }
+
+    window[callbackName] =
+    function(data){
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror =
+    function(){
+      cleanup();
+      reject(
+        new Error("JSONP読み込みに失敗しました")
+      );
+    };
+
+    script.src =
+    url +
+    sep +
+    "callback=" +
+    encodeURIComponent(callbackName);
+
+    document.body.appendChild(script);
+  });
 }
 
 function normalizeImageUrl(value){
