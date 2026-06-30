@@ -10,12 +10,13 @@
 <meta property="og:description" content="田子山富士168の縁プロジェクトの登頂記念帳です。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate-book.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260630-book">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260630-book">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 登頂記念帳">
 <meta name="twitter:description" content="田子山富士168の縁プロジェクトの登頂記念帳です。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260630-book">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
 
 <style>
 *{
@@ -260,14 +261,6 @@ body{
     0 13px 22px rgba(0,0,0,.34);
 }
 
-.btn:active,
-.linkBtn:active{
-  transform:translateY(4px);
-  box-shadow:
-    0 3px 0 rgba(0,0,0,.32),
-    0 8px 14px rgba(0,0,0,.30);
-}
-
 .greenBtn{
   background:linear-gradient(180deg,#35df86,#19b75e);
 }
@@ -456,23 +449,15 @@ async function loadBook(){
     const data =
     await getJson(url);
 
-    if(!data || data.success === false){
-      throw new Error(
-        data && data.message
-        ? data.message
-        : "登頂記念帳を読み込めませんでした"
-      );
-    }
-
     const rows =
-    data.history ||
-    data.items ||
-    data.rows ||
-    [];
+    extractHistoryRows(data);
 
     historyItems =
     rows.map(function(row){
       return normalizeHistoryItem(row);
+    })
+    .filter(function(item){
+      return item.count || item.imageUrl || item.serial || item.imageName;
     });
 
     if(historyItems.length === 0){
@@ -506,30 +491,90 @@ async function loadBook(){
   }
 }
 
+function extractHistoryRows(data){
+  if(!data){
+    return [];
+  }
+
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(Array.isArray(data.history)){
+    return data.history;
+  }
+
+  if(Array.isArray(data.items)){
+    return data.items;
+  }
+
+  if(Array.isArray(data.rows)){
+    return data.rows;
+  }
+
+  if(Array.isArray(data.data)){
+    return data.data;
+  }
+
+  if(Array.isArray(data.list)){
+    return data.list;
+  }
+
+  if(
+    data.count ||
+    data.climbCount ||
+    data.serial ||
+    data.serialNo ||
+    data.certificateNo ||
+    data.imageUrl ||
+    data.imageURL ||
+    data.imageName ||
+    data.climbDate ||
+    data.lastDate
+  ){
+    return [data];
+  }
+
+  return [];
+}
+
 function normalizeHistoryItem(row){
   row =
   row || {};
 
-  const count =
+  let count =
   Number(
-    row.count ||
     row.climbCount ||
+    row.count ||
     row.no ||
-    row.imageNo ||
+    row.participantNo ||
     0
   );
 
-  const serial =
+  if(!count || !Number.isFinite(count)){
+    count =
+    extractNumber(
+      row.imageName ||
+      row.title ||
+      row.name ||
+      ""
+    );
+  }
+
+  let serial =
   getString(
-    row.serial ||
     row.serialNo ||
     row.certificateNo ||
-    (
-      count
-      ? count + "-0001"
-      : ""
-    )
+    row.serial ||
+    ""
   );
+
+  if(!isGoodSerial(serial)){
+    serial =
+    count
+    ? count + "-0001"
+    : "";
+  }
 
   let imageUrl =
   "";
@@ -558,10 +603,25 @@ function normalizeHistoryItem(row){
   imageUrl =
   normalizeImageUrl(imageUrl);
 
+  const imageName =
+  getString(
+    row.imageName ||
+    row.title ||
+    row.name ||
+    (
+      count
+      ? "第" + count + "回登頂"
+      : "登頂記念"
+    )
+  );
+
   const date =
   formatDateText(
+    row.climbDate ||
+    row.lastDate ||
     row.date ||
     row.datetime ||
+    row.updatedAt ||
     row.createdAt ||
     ""
   );
@@ -570,7 +630,8 @@ function normalizeHistoryItem(row){
     userId:getString(row.userId || currentUserId),
     count:count,
     climbCount:count,
-    imageNo:Number(row.imageNo || count || 1),
+    imageNo:getString(row.imageNo || row.no || count || ""),
+    imageName:imageName,
     serial:serial,
     serialNo:serial,
     certificateNo:serial,
@@ -658,7 +719,7 @@ function renderBookItem(item,index){
 
   html +=
   '<h3 class="infoTitle">' +
-  escapeHtml(countText) +
+  escapeHtml(item.imageName || countText) +
   '</h3>';
 
   html +=
@@ -1060,10 +1121,56 @@ function formatDateText(value){
     return "";
   }
 
+  if(value.indexOf("GMT") >= 0){
+    const d =
+    new Date(value);
+
+    if(!isNaN(d.getTime())){
+      return d.getFullYear() +
+      "/" +
+      String(d.getMonth() + 1).padStart(2,"0") +
+      "/" +
+      String(d.getDate()).padStart(2,"0");
+    }
+  }
+
   return value
   .replace("T15:00:00.000Z","")
   .replace("T00:00:00.000Z","")
   .replace(/-/g,"/");
+}
+
+function extractNumber(value){
+  const text =
+  getString(value);
+
+  const match =
+  text.match(/\d+/);
+
+  if(!match){
+    return 0;
+  }
+
+  return Number(match[0]);
+}
+
+function isGoodSerial(value){
+  const text =
+  getString(value);
+
+  if(!text){
+    return false;
+  }
+
+  if(text.indexOf("GMT") >= 0){
+    return false;
+  }
+
+  if(text.indexOf("標準時") >= 0){
+    return false;
+  }
+
+  return /^\d+\-\d+$/.test(text);
 }
 
 async function copyText(text){
