@@ -10,13 +10,13 @@
 <meta property="og:description" content="あなたの登頂記念証を横にめくって見られます。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate-book.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-history-only">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-history-only">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 登頂記念帳">
 <meta name="twitter:description" content="あなたの登頂記念証を横にめくって見られます。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-history-only">
 
 <style>
 *{
@@ -127,18 +127,20 @@ body{
   white-space:pre-wrap;
 }
 
-.bookScroller{
+#certificate-container{
   display:flex;
   overflow-x:auto;
+  white-space:nowrap;
   gap:18px;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
   padding:22px 2px 10px;
 }
 
-.certCard{
+.certificate-card{
   flex:0 0 100%;
   scroll-snap-align:center;
+  white-space:normal;
   padding:18px;
   border-radius:26px;
   border:2px solid rgba(255,220,95,.72);
@@ -146,40 +148,30 @@ body{
     radial-gradient(circle at 50% 0%,rgba(255,224,120,.18),rgba(0,0,0,0) 45%),
     rgba(0,0,0,.42);
   box-shadow:0 10px 22px rgba(0,0,0,.36);
+  text-align:center;
 }
 
-.certImageBox{
+.certificate-card img{
+  display:block;
   width:100%;
+  height:auto;
   border-radius:22px;
-  overflow:hidden;
-  background:#000;
   border:2px solid rgba(255,220,95,.76);
+  background:#000;
   box-shadow:
     0 0 0 1px rgba(255,240,170,.12) inset,
     0 12px 24px rgba(0,0,0,.42);
 }
 
-.certImage{
-  display:block;
-  width:100%;
-  height:auto;
-  background:#000;
-}
-
-.info{
-  margin-top:16px;
-  text-align:center;
-}
-
-.infoTitle{
-  margin:0;
+.certTitle{
+  margin:18px 0 0;
   font-size:clamp(24px,6.4vw,40px);
   font-weight:900;
   color:#ffdf72;
   line-height:1.35;
 }
 
-.infoText{
+.certInfo{
   margin:10px 0 0;
   font-size:clamp(18px,4.8vw,28px);
   font-weight:900;
@@ -214,29 +206,13 @@ body{
     0 13px 22px rgba(0,0,0,.34);
 }
 
-.greenBtn{
-  background:linear-gradient(180deg,#35df86,#19b75e);
-}
-
-.facebookBtn{
-  background:linear-gradient(180deg,#1688ff,#075ec9);
-}
-
-.lineBtn{
-  background:linear-gradient(180deg,#06d45f,#06b84f);
-}
-
-.xBtn{
-  background:linear-gradient(180deg,#222,#030303);
-}
-
-.grayBtn{
-  background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
-}
-
 .goldBtn{
   background:linear-gradient(180deg,#ffe27a,#c79218);
   color:#251400;
+}
+
+.greenBtn{
+  background:linear-gradient(180deg,#35df86,#19b75e);
 }
 
 .blackBtn{
@@ -275,7 +251,7 @@ body{
     border-radius:28px;
   }
 
-  .certCard{
+  .certificate-card{
     padding:14px;
   }
 
@@ -316,21 +292,25 @@ body{
       記念帳を読み込んでいます...
     </div>
 
-    <div class="bookScroller" id="bookList"></div>
+    <div id="certificate-container"></div>
 
     <div class="btnGrid">
-      <a class="linkBtn blackBtn" href="./">
-        ← トップへ戻る
-      </a>
+      <button id="shareBtn" class="btn greenBtn" style="display:none;" onclick="shareCertificateBook()">
+        登頂記念帳をシェアする
+      </button>
 
       <a class="linkBtn goldBtn" id="latestBtn" href="certificate.html">
         最新の記念証を見る
+      </a>
+
+      <a class="linkBtn blackBtn" href="./">
+        ← トップへ戻る
       </a>
     </div>
 
     <div class="note">
       横にスワイプすると、過去の登頂記念証を見られます。<br>
-      各カードごとに画像保存・SNS共有ができます。
+      登頂記録シートにある実データだけを表示します。
     </div>
   </section>
 
@@ -351,659 +331,247 @@ const SITE_BASE =
 const CERTIFICATE_PAGE =
 SITE_BASE + "certificate.html";
 
-let currentUserId =
-"";
+const userId =
+getStableUserId();
 
-let historyItems =
-[];
-
-window.addEventListener("load",init);
-
-function init(){
-  currentUserId =
-  getStableUserId();
-
-  const latestBtn =
-  document.getElementById("latestBtn");
-
-  if(latestBtn && currentUserId){
-    latestBtn.href =
-    CERTIFICATE_PAGE +
-    "?userId=" +
-    encodeURIComponent(currentUserId) +
-    "&v=" +
-    Date.now();
-  }
-
-  if(!currentUserId){
-    setStatus(
-      "登頂記念帳を表示するには、山頂QRコードから登頂受付をしてください。"
-    );
-
-    return;
-  }
-
-  loadBook();
-}
+window.addEventListener("load",loadCertificateBook);
 
 function getStableUserId(){
   const params =
-  new URLSearchParams(location.search);
+  new URLSearchParams(window.location.search);
 
-  const urlUserId =
+  const id =
   getString(
     params.get("userId") ||
     params.get("id") ||
     params.get("uid") ||
-    ""
-  );
-
-  if(urlUserId){
-    localStorage.setItem("tagoyamaUserId",urlUserId);
-    localStorage.setItem("tagoyamaFujiUserId",urlUserId);
-
-    return urlUserId;
-  }
-
-  return getString(
     localStorage.getItem("tagoyamaUserId") ||
     localStorage.getItem("tagoyamaFujiUserId") ||
+    localStorage.getItem("userId") ||
     ""
   );
+
+  if(id){
+    localStorage.setItem("tagoyamaUserId",id);
+    localStorage.setItem("tagoyamaFujiUserId",id);
+  }
+
+  return id;
 }
 
-async function loadBook(){
-  setStatus(
-    "記念帳を読み込んでいます..."
-  );
+async function loadCertificateBook(){
+  const container =
+  document.getElementById("certificate-container");
 
-  const list =
-  document.getElementById("bookList");
+  const shareBtn =
+  document.getElementById("shareBtn");
 
-  if(list){
-    list.innerHTML =
-    "";
+  const statusBox =
+  document.getElementById("statusBox");
+
+  const latestBtn =
+  document.getElementById("latestBtn");
+
+  if(latestBtn && userId){
+    latestBtn.href =
+    CERTIFICATE_PAGE +
+    "?userId=" +
+    encodeURIComponent(userId) +
+    "&v=" +
+    Date.now();
   }
+
+  if(!userId){
+    statusBox.innerText =
+    "ユーザーIDが不明です。山頂QRコードから登頂受付をしてください。";
+
+    container.innerHTML =
+    "";
+
+    return;
+  }
+
+  statusBox.innerText =
+  "記念帳を読み込んでいます...";
 
   try{
     const url =
     GAS_URL +
     "?mode=climbHistory" +
     "&userId=" +
-    encodeURIComponent(currentUserId) +
+    encodeURIComponent(userId) +
     "&t=" +
     Date.now();
 
-    const data =
-    await getJson(url);
+    const response =
+    await fetch(url,{cache:"no-store"});
 
-    const rows =
-    extractRows(data);
+    const text =
+    await response.text();
 
-    historyItems =
-    rows.map(function(row){
-      return normalizeHistoryItem(row);
-    })
-    .filter(function(item){
-      return item.userId && item.imageUrl && item.count;
-    });
+    let data =
+    null;
 
-    if(historyItems.length === 0){
-      setStatus(
-        "まだ登頂記念がありません。"
-      );
+    try{
+      data =
+      JSON.parse(text);
+    }catch(e){
+      const match =
+      text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+
+      if(match && match[1]){
+        data =
+        JSON.parse(match[1]);
+      }
+    }
+
+    if(!data || data.success === false){
+      statusBox.innerText =
+      data && data.message
+      ? data.message
+      : "データの読み込みに失敗しました。";
+
+      container.innerHTML =
+      "";
 
       return;
     }
 
-    setStatus(
-      "登頂記念が " +
-      historyItems.length +
-      " 件あります。"
-    );
-
-    renderBook();
-
-  }catch(err){
-    historyItems =
-    [];
-
-    setStatus(
-      "登頂記念帳を読み込めませんでした。\n" +
-      (
-        err && err.message
-        ? err.message
-        : "時間をおいて再度お試しください。"
-      )
-    );
-  }
-}
-
-function extractRows(data){
-  if(!data){
-    return [];
-  }
-
-  if(Array.isArray(data)){
-    return data;
-  }
-
-  if(Array.isArray(data.history)){
-    return data.history;
-  }
-
-  if(Array.isArray(data.items)){
-    return data.items;
-  }
-
-  if(Array.isArray(data.rows)){
-    return data.rows;
-  }
-
-  if(Array.isArray(data.data)){
-    return data.data;
-  }
-
-  if(Array.isArray(data.list)){
-    return data.list;
-  }
-
-  return [];
-}
-
-function normalizeHistoryItem(row){
-  row =
-  row || {};
-
-  const userId =
-  getString(
-    row.userId ||
-    row.id ||
-    row.uid ||
-    currentUserId
-  );
-
-  const count =
-  Number(
-    row.climbCount ||
-    row.count ||
-    0
-  );
-
-  const serial =
-  getString(
-    row.serialNo ||
-    row.certificateNo ||
-    row.serial ||
-    ""
-  );
-
-  const imageName =
-  getString(
-    row.imageName ||
-    row.title ||
-    row.name ||
-    (
-      count
-      ? "第" + count + "回登頂"
-      : "登頂記念"
-    )
-  );
-
-  const imageUrl =
-  normalizeImageUrl(
-    row.imageUrl ||
-    row.imageURL ||
-    row.image ||
-    row.url ||
-    ""
-  );
-
-  const date =
-  formatDateText(
-    row.climbDate ||
-    row.lastDate ||
-    row.date ||
-    row.updatedAt ||
-    ""
-  );
-
-  return {
-    userId:userId,
-    count:count,
-    climbCount:count,
-    serial:serial,
-    serialNo:serial,
-    certificateNo:serial,
-    imageNo:getString(row.imageNo || ""),
-    imageName:imageName,
-    date:date,
-    imageUrl:imageUrl
-  };
-}
-
-function renderBook(){
-  const list =
-  document.getElementById("bookList");
-
-  if(!list){
-    return;
-  }
-
-  list.innerHTML =
-  historyItems.map(function(item,index){
-    return renderBookItem(item,index);
-  }).join("");
-}
-
-function renderBookItem(item,index){
-  const countText =
-  item.count
-  ? "第" + item.count + "回 登頂記念"
-  : "登頂記念";
-
-  const serialText =
-  item.serial
-  ? "No." + item.serial
-  : "";
-
-  const dateText =
-  item.date ||
-  "";
-
-  let html =
-  '<div class="certCard">';
-
-  html +=
-  '<div class="certImageBox">';
-
-  html +=
-  '<img class="certImage" src="' +
-  escapeHtml(item.imageUrl) +
-  '" alt="' +
-  escapeHtml(item.imageName || countText) +
-  '" onerror="this.src=\'ogp-certificate.jpg\'">';
-
-  html +=
-  '</div>';
-
-  html +=
-  '<div class="info">';
-
-  html +=
-  '<h3 class="infoTitle">' +
-  escapeHtml(item.imageName || countText) +
-  '</h3>';
-
-  html +=
-  '<p class="infoText">';
-
-  html +=
-  escapeHtml(countText);
-
-  if(serialText){
-    html +=
-    '<br>' +
-    escapeHtml(serialText);
-  }
-
-  if(dateText){
-    html +=
-    '<br>' +
-    escapeHtml(dateText);
-  }
-
-  html +=
-  '</p>';
-
-  html +=
-  '</div>';
-
-  html +=
-  '<div class="btnGrid">';
-
-  html +=
-  '<a class="linkBtn greenBtn" href="' +
-  escapeHtml(buildCertificateUrl(item)) +
-  '">記念証を開く</a>';
-
-  html +=
-  '<a class="linkBtn goldBtn" href="' +
-  escapeHtml(item.imageUrl) +
-  '" target="_blank" rel="noopener">画像を開く・保存</a>';
-
-  html +=
-  '<button class="btn grayBtn" onclick="copyCertificatePost(' +
-  index +
-  ')">投稿文コピー</button>';
-
-  html +=
-  '<button class="btn facebookBtn" onclick="shareCertificateBook(' +
-  index +
-  ',\'facebook\')">Facebookで共有</button>';
-
-  html +=
-  '<button class="btn lineBtn" onclick="shareCertificateBook(' +
-  index +
-  ',\'line\')">LINEで送る</button>';
-
-  html +=
-  '<button class="btn xBtn" onclick="shareCertificateBook(' +
-  index +
-  ',\'x\')">Xで投稿</button>';
-
-  html +=
-  '</div>';
-
-  html +=
-  '</div>';
-
-  return html;
-}
-
-function buildCertificateUrl(item){
-  const params =
-  new URLSearchParams();
-
-  params.set(
-    "userId",
-    item.userId || currentUserId
-  );
-
-  if(item.count){
-    params.set(
-      "count",
-      item.count
-    );
-  }
-
-  if(item.serial){
-    params.set(
-      "serial",
-      item.serial
-    );
-  }
-
-  params.set(
-    "v",
-    Date.now()
-  );
-
-  return CERTIFICATE_PAGE +
-  "?" +
-  params.toString();
-}
-
-function buildShareUrl(item){
-  const params =
-  new URLSearchParams();
-
-  params.set(
-    "mode",
-    "shareCertificateBook"
-  );
-
-  params.set(
-    "userId",
-    item.userId || currentUserId
-  );
-
-  if(item.count){
-    params.set(
-      "count",
-      item.count
-    );
-  }
-
-  if(item.serial){
-    params.set(
-      "serial",
-      item.serial
-    );
-  }
-
-  return GAS_URL +
-  "?" +
-  params.toString();
-}
-
-function buildShareText(item){
-  const lines =
-  [];
-
-  lines.push(
-    "田子山富士168の縁プロジェクトの登頂記念です。"
-  );
-
-  if(item.imageName){
-    lines.push(
-      item.imageName
-    );
-  }
-
-  if(item.count){
-    lines.push(
-      "第" + item.count + "回 登頂記念"
-    );
-  }
-
-  if(item.serial){
-    lines.push(
-      "No." + item.serial
-    );
-  }
-
-  if(item.date){
-    lines.push(
-      item.date
-    );
-  }
-
-  lines.push(
-    "#田子山富士"
-  );
-
-  lines.push(
-    "#168の縁プロジェクト"
-  );
-
-  return lines.join("\n");
-}
-
-async function copyCertificatePost(index){
-  const item =
-  historyItems[index];
-
-  if(!item){
-    alert("登頂記念が見つかりません。");
-    return;
-  }
-
-  const text =
-  buildShareText(item) +
-  "\n" +
-  buildShareUrl(item);
-
-  try{
-    await copyText(text);
-    alert("投稿文とリンクをコピーしました。");
-  }catch(err){
-    alert("コピーできませんでした。");
-  }
-}
-
-async function shareCertificateBook(index,type){
-  const item =
-  historyItems[index];
-
-  if(!item){
-    alert("登頂記念が見つかりません。");
-    return;
-  }
-
-  const url =
-  buildShareUrl(item);
-
-  const text =
-  buildShareText(item);
-
-  if(type === "facebook"){
-    try{
-      await copyText(text + "\n" + url);
-    }catch(e){}
-
-    location.href =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(url);
-
-    return;
-  }
-
-  if(type === "line"){
-    location.href =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(url);
-
-    return;
-  }
-
-  if(type === "x"){
-    location.href =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text) +
-    "&url=" +
-    encodeURIComponent(url);
-
-    return;
-  }
-}
-
-async function getJson(url){
-  try{
-    return await fetchJson(url,12000);
-  }catch(err){
-    return await jsonp(url,15000);
-  }
-}
-
-async function fetchJson(url,timeoutMs){
-  const controller =
-  new AbortController();
-
-  const timer =
-  setTimeout(function(){
-    controller.abort();
-  },timeoutMs || 12000);
-
-  try{
-    const res =
-    await fetch(
-      url,
-      {
-        method:"GET",
-        cache:"no-store",
-        signal:controller.signal
-      }
-    );
-
-    const text =
-    await res.text();
-
-    if(!res.ok){
-      throw new Error("通信エラーが発生しました");
+    /*
+      history配列以外は受け付けない。
+      単体JSONは登頂記念として扱わない。
+      participantNoを登頂回数にしない。
+      serialNoを勝手に作らない。
+    */
+    if(!Array.isArray(data.history) || data.history.length === 0){
+      statusBox.innerText =
+      "まだ登頂記念がありません。";
+
+      container.innerHTML =
+      "";
+
+      return;
     }
 
-    try{
-      return JSON.parse(text);
-    }catch(e){}
-
-    const match =
-    text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
-
-    if(match && match[1]){
-      return JSON.parse(match[1]);
-    }
-
-    throw new Error("データを読み込めませんでした");
-
-  }finally{
-    clearTimeout(timer);
-  }
-}
-
-function jsonp(url,timeoutMs){
-  return new Promise(function(resolve,reject){
-    const callbackName =
-    "__tagoyamaBookCallback_" +
-    Date.now() +
-    "_" +
-    Math.floor(Math.random() * 100000);
-
-    const sep =
-    url.indexOf("?") >= 0
-    ? "&"
-    : "?";
-
-    const script =
-    document.createElement("script");
-
-    let done =
-    false;
-
-    const timer =
-    setTimeout(function(){
-      cleanup();
-
-      reject(
-        new Error("読み込みが時間切れになりました")
+    const rows =
+    data.history.filter(function(item){
+      return (
+        item &&
+        item.userId &&
+        item.climbCount &&
+        item.serialNo &&
+        item.imageName &&
+        item.imageUrl
       );
-    },timeoutMs || 15000);
+    });
 
-    function cleanup(){
-      if(done){
-        return;
-      }
+    if(rows.length === 0){
+      statusBox.innerText =
+      "まだ登頂記念がありません。";
 
-      done =
-      true;
+      container.innerHTML =
+      "";
 
-      clearTimeout(timer);
-
-      try{
-        delete window[callbackName];
-      }catch(e){
-        window[callbackName] =
-        undefined;
-      }
-
-      if(script.parentNode){
-        script.parentNode.removeChild(script);
-      }
+      return;
     }
 
-    window[callbackName] =
-    function(data){
-      cleanup();
-      resolve(data);
-    };
+    container.innerHTML =
+    "";
 
-    script.onerror =
-    function(){
-      cleanup();
+    rows.forEach(function(item){
+      const card =
+      document.createElement("div");
 
-      reject(
-        new Error("JSONP読み込みに失敗しました")
+      card.className =
+      "certificate-card";
+
+      const title =
+      "第" +
+      escapeHtml(item.climbCount) +
+      "回登頂記念";
+
+      const serial =
+      "No." +
+      escapeHtml(item.serialNo);
+
+      const imageName =
+      escapeHtml(item.imageName);
+
+      const lastDate =
+      escapeHtml(formatDate(item.lastDate));
+
+      const imageUrl =
+      escapeHtml(normalizeImageUrl(item.imageUrl));
+
+      card.innerHTML =
+      '<img src="' +
+      imageUrl +
+      '" alt="' +
+      imageName +
+      '" onerror="this.src=\'ogp-certificate.jpg\'">' +
+      '<h3 class="certTitle">' +
+      title +
+      '</h3>' +
+      '<p class="certInfo">' +
+      serial +
+      '<br>' +
+      imageName +
+      '<br>' +
+      '日付: ' +
+      lastDate +
+      '</p>';
+
+      container.appendChild(card);
+    });
+
+    statusBox.innerText =
+    "登頂記念が " +
+    rows.length +
+    " 件あります。";
+
+    shareBtn.style.display =
+    "flex";
+
+  }catch(error){
+    statusBox.innerText =
+    "データの読み込みに失敗しました。";
+
+    container.innerHTML =
+    "";
+  }
+}
+
+function shareCertificateBook(){
+  if(!userId){
+    alert("ユーザーIDが不明です。");
+    return;
+  }
+
+  const shareUrl =
+  GAS_URL +
+  "?mode=shareCertificateBook&userId=" +
+  encodeURIComponent(userId);
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(shareUrl).then(function(){
+      alert(
+        "シェア用URLをコピーしました。\n" +
+        shareUrl
       );
-    };
+    }).catch(function(){
+      alert(
+        "以下のURLをコピーしてシェアしてください。\n" +
+        shareUrl
+      );
+    });
 
-    script.src =
-    url +
-    sep +
-    "callback=" +
-    encodeURIComponent(callbackName);
+    return;
+  }
 
-    document.body.appendChild(script);
-  });
+  alert(
+    "以下のURLをコピーしてシェアしてください。\n" +
+    shareUrl
+  );
 }
 
 function normalizeImageUrl(value){
@@ -1052,7 +620,7 @@ function normalizeImageUrl(value){
   return url;
 }
 
-function formatDateText(value){
+function formatDate(value){
   value =
   getString(value);
 
@@ -1077,53 +645,6 @@ function formatDateText(value){
   .replace("T15:00:00.000Z","")
   .replace("T00:00:00.000Z","")
   .replace(/-/g,"/");
-}
-
-async function copyText(text){
-  text =
-  getString(text);
-
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-
-  const textarea =
-  document.createElement("textarea");
-
-  textarea.value =
-  text;
-
-  textarea.setAttribute("readonly","readonly");
-  textarea.style.position =
-  "fixed";
-  textarea.style.left =
-  "-9999px";
-  textarea.style.top =
-  "0";
-
-  document.body.appendChild(textarea);
-  textarea.focus();
-  textarea.select();
-
-  const ok =
-  document.execCommand("copy");
-
-  document.body.removeChild(textarea);
-
-  if(!ok){
-    throw new Error("コピーできませんでした");
-  }
-}
-
-function setStatus(text){
-  const el =
-  document.getElementById("statusBox");
-
-  if(el){
-    el.innerText =
-    text;
-  }
 }
 
 function escapeHtml(value){
