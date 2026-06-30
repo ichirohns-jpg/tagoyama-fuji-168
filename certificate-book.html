@@ -7,16 +7,16 @@
 <title>田子山富士 登頂記念帳</title>
 
 <meta property="og:title" content="田子山富士 登頂記念帳">
-<meta property="og:description" content="田子山富士168の縁プロジェクトの登頂記念帳です。">
+<meta property="og:description" content="あなたの登頂記念証を横にめくって見られます。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate-book.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 登頂記念帳">
-<meta name="twitter:description" content="田子山富士168の縁プロジェクトの登頂記念帳です。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260701-book">
+<meta name="twitter:description" content="あなたの登頂記念証を横にめくって見られます。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=book-final">
 
 <style>
 *{
@@ -73,7 +73,7 @@ body{
 
 .title{
   margin:0;
-  font-size:clamp(38px,10vw,72px);
+  font-size:clamp(40px,11vw,76px);
   font-weight:900;
   line-height:1.12;
   color:#ffdf72;
@@ -83,8 +83,17 @@ body{
     0 0 18px rgba(255,210,80,.28);
 }
 
+.lead{
+  margin:20px 0 0;
+  font-size:clamp(22px,6vw,38px);
+  font-weight:900;
+  line-height:1.55;
+  color:#fff3c4;
+  text-align:center;
+}
+
 .subTitle{
-  margin:12px 0 0;
+  margin:14px 0 0;
   font-size:clamp(18px,4.8vw,30px);
   font-weight:900;
   line-height:1.45;
@@ -104,23 +113,6 @@ body{
     0 12px 28px rgba(0,0,0,.42);
 }
 
-.cardTitle{
-  margin:0 0 16px;
-  color:#ffdf72;
-  font-size:clamp(28px,7.2vw,48px);
-  font-weight:900;
-  line-height:1.25;
-}
-
-.cardText{
-  margin:0;
-  font-size:clamp(19px,5vw,32px);
-  font-weight:800;
-  line-height:1.75;
-  color:#fff;
-  text-align:center;
-}
-
 .statusBox{
   margin-top:18px;
   padding:18px 14px;
@@ -135,13 +127,18 @@ body{
   white-space:pre-wrap;
 }
 
-.list{
-  display:grid;
-  gap:24px;
-  margin-top:24px;
+.bookScroller{
+  display:flex;
+  overflow-x:auto;
+  gap:18px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding:22px 2px 10px;
 }
 
 .certCard{
+  flex:0 0 100%;
+  scroll-snap-align:center;
   padding:18px;
   border-radius:26px;
   border:2px solid rgba(255,220,95,.72);
@@ -152,7 +149,6 @@ body{
 }
 
 .certImageBox{
-  position:relative;
   width:100%;
   border-radius:22px;
   overflow:hidden;
@@ -170,49 +166,6 @@ body{
   background:#000;
 }
 
-.certOverlay{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:18px 10px 20px;
-  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));
-  text-align:center;
-  pointer-events:none;
-}
-
-.certRound{
-  font-size:clamp(24px,7vw,46px);
-  font-weight:900;
-  line-height:1.2;
-  color:#fff;
-  text-shadow:
-    0 3px 4px #000,
-    0 0 12px rgba(255,255,255,.35);
-}
-
-.certSerial{
-  margin-top:8px;
-  font-size:clamp(34px,10vw,64px);
-  font-weight:900;
-  line-height:1.1;
-  color:#ffdf72;
-  text-shadow:
-    0 3px 4px #000,
-    0 0 14px rgba(255,220,90,.38);
-}
-
-.certDate{
-  margin-top:8px;
-  font-size:clamp(20px,5.8vw,38px);
-  font-weight:900;
-  line-height:1.2;
-  color:#fff;
-  text-shadow:
-    0 3px 4px #000,
-    0 0 12px rgba(255,255,255,.28);
-}
-
 .info{
   margin-top:16px;
   text-align:center;
@@ -220,18 +173,18 @@ body{
 
 .infoTitle{
   margin:0;
-  font-size:clamp(22px,6vw,38px);
+  font-size:clamp(24px,6.4vw,40px);
   font-weight:900;
   color:#ffdf72;
   line-height:1.35;
 }
 
 .infoText{
-  margin:8px 0 0;
-  font-size:clamp(17px,4.6vw,26px);
+  margin:10px 0 0;
+  font-size:clamp(18px,4.8vw,28px);
   font-weight:900;
   color:#fff3c4;
-  line-height:1.5;
+  line-height:1.6;
 }
 
 .btnGrid{
@@ -281,8 +234,26 @@ body{
   background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
 
+.goldBtn{
+  background:linear-gradient(180deg,#ffe27a,#c79218);
+  color:#251400;
+}
+
 .blackBtn{
   background:linear-gradient(180deg,#232323,#050505);
+}
+
+.note{
+  margin:22px 0 0;
+  padding:20px 16px;
+  border-radius:22px;
+  border:1px solid rgba(255,220,140,.42);
+  background:rgba(0,0,0,.30);
+  color:#fff3c4;
+  font-size:clamp(17px,4.6vw,26px);
+  line-height:1.7;
+  font-weight:900;
+  text-align:center;
 }
 
 .footer{
@@ -330,31 +301,36 @@ body{
       登頂記念帳
     </h1>
 
+    <div class="lead">
+      あなたの登頂記念証を<br>
+      横にめくって見られます
+    </div>
+
     <div class="subTitle">
       田子山富士168の縁プロジェクト
     </div>
   </header>
 
   <section class="card">
-    <h2 class="cardTitle">
-      登頂の記録
-    </h2>
-
-    <p class="cardText">
-      これまでの登頂記念を<br>
-      記念帳として表示します。
-    </p>
-
     <div class="statusBox" id="statusBox">
-      登頂記念帳を読み込み中です...
+      記念帳を読み込んでいます...
     </div>
 
-    <div class="list" id="bookList"></div>
+    <div class="bookScroller" id="bookList"></div>
 
     <div class="btnGrid">
       <a class="linkBtn blackBtn" href="./">
         ← トップへ戻る
       </a>
+
+      <a class="linkBtn goldBtn" id="latestBtn" href="certificate.html">
+        最新の記念証を見る
+      </a>
+    </div>
+
+    <div class="note">
+      横にスワイプすると、過去の登頂記念証を見られます。<br>
+      各カードごとに画像保存・SNS共有ができます。
     </div>
   </section>
 
@@ -386,6 +362,18 @@ window.addEventListener("load",init);
 function init(){
   currentUserId =
   getStableUserId();
+
+  const latestBtn =
+  document.getElementById("latestBtn");
+
+  if(latestBtn && currentUserId){
+    latestBtn.href =
+    CERTIFICATE_PAGE +
+    "?userId=" +
+    encodeURIComponent(currentUserId) +
+    "&v=" +
+    Date.now();
+  }
 
   if(!currentUserId){
     setStatus(
@@ -426,7 +414,7 @@ function getStableUserId(){
 
 async function loadBook(){
   setStatus(
-    "登頂記念帳を読み込み中です..."
+    "記念帳を読み込んでいます..."
   );
 
   const list =
@@ -450,14 +438,14 @@ async function loadBook(){
     await getJson(url);
 
     const rows =
-    extractHistoryRows(data);
+    extractRows(data);
 
     historyItems =
     rows.map(function(row){
       return normalizeHistoryItem(row);
     })
     .filter(function(item){
-      return item.count || item.imageUrl || item.serial || item.imageName;
+      return item.userId && item.imageUrl;
     });
 
     if(historyItems.length === 0){
@@ -491,7 +479,7 @@ async function loadBook(){
   }
 }
 
-function extractHistoryRows(data){
+function extractRows(data){
   if(!data){
     return [];
   }
@@ -521,16 +509,15 @@ function extractHistoryRows(data){
   }
 
   if(
-    data.count ||
-    data.climbCount ||
-    data.serial ||
-    data.serialNo ||
-    data.certificateNo ||
-    data.imageUrl ||
-    data.imageURL ||
-    data.imageName ||
-    data.climbDate ||
-    data.lastDate
+    data.userId &&
+    (
+      data.climbCount ||
+      data.count ||
+      data.serialNo ||
+      data.serial ||
+      data.imageUrl ||
+      data.imageName
+    )
   ){
     return [data];
   }
@@ -542,66 +529,29 @@ function normalizeHistoryItem(row){
   row =
   row || {};
 
-  let count =
+  const userId =
+  getString(
+    row.userId ||
+    row.id ||
+    row.uid ||
+    currentUserId
+  );
+
+  const count =
   Number(
     row.climbCount ||
     row.count ||
     row.no ||
-    row.participantNo ||
     0
   );
 
-  if(!count || !Number.isFinite(count)){
-    count =
-    extractNumber(
-      row.imageName ||
-      row.title ||
-      row.name ||
-      ""
-    );
-  }
-
-  let serial =
+  const serial =
   getString(
     row.serialNo ||
     row.certificateNo ||
     row.serial ||
     ""
   );
-
-  if(!isGoodSerial(serial)){
-    serial =
-    count
-    ? count + "-0001"
-    : "";
-  }
-
-  let imageUrl =
-  "";
-
-  if(row.imageUrl){
-    imageUrl =
-    row.imageUrl;
-  }else if(row.imageURL){
-    imageUrl =
-    row.imageURL;
-  }else if(row.image && typeof row.image === "object"){
-    imageUrl =
-    row.image.imageUrl ||
-    row.image.imageURL ||
-    row.image.url ||
-    row.image.src ||
-    "";
-  }else if(row.image && typeof row.image === "string"){
-    imageUrl =
-    row.image;
-  }else if(row.url){
-    imageUrl =
-    row.url;
-  }
-
-  imageUrl =
-  normalizeImageUrl(imageUrl);
 
   const imageName =
   getString(
@@ -615,26 +565,33 @@ function normalizeHistoryItem(row){
     )
   );
 
+  const imageUrl =
+  normalizeImageUrl(
+    row.imageUrl ||
+    row.imageURL ||
+    row.image ||
+    row.url ||
+    ""
+  );
+
   const date =
   formatDateText(
     row.climbDate ||
     row.lastDate ||
     row.date ||
-    row.datetime ||
     row.updatedAt ||
-    row.createdAt ||
     ""
   );
 
   return {
-    userId:getString(row.userId || currentUserId),
+    userId:userId,
     count:count,
     climbCount:count,
-    imageNo:getString(row.imageNo || row.no || count || ""),
-    imageName:imageName,
     serial:serial,
     serialNo:serial,
     certificateNo:serial,
+    imageNo:getString(row.imageNo || ""),
+    imageName:imageName,
     date:date,
     imageUrl:imageUrl
   };
@@ -655,10 +612,6 @@ function renderBook(){
 }
 
 function renderBookItem(item,index){
-  const image =
-  item.imageUrl ||
-  "ogp-certificate.jpg";
-
   const countText =
   item.count
   ? "第" + item.count + "回 登頂記念"
@@ -681,35 +634,10 @@ function renderBookItem(item,index){
 
   html +=
   '<img class="certImage" src="' +
-  escapeHtml(image) +
+  escapeHtml(item.imageUrl) +
   '" alt="' +
-  escapeHtml(countText) +
+  escapeHtml(item.imageName || countText) +
   '" onerror="this.src=\'ogp-certificate.jpg\'">';
-
-  html +=
-  '<div class="certOverlay">';
-
-  html +=
-  '<div class="certRound">' +
-  escapeHtml(countText) +
-  '</div>';
-
-  if(serialText){
-    html +=
-    '<div class="certSerial">' +
-    escapeHtml(serialText) +
-    '</div>';
-  }
-
-  if(dateText){
-    html +=
-    '<div class="certDate">' +
-    escapeHtml(dateText) +
-    '</div>';
-  }
-
-  html +=
-  '</div>';
 
   html +=
   '</div>';
@@ -723,10 +651,24 @@ function renderBookItem(item,index){
   '</h3>';
 
   html +=
-  '<p class="infoText">' +
-  escapeHtml(serialText) +
-  '<br>' +
-  escapeHtml(dateText) +
+  '<p class="infoText">';
+
+  html +=
+  escapeHtml(countText);
+
+  if(serialText){
+    html +=
+    '<br>' +
+    escapeHtml(serialText);
+  }
+
+  if(dateText){
+    html +=
+    '<br>' +
+    escapeHtml(dateText);
+  }
+
+  html +=
   '</p>';
 
   html +=
@@ -842,6 +784,12 @@ function buildShareText(item){
   lines.push(
     "田子山富士168の縁プロジェクトの登頂記念です。"
   );
+
+  if(item.imageName){
+    lines.push(
+      item.imageName
+    );
+  }
 
   if(item.count){
     lines.push(
@@ -1052,6 +1000,7 @@ function jsonp(url,timeoutMs){
     script.onerror =
     function(){
       cleanup();
+
       reject(
         new Error("JSONP読み込みに失敗しました")
       );
@@ -1138,39 +1087,6 @@ function formatDateText(value){
   .replace("T15:00:00.000Z","")
   .replace("T00:00:00.000Z","")
   .replace(/-/g,"/");
-}
-
-function extractNumber(value){
-  const text =
-  getString(value);
-
-  const match =
-  text.match(/\d+/);
-
-  if(!match){
-    return 0;
-  }
-
-  return Number(match[0]);
-}
-
-function isGoodSerial(value){
-  const text =
-  getString(value);
-
-  if(!text){
-    return false;
-  }
-
-  if(text.indexOf("GMT") >= 0){
-    return false;
-  }
-
-  if(text.indexOf("標準時") >= 0){
-    return false;
-  }
-
-  return /^\d+\-\d+$/.test(text);
 }
 
 async function copyText(text){
