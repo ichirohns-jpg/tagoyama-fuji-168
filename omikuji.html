@@ -6,16 +6,6 @@
 
 <title>田子山富士 開運おみくじ</title>
 
-<meta property="og:title" content="田子山富士 開運おみくじ">
-<meta property="og:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="田子山富士 開運おみくじ">
-<meta name="twitter:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
-
 <style>
 *{
   box-sizing:border-box;
@@ -312,12 +302,8 @@ body{
   margin-top:24px;
 }
 
-.shareGuide{
+.shareNote{
   margin:0;
-  padding:14px 12px;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,220,140,.28);
   font-size:15px;
   font-weight:800;
   line-height:1.7;
@@ -485,39 +471,38 @@ body{
           id="resultImage"
           class="resultImage"
           src=""
-          alt="田子山富士おみくじ画像"
-          referrerpolicy="no-referrer">
+          alt="田子山富士おみくじ画像">
       </div>
 
       <div id="shareActions" class="btnArea shareActions">
         <button
           class="btn greenBtn"
-          onclick="saveOmikujiImage()">
+          onclick="saveOmikujiImage(this)">
           画像を保存
         </button>
 
         <button
           class="btn grayBtn"
           onclick="copyOmikujiPost()">
-          ① リンクをコピー
+          投稿文をコピー
         </button>
 
         <button
           class="btn facebookBtn"
           onclick="shareOmikuji('facebook')">
-          ② Facebookで投稿
+          Facebookで投稿
         </button>
 
         <button
           class="btn lineBtn"
           onclick="shareOmikuji('line')">
-          ③ LINEで送る
+          LINEで送る
         </button>
 
         <button
           class="btn xBtn"
           onclick="shareOmikuji('x')">
-          ④ Xで投稿
+          Xで投稿
         </button>
 
         <a
@@ -526,9 +511,10 @@ body{
           ← トップへ戻る
         </a>
 
-        <p class="shareGuide">
-          Facebookに投稿する場合は、上の「リンクをコピー」を押してからFacebookボタンで投稿してください。<br>
-          大当たりの場合は、大当たり専用ページのバナー画像をFacebookが拾います。
+        <p class="shareNote">
+          Facebookは投稿文をコピーしてから投稿画面を開きます。<br>
+          表示中のおみくじ画像URLをFacebookに渡します。<br>
+          画像保存とは別処理です。
         </p>
       </div>
     </div>
@@ -548,8 +534,7 @@ body{
     </p>
 
     <p class="popupGuide">
-      下のボタンを押して<br>
-      共有画面で「画像を保存」を選んでください
+      共有画面で「画像を保存」または「写真に保存」を選んでください。
     </p>
 
     <img id="savedImage" alt="田子山富士おみくじ画像">
@@ -578,17 +563,11 @@ const SITE_BASE =
 const OMIKUJI_PAGE =
 SITE_BASE + "omikuji.html";
 
-const SHARE_OMIKUJI_ATARI_PAGE =
-SITE_BASE + "share-omikuji-atari.html";
-
 const HOME_PAGE =
 SITE_BASE;
 
 const DONE_MESSAGE =
 "本日のおみくじは終了しました。\n次回の登頂時にまたお楽しみください。";
-
-const SHARE_VERSION =
-"20260704-atari-banner-1";
 
 let currentUserId = "";
 let latestImageSource = "";
@@ -1250,14 +1229,8 @@ function buildShareUrl(hit){
 
   params.set(
     "v",
-    SHARE_VERSION
+    Date.now()
   );
-
-  if(hit){
-    return SHARE_OMIKUJI_ATARI_PAGE +
-    "?" +
-    params.toString();
-  }
 
   if(currentUserId){
     params.set(
@@ -1290,60 +1263,136 @@ function buildShareText(data,hit){
 
 async function copyOmikujiPost(){
   const text =
-  (latestShareText || buildShareText(latestResultData,latestIsHit)) +
-  "\n" +
-  (latestShareUrl || buildShareUrl(latestIsHit));
+  latestShareText ||
+  buildShareText(latestResultData,latestIsHit);
 
   try{
     await copyText(text);
-    alert("リンクと投稿文をコピーしました。Facebook画面で投稿欄に貼り付けてください。");
+    alert("投稿文をコピーしました。");
   }catch(e){
     alert("コピーできませんでした。画面の文章を手動でコピーしてください。");
   }
 }
 
 async function shareOmikuji(type){
-  const hit =
-  latestIsHit === true;
-
-  const url =
-  latestShareUrl || buildShareUrl(hit);
-
   const text =
-  latestShareText || buildShareText(latestResultData,hit);
+  latestShareText ||
+  buildShareText(latestResultData,latestIsHit);
 
   if(type === "facebook"){
-    try{
-      await copyText(text + "\n" + url);
-    }catch(e){}
-
-    location.href =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(url);
-
+    await shareToFacebookWithImageUrl(text);
     return;
   }
 
   if(type === "line"){
-    location.href =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(url);
-
+    await shareImageFileBySystemShare(text);
     return;
   }
 
   if(type === "x"){
+    try{
+      await copyText(text);
+    }catch(e){}
+
     location.href =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text) +
-    "&url=" +
-    encodeURIComponent(url);
+    encodeURIComponent(text);
 
     return;
   }
 }
 
-async function saveOmikujiImage(){
+async function shareToFacebookWithImageUrl(text){
+  try{
+    await copyText(text);
+  }catch(e){}
+
+  const imageUrl =
+  getFacebookShareImageUrl();
+
+  if(!imageUrl){
+    alert("Facebookに渡す画像URLがありません。おみくじ画像が表示されてから押してください。");
+    return;
+  }
+
+  location.href =
+  "https://www.facebook.com/sharer/sharer.php?u=" +
+  encodeURIComponent(imageUrl) +
+  "&quote=" +
+  encodeURIComponent(text);
+}
+
+function getFacebookShareImageUrl(){
+  const image =
+  document.getElementById("resultImage");
+
+  let src =
+  "";
+
+  if(image){
+    src =
+    getString(
+      image.currentSrc ||
+      image.src ||
+      ""
+    );
+  }
+
+  if(!src && latestImageCandidates.length > 0){
+    src =
+    latestImageCandidates[0];
+  }
+
+  if(!src){
+    src =
+    latestImageSource;
+  }
+
+  src =
+  cleanUrl(src);
+
+  if(!src){
+    return "";
+  }
+
+  if(src.indexOf("data:image") === 0){
+    return "";
+  }
+
+  return makeFacebookImageUrl(src);
+}
+
+function makeFacebookImageUrl(url){
+  url =
+  cleanUrl(url);
+
+  const driveId =
+  getDriveId(url);
+
+  if(driveId){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(driveId) +
+    "&sz=w1600";
+  }
+
+  if(url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0){
+    try{
+      url =
+      new URL(
+        url,
+        location.href
+      ).href;
+    }catch(e){}
+  }
+
+  return url;
+}
+
+async function shareImageFileBySystemShare(text){
+  try{
+    await copyText(text);
+  }catch(e){}
+
   try{
     const file =
     await prepareFile();
@@ -1355,7 +1404,7 @@ async function saveOmikujiImage(){
       await navigator.share({
         files:[file],
         title:"田子山富士おみくじ",
-        text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
+        text:text
       });
 
       return;
@@ -1368,29 +1417,18 @@ async function saveOmikujiImage(){
   }
 }
 
+async function saveOmikujiImage(btn){
+  await shareImageFileBySystemShare(
+    latestShareText ||
+    buildShareText(latestResultData,latestIsHit)
+  );
+}
+
 async function shareSavedImage(){
-  try{
-    const file =
-    await prepareFile();
-
-    if(
-      navigator.share &&
-      (!navigator.canShare || navigator.canShare({files:[file]}))
-    ){
-      await navigator.share({
-        files:[file],
-        title:"田子山富士おみくじ",
-        text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
-      });
-
-      return;
-    }
-
-    alert("画像を長押しして保存してください。");
-
-  }catch(e){
-    alert("画像を長押しして保存してください。");
-  }
+  await shareImageFileBySystemShare(
+    latestShareText ||
+    buildShareText(latestResultData,latestIsHit)
+  );
 }
 
 function showImagePopup(){
@@ -1446,10 +1484,13 @@ async function prepareFile(){
   : makeImageCandidateUrls(latestImageSource);
 
   for(let i = 0; i < candidates.length; i++){
+    const url =
+    candidates[i];
+
     try{
       const file =
       await fetchImageAsFile(
-        candidates[i],
+        url,
         "tagoyama-omikuji.png"
       );
 
@@ -1604,6 +1645,12 @@ function makeImageCandidateUrls(url){
     addUnique(
       list,
       "https://drive.google.com/uc?export=view&id=" +
+      encodeURIComponent(driveId)
+    );
+
+    addUnique(
+      list,
+      "https://drive.google.com/uc?export=download&id=" +
       encodeURIComponent(driveId)
     );
 
