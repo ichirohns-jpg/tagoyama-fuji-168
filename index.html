@@ -593,19 +593,19 @@ async function init(){
   if(params.get("open") === "news"){
     setTimeout(function(){
       openSection("newsSection");
-    }, 300);
+    },300);
   }
 
   if(params.get("open") === "goen"){
     setTimeout(function(){
       openSection("goenSection");
-    }, 300);
+    },300);
   }
 
   if(params.get("open") === "kicho"){
     setTimeout(function(){
       openSection("kichoSection");
-    }, 300);
+    },300);
   }
 }
 
@@ -877,7 +877,7 @@ function openSection(id){
       behavior:"smooth",
       block:"start"
     });
-  }, 80);
+  },80);
 }
 
 function closeAllSections(){
@@ -977,6 +977,10 @@ function renderNewsItem(row){
   const news =
   normalizeNewsRow(row);
 
+  const bodyText =
+  news.body ||
+  "詳細は画像をご確認ください。";
+
   let html =
   '<div class="item">';
 
@@ -1001,12 +1005,10 @@ function renderNewsItem(row){
     '" alt="" onerror="this.style.display=\'none\'">';
   }
 
-  if(news.body){
-    html +=
-    '<p class="itemBody">' +
-    escapeHtml(news.body) +
-    '</p>';
-  }
+  html +=
+  '<p class="itemBody">' +
+  escapeHtml(bodyText) +
+  '</p>';
 
   if(news.url){
     html +=
@@ -1026,64 +1028,230 @@ function normalizeNewsRow(row){
   row || {};
 
   if(Array.isArray(row)){
-    return {
-      date:getString(row[0]),
-      title:getString(row[1]),
-      body:getString(row[2]),
-      image:normalizeNewsImageUrl(row[3]),
-      url:getString(row[4])
-    };
+    return normalizeNewsArray(row);
+  }
+
+  const date =
+  getString(
+    row.date ||
+    row.日付 ||
+    row.datetime ||
+    row.createdAt ||
+    row.日時 ||
+    ""
+  );
+
+  const title =
+  getString(
+    row.title ||
+    row.タイトル ||
+    row.name ||
+    row.subject ||
+    row.件名 ||
+    ""
+  );
+
+  const image =
+  normalizeNewsImageUrl(
+    row.image ||
+    row.imageUrl ||
+    row.imageURL ||
+    row.image1 ||
+    row.画像 ||
+    row.画像URL ||
+    ""
+  );
+
+  const url =
+  getString(
+    row.url ||
+    row.link ||
+    row.URL ||
+    row.リンク ||
+    ""
+  );
+
+  let body =
+  getString(
+    row.body ||
+    row.本文 ||
+    row.text ||
+    row.message ||
+    row.内容 ||
+    row.description ||
+    row.summary ||
+    row.説明 ||
+    row.caption ||
+    row.detail ||
+    ""
+  );
+
+  if(!body){
+    body =
+    findNewsBodyFromObject(
+      row,
+      {
+        date:date,
+        title:title,
+        image:image,
+        url:url
+      }
+    );
   }
 
   return {
-    date:getString(
-      row.date ||
-      row.日付 ||
-      row.datetime ||
-      row.createdAt ||
-      row.日時 ||
-      ""
-    ),
-
-    title:getString(
-      row.title ||
-      row.タイトル ||
-      row.name ||
-      row.subject ||
-      row.件名 ||
-      ""
-    ),
-
-    body:getString(
-      row.body ||
-      row.本文 ||
-      row.text ||
-      row.message ||
-      row.内容 ||
-      row.description ||
-      row.summary ||
-      row.説明 ||
-      ""
-    ),
-
-    image:normalizeNewsImageUrl(
-      row.image ||
-      row.imageUrl ||
-      row.imageURL ||
-      row.image1 ||
-      row.画像 ||
-      row.画像URL ||
-      ""
-    ),
-
-    url:getString(
-      row.url ||
-      row.link ||
-      row.URL ||
-      row.リンク ||
-      ""
-    )
+    date:date,
+    title:title,
+    body:body,
+    image:image,
+    url:url
   };
+}
+
+function normalizeNewsArray(row){
+  const date =
+  getString(row[0]);
+
+  const title =
+  getString(row[1]);
+
+  let image =
+  "";
+
+  let url =
+  "";
+
+  let body =
+  "";
+
+  for(let i = 2; i < row.length; i++){
+    const value =
+    getString(row[i]);
+
+    if(!value){
+      continue;
+    }
+
+    if(!image && isNewsImageValue(value)){
+      image =
+      normalizeNewsImageUrl(value);
+      continue;
+    }
+
+    if(!url && isNewsUrlValue(value) && !isNewsImageValue(value)){
+      url =
+      value;
+      continue;
+    }
+
+    if(!body && !isNewsImageValue(value) && !isNewsUrlValue(value)){
+      body =
+      value;
+      continue;
+    }
+  }
+
+  if(!body){
+    body =
+    findNewsBodyFromArray(
+      row,
+      {
+        date:date,
+        title:title,
+        image:image,
+        url:url
+      }
+    );
+  }
+
+  return {
+    date:date,
+    title:title,
+    body:body,
+    image:image,
+    url:url
+  };
+}
+
+function findNewsBodyFromObject(row, used){
+  const values =
+  [];
+
+  Object.keys(row || {}).forEach(function(key){
+    const value =
+    row[key];
+
+    if(value === null || value === undefined){
+      return;
+    }
+
+    if(typeof value === "object"){
+      return;
+    }
+
+    values.push(
+      getString(value)
+    );
+  });
+
+  return findNewsBodyFromArray(values, used);
+}
+
+function findNewsBodyFromArray(values, used){
+  used =
+  used || {};
+
+  const candidates =
+  [];
+
+  values.forEach(function(value){
+    const text =
+    getString(value);
+
+    if(!text){
+      return;
+    }
+
+    if(text === used.date){
+      return;
+    }
+
+    if(text === used.title){
+      return;
+    }
+
+    if(text === used.image){
+      return;
+    }
+
+    if(text === used.url){
+      return;
+    }
+
+    if(isNewsImageValue(text)){
+      return;
+    }
+
+    if(isNewsUrlValue(text)){
+      return;
+    }
+
+    if(looksLikeNewsDate(text)){
+      return;
+    }
+
+    if(text.length <= 1){
+      return;
+    }
+
+    candidates.push(text);
+  });
+
+  if(candidates.length === 0){
+    return "";
+  }
+
+  return candidates.join("\n");
 }
 
 function normalizeNewsImageUrl(value){
@@ -1117,6 +1285,46 @@ function normalizeNewsImageUrl(value){
   }
 
   return url;
+}
+
+function isNewsImageValue(value){
+  value =
+  getString(value).toLowerCase();
+
+  return (
+    value.indexOf(".jpg") >= 0 ||
+    value.indexOf(".jpeg") >= 0 ||
+    value.indexOf(".png") >= 0 ||
+    value.indexOf(".webp") >= 0 ||
+    value.indexOf(".gif") >= 0 ||
+    value.indexOf("drive.google.com") >= 0 ||
+    value.indexOf("googleusercontent.com") >= 0 ||
+    value.indexOf("thumbnail") >= 0
+  );
+}
+
+function isNewsUrlValue(value){
+  value =
+  getString(value).toLowerCase();
+
+  return (
+    value.indexOf("http://") === 0 ||
+    value.indexOf("https://") === 0 ||
+    value.indexOf("www.") === 0
+  );
+}
+
+function looksLikeNewsDate(value){
+  value =
+  getString(value);
+
+  return (
+    /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(value) ||
+    /^\d{4}年\d{1,2}月\d{1,2}日/.test(value) ||
+    value.indexOf("T00:00:00") >= 0 ||
+    value.indexOf("T15:00:00") >= 0 ||
+    value.indexOf("GMT") >= 0
+  );
 }
 
 async function loadGoen(){
