@@ -512,9 +512,9 @@ body{
         </a>
 
         <p class="shareNote">
-          Facebookは投稿文をコピーしてから投稿画面を開きます。<br>
-          大当たりのときは、Facebookの画像タッチ先を大当たり専用ページにします。<br>
-          LINEは画像共有を優先します。
+          Facebookは、表示されたおみくじ画像そのものを共有します。<br>
+          URLカードではなく、画像投稿として共有します。<br>
+          共有画面が開いたらFacebookを選んで投稿してください。
         </p>
       </div>
     </div>
@@ -533,7 +533,7 @@ body{
       田子山富士おみくじ
     </p>
 
-    <p class="popupGuide">
+    <p class="popupGuide" id="popupGuide">
       共有画面で「画像を保存」または「写真に保存」を選んでください。
     </p>
 
@@ -542,7 +542,7 @@ body{
     <button
       class="popupBtn greenBtn"
       onclick="shareSavedImage()">
-      写真に保存する
+      写真に保存・共有する
     </button>
 
     <button
@@ -563,20 +563,15 @@ const SITE_BASE =
 const OMIKUJI_PAGE =
 SITE_BASE + "omikuji.html";
 
-const SHARE_OMIKUJI_ATARI_PAGE =
-SITE_BASE + "share-omikuji-atari.html";
-
 const HOME_PAGE =
 SITE_BASE;
-
-const SHARE_VERSION =
-"20260630-atari-fb-2";
 
 const DONE_MESSAGE =
 "本日のおみくじは終了しました。\n次回の登頂時にまたお楽しみください。";
 
 let currentUserId = "";
 let latestImageSource = "";
+let latestImageCandidates = [];
 let latestFile = null;
 let latestShareText = "";
 let latestShareUrl = "";
@@ -856,6 +851,9 @@ function clearResult(){
   latestImageSource =
   "";
 
+  latestImageCandidates =
+  [];
+
   latestFile =
   null;
 
@@ -895,6 +893,10 @@ function clearResult(){
 
   if(image){
     image.removeAttribute("src");
+    image.removeAttribute("data-srcs");
+    image.removeAttribute("data-index");
+    image.onerror =
+    null;
   }
 
   const already =
@@ -1021,21 +1023,22 @@ function renderResult(data){
   );
 
   latestImageSource =
-  normalizeImageUrl(
-    getString(
-      result.imageDataUrl ||
-      data.imageDataUrl ||
-      result.imageDataURL ||
-      data.imageDataURL ||
-      result.imageUrl ||
-      data.imageUrl ||
-      result.imageURL ||
-      data.imageURL ||
-      result.url ||
-      data.url ||
-      ""
-    )
+  getString(
+    result.imageDataUrl ||
+    data.imageDataUrl ||
+    result.imageDataURL ||
+    data.imageDataURL ||
+    result.imageUrl ||
+    data.imageUrl ||
+    result.imageURL ||
+    data.imageURL ||
+    result.url ||
+    data.url ||
+    ""
   );
+
+  latestImageCandidates =
+  makeImageCandidateUrls(latestImageSource);
 
   latestFile =
   null;
@@ -1084,12 +1087,32 @@ function renderResult(data){
     }
   }
 
-  if(image && imageBox && latestImageSource){
+  if(image && imageBox && latestImageCandidates.length > 0){
+    image.setAttribute(
+      "data-srcs",
+      JSON.stringify(latestImageCandidates)
+    );
+
+    image.setAttribute(
+      "data-index",
+      "0"
+    );
+
+    image.onerror =
+    function(){
+      fallbackResultImage(this);
+    };
+
     image.src =
-    latestImageSource;
+    latestImageCandidates[0];
 
     imageBox.style.display =
     "block";
+
+    setTimeout(function(){
+      warmUpLatestFile();
+    },100);
+
   }else if(imageBox){
     imageBox.style.display =
     "none";
@@ -1101,6 +1124,50 @@ function renderResult(data){
     ? "none"
     : "grid";
   }
+}
+
+function fallbackResultImage(img){
+  if(!img){
+    return;
+  }
+
+  let srcs =
+  [];
+
+  try{
+    srcs =
+    JSON.parse(
+      img.getAttribute("data-srcs") ||
+      "[]"
+    );
+  }catch(e){
+    srcs =
+    [];
+  }
+
+  let index =
+  Number(
+    img.getAttribute("data-index") ||
+    "0"
+  );
+
+  index =
+  index + 1;
+
+  if(index < srcs.length){
+    img.setAttribute(
+      "data-index",
+      String(index)
+    );
+
+    img.src =
+    srcs[index];
+
+    return;
+  }
+
+  img.onerror =
+  null;
 }
 
 function isHitResult(data,result){
@@ -1166,14 +1233,8 @@ function buildShareUrl(hit){
 
   params.set(
     "v",
-    SHARE_VERSION
+    Date.now()
   );
-
-  if(hit){
-    return SHARE_OMIKUJI_ATARI_PAGE +
-    "?" +
-    params.toString();
-  }
 
   if(currentUserId){
     params.set(
@@ -1185,14 +1246,6 @@ function buildShareUrl(hit){
   return OMIKUJI_PAGE +
   "?" +
   params.toString();
-}
-
-function buildFacebookAtariUrl(){
-  return SHARE_OMIKUJI_ATARI_PAGE +
-  "?v=" +
-  encodeURIComponent(SHARE_VERSION) +
-  "&t=" +
-  Date.now();
 }
 
 function buildShareText(data,hit){
@@ -1214,9 +1267,8 @@ function buildShareText(data,hit){
 
 async function copyOmikujiPost(){
   const text =
-  (latestShareText || buildShareText(latestResultData,latestIsHit)) +
-  "\n" +
-  (latestShareUrl || buildShareUrl(latestIsHit));
+  latestShareText ||
+  buildShareText(latestResultData,latestIsHit);
 
   try{
     await copyText(text);
@@ -1227,109 +1279,106 @@ async function copyOmikujiPost(){
 }
 
 async function shareOmikuji(type){
-  const hit =
-  latestIsHit === true;
-
-  let url =
-  latestShareUrl || buildShareUrl(hit);
-
-  let text =
-  latestShareText || buildShareText(latestResultData,hit);
-
   if(type === "facebook"){
-    url =
-    buildFacebookAtariUrl();
-
-    text =
-    [
-      "田子山富士168の縁プロジェクトでおみくじを引きました。",
-      "#田子山富士",
-      "#168の縁プロジェクト"
-    ].join("\n");
-
-    try{
-      await copyText(text + "\n" + url);
-    }catch(e){}
-
-    location.href =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(url);
+    await shareCurrentImageFile(
+      "facebook"
+    );
 
     return;
   }
 
   if(type === "line"){
-    location.href =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(url);
+    await shareCurrentImageFile(
+      "line"
+    );
 
     return;
   }
 
   if(type === "x"){
+    const text =
+    latestShareText ||
+    buildShareText(latestResultData,latestIsHit);
+
+    try{
+      await copyText(text);
+    }catch(e){}
+
     location.href =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text) +
-    "&url=" +
-    encodeURIComponent(url);
+    encodeURIComponent(text);
 
     return;
   }
 }
 
-async function saveOmikujiImage(btn){
+async function shareCurrentImageFile(type){
+  const text =
+  latestShareText ||
+  buildShareText(latestResultData,latestIsHit);
+
   try{
+    await copyText(text);
+  }catch(e){}
+
+  try{
+    const file =
     await prepareFile();
 
-    if(!latestFile){
+    if(!file){
       throw new Error("画像を準備できませんでした");
     }
 
-    const shareData =
-    {
-      files:[latestFile],
-      title:"田子山富士おみくじ",
-      text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
-    };
-
     if(
-      navigator.share &&
-      (!navigator.canShare || navigator.canShare({files:[latestFile]}))
+      navigator.canShare &&
+      !navigator.canShare({
+        files:[file]
+      })
     ){
-      await navigator.share(shareData);
-      return;
+      throw new Error("この端末では画像ファイル共有に対応していません");
     }
 
-    showImagePopup();
+    if(!navigator.share){
+      throw new Error("この端末では共有機能に対応していません");
+    }
+
+    await navigator.share({
+      files:[file],
+      title:"田子山富士おみくじ",
+      text:text
+    });
+
+    return;
 
   }catch(e){
-    showImagePopup();
+    showImagePopupForManualShare(type);
   }
 }
 
+async function saveOmikujiImage(btn){
+  await shareCurrentImageFile(
+    "save"
+  );
+}
+
 async function shareSavedImage(){
-  try{
-    await prepareFile();
+  await shareCurrentImageFile(
+    "manual"
+  );
+}
 
-    if(
-      latestFile &&
-      navigator.share &&
-      (!navigator.canShare || navigator.canShare({files:[latestFile]}))
-    ){
-      await navigator.share({
-        files:[latestFile],
-        title:"田子山富士おみくじ",
-        text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
-      });
+function showImagePopupForManualShare(type){
+  const guide =
+  document.getElementById("popupGuide");
 
-      return;
-    }
-
-    alert("画像を長押しして保存してください。");
-
-  }catch(e){
-    alert("画像を長押しして保存してください。");
+  if(guide){
+    guide.innerHTML =
+    "この端末では直接画像共有できない場合があります。<br>" +
+    "画像を長押しで保存してから、Facebookに投稿してください。<br>" +
+    "投稿文はコピー済みです。";
   }
+
+  showImagePopup();
 }
 
 function showImagePopup(){
@@ -1339,9 +1388,9 @@ function showImagePopup(){
   const savedImage =
   document.getElementById("savedImage");
 
-  if(savedImage && latestImageSource){
+  if(savedImage && latestImageCandidates.length > 0){
     savedImage.src =
-    latestImageSource;
+    latestImageCandidates[0];
   }
 
   if(popup){
@@ -1358,6 +1407,20 @@ function closePopup(){
     popup.style.display =
     "none";
   }
+}
+
+async function warmUpLatestFile(){
+  if(latestFile){
+    return;
+  }
+
+  if(!latestImageSource){
+    return;
+  }
+
+  try{
+    await prepareFile();
+  }catch(e){}
 }
 
 async function prepareFile(){
@@ -1379,10 +1442,60 @@ async function prepareFile(){
     return latestFile;
   }
 
+  const candidates =
+  latestImageCandidates.length > 0
+  ? latestImageCandidates
+  : makeImageCandidateUrls(latestImageSource);
+
+  for(let i = 0; i < candidates.length; i++){
+    const url =
+    candidates[i];
+
+    try{
+      const file =
+      await fetchImageAsFile(
+        url,
+        "tagoyama-omikuji.png"
+      );
+
+      if(file){
+        latestFile =
+        file;
+
+        return latestFile;
+      }
+    }catch(e){}
+  }
+
+  for(let i = 0; i < candidates.length; i++){
+    const url =
+    candidates[i];
+
+    try{
+      const file =
+      await canvasImageAsFile(
+        url,
+        "tagoyama-omikuji.png"
+      );
+
+      if(file){
+        latestFile =
+        file;
+
+        return latestFile;
+      }
+    }catch(e){}
+  }
+
+  throw new Error("画像を共有用ファイルにできませんでした");
+}
+
+async function fetchImageAsFile(url,fileName){
   const res =
   await fetch(
-    latestImageSource,
+    url,
     {
+      method:"GET",
       cache:"no-store"
     }
   );
@@ -1394,16 +1507,89 @@ async function prepareFile(){
   const blob =
   await res.blob();
 
-  latestFile =
-  new File(
+  if(!blob || !blob.size){
+    throw new Error("画像データが空です");
+  }
+
+  const type =
+  blob.type && blob.type.indexOf("image/") === 0
+  ? blob.type
+  : "image/png";
+
+  return new File(
     [blob],
-    "tagoyama-omikuji.png",
+    fileName,
     {
-      type:blob.type || "image/png"
+      type:type
     }
   );
+}
 
-  return latestFile;
+function canvasImageAsFile(url,fileName){
+  return new Promise(function(resolve,reject){
+    const img =
+    new Image();
+
+    img.crossOrigin =
+    "anonymous";
+
+    img.onload =
+    function(){
+      try{
+        const canvas =
+        document.createElement("canvas");
+
+        canvas.width =
+        img.naturalWidth ||
+        img.width;
+
+        canvas.height =
+        img.naturalHeight ||
+        img.height;
+
+        const ctx =
+        canvas.getContext("2d");
+
+        ctx.drawImage(
+          img,
+          0,
+          0
+        );
+
+        canvas.toBlob(function(blob){
+          if(!blob || !blob.size){
+            reject(
+              new Error("画像変換に失敗しました")
+            );
+            return;
+          }
+
+          resolve(
+            new File(
+              [blob],
+              fileName,
+              {
+                type:"image/png"
+              }
+            )
+          );
+        },"image/png");
+
+      }catch(e){
+        reject(e);
+      }
+    };
+
+    img.onerror =
+    function(){
+      reject(
+        new Error("画像を読み込めませんでした")
+      );
+    };
+
+    img.src =
+    url;
+  });
 }
 
 function dataUrlToFile(dataUrl,fileName){
@@ -1480,39 +1666,130 @@ async function fetchJson(url){
   throw new Error("データを読み込めませんでした");
 }
 
-function normalizeImageUrl(url){
+function makeImageCandidateUrls(url){
   url =
-  getString(url);
+  cleanUrl(url);
+
+  const list =
+  [];
 
   if(!url){
-    return "";
+    return list;
   }
 
   if(url.indexOf("data:image") === 0){
-    return url;
+    addUnique(list,url);
+    return list;
   }
 
-  const driveFileMatch =
-  url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  const driveId =
+  getDriveId(url);
 
-  if(driveFileMatch && driveFileMatch[1]){
-    return "https://drive.google.com/uc?export=view&id=" +
-    encodeURIComponent(driveFileMatch[1]);
+  if(driveId){
+    addUnique(
+      list,
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(driveId) +
+      "&sz=w1600"
+    );
+
+    addUnique(
+      list,
+      "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(driveId) +
+      "=w1600"
+    );
+
+    addUnique(
+      list,
+      "https://drive.google.com/uc?export=view&id=" +
+      encodeURIComponent(driveId)
+    );
+
+    addUnique(
+      list,
+      "https://drive.google.com/uc?export=download&id=" +
+      encodeURIComponent(driveId)
+    );
+
+    addUnique(
+      list,
+      url
+    );
+
+    return list;
   }
 
-  const driveOpenMatch =
+  if(url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0){
+    try{
+      url =
+      new URL(
+        url,
+        location.href
+      ).href;
+    }catch(e){}
+  }
+
+  addUnique(list,url);
+
+  return list;
+}
+
+function getDriveId(url){
+  url =
+  cleanUrl(url);
+
+  let match =
+  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match =
   url.match(/[?&]id=([^&]+)/);
 
-  if(
-    url.indexOf("drive.google.com") >= 0 &&
-    driveOpenMatch &&
-    driveOpenMatch[1]
-  ){
-    return "https://drive.google.com/uc?export=view&id=" +
-    encodeURIComponent(driveOpenMatch[1]);
+  if(match && match[1]){
+    return match[1];
   }
 
-  return url;
+  match =
+  url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  return "";
+}
+
+function cleanUrl(value){
+  value =
+  getString(value);
+
+  value =
+  value
+  .replace(/\\u003d/g,"=")
+  .replace(/\\u0026/g,"&")
+  .replace(/\\\//g,"/")
+  .replace(/&amp;/g,"&")
+  .replace(/[),.;]+$/g,"")
+  .trim();
+
+  return value;
+}
+
+function addUnique(list,value){
+  value =
+  getString(value);
+
+  if(!value){
+    return;
+  }
+
+  if(list.indexOf(value) < 0){
+    list.push(value);
+  }
 }
 
 async function copyText(text){
