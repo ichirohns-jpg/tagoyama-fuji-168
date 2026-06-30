@@ -210,6 +210,18 @@ body{
   background:linear-gradient(180deg,#d84a4a,#8b1d1d);
 }
 
+.lineBtn{
+  background:linear-gradient(180deg,#06d45f,#06b84f);
+}
+
+.facebookBtn{
+  background:linear-gradient(180deg,#1688ff,#075ec9);
+}
+
+.xBtn{
+  background:linear-gradient(180deg,#222,#030303);
+}
+
 .menuGrid{
   display:grid;
   gap:18px;
@@ -295,7 +307,8 @@ body{
   word-break:break-all;
 }
 
-.newsImage{
+.newsImage,
+.goenImage{
   display:block;
   width:100%;
   height:auto;
@@ -303,6 +316,31 @@ body{
   margin:16px 0 0;
   border:1px solid rgba(255,220,140,.45);
   background:#000;
+}
+
+.goenShareGrid{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.miniBtn{
+  width:100%;
+  min-height:52px;
+  border:none;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
+  text-align:center;
+  box-shadow:
+    0 5px 0 rgba(0,0,0,.28),
+    0 10px 16px rgba(0,0,0,.28);
 }
 
 .closeSectionBtn{
@@ -340,6 +378,11 @@ body{
   .linkBtn{
     min-height:72px;
     border-radius:24px;
+  }
+
+  .miniBtn{
+    min-height:54px;
+    font-size:17px;
   }
 }
 </style>
@@ -510,6 +553,20 @@ body{
       class="textarea"
       placeholder="参拝の記録やひとことを書いてください"></textarea>
 
+    <label class="inputLabel" for="kichoImage">
+      画像URL
+    </label>
+
+    <input
+      id="kichoImage"
+      class="input"
+      type="url"
+      placeholder="画像を使う場合はURLを入れてください">
+
+    <div class="smallNote">
+      Google Drive画像、GitHub画像、通常の画像URLに対応します。
+    </div>
+
     <div class="btnArea">
       <button class="btn greenBtn" id="kichoBtn" onclick="saveKicho()">
         記帳する
@@ -525,6 +582,11 @@ body{
     <h2 class="cardTitle">
       ご縁帳
     </h2>
+
+    <p class="cardText">
+      田子山富士に集まった<br>
+      ご縁の記録です。
+    </p>
 
     <div class="list" id="goenList">
       <div class="item">
@@ -565,6 +627,7 @@ const CERTIFICATE_BOOK_PAGE =
 let currentUserId = "";
 let newsLoaded = false;
 let goenLoaded = false;
+let goenItemsCache = [];
 
 window.addEventListener("load", init);
 
@@ -868,7 +931,7 @@ function openSection(id){
     loadNews();
   }
 
-  if(id === "goenSection" && !goenLoaded){
+  if(id === "goenSection"){
     loadGoen();
   }
 
@@ -1102,7 +1165,7 @@ function normalizeNewsRow(row){
   );
 
   const image1 =
-  normalizeNewsImageUrl(
+  normalizeImageUrl(
     row.image ||
     row.imageUrl ||
     row.imageURL ||
@@ -1114,28 +1177,28 @@ function normalizeNewsRow(row){
   );
 
   const image2 =
-  normalizeNewsImageUrl(
+  normalizeImageUrl(
     row.image2 ||
     row.画像2 ||
     ""
   );
 
   const image3 =
-  normalizeNewsImageUrl(
+  normalizeImageUrl(
     row.image3 ||
     row.画像3 ||
     ""
   );
 
   const image4 =
-  normalizeNewsImageUrl(
+  normalizeImageUrl(
     row.image4 ||
     row.画像4 ||
     ""
   );
 
   const image5 =
-  normalizeNewsImageUrl(
+  normalizeImageUrl(
     row.image5 ||
     row.画像5 ||
     ""
@@ -1188,19 +1251,19 @@ function normalizeNewsArray(row){
   getString(row[2]);
 
   const image1 =
-  normalizeNewsImageUrl(row[3]);
+  normalizeImageUrl(row[3]);
 
   const image2 =
-  normalizeNewsImageUrl(row[4]);
+  normalizeImageUrl(row[4]);
 
   const image3 =
-  normalizeNewsImageUrl(row[5]);
+  normalizeImageUrl(row[5]);
 
   const image4 =
-  normalizeNewsImageUrl(row[6]);
+  normalizeImageUrl(row[6]);
 
   const image5 =
-  normalizeNewsImageUrl(row[7]);
+  normalizeImageUrl(row[7]);
 
   const youtube =
   getString(row[8]);
@@ -1220,43 +1283,6 @@ function normalizeNewsArray(row){
     youtube:youtube,
     url:url
   };
-}
-
-function normalizeNewsImageUrl(value){
-  const url =
-  getString(value);
-
-  if(!url){
-    return "";
-  }
-
-  if(url.indexOf("data:image") === 0){
-    return url;
-  }
-
-  if(url.indexOf("drive.google.com/thumbnail") >= 0){
-    return url;
-  }
-
-  const fileMatch =
-  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-
-  if(fileMatch && fileMatch[1]){
-    return "https://drive.google.com/thumbnail?id=" +
-    encodeURIComponent(fileMatch[1]) +
-    "&sz=w1200";
-  }
-
-  const idMatch =
-  url.match(/[?&]id=([^&]+)/);
-
-  if(url.indexOf("drive.google.com") >= 0 && idMatch && idMatch[1]){
-    return "https://drive.google.com/thumbnail?id=" +
-    encodeURIComponent(idMatch[1]) +
-    "&sz=w1200";
-  }
-
-  return url;
 }
 
 async function loadGoen(){
@@ -1283,6 +1309,9 @@ async function loadGoen(){
     getArrayFromResponse(data, "goen");
 
     if(!rows || rows.length === 0){
+      goenItemsCache =
+      [];
+
       list.innerHTML =
       '<div class="item"><p class="itemBody">まだ記帳はありません。</p></div>';
 
@@ -1292,15 +1321,23 @@ async function loadGoen(){
       return;
     }
 
-    list.innerHTML =
+    goenItemsCache =
     rows.map(function(row){
-      return renderGoenItem(row);
+      return normalizeGoenRow(row);
+    });
+
+    list.innerHTML =
+    goenItemsCache.map(function(item,index){
+      return renderGoenItem(item,index);
     }).join("");
 
     goenLoaded =
     true;
 
   }catch(err){
+    goenItemsCache =
+    [];
+
     list.innerHTML =
     '<div class="item"><p class="itemBody">ご縁帳を読み込めませんでした。</p></div>';
 
@@ -1309,90 +1346,150 @@ async function loadGoen(){
   }
 }
 
-function renderGoenItem(row){
+function normalizeGoenRow(row){
   row =
   row || {};
 
-  let date = "";
-  let area = "";
-  let name = "";
-  let message = "";
+  let item =
+  {};
 
   if(Array.isArray(row)){
-    date =
-    getString(row[0]);
-
-    area =
-    getString(row[1]);
-
-    name =
-    getString(row[2]);
-
-    message =
-    getString(row[3]);
+    item =
+    {
+      date:getString(row[0]),
+      area:getString(row[1]),
+      name:getString(row[2]),
+      message:getString(row[3]),
+      imageUrl:normalizeImageUrl(row[4]),
+      shareId:getString(row[5]),
+      shareUrl:""
+    };
   }else{
-    date =
-    getString(
-      row.date ||
-      row.日時 ||
-      row.createdAt ||
-      row.time ||
-      ""
-    );
-
-    area =
-    getString(
-      row.area ||
-      row.地域 ||
-      row.from ||
-      row.どこから ||
-      ""
-    );
-
-    name =
-    getString(
-      row.name ||
-      row.名前 ||
-      row.お名前 ||
-      ""
-    );
-
-    message =
-    getString(
-      row.message ||
-      row.text ||
-      row.body ||
-      row.本文 ||
-      row.メッセージ ||
-      row.comment ||
-      ""
-    );
+    item =
+    {
+      date:getString(
+        row.date ||
+        row.datetime ||
+        row.日時 ||
+        row.日付 ||
+        row.createdAt ||
+        ""
+      ),
+      area:getString(
+        row.area ||
+        row.地域 ||
+        row.from ||
+        row.どこから ||
+        ""
+      ),
+      name:getString(
+        row.name ||
+        row.名前 ||
+        row.お名前 ||
+        ""
+      ),
+      message:getString(
+        row.message ||
+        row.text ||
+        row.body ||
+        row.本文 ||
+        row.内容 ||
+        row.メッセージ ||
+        row.comment ||
+        ""
+      ),
+      imageUrl:normalizeImageUrl(
+        row.imageUrl ||
+        row.image ||
+        row.画像URL ||
+        row.画像 ||
+        ""
+      ),
+      shareId:getString(
+        row.shareId ||
+        row.共有ID ||
+        row.シェアID ||
+        ""
+      ),
+      shareUrl:getString(
+        row.shareUrl ||
+        row.共有URL ||
+        row.url ||
+        ""
+      )
+    };
   }
+
+  if(!item.shareUrl && item.shareId){
+    item.shareUrl =
+    GAS_URL +
+    "?mode=shareGoen&id=" +
+    encodeURIComponent(item.shareId);
+  }
+
+  return item;
+}
+
+function renderGoenItem(item,index){
+  item =
+  item || {};
 
   let html =
   '<div class="item">';
 
-  if(name || area){
-    html +=
-    '<h3 class="itemTitle">' +
-    escapeHtml(
-      (name || "匿名") +
-      (area ? "（" + area + "）" : "")
-    ) +
-    '</h3>';
-  }
+  const title =
+  (item.name || "匿名") +
+  (item.area ? "（" + item.area + "）" : "");
 
-  if(date){
+  html +=
+  '<h3 class="itemTitle">' +
+  escapeHtml(title) +
+  '</h3>';
+
+  if(item.date){
     html +=
     '<div class="itemDate">' +
-    escapeHtml(formatDateText(date)) +
+    escapeHtml(formatDateText(item.date)) +
     '</div>';
+  }
+
+  if(item.imageUrl){
+    html +=
+    '<img class="goenImage" src="' +
+    escapeHtml(item.imageUrl) +
+    '" alt="ご縁帳画像" onerror="this.style.display=\'none\'">';
   }
 
   html +=
   '<p class="itemBody">' +
-  escapeHtml(message || "記帳ありがとうございました。") +
+  escapeHtml(item.message || "記帳ありがとうございました。") +
   '</p>';
+
+  html +=
+  '<div class="goenShareGrid">';
+
+  html +=
+  '<button class="miniBtn grayBtn" onclick="copyGoenPost(' +
+  index +
+  ')">投稿文コピー</button>';
+
+  html +=
+  '<button class="miniBtn facebookBtn" onclick="shareGoenItem(' +
+  index +
+  ',\'facebook\')">Facebookで共有</button>';
+
+  html +=
+  '<button class="miniBtn lineBtn" onclick="shareGoenItem(' +
+  index +
+  ',\'line\')">LINEで送る</button>';
+
+  html +=
+  '<button class="miniBtn xBtn" onclick="shareGoenItem(' +
+  index +
+  ',\'x\')">Xで投稿</button>';
+
+  html +=
+  '</div>';
 
   html +=
   '</div>';
@@ -1419,8 +1516,13 @@ async function saveKicho(){
     document.getElementById("kichoMessage").value
   );
 
-  if(!message){
-    alert("メッセージを入力してください。");
+  const imageUrl =
+  normalizeImageUrl(
+    document.getElementById("kichoImage").value
+  );
+
+  if(!message && !imageUrl){
+    alert("メッセージまたは画像URLを入力してください。");
     return;
   }
 
@@ -1443,6 +1545,8 @@ async function saveKicho(){
       encodeURIComponent(name) +
       "&message=" +
       encodeURIComponent(message) +
+      "&imageUrl=" +
+      encodeURIComponent(imageUrl) +
       "&t=" +
       Date.now(),
       20000
@@ -1459,6 +1563,9 @@ async function saveKicho(){
     alert("ご縁帳に記帳しました。");
 
     document.getElementById("kichoMessage").value =
+    "";
+
+    document.getElementById("kichoImage").value =
     "";
 
     goenLoaded =
@@ -1480,6 +1587,121 @@ async function saveKicho(){
       "記帳する";
     }
   }
+}
+
+async function copyGoenPost(index){
+  const item =
+  goenItemsCache[index];
+
+  if(!item){
+    alert("ご縁帳の情報が見つかりません。");
+    return;
+  }
+
+  const url =
+  item.shareUrl ||
+  HOME_PAGE +
+  "?open=goen";
+
+  const text =
+  buildGoenShareText(item) +
+  "\n" +
+  url;
+
+  try{
+    await copyText(text);
+    alert("投稿文とリンクをコピーしました。");
+  }catch(e){
+    alert("コピーできませんでした。");
+  }
+}
+
+async function shareGoenItem(index,type){
+  const item =
+  goenItemsCache[index];
+
+  if(!item){
+    alert("ご縁帳の情報が見つかりません。");
+    return;
+  }
+
+  const url =
+  item.shareUrl ||
+  HOME_PAGE +
+  "?open=goen";
+
+  const text =
+  buildGoenShareText(item);
+
+  if(type === "facebook"){
+    try{
+      await copyText(text + "\n" + url);
+    }catch(e){}
+
+    location.href =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(url);
+
+    return;
+  }
+
+  if(type === "line"){
+    location.href =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(url);
+
+    return;
+  }
+
+  if(type === "x"){
+    location.href =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text) +
+    "&url=" +
+    encodeURIComponent(url);
+
+    return;
+  }
+}
+
+function buildGoenShareText(item){
+  item =
+  item || {};
+
+  const lines =
+  [];
+
+  lines.push(
+    "田子山富士168の縁プロジェクトのご縁帳に記帳しました。"
+  );
+
+  if(item.name){
+    lines.push(
+      item.name + "さんのご縁"
+    );
+  }
+
+  if(item.area){
+    lines.push(
+      item.area + "から"
+    );
+  }
+
+  if(item.message){
+    lines.push(
+      limitText(item.message,80)
+    );
+  }
+
+  lines.push(
+    "#田子山富士"
+  );
+
+  lines.push(
+    "#168の縁プロジェクト"
+  );
+
+  return lines.join("\n");
 }
 
 async function fetchJson(url, timeoutMs){
@@ -1551,6 +1773,43 @@ function getArrayFromResponse(data, key){
   );
 }
 
+function normalizeImageUrl(value){
+  const url =
+  getString(value);
+
+  if(!url){
+    return "";
+  }
+
+  if(url.indexOf("data:image") === 0){
+    return url;
+  }
+
+  if(url.indexOf("drive.google.com/thumbnail") >= 0){
+    return url;
+  }
+
+  const fileMatch =
+  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+  if(fileMatch && fileMatch[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(fileMatch[1]) +
+    "&sz=w1600";
+  }
+
+  const idMatch =
+  url.match(/[?&]id=([^&]+)/);
+
+  if(url.indexOf("drive.google.com") >= 0 && idMatch && idMatch[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(idMatch[1]) +
+    "&sz=w1600";
+  }
+
+  return url;
+}
+
 function formatDateText(value){
   value =
   getString(value);
@@ -1563,6 +1822,54 @@ function formatDateText(value){
   .replace("T15:00:00.000Z", "")
   .replace("T00:00:00.000Z", "")
   .replace(/-/g, "/");
+}
+
+function limitText(text,max){
+  text =
+  getString(text);
+
+  if(text.length <= max){
+    return text;
+  }
+
+  return text.slice(0,max) + "…";
+}
+
+async function copyText(text){
+  text =
+  getString(text);
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea =
+  document.createElement("textarea");
+
+  textarea.value =
+  text;
+
+  textarea.setAttribute("readonly","readonly");
+  textarea.style.position =
+  "fixed";
+  textarea.style.left =
+  "-9999px";
+  textarea.style.top =
+  "0";
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  const ok =
+  document.execCommand("copy");
+
+  document.body.removeChild(textarea);
+
+  if(!ok){
+    throw new Error("コピーできませんでした");
+  }
 }
 
 function escapeHtml(value){
