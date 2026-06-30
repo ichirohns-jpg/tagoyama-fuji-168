@@ -715,7 +715,8 @@ async function handleClimb(){
         "&userId=" +
         encodeURIComponent(urlUserId) +
         "&t=" +
-        Date.now()
+        Date.now(),
+        20000
       );
 
       if(data && data.success){
@@ -821,7 +822,8 @@ async function loadStats(){
     await fetchJson(
       GAS_URL +
       "?mode=stats&t=" +
-      Date.now()
+      Date.now(),
+      20000
     );
 
     if(data && data.success){
@@ -918,7 +920,8 @@ async function loadNews(){
     await fetchJson(
       GAS_URL +
       "?mode=news&t=" +
-      Date.now()
+      Date.now(),
+      20000
     );
 
     const rows =
@@ -944,7 +947,7 @@ async function loadNews(){
 
   }catch(err){
     list.innerHTML =
-    '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。時間をおいてもう一度お試しください。</p></div>';
+    '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。<br>少し時間をおいて、もう一度お試しください。</p></div>';
 
     newsLoaded =
     false;
@@ -1132,7 +1135,8 @@ async function loadGoen(){
     await fetchJson(
       GAS_URL +
       "?mode=goen&t=" +
-      Date.now()
+      Date.now(),
+      20000
     );
 
     const rows =
@@ -1300,7 +1304,8 @@ async function saveKicho(){
       "&message=" +
       encodeURIComponent(message) +
       "&t=" +
-      Date.now()
+      Date.now(),
+      20000
     );
 
     if(!data || data.success === false){
@@ -1337,37 +1342,49 @@ async function saveKicho(){
   }
 }
 
-async function fetchJson(url){
-  const res =
-  await fetch(
-    url,
-    {
-      method:"GET",
-      cache:"no-store"
-    }
-  );
+async function fetchJson(url, timeoutMs){
+  const controller =
+  new AbortController();
 
-  const text =
-  await res.text();
-
-  if(!res.ok){
-    throw new Error("通信エラーが発生しました");
-  }
+  const timer =
+  setTimeout(function(){
+    controller.abort();
+  }, timeoutMs || 20000);
 
   try{
-    return JSON.parse(text);
-  }catch(e){}
+    const res =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
 
-  const match =
-  text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+    const text =
+    await res.text();
 
-  if(match && match[1]){
+    if(!res.ok){
+      throw new Error("通信エラーが発生しました");
+    }
+
     try{
-      return JSON.parse(match[1]);
+      return JSON.parse(text);
     }catch(e){}
-  }
 
-  throw new Error("データを読み込めませんでした");
+    const match =
+    text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+
+    if(match && match[1]){
+      return JSON.parse(match[1]);
+    }
+
+    throw new Error("データを読み込めませんでした");
+
+  }finally{
+    clearTimeout(timer);
+  }
 }
 
 function getArrayFromResponse(data, key){
