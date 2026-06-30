@@ -527,7 +527,7 @@ body{
 
         <p class="shareGuide">
           Facebookは登頂記念と同じ方式です。<br>
-          専用ページのOGP画像をFacebookが拾います。<br>
+          当たりの場合は、大当たり専用OGPページをFacebookに渡します。<br>
           投稿文は自動でコピーされます。
         </p>
       </div>
@@ -578,8 +578,8 @@ const SITE_BASE =
 const OMIKUJI_PAGE =
 SITE_BASE + "omikuji.html";
 
-const SHARE_OMIKUJI_PAGE =
-SITE_BASE + "share-omikuji-atari.html?v=20260704-ogp-final";
+const SHARE_OMIKUJI_ATARI_PAGE =
+SITE_BASE + "share-omikuji-atari.html?v=20260630-atari-ogp-v1";
 
 const HOME_PAGE =
 SITE_BASE;
@@ -592,8 +592,10 @@ let latestImageSource = "";
 let latestImageCandidates = [];
 let latestFile = null;
 let latestShareText = "";
+let latestShareUrl = "";
 let latestResultData = null;
 let latestIsHit = false;
+let latestCanShareAtari = false;
 let isDrawing = false;
 
 window.addEventListener("load",init);
@@ -605,8 +607,14 @@ function init(){
   latestIsHit =
   false;
 
+  latestCanShareAtari =
+  false;
+
+  latestShareUrl =
+  buildShareUrl(false);
+
   latestShareText =
-  buildShareText();
+  buildShareText(false);
 
   const status =
   document.getElementById("statusBox");
@@ -863,8 +871,14 @@ function clearResult(){
   latestIsHit =
   false;
 
+  latestCanShareAtari =
+  false;
+
+  latestShareUrl =
+  buildShareUrl(false);
+
   latestShareText =
-  buildShareText();
+  buildShareText(false);
 
   const card =
   document.getElementById("resultCard");
@@ -967,12 +981,6 @@ function renderResult(data){
   !!data.notice ||
   !!result.notice;
 
-  latestIsHit =
-  hit;
-
-  latestShareText =
-  buildShareText();
-
   const titleText =
   getString(
     result.title ||
@@ -1026,6 +1034,8 @@ function renderResult(data){
     data.imageUrl ||
     result.imageURL ||
     data.imageURL ||
+    result.image ||
+    data.image ||
     result.url ||
     data.url ||
     ""
@@ -1037,6 +1047,26 @@ function renderResult(data){
   latestFile =
   null;
 
+  latestIsHit =
+  hit;
+
+  latestCanShareAtari =
+  !notClimbed &&
+  (
+    hit ||
+    latestImageCandidates.length > 0 ||
+    titleText.indexOf("大当たり") >= 0 ||
+    titleText.indexOf("当たり") >= 0 ||
+    messageText.indexOf("大当たり") >= 0 ||
+    messageText.indexOf("当たり") >= 0
+  );
+
+  latestShareUrl =
+  buildShareUrl(latestCanShareAtari);
+
+  latestShareText =
+  buildShareText(latestCanShareAtari);
+
   if(card){
     card.style.display =
     "block";
@@ -1046,7 +1076,7 @@ function renderResult(data){
 
     if(!notClimbed){
       card.classList.add(
-        hit
+        latestCanShareAtari
         ? "hit"
         : "miss"
       );
@@ -1213,7 +1243,41 @@ function isHitResult(data,result){
   );
 }
 
-function buildShareText(){
+function buildShareUrl(useAtariPage){
+  if(useAtariPage){
+    return SHARE_OMIKUJI_ATARI_PAGE;
+  }
+
+  const params =
+  new URLSearchParams();
+
+  params.set(
+    "v",
+    Date.now()
+  );
+
+  if(currentUserId){
+    params.set(
+      "userId",
+      currentUserId
+    );
+  }
+
+  return OMIKUJI_PAGE +
+  "?" +
+  params.toString();
+}
+
+function buildShareText(useAtariPage){
+  if(useAtariPage){
+    return [
+      "田子山富士168の縁プロジェクトでおみくじを引きました。",
+      "大当たりでした。",
+      "#田子山富士",
+      "#168の縁プロジェクト"
+    ].join("\n");
+  }
+
   return [
     "田子山富士168の縁プロジェクトでおみくじを引きました。",
     "#田子山富士",
@@ -1223,9 +1287,9 @@ function buildShareText(){
 
 async function copyOmikujiPost(){
   const text =
-  latestShareText +
+  (latestShareText || buildShareText(latestCanShareAtari)) +
   "\n" +
-  SHARE_OMIKUJI_PAGE;
+  (latestShareUrl || buildShareUrl(latestCanShareAtari));
 
   try{
     await copyText(text);
@@ -1236,12 +1300,17 @@ async function copyOmikujiPost(){
 }
 
 async function shareOmikuji(type){
+  const useAtariPage =
+  latestCanShareAtari ||
+  latestIsHit;
+
   const url =
-  SHARE_OMIKUJI_PAGE;
+  latestShareUrl ||
+  buildShareUrl(useAtariPage);
 
   const text =
   latestShareText ||
-  buildShareText();
+  buildShareText(useAtariPage);
 
   if(type === "facebook"){
     try{
