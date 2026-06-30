@@ -548,7 +548,7 @@ body{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyaFXdYWZ8tj0LSCBTSxXRFC_7XElgJ47bFcd-DSjGnpn2yWLq6l_O5eIwEkAl9yjiP/exec";
+"https://script.google.com/macros/s/AKfycbzNDCMHEOagahZdJguPjuE5ecPbEF_UrXGb57lmDabLYcTORl71rK7gR8tFuwAMtuCB/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -1059,6 +1059,7 @@ function normalizeNewsRow(row){
     row.image1 ||
     row.画像 ||
     row.画像URL ||
+    row.画像1 ||
     ""
   );
 
@@ -1068,6 +1069,8 @@ function normalizeNewsRow(row){
     row.link ||
     row.URL ||
     row.リンク ||
+    row.detailUrl ||
+    row.詳しくは ||
     ""
   );
 
@@ -1080,6 +1083,7 @@ function normalizeNewsRow(row){
     row.内容 ||
     row.description ||
     row.summary ||
+    row.概要 ||
     row.説明 ||
     row.caption ||
     row.detail ||
@@ -1115,16 +1119,16 @@ function normalizeNewsArray(row){
   const title =
   getString(row[1]);
 
+  let body =
+  getString(row[2]);
+
   let image =
   "";
 
   let url =
   "";
 
-  let body =
-  "";
-
-  for(let i = 2; i < row.length; i++){
+  for(let i = 3; i < row.length; i++){
     const value =
     getString(row[i]);
 
@@ -1263,6 +1267,10 @@ function normalizeNewsImageUrl(value){
   }
 
   if(url.indexOf("data:image") === 0){
+    return url;
+  }
+
+  if(url.indexOf("drive.google.com/thumbnail") >= 0){
     return url;
   }
 
