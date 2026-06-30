@@ -279,7 +279,7 @@ body{
 }
 
 .itemBody{
-  margin:14px 0 0;
+  margin:12px 0 0;
   font-size:18px;
   line-height:1.7;
   color:#fff;
@@ -295,34 +295,14 @@ body{
   word-break:break-all;
 }
 
-.newsImageWrap{
-  display:block;
-  width:100%;
-  margin:16px 0 0;
-  border-radius:18px;
-  border:1px solid rgba(255,220,140,.45);
-  background:#000;
-  overflow:hidden;
-}
-
 .newsImage{
   display:block;
   width:100%;
   height:auto;
+  border-radius:18px;
+  margin:16px 0 0;
+  border:1px solid rgba(255,220,140,.45);
   background:#000;
-}
-
-.newsYoutube{
-  display:block;
-  margin-top:14px;
-  padding:14px 16px;
-  border-radius:16px;
-  background:rgba(255,255,255,.08);
-  font-size:17px;
-  font-weight:900;
-  color:#ffdf72;
-  text-decoration:none;
-  word-break:break-all;
 }
 
 .closeSectionBtn{
@@ -589,12 +569,10 @@ let goenLoaded = false;
 window.addEventListener("load", init);
 
 async function init(){
-  const urlUserId =
-  getUserIdFromUrl();
+  const urlUserId = getUserIdFromUrl();
 
   if(urlUserId){
-    currentUserId =
-    urlUserId;
+    currentUserId = urlUserId;
 
     localStorage.setItem("tagoyamaUserId", urlUserId);
     localStorage.setItem("tagoyamaFujiUserId", urlUserId);
@@ -610,8 +588,7 @@ async function init(){
   await loadStats();
   await handleClimb();
 
-  const params =
-  new URLSearchParams(location.search);
+  const params = new URLSearchParams(location.search);
 
   if(params.get("open") === "news"){
     setTimeout(function(){
@@ -633,8 +610,7 @@ async function init(){
 }
 
 function getUserIdFromUrl(){
-  const params =
-  new URLSearchParams(location.search);
+  const params = new URLSearchParams(location.search);
 
   return getString(
     params.get("userId") ||
@@ -683,8 +659,7 @@ function updateUserLinks(){
 }
 
 async function handleClimb(){
-  const urlUserId =
-  getUserIdFromUrl();
+  const urlUserId = getUserIdFromUrl();
 
   const climbMessage =
   document.getElementById("climbMessage");
@@ -699,6 +674,7 @@ async function handleClimb(){
     if(certificateBtn){
       certificateBtn.classList.add("hidden");
     }
+
     return;
   }
 
@@ -718,19 +694,16 @@ async function handleClimb(){
     "tagoyamaClimbSaved:" +
     urlUserId;
 
-    let data =
-    null;
+    let data = null;
 
     const cached =
     sessionStorage.getItem(sessionKey);
 
     if(cached){
       try{
-        data =
-        JSON.parse(cached);
+        data = JSON.parse(cached);
       }catch(e){
-        data =
-        null;
+        data = null;
       }
     }
 
@@ -863,6 +836,7 @@ async function loadStats(){
       if(Number.isFinite(n) && n >= 0){
         el.innerText =
         String(n);
+
         return;
       }
     }
@@ -889,9 +863,6 @@ function openSection(id){
   section.classList.remove("hidden");
 
   if(id === "newsSection"){
-    newsLoaded =
-    false;
-
     loadNews();
   }
 
@@ -951,7 +922,7 @@ async function loadNews(){
     );
 
     const rows =
-    getArrayFromResponse(data, "news");
+    getNewsRows(data);
 
     if(!rows || rows.length === 0){
       list.innerHTML =
@@ -980,6 +951,25 @@ async function loadNews(){
   }
 }
 
+function getNewsRows(data){
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(!data){
+    return [];
+  }
+
+  return (
+    data.news ||
+    data.items ||
+    data.rows ||
+    data.data ||
+    data.list ||
+    []
+  );
+}
+
 function renderNewsItem(row){
   const news =
   normalizeNewsRow(row);
@@ -1001,19 +991,11 @@ function renderNewsItem(row){
     '</div>';
   }
 
-  if(news.images && news.images.length > 0){
-    news.images.forEach(function(candidates){
-      if(candidates && candidates.length > 0){
-        html +=
-        '<div class="newsImageWrap">' +
-        '<img class="newsImage" src="' +
-        escapeHtml(candidates[0]) +
-        '" data-srcs="' +
-        escapeHtml(JSON.stringify(candidates)) +
-        '" data-index="0" onerror="fallbackNewsImage(this)" alt="">' +
-        '</div>';
-      }
-    });
+  if(news.image){
+    html +=
+    '<img class="newsImage" src="' +
+    escapeHtml(news.image) +
+    '" alt="" onerror="this.style.display=\'none\'">';
   }
 
   if(news.body){
@@ -1023,17 +1005,10 @@ function renderNewsItem(row){
     '</p>';
   }
 
-  if(news.youtube){
-    html +=
-    '<a class="newsYoutube" href="' +
-    escapeHtml(news.youtube) +
-    '" target="_blank" rel="noopener">動画を見る</a>';
-  }
-
-  if(news.link){
+  if(news.url){
     html +=
     '<a class="itemLink" href="' +
-    escapeHtml(news.link) +
+    escapeHtml(news.url) +
     '" target="_blank" rel="noopener">詳しく見る</a>';
   }
 
@@ -1043,269 +1018,102 @@ function renderNewsItem(row){
   return html;
 }
 
-function fallbackNewsImage(img){
-  if(!img){
-    return;
-  }
-
-  let list =
-  [];
-
-  try{
-    list =
-    JSON.parse(img.getAttribute("data-srcs") || "[]");
-  }catch(e){
-    list =
-    [];
-  }
-
-  let index =
-  Number(img.getAttribute("data-index") || "0");
-
-  index =
-  index + 1;
-
-  if(index < list.length){
-    img.setAttribute("data-index", String(index));
-    img.src =
-    list[index];
-    return;
-  }
-
-  const wrap =
-  img.parentNode;
-
-  if(wrap){
-    wrap.style.display =
-    "none";
-  }
-}
-
 function normalizeNewsRow(row){
   row =
   row || {};
 
   if(Array.isArray(row)){
-    return normalizeNewsArray(row);
-  }
-
-  const allStrings =
-  collectStringsDeep(row);
-
-  const allUrls =
-  collectUrlsDeep(row);
-
-  const title =
-  getFirst([
-    row.title,
-    row["タイトル"],
-    row.subject,
-    row["件名"],
-    row.name,
-    row["見出し"],
-    row.heading
-  ]) ||
-  findTitleText(allStrings);
-
-  const date =
-  getFirst([
-    row.date,
-    row["日付"],
-    row.datetime,
-    row.createdAt,
-    row.created,
-    row.time,
-    row["日時"]
-  ]) ||
-  findFirstText(allStrings, looksLikeDate);
-
-  const directBody =
-  getFirst([
-    row.text,
-    row["本文"],
-    row.body,
-    row.message,
-    row["内容"],
-    row.description,
-    row.summary,
-    row["概要"],
-    row["説明"],
-    row.detail,
-    row.article,
-    row["記事"],
-    row.caption,
-    row["キャプション"]
-  ]);
-
-  const youtube =
-  getFirst([
-    row.youtube,
-    row.youtubeUrl,
-    row.video,
-    row.videoUrl,
-    row["動画"]
-  ]) ||
-  findFirstText(allUrls, isYoutubeUrl);
-
-  const imageUrls =
-  [];
-
-  allUrls.forEach(function(url){
-    if(isImageSource(url)){
-      addUnique(imageUrls, cleanUrl(url));
-    }
-  });
-
-  [
-    row.image,
-    row.imageUrl,
-    row.imageURL,
-    row.image1,
-    row.image2,
-    row.image3,
-    row.image4,
-    row.image5,
-    row["画像"],
-    row["画像URL"],
-    row.img,
-    row.photo,
-    row.thumbnail
-  ].forEach(function(v){
-    const text =
-    getString(v);
-
-    if(text){
-      extractUrlsFromText(text).forEach(function(u){
-        if(isImageSource(u)){
-          addUnique(imageUrls, cleanUrl(u));
-        }
-      });
-
-      if(isImageSource(text)){
-        addUnique(imageUrls, cleanUrl(text));
-      }
-    }
-  });
-
-  let link =
-  getFirst([
-    row.link,
-    row["リンク"],
-    row.detailUrl,
-    row.pageUrl
-  ]);
-
-  if(!link){
-    link =
-    findFirstText(allUrls, function(v){
-      return looksLikeUrl(v) &&
-      !isImageSource(v) &&
-      !isYoutubeUrl(v);
-    });
-  }
-
-  let body =
-  directBody;
-
-  if(!body){
-    body =
-    findBodyText(allStrings, {
-      title:title,
-      date:date,
-      link:link,
-      youtube:youtube,
-      imageUrls:imageUrls
-    });
+    return {
+      date:getString(row[0]),
+      title:getString(row[1]),
+      body:getString(row[2]),
+      image:normalizeNewsImageUrl(row[3]),
+      url:getString(row[4])
+    };
   }
 
   return {
-    title:title,
-    date:date,
-    body:body,
-    images:imageUrls.map(makeImageCandidates),
-    link:link,
-    youtube:youtube
+    date:getString(
+      row.date ||
+      row.日付 ||
+      row.datetime ||
+      row.createdAt ||
+      row.日時 ||
+      ""
+    ),
+
+    title:getString(
+      row.title ||
+      row.タイトル ||
+      row.name ||
+      row.subject ||
+      row.件名 ||
+      ""
+    ),
+
+    body:getString(
+      row.body ||
+      row.本文 ||
+      row.text ||
+      row.message ||
+      row.内容 ||
+      row.description ||
+      row.summary ||
+      row.説明 ||
+      ""
+    ),
+
+    image:normalizeNewsImageUrl(
+      row.image ||
+      row.imageUrl ||
+      row.imageURL ||
+      row.image1 ||
+      row.画像 ||
+      row.画像URL ||
+      ""
+    ),
+
+    url:getString(
+      row.url ||
+      row.link ||
+      row.URL ||
+      row.リンク ||
+      ""
+    )
   };
 }
 
-function normalizeNewsArray(row){
-  const allStrings =
-  collectStringsDeep(row);
+function normalizeNewsImageUrl(value){
+  const url =
+  getString(value);
 
-  const allUrls =
-  collectUrlsDeep(row);
-
-  let date =
-  findFirstText(allStrings, looksLikeDate);
-
-  const imageUrls =
-  [];
-
-  allUrls.forEach(function(url){
-    if(isImageSource(url)){
-      addUnique(imageUrls, cleanUrl(url));
-    }
-  });
-
-  let youtube =
-  findFirstText(allUrls, isYoutubeUrl);
-
-  let link =
-  findFirstText(allUrls, function(v){
-    return looksLikeUrl(v) &&
-    !isImageSource(v) &&
-    !isYoutubeUrl(v);
-  });
-
-  let title =
-  "";
-
-  for(let i = 0; i < allStrings.length; i++){
-    const text =
-    allStrings[i];
-
-    if(!text){
-      continue;
-    }
-
-    if(text === date){
-      continue;
-    }
-
-    if(looksLikeDate(text)){
-      continue;
-    }
-
-    if(looksLikeUrl(text)){
-      continue;
-    }
-
-    if(text.length > 90){
-      continue;
-    }
-
-    title =
-    text;
-    break;
+  if(!url){
+    return "";
   }
 
-  const body =
-  findBodyText(allStrings, {
-    title:title,
-    date:date,
-    link:link,
-    youtube:youtube,
-    imageUrls:imageUrls
-  });
+  if(url.indexOf("data:image") === 0){
+    return url;
+  }
 
-  return {
-    title:title,
-    date:date,
-    body:body,
-    images:imageUrls.map(makeImageCandidates),
-    link:link,
-    youtube:youtube
-  };
+  const fileMatch =
+  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+  if(fileMatch && fileMatch[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(fileMatch[1]) +
+    "&sz=w1200";
+  }
+
+  const idMatch =
+  url.match(/[?&]id=([^&]+)/);
+
+  if(url.indexOf("drive.google.com") >= 0 && idMatch && idMatch[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(idMatch[1]) +
+    "&sz=w1200";
+  }
+
+  return url;
 }
 
 async function loadGoen(){
@@ -1361,17 +1169,10 @@ function renderGoenItem(row){
   row =
   row || {};
 
-  let date =
-  "";
-
-  let area =
-  "";
-
-  let name =
-  "";
-
-  let message =
-  "";
+  let date = "";
+  let area = "";
+  let name = "";
+  let message = "";
 
   if(Array.isArray(row)){
     date =
@@ -1389,7 +1190,7 @@ function renderGoenItem(row){
     date =
     getString(
       row.date ||
-      row["日時"] ||
+      row.日時 ||
       row.createdAt ||
       row.time ||
       ""
@@ -1398,17 +1199,17 @@ function renderGoenItem(row){
     area =
     getString(
       row.area ||
-      row["地域"] ||
+      row.地域 ||
       row.from ||
-      row["どこから"] ||
+      row.どこから ||
       ""
     );
 
     name =
     getString(
       row.name ||
-      row["名前"] ||
-      row["お名前"] ||
+      row.名前 ||
+      row.お名前 ||
       ""
     );
 
@@ -1417,8 +1218,8 @@ function renderGoenItem(row){
       row.message ||
       row.text ||
       row.body ||
-      row["本文"] ||
-      row["メッセージ"] ||
+      row.本文 ||
+      row.メッセージ ||
       row.comment ||
       ""
     );
@@ -1583,7 +1384,6 @@ function getArrayFromResponse(data, key){
   }
 
   return (
-    data.news ||
     data.items ||
     data.rows ||
     data.data ||
@@ -1591,352 +1391,6 @@ function getArrayFromResponse(data, key){
     data.list ||
     data.records ||
     []
-  );
-}
-
-function collectStringsDeep(value){
-  const result =
-  [];
-
-  function walk(v){
-    if(v === null || v === undefined){
-      return;
-    }
-
-    if(Array.isArray(v)){
-      v.forEach(walk);
-      return;
-    }
-
-    if(typeof v === "object"){
-      Object.keys(v).forEach(function(key){
-        walk(v[key]);
-      });
-      return;
-    }
-
-    const text =
-    getString(v);
-
-    if(text){
-      result.push(cleanText(text));
-    }
-  }
-
-  walk(value);
-
-  return uniqueList(result.filter(Boolean));
-}
-
-function collectUrlsDeep(value){
-  const result =
-  [];
-
-  const strings =
-  collectStringsDeep(value);
-
-  strings.forEach(function(text){
-    extractUrlsFromText(text).forEach(function(url){
-      addUnique(result, url);
-    });
-  });
-
-  try{
-    const raw =
-    JSON.stringify(value);
-
-    extractUrlsFromText(raw).forEach(function(url){
-      addUnique(result, url);
-    });
-  }catch(e){}
-
-  return uniqueList(result);
-}
-
-function extractUrlsFromText(text){
-  text =
-  cleanText(text);
-
-  const urls =
-  [];
-
-  const matches =
-  text.match(/https?:\/\/[^\s"'<>\\\)\]]+/g);
-
-  if(matches){
-    matches.forEach(function(url){
-      url =
-      cleanUrl(url);
-
-      if(url){
-        addUnique(urls, url);
-      }
-    });
-  }
-
-  return urls;
-}
-
-function makeImageCandidates(url){
-  url =
-  cleanUrl(url);
-
-  const list =
-  [];
-
-  if(!url){
-    return list;
-  }
-
-  const driveId =
-  getDriveId(url);
-
-  if(driveId){
-    addUnique(
-      list,
-      "https://drive.google.com/thumbnail?id=" +
-      encodeURIComponent(driveId) +
-      "&sz=w1600"
-    );
-
-    addUnique(
-      list,
-      "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w1600"
-    );
-
-    addUnique(
-      list,
-      "https://drive.google.com/uc?export=view&id=" +
-      encodeURIComponent(driveId)
-    );
-
-    addUnique(
-      list,
-      url
-    );
-
-    return list;
-  }
-
-  addUnique(list, url);
-
-  return list;
-}
-
-function getDriveId(url){
-  url =
-  cleanUrl(url);
-
-  let match =
-  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match =
-  url.match(/[?&]id=([^&]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match =
-  url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  return "";
-}
-
-function findTitleText(values){
-  return findFirstText(values, function(text){
-    return text &&
-    !looksLikeDate(text) &&
-    !looksLikeUrl(text) &&
-    text.length <= 90;
-  });
-}
-
-function findBodyText(values, used){
-  used =
-  used || {};
-
-  const candidates =
-  [];
-
-  values.forEach(function(text){
-    text =
-    cleanText(text);
-
-    if(!text){
-      return;
-    }
-
-    if(text === used.title){
-      return;
-    }
-
-    if(text === used.date){
-      return;
-    }
-
-    if(text === used.link){
-      return;
-    }
-
-    if(text === used.youtube){
-      return;
-    }
-
-    if(looksLikeDate(text)){
-      return;
-    }
-
-    if(looksLikeUrl(text)){
-      return;
-    }
-
-    if(text.length <= 1){
-      return;
-    }
-
-    candidates.push(text);
-  });
-
-  const unique =
-  uniqueList(candidates);
-
-  if(unique.length === 0){
-    return "";
-  }
-
-  const longTexts =
-  unique.filter(function(text){
-    return text.length > 20;
-  });
-
-  if(longTexts.length > 0){
-    return longTexts.join("\n");
-  }
-
-  return unique.join("\n");
-}
-
-function getFirst(list){
-  for(let i = 0; i < list.length; i++){
-    const text =
-    getString(list[i]);
-
-    if(text){
-      return text;
-    }
-  }
-
-  return "";
-}
-
-function findFirstText(values, checker){
-  for(let i = 0; i < values.length; i++){
-    const value =
-    getString(values[i]);
-
-    if(value && checker(value)){
-      return value;
-    }
-  }
-
-  return "";
-}
-
-function addUnique(list, value){
-  value =
-  getString(value);
-
-  if(!value){
-    return;
-  }
-
-  if(list.indexOf(value) < 0){
-    list.push(value);
-  }
-}
-
-function uniqueList(list){
-  const result =
-  [];
-
-  list.forEach(function(value){
-    addUnique(result, value);
-  });
-
-  return result;
-}
-
-function looksLikeDate(value){
-  value =
-  getString(value);
-
-  return (
-    /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(value) ||
-    /^\d{4}年\d{1,2}月\d{1,2}日/.test(value) ||
-    value.indexOf("T00:00:00") >= 0 ||
-    value.indexOf("T15:00:00") >= 0 ||
-    value.indexOf("GMT") >= 0
-  );
-}
-
-function looksLikeUrl(value){
-  value =
-  getString(value);
-
-  return (
-    /^https?:\/\//i.test(value) ||
-    value.indexOf("drive.google.com") >= 0 ||
-    value.indexOf("googleusercontent.com") >= 0 ||
-    value.indexOf("youtu.be") >= 0 ||
-    value.indexOf("youtube.com") >= 0
-  );
-}
-
-function isYoutubeUrl(value){
-  value =
-  getString(value).toLowerCase();
-
-  return (
-    value.indexOf("youtube.com") >= 0 ||
-    value.indexOf("youtu.be") >= 0
-  );
-}
-
-function isImageSource(value){
-  value =
-  cleanUrl(value);
-
-  const lower =
-  value.toLowerCase();
-
-  if(!value){
-    return false;
-  }
-
-  if(isYoutubeUrl(value)){
-    return false;
-  }
-
-  return (
-    lower.indexOf(".jpg") >= 0 ||
-    lower.indexOf(".jpeg") >= 0 ||
-    lower.indexOf(".png") >= 0 ||
-    lower.indexOf(".webp") >= 0 ||
-    lower.indexOf(".gif") >= 0 ||
-    lower.indexOf("drive.google.com") >= 0 ||
-    lower.indexOf("googleusercontent.com") >= 0 ||
-    lower.indexOf("thumbnail") >= 0
   );
 }
 
@@ -1952,37 +1406,6 @@ function formatDateText(value){
   .replace("T15:00:00.000Z", "")
   .replace("T00:00:00.000Z", "")
   .replace(/-/g, "/");
-}
-
-function cleanText(value){
-  value =
-  getString(value);
-
-  return value
-  .replace(/\\u0026/g, "&")
-  .replace(/\\\//g, "/")
-  .replace(/&amp;/g, "&")
-  .replace(/&quot;/g, '"')
-  .replace(/&#039;/g, "'")
-  .replace(/\s+\n/g, "\n")
-  .replace(/\n\s+/g, "\n")
-  .trim();
-}
-
-function cleanUrl(value){
-  value =
-  cleanText(value);
-
-  value =
-  value
-  .replace(/\\u003d/g, "=")
-  .replace(/\\u0026/g, "&")
-  .replace(/\\\//g, "/")
-  .replace(/&amp;/g, "&")
-  .replace(/[),.;]+$/g, "")
-  .trim();
-
-  return value;
 }
 
 function escapeHtml(value){
