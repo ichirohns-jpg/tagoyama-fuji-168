@@ -512,9 +512,9 @@ body{
         </a>
 
         <p class="shareNote">
-          Facebookは、表示されたおみくじ画像そのものを共有します。<br>
-          URLカードではなく、画像投稿として共有します。<br>
-          共有画面が開いたらFacebookを選んで投稿してください。
+          Facebookは投稿文をコピーしてから投稿画面を開きます。<br>
+          表示中のおみくじ画像URLをFacebookに渡します。<br>
+          画像保存とは別処理です。
         </p>
       </div>
     </div>
@@ -533,7 +533,7 @@ body{
       田子山富士おみくじ
     </p>
 
-    <p class="popupGuide" id="popupGuide">
+    <p class="popupGuide">
       共有画面で「画像を保存」または「写真に保存」を選んでください。
     </p>
 
@@ -542,7 +542,7 @@ body{
     <button
       class="popupBtn greenBtn"
       onclick="shareSavedImage()">
-      写真に保存・共有する
+      写真に保存する
     </button>
 
     <button
@@ -1109,10 +1109,6 @@ function renderResult(data){
     imageBox.style.display =
     "block";
 
-    setTimeout(function(){
-      warmUpLatestFile();
-    },100);
-
   }else if(imageBox){
     imageBox.style.display =
     "none";
@@ -1279,27 +1275,21 @@ async function copyOmikujiPost(){
 }
 
 async function shareOmikuji(type){
-  if(type === "facebook"){
-    await shareCurrentImageFile(
-      "facebook"
-    );
+  const text =
+  latestShareText ||
+  buildShareText(latestResultData,latestIsHit);
 
+  if(type === "facebook"){
+    await shareToFacebookWithImageUrl(text);
     return;
   }
 
   if(type === "line"){
-    await shareCurrentImageFile(
-      "line"
-    );
-
+    await shareImageFileBySystemShare(text);
     return;
   }
 
   if(type === "x"){
-    const text =
-    latestShareText ||
-    buildShareText(latestResultData,latestIsHit);
-
     try{
       await copyText(text);
     }catch(e){}
@@ -1312,11 +1302,93 @@ async function shareOmikuji(type){
   }
 }
 
-async function shareCurrentImageFile(type){
-  const text =
-  latestShareText ||
-  buildShareText(latestResultData,latestIsHit);
+async function shareToFacebookWithImageUrl(text){
+  try{
+    await copyText(text);
+  }catch(e){}
 
+  const imageUrl =
+  getFacebookShareImageUrl();
+
+  if(!imageUrl){
+    alert("Facebookに渡す画像URLがありません。おみくじ画像が表示されてから押してください。");
+    return;
+  }
+
+  location.href =
+  "https://www.facebook.com/sharer/sharer.php?u=" +
+  encodeURIComponent(imageUrl) +
+  "&quote=" +
+  encodeURIComponent(text);
+}
+
+function getFacebookShareImageUrl(){
+  const image =
+  document.getElementById("resultImage");
+
+  let src =
+  "";
+
+  if(image){
+    src =
+    getString(
+      image.currentSrc ||
+      image.src ||
+      ""
+    );
+  }
+
+  if(!src && latestImageCandidates.length > 0){
+    src =
+    latestImageCandidates[0];
+  }
+
+  if(!src){
+    src =
+    latestImageSource;
+  }
+
+  src =
+  cleanUrl(src);
+
+  if(!src){
+    return "";
+  }
+
+  if(src.indexOf("data:image") === 0){
+    return "";
+  }
+
+  return makeFacebookImageUrl(src);
+}
+
+function makeFacebookImageUrl(url){
+  url =
+  cleanUrl(url);
+
+  const driveId =
+  getDriveId(url);
+
+  if(driveId){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(driveId) +
+    "&sz=w1600";
+  }
+
+  if(url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0){
+    try{
+      url =
+      new URL(
+        url,
+        location.href
+      ).href;
+    }catch(e){}
+  }
+
+  return url;
+}
+
+async function shareImageFileBySystemShare(text){
   try{
     await copyText(text);
   }catch(e){}
@@ -1325,60 +1397,38 @@ async function shareCurrentImageFile(type){
     const file =
     await prepareFile();
 
-    if(!file){
-      throw new Error("画像を準備できませんでした");
-    }
-
     if(
-      navigator.canShare &&
-      !navigator.canShare({
-        files:[file]
-      })
+      navigator.share &&
+      (!navigator.canShare || navigator.canShare({files:[file]}))
     ){
-      throw new Error("この端末では画像ファイル共有に対応していません");
+      await navigator.share({
+        files:[file],
+        title:"田子山富士おみくじ",
+        text:text
+      });
+
+      return;
     }
 
-    if(!navigator.share){
-      throw new Error("この端末では共有機能に対応していません");
-    }
-
-    await navigator.share({
-      files:[file],
-      title:"田子山富士おみくじ",
-      text:text
-    });
-
-    return;
+    showImagePopup();
 
   }catch(e){
-    showImagePopupForManualShare(type);
+    showImagePopup();
   }
 }
 
 async function saveOmikujiImage(btn){
-  await shareCurrentImageFile(
-    "save"
+  await shareImageFileBySystemShare(
+    latestShareText ||
+    buildShareText(latestResultData,latestIsHit)
   );
 }
 
 async function shareSavedImage(){
-  await shareCurrentImageFile(
-    "manual"
+  await shareImageFileBySystemShare(
+    latestShareText ||
+    buildShareText(latestResultData,latestIsHit)
   );
-}
-
-function showImagePopupForManualShare(type){
-  const guide =
-  document.getElementById("popupGuide");
-
-  if(guide){
-    guide.innerHTML =
-    "この端末では直接画像共有できない場合があります。<br>" +
-    "画像を長押しで保存してから、Facebookに投稿してください。<br>" +
-    "投稿文はコピー済みです。";
-  }
-
-  showImagePopup();
 }
 
 function showImagePopup(){
@@ -1409,26 +1459,12 @@ function closePopup(){
   }
 }
 
-async function warmUpLatestFile(){
-  if(latestFile){
-    return;
-  }
-
-  if(!latestImageSource){
-    return;
-  }
-
-  try{
-    await prepareFile();
-  }catch(e){}
-}
-
 async function prepareFile(){
   if(latestFile){
     return latestFile;
   }
 
-  if(!latestImageSource){
+  if(!latestImageSource && latestImageCandidates.length === 0){
     throw new Error("画像がありません");
   }
 
@@ -1454,26 +1490,6 @@ async function prepareFile(){
     try{
       const file =
       await fetchImageAsFile(
-        url,
-        "tagoyama-omikuji.png"
-      );
-
-      if(file){
-        latestFile =
-        file;
-
-        return latestFile;
-      }
-    }catch(e){}
-  }
-
-  for(let i = 0; i < candidates.length; i++){
-    const url =
-    candidates[i];
-
-    try{
-      const file =
-      await canvasImageAsFile(
         url,
         "tagoyama-omikuji.png"
       );
@@ -1523,73 +1539,6 @@ async function fetchImageAsFile(url,fileName){
       type:type
     }
   );
-}
-
-function canvasImageAsFile(url,fileName){
-  return new Promise(function(resolve,reject){
-    const img =
-    new Image();
-
-    img.crossOrigin =
-    "anonymous";
-
-    img.onload =
-    function(){
-      try{
-        const canvas =
-        document.createElement("canvas");
-
-        canvas.width =
-        img.naturalWidth ||
-        img.width;
-
-        canvas.height =
-        img.naturalHeight ||
-        img.height;
-
-        const ctx =
-        canvas.getContext("2d");
-
-        ctx.drawImage(
-          img,
-          0,
-          0
-        );
-
-        canvas.toBlob(function(blob){
-          if(!blob || !blob.size){
-            reject(
-              new Error("画像変換に失敗しました")
-            );
-            return;
-          }
-
-          resolve(
-            new File(
-              [blob],
-              fileName,
-              {
-                type:"image/png"
-              }
-            )
-          );
-        },"image/png");
-
-      }catch(e){
-        reject(e);
-      }
-    };
-
-    img.onerror =
-    function(){
-      reject(
-        new Error("画像を読み込めませんでした")
-      );
-    };
-
-    img.src =
-    url;
-  });
 }
 
 function dataUrlToFile(dataUrl,fileName){
@@ -1691,13 +1640,6 @@ function makeImageCandidateUrls(url){
       "https://drive.google.com/thumbnail?id=" +
       encodeURIComponent(driveId) +
       "&sz=w1600"
-    );
-
-    addUnique(
-      list,
-      "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w1600"
     );
 
     addUnique(
