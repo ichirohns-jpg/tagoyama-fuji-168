@@ -6,6 +6,16 @@
 
 <title>田子山富士 開運おみくじ</title>
 
+<meta property="og:title" content="田子山富士 開運おみくじ">
+<meta property="og:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 開運おみくじ">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+
 <style>
 *{
   box-sizing:border-box;
@@ -302,8 +312,12 @@ body{
   margin-top:24px;
 }
 
-.shareNote{
+.shareGuide{
   margin:0;
+  padding:14px 12px;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,220,140,.28);
   font-size:15px;
   font-weight:800;
   line-height:1.7;
@@ -477,7 +491,7 @@ body{
       <div id="shareActions" class="btnArea shareActions">
         <button
           class="btn greenBtn"
-          onclick="saveOmikujiImage(this)">
+          onclick="saveOmikujiImage()">
           画像を保存
         </button>
 
@@ -511,10 +525,10 @@ body{
           ← トップへ戻る
         </a>
 
-        <p class="shareNote">
-          Facebookは投稿文をコピーしてから投稿画面を開きます。<br>
-          表示中のおみくじ画像URLをFacebookに渡します。<br>
-          画像保存とは別処理です。
+        <p class="shareGuide">
+          Facebookは登頂記念と同じ方式です。<br>
+          専用ページのOGP画像をFacebookが拾います。<br>
+          投稿文は自動でコピーされます。
         </p>
       </div>
     </div>
@@ -534,7 +548,8 @@ body{
     </p>
 
     <p class="popupGuide">
-      共有画面で「画像を保存」または「写真に保存」を選んでください。
+      下のボタンを押して<br>
+      共有画面で「画像を保存」を選んでください
     </p>
 
     <img id="savedImage" alt="田子山富士おみくじ画像">
@@ -563,6 +578,9 @@ const SITE_BASE =
 const OMIKUJI_PAGE =
 SITE_BASE + "omikuji.html";
 
+const SHARE_OMIKUJI_PAGE =
+SITE_BASE + "share-omikuji-atari.html?v=20260704-ogp-final";
+
 const HOME_PAGE =
 SITE_BASE;
 
@@ -574,15 +592,11 @@ let latestImageSource = "";
 let latestImageCandidates = [];
 let latestFile = null;
 let latestShareText = "";
-let latestShareUrl = "";
 let latestResultData = null;
 let latestIsHit = false;
 let isDrawing = false;
 
-window.addEventListener(
-  "load",
-  init
-);
+window.addEventListener("load",init);
 
 function init(){
   currentUserId =
@@ -591,11 +605,8 @@ function init(){
   latestIsHit =
   false;
 
-  latestShareUrl =
-  buildShareUrl(false);
-
   latestShareText =
-  buildShareText(null,false);
+  buildShareText();
 
   const status =
   document.getElementById("statusBox");
@@ -632,15 +643,8 @@ function getStableUserId(){
   );
 
   if(urlUserId){
-    localStorage.setItem(
-      "tagoyamaUserId",
-      urlUserId
-    );
-
-    localStorage.setItem(
-      "tagoyamaFujiUserId",
-      urlUserId
-    );
+    localStorage.setItem("tagoyamaUserId",urlUserId);
+    localStorage.setItem("tagoyamaFujiUserId",urlUserId);
 
     return urlUserId;
   }
@@ -702,14 +706,10 @@ async function drawOmikuji(){
     renderResult({
       success:true,
       notClimbed:true,
-      hit:false,
-      isHit:false,
       type:"none",
       title:"まだ登頂していません",
       text:"山頂QRコードを読み取って登頂受付をすると、おみくじを引けます。",
-      message:"山頂QRコードを読み取って登頂受付をすると、おみくじを引けます。",
-      imageUrl:"",
-      imageDataUrl:""
+      imageUrl:""
     });
 
     if(status){
@@ -863,11 +863,8 @@ function clearResult(){
   latestIsHit =
   false;
 
-  latestShareUrl =
-  buildShareUrl(false);
-
   latestShareText =
-  buildShareText(null,false);
+  buildShareText();
 
   const card =
   document.getElementById("resultCard");
@@ -973,11 +970,8 @@ function renderResult(data){
   latestIsHit =
   hit;
 
-  latestShareUrl =
-  buildShareUrl(hit);
-
   latestShareText =
-  buildShareText(data,hit);
+  buildShareText();
 
   const titleText =
   getString(
@@ -1209,51 +1203,17 @@ function isHitResult(data,result){
   const lower =
   joined.toLowerCase();
 
-  if(
+  return (
     joined.indexOf("大当たり") >= 0 ||
     joined.indexOf("当たり") >= 0 ||
     joined.indexOf("あたり") >= 0 ||
     joined.indexOf("アタリ") >= 0 ||
     lower.indexOf("hit") >= 0 ||
     lower.indexOf("atari") >= 0
-  ){
-    return true;
-  }
-
-  return false;
-}
-
-function buildShareUrl(hit){
-  const params =
-  new URLSearchParams();
-
-  params.set(
-    "v",
-    Date.now()
   );
-
-  if(currentUserId){
-    params.set(
-      "userId",
-      currentUserId
-    );
-  }
-
-  return OMIKUJI_PAGE +
-  "?" +
-  params.toString();
 }
 
-function buildShareText(data,hit){
-  if(hit){
-    return [
-      "田子山富士168の縁プロジェクトでおみくじを引きました。",
-      "大当たりでした。",
-      "#田子山富士",
-      "#168の縁プロジェクト"
-    ].join("\n");
-  }
-
+function buildShareText(){
   return [
     "田子山富士168の縁プロジェクトでおみくじを引きました。",
     "#田子山富士",
@@ -1263,136 +1223,58 @@ function buildShareText(data,hit){
 
 async function copyOmikujiPost(){
   const text =
-  latestShareText ||
-  buildShareText(latestResultData,latestIsHit);
+  latestShareText +
+  "\n" +
+  SHARE_OMIKUJI_PAGE;
 
   try{
     await copyText(text);
-    alert("投稿文をコピーしました。");
+    alert("投稿文とリンクをコピーしました。Facebook画面で貼り付けてください。");
   }catch(e){
     alert("コピーできませんでした。画面の文章を手動でコピーしてください。");
   }
 }
 
 async function shareOmikuji(type){
+  const url =
+  SHARE_OMIKUJI_PAGE;
+
   const text =
   latestShareText ||
-  buildShareText(latestResultData,latestIsHit);
+  buildShareText();
 
   if(type === "facebook"){
-    await shareToFacebookWithImageUrl(text);
+    try{
+      await copyText(text + "\n" + url);
+    }catch(e){}
+
+    location.href =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(url);
+
     return;
   }
 
   if(type === "line"){
-    await shareImageFileBySystemShare(text);
+    location.href =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(url);
+
     return;
   }
 
   if(type === "x"){
-    try{
-      await copyText(text);
-    }catch(e){}
-
     location.href =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text);
+    encodeURIComponent(text) +
+    "&url=" +
+    encodeURIComponent(url);
 
     return;
   }
 }
 
-async function shareToFacebookWithImageUrl(text){
-  try{
-    await copyText(text);
-  }catch(e){}
-
-  const imageUrl =
-  getFacebookShareImageUrl();
-
-  if(!imageUrl){
-    alert("Facebookに渡す画像URLがありません。おみくじ画像が表示されてから押してください。");
-    return;
-  }
-
-  location.href =
-  "https://www.facebook.com/sharer/sharer.php?u=" +
-  encodeURIComponent(imageUrl) +
-  "&quote=" +
-  encodeURIComponent(text);
-}
-
-function getFacebookShareImageUrl(){
-  const image =
-  document.getElementById("resultImage");
-
-  let src =
-  "";
-
-  if(image){
-    src =
-    getString(
-      image.currentSrc ||
-      image.src ||
-      ""
-    );
-  }
-
-  if(!src && latestImageCandidates.length > 0){
-    src =
-    latestImageCandidates[0];
-  }
-
-  if(!src){
-    src =
-    latestImageSource;
-  }
-
-  src =
-  cleanUrl(src);
-
-  if(!src){
-    return "";
-  }
-
-  if(src.indexOf("data:image") === 0){
-    return "";
-  }
-
-  return makeFacebookImageUrl(src);
-}
-
-function makeFacebookImageUrl(url){
-  url =
-  cleanUrl(url);
-
-  const driveId =
-  getDriveId(url);
-
-  if(driveId){
-    return "https://drive.google.com/thumbnail?id=" +
-    encodeURIComponent(driveId) +
-    "&sz=w1600";
-  }
-
-  if(url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0){
-    try{
-      url =
-      new URL(
-        url,
-        location.href
-      ).href;
-    }catch(e){}
-  }
-
-  return url;
-}
-
-async function shareImageFileBySystemShare(text){
-  try{
-    await copyText(text);
-  }catch(e){}
-
+async function saveOmikujiImage(){
   try{
     const file =
     await prepareFile();
@@ -1404,7 +1286,7 @@ async function shareImageFileBySystemShare(text){
       await navigator.share({
         files:[file],
         title:"田子山富士おみくじ",
-        text:text
+        text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
       });
 
       return;
@@ -1417,18 +1299,29 @@ async function shareImageFileBySystemShare(text){
   }
 }
 
-async function saveOmikujiImage(btn){
-  await shareImageFileBySystemShare(
-    latestShareText ||
-    buildShareText(latestResultData,latestIsHit)
-  );
-}
-
 async function shareSavedImage(){
-  await shareImageFileBySystemShare(
-    latestShareText ||
-    buildShareText(latestResultData,latestIsHit)
-  );
+  try{
+    const file =
+    await prepareFile();
+
+    if(
+      navigator.share &&
+      (!navigator.canShare || navigator.canShare({files:[file]}))
+    ){
+      await navigator.share({
+        files:[file],
+        title:"田子山富士おみくじ",
+        text:latestShareText || "田子山富士168の縁プロジェクトのおみくじ結果です。"
+      });
+
+      return;
+    }
+
+    alert("画像を長押しして保存してください。");
+
+  }catch(e){
+    alert("画像を長押しして保存してください。");
+  }
 }
 
 function showImagePopup(){
@@ -1484,13 +1377,10 @@ async function prepareFile(){
   : makeImageCandidateUrls(latestImageSource);
 
   for(let i = 0; i < candidates.length; i++){
-    const url =
-    candidates[i];
-
     try{
       const file =
       await fetchImageAsFile(
-        url,
+        candidates[i],
         "tagoyama-omikuji.png"
       );
 
@@ -1650,12 +1540,6 @@ function makeImageCandidateUrls(url){
 
     addUnique(
       list,
-      "https://drive.google.com/uc?export=download&id=" +
-      encodeURIComponent(driveId)
-    );
-
-    addUnique(
-      list,
       url
     );
 
@@ -1749,22 +1633,15 @@ async function copyText(text){
   textarea.value =
   text;
 
-  textarea.setAttribute(
-    "readonly",
-    "readonly"
-  );
-
+  textarea.setAttribute("readonly","readonly");
   textarea.style.position =
   "fixed";
-
   textarea.style.left =
   "-9999px";
-
   textarea.style.top =
   "0";
 
   document.body.appendChild(textarea);
-
   textarea.focus();
   textarea.select();
 
