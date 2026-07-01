@@ -214,6 +214,19 @@ body{
  text-align:left;
 }
 
+.fbGuide{
+ margin-top:16px;
+ padding:14px 12px;
+ border-radius:18px;
+ border:1px solid rgba(255,220,95,.42);
+ background:rgba(0,0,0,.34);
+ color:#fff3c4;
+ font-size:clamp(16px,4.5vw,25px);
+ font-weight:900;
+ line-height:1.6;
+ text-align:center;
+}
+
 .btnGrid{
  display:grid;
  gap:12px;
@@ -252,6 +265,18 @@ body{
 
 .greenBtn{
  background:linear-gradient(180deg,#35df86,#19b75e);
+}
+
+.lineBtn{
+ background:linear-gradient(180deg,#25d366,#06a941);
+}
+
+.xBtn{
+ background:linear-gradient(180deg,#333,#000);
+}
+
+.facebookBtn{
+ background:linear-gradient(180deg,#4b8cff,#1458c8);
 }
 
 .grayBtn{
@@ -353,13 +378,29 @@ body{
    </div>
   </div>
 
+  <div class="fbGuide">
+   Facebookに投稿する場合は、画像を保存してから、リンクをコピーして投稿欄に貼り付けてください。
+  </div>
+
   <div class="btnGrid">
    <button class="btn greenBtn" onclick="shareCurrentImageFile()">
-    画像を保存・共有する
+    画像を保存
    </button>
 
-   <button class="btn grayBtn" onclick="copyOmikujiPost()">
-    投稿文をコピー
+   <button class="btn lineBtn" onclick="shareToLine()">
+    LINEで送る
+   </button>
+
+   <button class="btn xBtn" onclick="shareToX()">
+    Xで投稿
+   </button>
+
+   <button class="btn facebookBtn" onclick="shareToFacebook()">
+    Facebook
+   </button>
+
+   <button class="btn grayBtn" onclick="copyShareText()">
+    リンクをコピー
    </button>
 
    <button class="btn blackBtn" onclick="goBackToTop()">
@@ -381,6 +422,9 @@ const OMIKUJI_GAS_URL =
 
 const DEFAULT_OMIKUJI_IMAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02";
+
+const SHARE_OMIKUJI_URL =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
 
 let currentUserId =
 "";
@@ -645,6 +689,79 @@ async function shareCurrentImageFile(){
  }
 }
 
+function shareToLine(){
+ const text =
+ buildShareText();
+
+ const url =
+ "https://social-plugins.line.me/lineit/share?url=" +
+ encodeURIComponent(SHARE_OMIKUJI_URL) +
+ "&text=" +
+ encodeURIComponent(text);
+
+ openShareWindow(url);
+}
+
+function shareToX(){
+ const text =
+ buildShareText();
+
+ const url =
+ "https://twitter.com/intent/tweet?text=" +
+ encodeURIComponent(text) +
+ "&url=" +
+ encodeURIComponent(SHARE_OMIKUJI_URL);
+
+ openShareWindow(url);
+}
+
+async function shareToFacebook(){
+ const text =
+ buildShareText();
+
+ try{
+  await copyText(text);
+  alert("投稿文とリンクをコピーしました。Facebookに貼り付けてください。");
+ }catch(error){
+  alert("コピーできませんでした。");
+ }
+
+ openShareWindow("https://www.facebook.com/");
+}
+
+async function copyShareText(){
+ const text =
+ buildShareText();
+
+ try{
+  await copyText(text);
+  alert("投稿文とリンクをコピーしました。");
+ }catch(error){
+  alert("コピーできませんでした。");
+ }
+}
+
+function buildShareText(){
+ return [
+  "田子山富士168の縁プロジェクトで開運おみくじを引きました。",
+  "",
+  "田子山富士で、楽しいご縁をいただきました。",
+  "",
+  "#田子山富士",
+  "#168の縁プロジェクト",
+  "",
+  SHARE_OMIKUJI_URL
+ ].join("\n");
+}
+
+function openShareWindow(url){
+ window.open(
+  url,
+  "_blank",
+  "noopener,noreferrer"
+ );
+}
+
 function getShareImageUrl(){
  return normalizeImageUrl(
   currentImageUrl ||
@@ -704,43 +821,6 @@ async function getImageBlob(imageUrl){
  }
 
  return blob;
-}
-
-function buildOmikujiPostText(){
- const lines =
- [];
-
- lines.push(
-  "田子山富士168の縁プロジェクト"
- );
-
- if(latestResult && latestResult.title){
-  lines.push(
-   latestResult.title
-  );
- }
-
- lines.push(
-  "#田子山富士"
- );
-
- lines.push(
-  "#168の縁プロジェクト"
- );
-
- return lines.join("\n");
-}
-
-async function copyOmikujiPost(){
- const text =
- buildOmikujiPostText();
-
- try{
-  await copyText(text);
-  alert("投稿文をコピーしました。");
- }catch(e){
-  alert("コピーできませんでした。");
- }
 }
 
 async function getJson(url){
