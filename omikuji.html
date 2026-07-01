@@ -157,61 +157,31 @@ body{
   box-shadow:0 12px 24px rgba(0,0,0,.38);
 }
 
-.resultKicker{
-  margin:0 0 12px;
-  font-size:clamp(20px,5.4vw,34px);
-  font-weight:900;
-  line-height:1.35;
-  color:#fff3c4;
-}
-
-.resultNo{
-  margin:0 0 10px;
-  font-size:clamp(34px,10vw,68px);
-  font-weight:900;
-  color:#ffdf72;
-  line-height:1.2;
-  text-shadow:
-    0 4px 4px rgba(0,0,0,.85),
-    0 0 18px rgba(255,210,80,.30);
-}
-
-.resultTitle{
-  margin:10px 0 14px;
-  font-size:clamp(32px,9vw,60px);
-  font-weight:900;
-  color:#ffdf72;
-  line-height:1.22;
-  text-shadow:
-    0 4px 4px rgba(0,0,0,.85),
-    0 0 18px rgba(255,210,80,.30);
-}
-
-.resultMessage{
-  margin:14px 0 0;
-  padding:18px 14px;
-  border-radius:22px;
-  background:rgba(0,0,0,.30);
-  border:1px solid rgba(255,220,140,.38);
-  font-size:clamp(18px,5vw,30px);
-  font-weight:800;
-  line-height:1.75;
-  color:#fff;
-  white-space:pre-wrap;
-  text-align:left;
-}
-
 .resultImage{
   display:block;
   width:100%;
   height:auto;
-  margin:16px auto 0;
+  margin:0 auto;
   border-radius:24px;
   border:2px solid rgba(255,220,95,.78);
   background:#000;
   box-shadow:
     0 0 0 1px rgba(255,240,170,.12) inset,
     0 12px 24px rgba(0,0,0,.42);
+}
+
+.resultMessage{
+  margin:18px 0 0;
+  padding:18px 14px;
+  border-radius:22px;
+  background:rgba(0,0,0,.30);
+  border:1px solid rgba(255,220,140,.38);
+  font-size:clamp(18px,5vw,30px);
+  font-weight:900;
+  line-height:1.7;
+  color:#fff;
+  white-space:pre-wrap;
+  text-align:left;
 }
 
 .btnGrid{
@@ -274,54 +244,6 @@ body{
   background:linear-gradient(180deg,#232323,#050505);
 }
 
-.note{
-  margin:18px 0 0;
-  padding:16px 12px;
-  border-radius:20px;
-  border:1px solid rgba(255,220,140,.42);
-  background:rgba(0,0,0,.30);
-  color:#fff3c4;
-  font-size:clamp(16px,4.4vw,25px);
-  line-height:1.7;
-  font-weight:900;
-  text-align:center;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.86);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  padding:18px;
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modalBox{
-  width:100%;
-  max-width:720px;
-  max-height:92vh;
-  overflow:auto;
-  border-radius:28px;
-  background:#111;
-  border:3px solid rgba(255,220,95,.80);
-  padding:18px;
-  text-align:center;
-}
-
-.modalBox img{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:20px;
-  border:2px solid rgba(255,220,95,.70);
-}
-
 .footer{
   margin-top:32px;
   padding:18px 0 0;
@@ -368,7 +290,7 @@ body{
     </div>
   </header>
 
-  <section class="card">
+  <section class="card" id="drawSection">
     <h2 class="cardTitle">
       おみくじ
     </h2>
@@ -391,18 +313,6 @@ body{
 
   <section class="card hidden" id="resultSection">
     <div class="resultBox">
-      <div class="resultKicker">
-        田子山富士おみくじ
-      </div>
-
-      <div class="resultNo" id="resultNo">
-        第--番
-      </div>
-
-      <div class="resultTitle" id="resultTitle">
-        --
-      </div>
-
       <img
         class="resultImage"
         id="resultImage"
@@ -414,15 +324,15 @@ body{
       </div>
     </div>
 
-    <div class="statusBox hidden" id="doneBox">
-      本日のおみくじは終了しました。<br>
-      次回の登頂時にまたお楽しみください。
-    </div>
-
     <div class="btnGrid">
-      <button class="btn greenBtn" onclick="openSaveModal()">
-        画像を保存
-      </button>
+      <a
+        class="linkBtn greenBtn"
+        id="imageOpenBtn"
+        href="omikuji-atari.jpg"
+        target="_blank"
+        rel="noopener">
+        画像を開く・保存
+      </a>
 
       <button class="btn grayBtn" onclick="copyOmikujiPost()">
         投稿文をコピー
@@ -444,11 +354,6 @@ body{
         ← トップへ戻る
       </a>
     </div>
-
-    <div class="note">
-      FacebookにはGitHub Pagesの固定OGP共有ページを渡します。<br>
-      投稿文は自動でコピーされます。
-    </div>
   </section>
 
   <footer class="footer">
@@ -458,29 +363,9 @@ body{
 
 </div>
 
-<div class="modal" id="saveModal">
-  <div class="modalBox">
-    <div class="note">
-      下の画像を長押しして<br>
-      共有画面で「画像を保存」を選んでください
-    </div>
-
-    <img id="saveImage" src="omikuji-atari.jpg" alt="写真に保存する">
-
-    <div class="btnGrid">
-      <button class="btn blackBtn" onclick="closeSaveModal()">
-        閉じる
-      </button>
-    </div>
-  </div>
-</div>
-
 <script>
 const OMIKUJI_GAS_URL =
 "https://script.google.com/macros/s/AKfycbx5w_dEKm4Tb-GFB0o9AhUgLB1MdziOntuQ8iChEbnSbB6jcUCxp4STritRJeyF_osy/exec";
-
-const SITE_BASE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
 const FIXED_OMIKUJI_SHARE_URL =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02";
@@ -493,12 +378,6 @@ let currentUserId =
 
 let latestResult =
 null;
-
-let latestShareNo =
-"";
-
-let latestShareId =
-"";
 
 window.addEventListener("load",initOmikuji);
 
@@ -578,17 +457,7 @@ async function drawOmikuji(){
     latestResult =
     result;
 
-    latestShareNo =
-    result.no;
-
-    latestShareId =
-    result.id;
-
     renderOmikuji(result);
-
-    if(result.alreadyDone){
-      showDoneBox();
-    }
 
     setStatus(
       "おみくじを引きました。"
@@ -624,15 +493,6 @@ function normalizeOmikujiResult(data){
     ""
   );
 
-  const id =
-  getString(
-    source.shareId ||
-    source.id ||
-    data.shareId ||
-    data.id ||
-    no
-  );
-
   const title =
   getString(
     source.title ||
@@ -643,7 +503,7 @@ function normalizeOmikujiResult(data){
     data.title ||
     data.name ||
     data.unsei ||
-    "開運"
+    ""
   );
 
   const message =
@@ -657,7 +517,7 @@ function normalizeOmikujiResult(data){
     data.message ||
     data.body ||
     data.text ||
-    "田子山富士のご縁がありますように。"
+    "田子山富士でまた良いご縁がありますように。"
   );
 
   const imageUrl =
@@ -672,59 +532,28 @@ function normalizeOmikujiResult(data){
     DEFAULT_OMIKUJI_IMAGE
   );
 
-  const date =
-  formatDate(
-    source.date ||
-    source.datetime ||
-    source.createdAt ||
-    data.date ||
-    data.datetime ||
-    data.createdAt ||
-    ""
-  );
-
-  const alreadyDone =
-  (
-    data.alreadyDrawn === true ||
-    data.alreadyOmikujiToday === true ||
-    data.alreadyDone === true ||
-    data.doneToday === true ||
-    source.alreadyDrawn === true
-  );
-
   return {
     no:no,
-    id:id,
     title:title,
     message:message,
-    imageUrl:imageUrl,
-    date:date,
-    alreadyDone:alreadyDone
+    imageUrl:imageUrl
   };
 }
 
 function renderOmikuji(result){
-  document.getElementById("resultSection").classList.remove("hidden");
-
-  document.getElementById("resultNo").innerText =
-  result.no
-  ? "第" + result.no + "番"
-  : "第005番";
-
-  document.getElementById("resultTitle").innerText =
-  result.title || "開運";
-
-  document.getElementById("resultMessage").innerText =
-  result.message || "田子山富士のご縁がありますように。";
-
   const imageUrl =
   result.imageUrl || DEFAULT_OMIKUJI_IMAGE;
 
   document.getElementById("resultImage").src =
   imageUrl;
 
-  document.getElementById("saveImage").src =
+  document.getElementById("imageOpenBtn").href =
   imageUrl;
+
+  document.getElementById("resultMessage").innerText =
+  result.message || "田子山富士でまた良いご縁がありますように。";
+
+  document.getElementById("resultSection").classList.remove("hidden");
 
   setTimeout(function(){
     document.getElementById("resultSection").scrollIntoView({
@@ -734,26 +563,7 @@ function renderOmikuji(result){
   },100);
 }
 
-function showDoneBox(){
-  const doneBox =
-  document.getElementById("doneBox");
-
-  if(doneBox){
-    doneBox.classList.remove("hidden");
-  }
-}
-
-function buildFixedOmikujiPostText(){
-  const no =
-  latestShareNo ||
-  latestShareId ||
-  "";
-
-  const title =
-  latestResult && latestResult.title
-  ? latestResult.title
-  : "";
-
+function buildOmikujiPostText(){
   const lines =
   [];
 
@@ -761,15 +571,9 @@ function buildFixedOmikujiPostText(){
     "田子山富士168の縁プロジェクトでおみくじを引きました。"
   );
 
-  if(no){
+  if(latestResult && latestResult.title){
     lines.push(
-      "第" + no + "番"
-    );
-  }
-
-  if(title){
-    lines.push(
-      title
+      latestResult.title
     );
   }
 
@@ -786,7 +590,7 @@ function buildFixedOmikujiPostText(){
 
 async function copyOmikujiPost(){
   const text =
-  buildFixedOmikujiPostText() +
+  buildOmikujiPostText() +
   "\n" +
   FIXED_OMIKUJI_SHARE_URL;
 
@@ -803,7 +607,7 @@ async function shareOmikuji(type){
   FIXED_OMIKUJI_SHARE_URL;
 
   const text =
-  buildFixedOmikujiPostText();
+  buildOmikujiPostText();
 
   if(type === "facebook"){
     try{
@@ -834,14 +638,6 @@ async function shareOmikuji(type){
 
     return;
   }
-}
-
-function openSaveModal(){
-  document.getElementById("saveModal").classList.add("open");
-}
-
-function closeSaveModal(){
-  document.getElementById("saveModal").classList.remove("open");
 }
 
 async function getJson(url){
@@ -1010,37 +806,6 @@ function normalizeImageUrl(value){
   }
 
   return url;
-}
-
-function formatDate(value){
-  value =
-  getString(value);
-
-  if(!value){
-    return "";
-  }
-
-  if(value.indexOf("GMT") >= 0 || value.indexOf("標準時") >= 0){
-    const d =
-    new Date(value);
-
-    if(!isNaN(d.getTime())){
-      return d.getFullYear() +
-      "/" +
-      String(d.getMonth() + 1).padStart(2,"0") +
-      "/" +
-      String(d.getDate()).padStart(2,"0") +
-      " " +
-      String(d.getHours()).padStart(2,"0") +
-      ":" +
-      String(d.getMinutes()).padStart(2,"0");
-    }
-  }
-
-  return value
-  .replace("T15:00:00.000Z","")
-  .replace("T00:00:00.000Z","")
-  .replace(/-/g,"/");
 }
 
 function setStatus(text){
