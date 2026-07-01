@@ -17,6 +17,9 @@
 <meta name="twitter:description" content="田子山富士168の縁プロジェクトの登頂記念証です。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
 
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+
 <style>
 *{
   box-sizing:border-box;
@@ -39,7 +42,7 @@ body{
     linear-gradient(180deg,#1d1204 0%,#070707 48%,#000 100%);
 }
 
-.hidden{
+[hidden]{
   display:none !important;
 }
 
@@ -74,6 +77,19 @@ body{
   height:auto;
 }
 
+.card{
+  margin:22px 0;
+  padding:22px 14px;
+  border-radius:30px;
+  border:3px solid #d6b73c;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,224,120,.18),rgba(0,0,0,0) 45%),
+    rgba(20,20,20,.94);
+  box-shadow:
+    0 0 0 1px rgba(255,230,150,.10) inset,
+    0 12px 28px rgba(0,0,0,.42);
+}
+
 .statusBox{
   margin:0 0 18px;
   padding:18px 14px;
@@ -86,19 +102,6 @@ body{
   color:#fff3c4;
   text-align:center;
   white-space:pre-wrap;
-}
-
-.card{
-  margin:22px 0;
-  padding:22px 14px;
-  border-radius:30px;
-  border:3px solid #d6b73c;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(255,224,120,.18),rgba(0,0,0,0) 45%),
-    rgba(20,20,20,.94);
-  box-shadow:
-    0 0 0 1px rgba(255,230,150,.10) inset,
-    0 12px 28px rgba(0,0,0,.42);
 }
 
 .certificateBox{
@@ -241,6 +244,10 @@ body{
     0 13px 22px rgba(0,0,0,.34);
 }
 
+.btn:disabled{
+  opacity:.55;
+}
+
 .goldBtn{
   background:linear-gradient(180deg,#ffe27a,#c79218);
   color:#251400;
@@ -342,40 +349,32 @@ body{
   <section class="card">
 
     <div class="statusBox" id="statusBox">
-      記念証を準備しています...
+      記念証を準備しています。
     </div>
 
-    <div class="certificateBox">
+    <div id="certificateArea" hidden>
+      <div class="certificateBox">
 
-      <p class="certKicker">田子山富士</p>
-      <h1 class="certTitle">登頂記念証</h1>
-      <div class="certMark">◆</div>
+        <p class="certKicker">田子山富士</p>
+        <h1 class="certTitle">登頂記念証</h1>
+        <div class="certMark">◆</div>
 
-      <div class="imageFrame">
-        <img id="certificateImage" src="ogp-certificate.jpg" alt="登頂記念画像">
-        <div class="imageError hidden" id="imageError">
-          画像を読み込めませんでした。
+        <div class="imageFrame">
+          <img id="certificateImage" src="ogp-certificate.jpg" alt="登頂記念画像">
+          <div class="imageError" id="imageError" hidden>
+            画像を読み込めませんでした。
+          </div>
         </div>
+
+        <div class="certMain" id="climbText"></div>
+        <div class="certNo" id="serialText"></div>
+        <div class="certDate" id="dateText"></div>
+        <div class="certImageName" id="imageNameText"></div>
+
       </div>
-
-      <div class="certMain" id="climbText">
-        第--回 登頂記念
-      </div>
-
-      <div class="certNo" id="serialText">
-        No.----
-      </div>
-
-      <div class="certDate" id="dateText">
-        ----
-      </div>
-
-      <div class="certImageName" id="imageNameText"></div>
-
     </div>
 
-    <div class="btnGrid">
-
+    <div class="btnGrid" id="receiveArea">
       <button class="btn goldBtn" id="receiveBtn" onclick="receiveCertificate()">
         記念証を授かる
       </button>
@@ -383,31 +382,32 @@ body{
       <a class="linkBtn blackBtn" href="./">
         ← トップへ戻る
       </a>
+    </div>
 
+    <div class="btnGrid" id="shareArea" hidden>
       <button class="btn grayBtn" onclick="copyCertificateLink()">
-        ① リンクをコピー
+        リンクをコピー
       </button>
 
-      <div class="note">
-        Facebookに投稿する場合は、上の「リンクをコピー」を押してからFacebookボタンで投稿してください。
-      </div>
-
       <button class="btn facebookBtn" onclick="shareCertificate('facebook')">
-        ② Facebookで投稿
+        Facebookで投稿
       </button>
 
       <button class="btn lineBtn" onclick="shareCertificate('line')">
-        ③ LINEで送る
+        LINEで送る
       </button>
 
       <button class="btn xBtn" onclick="shareCertificate('x')">
-        ④ Xで投稿
+        Xで投稿
       </button>
 
       <button class="btn greenBtn" onclick="openSaveModal()">
         写真に保存する
       </button>
 
+      <a class="linkBtn blackBtn" href="./">
+        ← トップへ戻る
+      </a>
     </div>
 
   </section>
@@ -424,7 +424,9 @@ body{
     <div class="note">
       下の画像を長押しして保存してください。
     </div>
+
     <img id="saveImage" src="ogp-certificate.jpg" alt="保存用画像">
+
     <div class="btnGrid">
       <button class="btn blackBtn" onclick="closeSaveModal()">
         閉じる
@@ -479,20 +481,20 @@ function initPage(){
     ""
   );
 
-  if(currentUserId && climbCount && serialNo){
-    loadExistingCertificate(climbCount,serialNo);
-    return;
-  }
-
   if(!currentUserId){
-    setStatus(
-      "ユーザーIDが不明です。山頂QRコードから登頂受付をしてください。"
+    showError(
+      "ユーザーIDが不明です。\n山頂QRコードから登頂受付をしてください。"
     );
     return;
   }
 
+  if(climbCount && serialNo){
+    loadExistingCertificate(climbCount,serialNo);
+    return;
+  }
+
   setStatus(
-    "記念証を準備しています。"
+    "登頂記念証を受け取れます。"
   );
 }
 
@@ -544,13 +546,6 @@ async function receiveCertificate(){
 }
 
 async function loadExistingCertificate(climbCount,serialNo){
-  if(!currentUserId){
-    setStatus(
-      "ユーザーIDが不明です。"
-    );
-    return;
-  }
-
   setStatus(
     "登頂記録を確認しています..."
   );
@@ -568,8 +563,8 @@ async function loadExistingCertificate(climbCount,serialNo){
     });
 
     if(!record){
-      setStatus(
-        "指定された登頂記録が見つかりません。"
+      showError(
+        "指定された登頂記録が見つかりません。\n山頂QRコードから登頂受付をしてください。"
       );
       return;
     }
@@ -577,7 +572,7 @@ async function loadExistingCertificate(climbCount,serialNo){
     renderCertificate(record);
 
   }catch(error){
-    setStatus(
+    showError(
       "登頂記録を読み込めませんでした。"
     );
   }
@@ -671,14 +666,20 @@ function renderCertificate(item){
 
   image.onload =
   function(){
-    image.classList.remove("hidden");
-    imageError.classList.add("hidden");
+    image.hidden =
+    false;
+
+    imageError.hidden =
+    true;
   };
 
   image.onerror =
   function(){
-    image.classList.add("hidden");
-    imageError.classList.remove("hidden");
+    image.hidden =
+    true;
+
+    imageError.hidden =
+    false;
   };
 
   image.src =
@@ -702,7 +703,14 @@ function renderCertificate(item){
   document.getElementById("imageNameText").innerText =
   item.imageName || "";
 
-  setReceiveButton(false);
+  document.getElementById("certificateArea").hidden =
+  false;
+
+  document.getElementById("receiveArea").hidden =
+  true;
+
+  document.getElementById("shareArea").hidden =
+  false;
 
   setStatus(
     "登頂記念証を表示しました。"
@@ -982,6 +990,10 @@ function normalizeImageUrl(value){
   .replace(/[),.;]+$/g,"")
   .trim();
 
+  if(url.indexOf("data:image") === 0){
+    return url;
+  }
+
   if(url.indexOf("drive.google.com/thumbnail") >= 0){
     return url;
   }
@@ -1072,6 +1084,19 @@ function numberValue(value){
 function setStatus(text){
   document.getElementById("statusBox").innerText =
   text;
+}
+
+function showError(text){
+  document.getElementById("certificateArea").hidden =
+  true;
+
+  document.getElementById("shareArea").hidden =
+  true;
+
+  document.getElementById("receiveArea").hidden =
+  false;
+
+  setStatus(text);
 }
 
 function setReceiveButton(enabled){
