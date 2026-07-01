@@ -250,6 +250,10 @@ body{
  color:#251400;
 }
 
+.saveBtn{
+ background:linear-gradient(180deg,#35df86,#19b75e);
+}
+
 .lineBtn{
  background:linear-gradient(180deg,#25d366,#06a941);
 }
@@ -356,6 +360,10 @@ body{
   </div>
 
   <div class="btnGrid" id="shareArea" hidden>
+   <button class="btn saveBtn" onclick="shareCertificateImageOnly()">
+    画像を保存
+   </button>
+
    <button class="btn lineBtn" onclick="shareCertificateImageOnly()">
     LINE
    </button>
@@ -616,14 +624,22 @@ function normalizeRecord(item){
   ""
  );
 
- const imageUrl =
+ const localImageUrl =
+ guessImageFromNo(imageNo);
+
+ const fallbackImageUrl =
  normalizeImageUrl(
   item.imageUrl ||
   item.image ||
   item.img ||
   item.画像URL ||
-  guessImageFromNo(imageNo)
+  ""
  );
+
+ const imageUrl =
+ localImageUrl ||
+ fallbackImageUrl ||
+ "ogp-certificate.jpg";
 
  return {
   userId:cleanText(item.userId || currentUserId),
@@ -753,13 +769,10 @@ async function makeCertificateBlob(){
  const record =
  currentRecord;
 
- const imageElement =
- document.getElementById("certificateImage");
-
- await waitForImageReady(imageElement);
-
  const image =
- await loadCanvasImage(imageElement.currentSrc || imageElement.src);
+ await loadCanvasImage(
+  normalizeImageUrl(record.imageUrl)
+ );
 
  const imageWidth =
  image.naturalWidth ||
@@ -804,30 +817,6 @@ async function makeCertificateBlob(){
  drawCertificateText(ctx,baseWidth,baseHeight,record);
 
  return await canvasToBlob(canvas);
-}
-
-function waitForImageReady(img){
- return new Promise(function(resolve,reject){
-  if(!img){
-   reject(new Error("image missing"));
-   return;
-  }
-
-  if(img.complete && img.naturalWidth > 0){
-   resolve();
-   return;
-  }
-
-  img.onload =
-  function(){
-   resolve();
-  };
-
-  img.onerror =
-  function(){
-   reject(new Error("image load error"));
-  };
- });
 }
 
 function drawTopShade(ctx,w,h){
@@ -988,23 +977,27 @@ function loadCanvasImage(url){
   };
 
   img.src =
-  normalizeImageUrl(url);
+  url;
  });
 }
 
 function canvasToBlob(canvas){
  return new Promise(function(resolve,reject){
-  canvas.toBlob(
-   function(blob){
-    if(blob){
-     resolve(blob);
-    }else{
-     reject(new Error("blob error"));
-    }
-   },
-   "image/png",
-   0.95
-  );
+  try{
+   canvas.toBlob(
+    function(blob){
+     if(blob){
+      resolve(blob);
+     }else{
+      reject(new Error("blob error"));
+     }
+    },
+    "image/png",
+    0.95
+   );
+  }catch(error){
+   reject(error);
+  }
  });
 }
 
@@ -1251,7 +1244,7 @@ function normalizeImageUrl(value){
  cleanText(value);
 
  if(!url){
-  return "ogp-certificate.jpg";
+  return SITE_BASE + "ogp-certificate.jpg";
  }
 
  url =
@@ -1271,35 +1264,13 @@ function normalizeImageUrl(value){
   return url;
  }
 
- if(url.indexOf("drive.google.com/thumbnail") >= 0){
-  return url;
- }
-
- let match =
- url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-
- if(match && match[1]){
-  return "https://drive.google.com/thumbnail?id=" +
-  encodeURIComponent(match[1]) +
-  "&sz=w1600";
- }
-
- match =
- url.match(/[?&]id=([^&]+)/);
-
- if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
-  return "https://drive.google.com/thumbnail?id=" +
-  encodeURIComponent(match[1]) +
-  "&sz=w1600";
- }
-
  try{
   return new URL(
    url,
    SITE_BASE
   ).href;
  }catch(e){
-  return "ogp-certificate.jpg";
+  return SITE_BASE + "ogp-certificate.jpg";
  }
 }
 
@@ -1311,7 +1282,7 @@ function guessImageFromNo(value){
   return "";
  }
 
- return "certificate-" + no + ".jpg";
+ return SITE_BASE + "certificate-" + no + ".jpg";
 }
 
 function formatDate(value){
