@@ -24,7 +24,13 @@ body{
  min-height:100%;
  background:#0b0b0b;
  color:#fff;
- font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+ font-family:
+ -apple-system,
+ BlinkMacSystemFont,
+ "Hiragino Sans",
+ "Yu Gothic",
+ "Meiryo",
+ sans-serif;
 }
 
 body{
@@ -295,6 +301,9 @@ const GAS_URL =
 const SITE_BASE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
+let currentNewsItems =
+[];
+
 window.addEventListener("load",loadNews);
 
 async function loadNews(){
@@ -318,233 +327,6 @@ async function loadNews(){
   loading.innerText =
   "お知らせを読み込めませんでした。";
  }
-}
-
-function renderNews(rows){
- const loading =
- document.getElementById("loading");
-
- const newsList =
- document.getElementById("newsList");
-
- loading.style.display =
- "none";
-
- newsList.innerHTML =
- "";
-
- if(!rows || rows.length === 0){
-  newsList.innerHTML =
-  '<div class="loading">お知らせがありません</div>';
-  return;
- }
-
- let html =
- "";
-
- rows.forEach(function(row,index){
-  const item =
-  normalizeNewsRow(row,index);
-
-  if(!item.title && !item.text && !item.image && !item.date){
-   return;
-  }
-
-  html +=
-  '<div class="newsCard">';
-
-  if(index === 0){
-   html +=
-   '<div class="newBadge">NEW</div>';
-  }
-
-  html +=
-  '<div class="newsTitle">' +
-  escapeHtml(item.title || "お知らせ") +
-  '</div>';
-
-  if(item.image){
-   html +=
-   '<div class="newsImageBox">' +
-   '<img src="' +
-   escapeHtml(item.image) +
-   '" alt="' +
-   escapeHtml(item.title || "お知らせ画像") +
-   '" loading="lazy" onerror="hideBrokenImage(this)">' +
-   '</div>';
-  }
-
-  if(item.date){
-   html +=
-   '<div class="newsDate">' +
-   escapeHtml(item.date) +
-   '</div>';
-  }
-
-  if(item.text){
-   html +=
-   '<div class="newsText">' +
-   escapeHtml(item.text) +
-   '</div>';
-  }
-
-  html +=
-  '<div class="shareRow">' +
-  '<button class="shareBtn fb" onclick="shareFacebook(' +
-  index +
-  ')">Facebook</button>' +
-  '<button class="shareBtn line" onclick="shareLine(' +
-  index +
-  ')">LINE</button>' +
-  '<button class="shareBtn x" onclick="shareX(' +
-  index +
-  ')">X</button>' +
-  '<button class="shareBtn copy" onclick="copyLink(' +
-  index +
-  ')">コピー</button>' +
-  '</div>';
-
-  html +=
-  '<div class="fbGuide">' +
-  'Facebookは「コピー」を押して投稿欄へ貼り付けると画像付きで共有できます' +
-  '</div>';
-
-  html +=
-  '</div>';
- });
-
- newsList.innerHTML =
- html ||
- '<div class="loading">お知らせがありません</div>';
-}
-
-function hideBrokenImage(img){
- if(img && img.parentNode){
-  img.parentNode.style.display =
-  "none";
- }
-}
-
-function normalizeNewsRow(row,index){
- if(Array.isArray(row)){
-  return normalizeArrayRow(row,index);
- }
-
- return normalizeObjectRow(row,index);
-}
-
-function normalizeObjectRow(row,index){
- row =
- row || {};
-
- const title =
- getFirst(
-  row.title,
-  row.タイトル,
-  row.name,
-  row.件名,
-  row.subject,
-  row.見出し,
-  row.headline,
-  row.col1,
-  row.col2
- );
-
- const text =
- getFirst(
-  row.text,
-  row.body,
-  row.message,
-  row.本文,
-  row.内容,
-  row.description,
-  row.説明,
-  row.detail,
-  row.details,
-  row.col3,
-  row.col4
- );
-
- const date =
- formatDate(
-  getFirst(
-   row.date,
-   row.datetime,
-   row.createdAt,
-   row.updatedAt,
-   row.日付,
-   row.日時,
-   row.掲載日,
-   row.col0
-  )
- );
-
- const image =
- findImageUrl(row);
-
- return {
-  id:getString(row.id || row.ID || index),
-  title:title,
-  text:text,
-  date:date,
-  image:image
- };
-}
-
-function normalizeArrayRow(row,index){
- const image =
- findImageUrl(row);
-
- let title =
- "";
-
- let text =
- "";
-
- let date =
- "";
-
- const values =
- flattenValues(row);
-
- for(let i = 0; i < values.length; i++){
-  const value =
-  getString(values[i]);
-
-  if(!value){
-   continue;
-  }
-
-  if(isImageLike(value)){
-   continue;
-  }
-
-  if(!date && looksLikeDate(value)){
-   date =
-   formatDate(value);
-   continue;
-  }
-
-  if(!title){
-   title =
-   value;
-   continue;
-  }
-
-  if(!text && value !== title){
-   text =
-   value;
-   continue;
-  }
- }
-
- return {
-  id:String(index),
-  title:title,
-  text:text,
-  date:date,
-  image:image
- };
 }
 
 function getRows(data){
@@ -576,43 +358,190 @@ function getRows(data){
   return data.data;
  }
 
- if(data.table && Array.isArray(data.table.rows)){
-  return parseGvizRows(data.table);
- }
-
  return [];
 }
 
-function parseGvizRows(table){
- const rows =
- table.rows || [];
+function renderNews(rows){
+ const loading =
+ document.getElementById("loading");
 
- const cols =
- table.cols || [];
+ const newsList =
+ document.getElementById("newsList");
 
- const headers =
- cols.map(function(col,index){
-  return getString(col.label || col.id || "col" + index);
+ loading.style.display =
+ "none";
+
+ newsList.innerHTML =
+ "";
+
+ currentNewsItems =
+ [];
+
+ if(!rows || rows.length === 0){
+  newsList.innerHTML =
+  '<div class="loading">お知らせがありません</div>';
+  return;
+ }
+
+ let html =
+ "";
+
+ rows.forEach(function(row,index){
+  const item =
+  normalizeNewsRow(row,index);
+
+  if(!item.date && !item.title && !item.body && !item.imageUrl){
+   return;
+  }
+
+  currentNewsItems.push(item);
+
+  const id =
+  currentNewsItems.length - 1;
+
+  html +=
+  '<div class="newsCard">';
+
+  if(id === 0){
+   html +=
+   '<div class="newBadge">NEW</div>';
+  }
+
+  html +=
+  '<div class="newsTitle">' +
+  escapeHtml(item.title || "お知らせ") +
+  '</div>';
+
+  if(item.imageUrl){
+   html +=
+   '<div class="newsImageBox">' +
+   '<img src="' +
+   escapeHtml(item.imageUrl) +
+   '" alt="' +
+   escapeHtml(item.title || "お知らせ画像") +
+   '" loading="lazy" onerror="hideBrokenImage(this)">' +
+   '</div>';
+  }
+
+  if(item.date){
+   html +=
+   '<div class="newsDate">' +
+   escapeHtml(item.date) +
+   '</div>';
+  }
+
+  if(item.body){
+   html +=
+   '<div class="newsText">' +
+   escapeHtml(item.body) +
+   '</div>';
+  }
+
+  html +=
+  '<div class="shareRow">' +
+  '<button class="shareBtn fb" onclick="shareFacebook(' +
+  id +
+  ')">Facebook</button>' +
+  '<button class="shareBtn line" onclick="shareLine(' +
+  id +
+  ')">LINE</button>' +
+  '<button class="shareBtn x" onclick="shareX(' +
+  id +
+  ')">X</button>' +
+  '<button class="shareBtn copy" onclick="copyLink(' +
+  id +
+  ')">コピー</button>' +
+  '</div>';
+
+  html +=
+  '<div class="fbGuide">' +
+  'Facebookは「コピー」を押して投稿欄へ貼り付けると画像付きで共有できます' +
+  '</div>';
+
+  html +=
+  '</div>';
  });
 
- return rows.map(function(row){
-  const cells =
-  row.c || [];
+ newsList.innerHTML =
+ html ||
+ '<div class="loading">お知らせがありません</div>';
+}
 
-  const obj =
-  {};
+function normalizeNewsRow(row,index){
+ if(Array.isArray(row)){
+  return normalizeArrayNewsRow(row,index);
+ }
 
-  cells.forEach(function(cell,index){
-   const key =
-   headers[index] ||
-   "col" + index;
+ return normalizeObjectNewsRow(row,index);
+}
 
-   obj[key] =
-   getCellText(cell);
-  });
+function normalizeArrayNewsRow(row,index){
+ return {
+  id:String(index),
+  date:formatDate(getCellText(row[0])),
+  title:getCellText(row[1]),
+  body:getCellText(row[2]),
+  imageUrl:normalizeImageUrl(getCellText(row[3]))
+ };
+}
 
-  return obj;
- });
+function normalizeObjectNewsRow(row,index){
+ row =
+ row || {};
+
+ return {
+  id:getString(row.id || row.ID || index),
+  date:formatDate(
+   getCellText(
+    row.date ||
+    row.日付 ||
+    row.A ||
+    row.a ||
+    row.col0 ||
+    row[0]
+   )
+  ),
+  title:getCellText(
+   row.title ||
+   row.タイトル ||
+   row.B ||
+   row.b ||
+   row.col1 ||
+   row[1]
+  ),
+  body:getCellText(
+   row.body ||
+   row.text ||
+   row.message ||
+   row.本文 ||
+   row.内容 ||
+   row.C ||
+   row.c ||
+   row.col2 ||
+   row[2]
+  ),
+  imageUrl:normalizeImageUrl(
+   getCellText(
+    row.imageUrl ||
+    row.imageURL ||
+    row.image ||
+    row.img ||
+    row.画像URL ||
+    row.画像 ||
+    row.D ||
+    row.d ||
+    row.col3 ||
+    row[3]
+   )
+  )
+ };
+}
+
+function hideBrokenImage(img){
+ if(img && img.parentNode){
+  img.parentNode.style.display =
+  "none";
+ }
 }
 
 async function getJson(url){
@@ -737,112 +666,6 @@ function jsonp(url,timeoutMs){
  });
 }
 
-function findImageUrl(row){
- if(!row){
-  return "";
- }
-
- const directKeys =
- [
-  "image1",
-  "image2",
-  "image3",
-  "imageUrl",
-  "imageURL",
-  "image_url",
-  "image",
-  "img",
-  "photo",
-  "picture",
-  "thumbnail",
-  "thumb",
-  "画像",
-  "画像URL",
-  "画像url",
-  "写真",
-  "写真URL",
-  "サムネイル",
-  "添付画像"
- ];
-
- if(!Array.isArray(row) && typeof row === "object"){
-  for(let i = 0; i < directKeys.length; i++){
-   const key =
-   directKeys[i];
-
-   if(row[key]){
-    const image =
-    extractImageUrlFromText(getCellText(row[key]));
-
-    if(image){
-     return image;
-    }
-   }
-  }
- }
-
- const values =
- flattenValues(row);
-
- for(let i = 0; i < values.length; i++){
-  const text =
-  getString(values[i]);
-
-  const image =
-  extractImageUrlFromText(text);
-
-  if(image){
-   return image;
-  }
- }
-
- return "";
-}
-
-function extractImageUrlFromText(text){
- text =
- getString(text);
-
- if(!text){
-  return "";
- }
-
- text =
- text
- .replace(/\\u003d/g,"=")
- .replace(/\\u0026/g,"&")
- .replace(/\\\//g,"/")
- .replace(/&amp;/g,"&")
- .trim();
-
- const urls =
- text.match(/https?:\/\/[^\s"'<>]+/g) || [];
-
- for(let i = 0; i < urls.length; i++){
-  const image =
-  normalizeImageUrl(urls[i]);
-
-  if(image){
-   return image;
-  }
- }
-
- if(text.indexOf("drive.google.com") >= 0){
-  const drive =
-  normalizeImageUrl(text);
-
-  if(drive){
-   return drive;
-  }
- }
-
- if(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(text)){
-  return normalizeImageUrl(text);
- }
-
- return "";
-}
-
 function normalizeImageUrl(value){
  let url =
  getString(value);
@@ -864,16 +687,16 @@ function normalizeImageUrl(value){
   return "";
  }
 
- if(url.indexOf("youtube.com") >= 0 || url.indexOf("youtu.be") >= 0){
-  return "";
- }
-
  if(url.indexOf("data:image") === 0){
   return url;
  }
 
- if(url.indexOf("drive.google.com/thumbnail") >= 0){
+ if(url.indexOf("https://drive.google.com/thumbnail") === 0){
   return url;
+ }
+
+ if(url.indexOf("http://drive.google.com/thumbnail") === 0){
+  return url.replace("http://","https://");
  }
 
  let match =
@@ -895,114 +718,17 @@ function normalizeImageUrl(value){
  }
 
  if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0){
-  if(
-   /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url) ||
-   url.indexOf("googleusercontent.com") >= 0 ||
-   url.indexOf("ggpht.com") >= 0
-  ){
-   return url;
-  }
-
-  return "";
+  return url;
  }
 
  try{
-  const absolute =
-  new URL(
+  return new URL(
    url,
    SITE_BASE
   ).href;
-
-  if(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(absolute)){
-   return absolute;
-  }
-
-  return "";
  }catch(error){
   return "";
  }
-}
-
-function flattenValues(value){
- const result =
- [];
-
- function walk(v){
-  if(v === null || v === undefined){
-   return;
-  }
-
-  if(Array.isArray(v)){
-   v.forEach(walk);
-   return;
-  }
-
-  if(typeof v === "object"){
-   if("v" in v || "f" in v){
-    result.push(getCellText(v));
-   }
-
-   Object.keys(v).forEach(function(key){
-    walk(v[key]);
-   });
-
-   return;
-  }
-
-  result.push(v);
- }
-
- walk(value);
-
- return result;
-}
-
-function getCellText(cell){
- if(cell === null || cell === undefined){
-  return "";
- }
-
- if(typeof cell === "object"){
-  return getString(
-   cell.v ||
-   cell.f ||
-   cell.formattedValue ||
-   cell.value ||
-   cell.text ||
-   ""
-  );
- }
-
- return getString(cell);
-}
-
-function getFirst(){
- for(let i = 0; i < arguments.length; i++){
-  const value =
-  getString(getCellText(arguments[i]));
-
-  if(value){
-   return value;
-  }
- }
-
- return "";
-}
-
-function looksLikeDate(value){
- const text =
- getString(value);
-
- if(!text){
-  return false;
- }
-
- return (
-  /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/.test(text) ||
-  /^\d{1,2}[\/\-]\d{1,2}/.test(text) ||
-  text.indexOf("T00:00:00") >= 0 ||
-  text.indexOf("T15:00:00") >= 0
- );
 }
 
 function formatDate(value){
@@ -1051,17 +777,25 @@ function formatDate(value){
   return y + "/" + m + "/" + d;
  }
 
- return text
- .replace("T15:00:00.000Z","")
- .replace("T00:00:00.000Z","")
- .replace(/-/g,"/");
+ return text;
 }
 
-function isImageLike(value){
- const text =
- getString(value);
+function getCellText(value){
+ if(value === null || value === undefined){
+  return "";
+ }
 
- return !!extractImageUrlFromText(text);
+ if(typeof value === "object"){
+  return getString(
+   value.v ||
+   value.f ||
+   value.value ||
+   value.text ||
+   ""
+  );
+ }
+
+ return getString(value);
 }
 
 function shareUrl(id){
