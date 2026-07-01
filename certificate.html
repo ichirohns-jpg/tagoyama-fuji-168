@@ -221,8 +221,7 @@ body{
  margin-top:18px;
 }
 
-.btn,
-.linkBtn{
+.btn{
  width:100%;
  min-height:70px;
  border:none;
@@ -249,14 +248,6 @@ body{
 .goldBtn{
  background:linear-gradient(180deg,#ffe27a,#c79218);
  color:#251400;
-}
-
-.greenBtn{
- background:linear-gradient(180deg,#35df86,#19b75e);
-}
-
-.blueBtn{
- background:linear-gradient(180deg,#1688ff,#075ec9);
 }
 
 .lineBtn{
@@ -302,8 +293,7 @@ body{
   border-radius:26px;
  }
 
- .btn,
- .linkBtn{
+ .btn{
   min-height:68px;
   border-radius:22px;
  }
@@ -366,28 +356,20 @@ body{
   </div>
 
   <div class="btnGrid" id="shareArea" hidden>
-   <button class="btn greenBtn" onclick="saveCertificateImage()">
-    画像を保存する
+   <button class="btn lineBtn" onclick="shareCertificateImageOnly()">
+    LINE
    </button>
 
-   <button class="btn blueBtn" onclick="shareCertificateImage()">
-    画像を共有する
+   <button class="btn facebookBtn" onclick="shareCertificateImageOnly()">
+    Facebook
    </button>
 
-   <button class="btn lineBtn" onclick="shareToLine()">
-    LINEで送る
-   </button>
-
-   <button class="btn facebookBtn" onclick="shareToFacebook()">
-    Facebookでシェア
-   </button>
-
-   <button class="btn xBtn" onclick="shareToX()">
-    Xで投稿
+   <button class="btn xBtn" onclick="shareCertificateImageOnly()">
+    X
    </button>
 
    <button class="btn grayBtn" onclick="copyCertificatePost()">
-    投稿文をコピー
+    コピー
    </button>
 
    <button class="btn blackBtn" onclick="goBackToTop()">
@@ -612,7 +594,7 @@ async function getHistoryRecords(){
  }else if(Array.isArray(data.data)){
   rows =
   data.data;
- }else if(data.climbCount || data.serialNo || data.imageUrl){
+ }else if(data.climbCount || data.serialNo || data.imageUrl || data.imageNo){
   rows =
   [data];
  }
@@ -626,13 +608,21 @@ function normalizeRecord(item){
  item =
  item || {};
 
+ const imageNo =
+ cleanText(
+  item.imageNo ||
+  item.climbCount ||
+  item.count ||
+  ""
+ );
+
  const imageUrl =
  normalizeImageUrl(
   item.imageUrl ||
   item.image ||
   item.img ||
   item.画像URL ||
-  guessImageFromNo(item.imageNo || item.climbCount)
+  guessImageFromNo(imageNo)
  );
 
  return {
@@ -640,7 +630,7 @@ function normalizeRecord(item){
   climbCount:cleanText(item.climbCount || item.count),
   serialNo:normalizeSerialNo(item.serialNo || item.serial || item.certificateNo),
   lastDate:formatDate(item.lastDate || item.climbDate || item.date || item.日付),
-  imageNo:cleanText(item.imageNo),
+  imageNo:imageNo,
   imageName:cleanText(item.imageName),
   imageUrl:imageUrl,
   updatedAt:formatDate(item.updatedAt),
@@ -717,57 +707,11 @@ function renderCertificate(item){
  true;
 }
 
-async function saveCertificateImage(){
+async function shareCertificateImageOnly(){
  if(!currentRecord){
   alert("記念証を先に表示してください。");
   return;
  }
-
- try{
-  const blob =
-  await makeCertificateBlob();
-
-  const fileName =
-  getCertificateFileName();
-
-  const objectUrl =
-  URL.createObjectURL(blob);
-
-  const a =
-  document.createElement("a");
-
-  a.href =
-  objectUrl;
-
-  a.download =
-  fileName;
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  document.body.removeChild(a);
-
-  setTimeout(function(){
-   URL.revokeObjectURL(objectUrl);
-  },1000);
-
- }catch(error){
-  alert("画像保存を作れませんでした。画像を共有するボタンを試してください。");
- }
-}
-
-async function shareCertificateImage(){
- if(!currentRecord){
-  alert("記念証を先に表示してください。");
-  return;
- }
-
- const text =
- buildCertificatePostText();
-
- const url =
- buildCertificateUrl();
 
  try{
   const blob =
@@ -788,44 +732,20 @@ async function shareCertificateImage(){
    navigator.share
   ){
    await navigator.share({
-    files:[file],
-    title:"田子山富士 登頂記念証",
-    text:text
+    files:[file]
    });
 
    return;
   }
 
-  if(navigator.share){
-   await navigator.share({
-    title:"田子山富士 登頂記念証",
-    text:text,
-    url:url
-   });
-
-   return;
-  }
-
-  await copyText(text + "\n" + url);
-
-  alert("投稿文とリンクをコピーしました。");
+  alert(
+   "この端末では画像ファイル共有に対応していません。\nSafariで開いてからもう一度お試しください。"
+  );
 
  }catch(error){
-  if(navigator.share){
-   try{
-    await navigator.share({
-     title:"田子山富士 登頂記念証",
-     text:text,
-     url:url
-    });
-
-    return;
-   }catch(e){}
-  }
-
-  await copyText(text + "\n" + url);
-
-  alert("投稿文とリンクをコピーしました。");
+  alert(
+   "画像ファイル共有を作れませんでした。\nSafariで開いてからもう一度お試しください。"
+  );
  }
 }
 
@@ -833,24 +753,26 @@ async function makeCertificateBlob(){
  const record =
  currentRecord;
 
- const imageUrl =
- normalizeImageUrl(record.imageUrl);
+ const imageElement =
+ document.getElementById("certificateImage");
+
+ await waitForImageReady(imageElement);
 
  const image =
- await loadCanvasImage(imageUrl);
-
- const baseWidth =
- 1200;
+ await loadCanvasImage(imageElement.currentSrc || imageElement.src);
 
  const imageWidth =
  image.naturalWidth ||
  image.width ||
- baseWidth;
+ 1200;
 
  const imageHeight =
  image.naturalHeight ||
  image.height ||
- Math.round(baseWidth * 1.35);
+ 1600;
+
+ const baseWidth =
+ 1200;
 
  const baseHeight =
  Math.round(baseWidth * imageHeight / imageWidth);
@@ -882,6 +804,30 @@ async function makeCertificateBlob(){
  drawCertificateText(ctx,baseWidth,baseHeight,record);
 
  return await canvasToBlob(canvas);
+}
+
+function waitForImageReady(img){
+ return new Promise(function(resolve,reject){
+  if(!img){
+   reject(new Error("image missing"));
+   return;
+  }
+
+  if(img.complete && img.naturalWidth > 0){
+   resolve();
+   return;
+  }
+
+  img.onload =
+  function(){
+   resolve();
+  };
+
+  img.onerror =
+  function(){
+   reject(new Error("image load error"));
+  };
+ });
 }
 
 function drawTopShade(ctx,w,h){
@@ -1080,7 +1026,7 @@ function buildCertificatePostText(){
  );
 
  lines.push(
-  "登頂記念証を授かりました。"
+  "登頂記念証"
  );
 
  if(currentRecord){
@@ -1113,72 +1059,9 @@ function buildCertificatePostText(){
  return lines.join("\n");
 }
 
-function buildCertificateUrl(){
- if(currentRecord && currentRecord.userId && currentRecord.climbCount && currentRecord.serialNo){
-  return SITE_BASE +
-  "certificate.html?userId=" +
-  encodeURIComponent(currentRecord.userId) +
-  "&climbCount=" +
-  encodeURIComponent(currentRecord.climbCount) +
-  "&serialNo=" +
-  encodeURIComponent(currentRecord.serialNo);
- }
-
- if(currentUserId){
-  return SITE_BASE +
-  "certificate.html?userId=" +
-  encodeURIComponent(currentUserId);
- }
-
- return SITE_BASE + "certificate.html";
-}
-
-function shareToLine(){
- const text =
- buildCertificatePostText() +
- "\n" +
- buildCertificateUrl();
-
- const url =
- "https://social-plugins.line.me/lineit/share?url=" +
- encodeURIComponent(buildCertificateUrl()) +
- "&text=" +
- encodeURIComponent(text);
-
- openShareWindow(url);
-}
-
-function shareToFacebook(){
- const url =
- "https://www.facebook.com/sharer/sharer.php?u=" +
- encodeURIComponent(buildCertificateUrl());
-
- openShareWindow(url);
-}
-
-function shareToX(){
- const url =
- "https://twitter.com/intent/tweet?text=" +
- encodeURIComponent(buildCertificatePostText()) +
- "&url=" +
- encodeURIComponent(buildCertificateUrl());
-
- openShareWindow(url);
-}
-
-function openShareWindow(url){
- window.open(
-  url,
-  "_blank",
-  "noopener,noreferrer"
- );
-}
-
 async function copyCertificatePost(){
  const text =
- buildCertificatePostText() +
- "\n" +
- buildCertificateUrl();
+ buildCertificatePostText();
 
  try{
   await copyText(text);
