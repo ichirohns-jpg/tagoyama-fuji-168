@@ -8,16 +8,13 @@
 <meta name="description" content="田子山富士の登頂記念・ご縁帳・おみくじを楽しめるページです。">
 <meta property="og:title" content="田子山富士 168の縁プロジェクト">
 <meta property="og:description" content="田子山富士の登頂記念・ご縁帳・おみくじを楽しめるページです。">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="田子山富士 168の縁プロジェクト">
-<meta name="twitter:description" content="田子山富士の登頂記念・ご縁帳・おみくじを楽しめるページです。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
 <style>
 *{
@@ -37,7 +34,7 @@ body{
 
 body{
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,224,120,.25),rgba(0,0,0,0) 38%),
+    radial-gradient(circle at 50% 0%,rgba(255,224,120,.22),rgba(0,0,0,0) 38%),
     linear-gradient(180deg,#1d1204 0%,#070707 48%,#000 100%);
 }
 
@@ -59,14 +56,14 @@ body{
 
 .logoBox{
   width:100%;
-  max-width:560px;
+  max-width:620px;
   margin:0 auto 18px;
   border-radius:28px;
   overflow:hidden;
-  border:3px solid rgba(255,220,95,.78);
+  border:3px solid rgba(255,220,95,.80);
   background:#000;
   box-shadow:
-    0 14px 30px rgba(0,0,0,.48),
+    0 14px 30px rgba(0,0,0,.50),
     0 0 22px rgba(255,210,80,.20);
 }
 
@@ -277,17 +274,17 @@ body{
 
 .itemDate{
   margin:0 0 8px;
-  font-size:15px;
+  font-size:clamp(16px,4.6vw,24px);
   color:#d9c886;
-  font-weight:800;
+  font-weight:900;
 }
 
 .itemBody{
   margin:0;
-  font-size:clamp(17px,4.6vw,24px);
+  font-size:clamp(18px,5vw,28px);
   line-height:1.65;
   color:#fff3c4;
-  font-weight:800;
+  font-weight:900;
   white-space:pre-wrap;
 }
 
@@ -342,7 +339,11 @@ body{
 
   <header class="hero">
     <div class="logoBox">
-      <img src="logo.png" alt="田子山富士">
+      <img
+        src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+        alt="田子山富士"
+        onerror="this.style.display='none';"
+      >
     </div>
 
     <h1 class="siteTitle">田子山富士</h1>
@@ -476,7 +477,7 @@ body{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzQHiV6CPqv-szRz9EjwWdTsKGXmC8oPtLM6fQsyU-lF8AWXEsN5PG_14b6awu2Esk1/exec";
+"https://script.google.com/macros/s/AKfycbwshePJjzud_qTHbO_KAPLO4c6vEClPcHU20vhCWCKtIdh_lmyDpnKJFtSrZPf4ibBY/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -645,6 +646,11 @@ async function handleClimb(urlUserId){
       data.画像名
     );
 
+    const imageUrl = getFirst(
+      data.imageUrl,
+      data.画像URL
+    );
+
     const participantNo = getFirst(
       data.participantNo,
       data.participantCount,
@@ -667,6 +673,7 @@ async function handleClimb(urlUserId){
       lastDate:String(lastDate || ""),
       imageNo:String(imageNo || ""),
       imageName:String(imageName || ""),
+      imageUrl:String(imageUrl || ""),
       participantNo:String(participantNo || ""),
       savedAt:String(Date.now())
     };
@@ -698,7 +705,7 @@ async function handleClimb(urlUserId){
     if(climbData.lastDate){
       statusText +=
         "<br>" +
-        escapeHtml(climbData.lastDate);
+        escapeHtml(formatDate(climbData.lastDate));
     }
 
     if(data.alreadyClimbedToday === true){
@@ -750,6 +757,10 @@ function buildCertificateUrl(data){
 
   if(data.imageName){
     params.set("imageName", data.imageName);
+  }
+
+  if(data.imageUrl){
+    params.set("imageUrl", data.imageUrl);
   }
 
   if(data.participantNo){
@@ -1033,7 +1044,6 @@ async function saveKicho(){
     document.getElementById("kichoMessage").value = "";
 
     goenLoaded = false;
-    loadGoen();
 
   }catch(e){
     alert(
