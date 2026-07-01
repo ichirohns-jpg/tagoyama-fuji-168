@@ -377,7 +377,7 @@ body{
 
 <script>
 const OMIKUJI_GAS_URL =
-"https://script.google.com/macros/s/AKfycbx5w_dEKm4Tb-GFB0o9AhUgLB1MdziOntuQ8iChEbnSbB6jcUCxp4STritRJeyF_osy/exec";
+"https://script.google.com/macros/s/AKfycbwP9au-EgJw1qNdhCGBD3W3s60ZuPmkITBhoycKJK4C3QkeNzV5YRSFDv7dC1r5qPQQhw/exec";
 
 const DEFAULT_OMIKUJI_IMAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02";
@@ -503,9 +503,15 @@ async function drawOmikuji(){
 
   renderOmikuji(result);
 
-  setStatus(
-   "おみくじを引きました。"
-  );
+  if(data.alreadyDrawnToday === true){
+   setStatus(
+    "本日のおみくじは引き終わっています。\n前回の結果を表示しています。"
+   );
+  }else{
+   setStatus(
+    "おみくじを引きました。"
+   );
+  }
 
  }catch(error){
   setStatus(
@@ -518,8 +524,8 @@ async function drawOmikuji(){
 
 function normalizeOmikujiResult(data){
  const source =
- data.omikuji ||
  data.result ||
+ data.omikuji ||
  data.item ||
  data;
 
@@ -527,11 +533,13 @@ function normalizeOmikujiResult(data){
  getString(
   source.title ||
   source.name ||
+  source.imageName ||
   source.resultTitle ||
   source.unsei ||
   source.fortune ||
   data.title ||
   data.name ||
+  data.imageName ||
   data.unsei ||
   ""
  );
@@ -541,12 +549,14 @@ function normalizeOmikujiResult(data){
   source.message ||
   source.body ||
   source.text ||
+  source.displayText ||
   source.comment ||
   source.description ||
   source.本文 ||
   data.message ||
   data.body ||
   data.text ||
+  data.displayText ||
   "田子山富士でまた良いご縁がありますように。"
  );
 
@@ -890,7 +900,7 @@ function normalizeImageUrl(value){
  if(match && match[1]){
   return "https://drive.google.com/thumbnail?id=" +
   encodeURIComponent(match[1]) +
-  "&sz=w1200";
+  "&sz=w1600";
  }
 
  match =
@@ -899,7 +909,7 @@ function normalizeImageUrl(value){
  if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
   return "https://drive.google.com/thumbnail?id=" +
   encodeURIComponent(match[1]) +
-  "&sz=w1200";
+  "&sz=w1600";
  }
 
  try{
