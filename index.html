@@ -283,6 +283,27 @@ body{
  font-weight:700;
 }
 
+.itemImageBox{
+ width:100%;
+ margin:14px 0 16px;
+ border-radius:22px;
+ overflow:hidden;
+ border:2px solid rgba(255,220,95,.58);
+ background:#000;
+ box-shadow:
+ 0 0 0 1px rgba(255,240,170,.10) inset,
+ 0 10px 20px rgba(0,0,0,.34);
+}
+
+.itemImageBox img{
+ display:block;
+ width:100%;
+ height:auto;
+ max-height:620px;
+ object-fit:contain;
+ background:#000;
+}
+
 .itemBody{
  margin:0;
  font-size:clamp(18px,5vw,30px);
@@ -524,9 +545,6 @@ body{
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbzQHiV6CPqv-szRz9EjwWdTsKGXmC8oPtLM6fQsyU-lF8AWXEsN5PG_14b6awu2Esk1/exec";
 
-const HOME_PAGE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
@@ -549,12 +567,7 @@ async function init(){
  getUserIdFromUrl();
 
  if(urlUserId){
-  currentUserId =
-  urlUserId;
-
-  localStorage.setItem("tagoyamaUserId",urlUserId);
-  localStorage.setItem("tagoyamaFujiUserId",urlUserId);
-  localStorage.setItem("userId",urlUserId);
+  saveCurrentUserId(urlUserId);
  }else{
   currentUserId =
   getStoredUserId();
@@ -656,18 +669,6 @@ function updateUserLinks(){
    Date.now();
   }
  }
-
- const certificateBtn =
- document.getElementById("certificateBtn");
-
- if(certificateBtn && userId && certificateBtn.href.indexOf("userId=") < 0){
-  certificateBtn.href =
-  CERTIFICATE_PAGE +
-  "?userId=" +
-  encodeURIComponent(userId) +
-  "&v=" +
-  Date.now();
- }
 }
 
 function goOmikuji(event){
@@ -715,14 +716,10 @@ async function handleClimb(){
    certificateBtn.classList.add("hidden");
   }
 
-  updateUserLinks();
-
   return;
  }
 
  saveCurrentUserId(urlUserId);
-
- updateUserLinks();
 
  if(climbMessage){
   climbMessage.innerHTML =
@@ -825,8 +822,6 @@ async function handleClimb(){
   if(certificateBtn){
    certificateBtn.classList.add("hidden");
   }
-
-  updateUserLinks();
  }
 }
 
@@ -963,50 +958,46 @@ async function loadNews(){
   let html =
   "";
 
-  rows.forEach(function(item){
-   const title =
-   getFirst(
-    item.title,
-    item.タイトル,
-    item.name,
-    item.件名
-   );
+  rows.forEach(function(row){
+   const item =
+   normalizeNewsItem(row);
 
-   const body =
-   getFirst(
-    item.body,
-    item.message,
-    item.text,
-    item.本文,
-    item.内容
-   );
-
-   const date =
-   formatDate(
-    getFirst(
-     item.date,
-     item.datetime,
-     item.createdAt,
-     item.日時,
-     item.日付
-    )
-   );
-
-   if(!title && !body){
+   if(!item.title && !item.body && !item.imageUrl){
     return;
    }
 
    html +=
    '<div class="item">' +
    '<h3 class="itemTitle">' +
-   escapeHtml(title || "お知らせ") +
-   '</h3>' +
-   '<div class="itemDate">' +
-   escapeHtml(date) +
-   '</div>' +
-   '<p class="itemBody">' +
-   escapeHtml(body) +
-   '</p>' +
+   escapeHtml(item.title || "お知らせ") +
+   '</h3>';
+
+   if(item.date){
+    html +=
+    '<div class="itemDate">' +
+    escapeHtml(item.date) +
+    '</div>';
+   }
+
+   if(item.imageUrl){
+    html +=
+    '<div class="itemImageBox">' +
+    '<img src="' +
+    escapeHtml(item.imageUrl) +
+    '" alt="' +
+    escapeHtml(item.title || "お知らせ画像") +
+    '" loading="lazy" onerror="hideBrokenImage(this)">' +
+    '</div>';
+   }
+
+   if(item.body){
+    html +=
+    '<p class="itemBody">' +
+    escapeHtml(item.body) +
+    '</p>';
+   }
+
+   html +=
    '</div>';
   });
 
@@ -1020,6 +1011,117 @@ async function loadNews(){
  }catch(e){
   list.innerHTML =
   '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
+ }
+}
+
+function normalizeNewsItem(row){
+ if(Array.isArray(row)){
+  return {
+   date:formatDate(getCellText(row[0])),
+   title:getCellText(row[1]),
+   body:getCellText(row[2]),
+   imageUrl:normalizeImageUrl(getCellText(row[3]))
+  };
+ }
+
+ row =
+ row || {};
+
+ const date =
+ formatDate(
+  getFirst(
+   row.date,
+   row.日付,
+   row.datetime,
+   row.日時,
+   row.createdAt,
+   row.A,
+   row.a,
+   row.col0,
+   row[0]
+  )
+ );
+
+ const title =
+ getFirst(
+  row.title,
+  row.タイトル,
+  row.name,
+  row.件名,
+  row.B,
+  row.b,
+  row.col1,
+  row[1]
+ );
+
+ const body =
+ getFirst(
+  row.body,
+  row.text,
+  row.message,
+  row.本文,
+  row.内容,
+  row.C,
+  row.c,
+  row.col2,
+  row[2]
+ );
+
+ const imageRaw =
+ getFirst(
+  row.image1,
+  row.image2,
+  row.imageUrl,
+  row.imageURL,
+  row.image,
+  row.img,
+  row.photo,
+  row.picture,
+  row.thumbnail,
+  row.画像URL,
+  row.画像,
+  row.写真URL,
+  row.写真,
+  row.D,
+  row.d,
+  row.col3,
+  row[3],
+  findImageTextInRow(row)
+ );
+
+ return {
+  date:date,
+  title:title,
+  body:body,
+  imageUrl:normalizeImageUrl(imageRaw)
+ };
+}
+
+function findImageTextInRow(row){
+ const values =
+ Object.values(row || {});
+
+ for(let i = 0; i < values.length; i++){
+  const text =
+  getCellText(values[i]);
+
+  if(
+   text.indexOf("drive.google.com") >= 0 ||
+   text.indexOf("googleusercontent.com") >= 0 ||
+   text.indexOf("ggpht.com") >= 0 ||
+   /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(text)
+  ){
+   return text;
+  }
+ }
+
+ return "";
+}
+
+function hideBrokenImage(img){
+ if(img && img.parentNode){
+  img.parentNode.style.display =
+  "none";
  }
 }
 
@@ -1212,10 +1314,16 @@ async function loadGoen(){
    '<div class="item">' +
    '<h3 class="itemTitle">' +
    escapeHtml(title || "ご縁") +
-   '</h3>' +
-   '<div class="itemDate">' +
-   escapeHtml(date) +
-   '</div>' +
+   '</h3>';
+
+   if(date){
+    html +=
+    '<div class="itemDate">' +
+    escapeHtml(date) +
+    '</div>';
+   }
+
+   html +=
    '<p class="itemBody">' +
    escapeHtml(message) +
    '</p>' +
@@ -1363,6 +1471,10 @@ function getArrayRows(data){
   return data;
  }
 
+ if(Array.isArray(data.news)){
+  return data.news;
+ }
+
  if(Array.isArray(data.rows)){
   return data.rows;
  }
@@ -1382,10 +1494,103 @@ function getArrayRows(data){
  return [];
 }
 
+function normalizeImageUrl(value){
+ let url =
+ getString(value);
+
+ if(!url){
+  return "";
+ }
+
+ url =
+ url
+ .replace(/\\u003d/g,"=")
+ .replace(/\\u0026/g,"&")
+ .replace(/\\\//g,"/")
+ .replace(/&amp;/g,"&")
+ .replace(/[),.;]+$/g,"")
+ .trim();
+
+ if(!url){
+  return "";
+ }
+
+ const urls =
+ url.match(/https?:\/\/[^\s"'<>]+/g);
+
+ if(urls && urls.length > 0){
+  url =
+  urls[0]
+  .replace(/[),.;]+$/g,"")
+  .trim();
+ }
+
+ if(url.indexOf("data:image") === 0){
+  return url;
+ }
+
+ if(url.indexOf("https://drive.google.com/thumbnail") === 0){
+  return url;
+ }
+
+ if(url.indexOf("http://drive.google.com/thumbnail") === 0){
+  return url.replace("http://","https://");
+ }
+
+ let match =
+ url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+ if(match && match[1]){
+  return "https://drive.google.com/thumbnail?id=" +
+  encodeURIComponent(match[1]) +
+  "&sz=w1600";
+ }
+
+ match =
+ url.match(/[?&]id=([^&]+)/);
+
+ if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
+  return "https://drive.google.com/thumbnail?id=" +
+  encodeURIComponent(match[1]) +
+  "&sz=w1600";
+ }
+
+ if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0){
+  return url;
+ }
+
+ try{
+  return new URL(
+   url,
+   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/"
+  ).href;
+ }catch(error){
+  return "";
+ }
+}
+
+function getCellText(value){
+ if(value === null || value === undefined){
+  return "";
+ }
+
+ if(typeof value === "object"){
+  return getString(
+   value.v ||
+   value.f ||
+   value.value ||
+   value.text ||
+   ""
+  );
+ }
+
+ return getString(value);
+}
+
 function getFirst(){
  for(let i = 0; i < arguments.length; i++){
   const value =
-  getString(arguments[i]);
+  getCellText(arguments[i]);
 
   if(value){
    return value;
@@ -1401,6 +1606,28 @@ function formatDate(value){
 
  if(!text){
   return "";
+ }
+
+ if(/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)){
+  const parts =
+  text.split("/");
+
+  return parts[0] +
+  "/" +
+  parts[1].padStart(2,"0") +
+  "/" +
+  parts[2].padStart(2,"0");
+ }
+
+ if(/^\d{4}-\d{1,2}-\d{1,2}/.test(text)){
+  const parts =
+  text.substring(0,10).split("-");
+
+  return parts[0] +
+  "/" +
+  parts[1].padStart(2,"0") +
+  "/" +
+  parts[2].padStart(2,"0");
  }
 
  const date =
