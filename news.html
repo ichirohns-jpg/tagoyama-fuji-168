@@ -157,6 +157,51 @@ body{
  font-weight:700;
 }
 
+.shareRow{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+ margin-top:18px;
+}
+
+.shareBtn{
+ min-height:58px;
+ border:none;
+ border-radius:14px;
+ font-size:clamp(15px,4.2vw,20px);
+ font-weight:900;
+ cursor:pointer;
+ color:#fff;
+}
+
+.fb{
+ background:#1877f2;
+}
+
+.line{
+ background:#06c755;
+}
+
+.x{
+ background:#000;
+}
+
+.copy{
+ background:#607d8b;
+}
+
+.fbGuide{
+ background:#1c1c1c;
+ border:1px solid #333;
+ border-radius:12px;
+ padding:10px 14px;
+ margin-top:12px;
+ font-size:15px;
+ line-height:1.6;
+ text-align:center;
+ color:#d0d0d0;
+}
+
 .btnBox{
  display:grid;
  gap:14px;
@@ -194,6 +239,14 @@ body{
 
  .newsImageBox{
   border-radius:20px;
+ }
+
+ .shareRow{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .shareBtn{
+  min-height:62px;
  }
 }
 </style>
@@ -291,7 +344,7 @@ function renderNews(rows){
 
  rows.forEach(function(row,index){
   const item =
-  normalizeNewsRow(row);
+  normalizeNewsRow(row,index);
 
   if(!item.title && !item.text && !item.image && !item.date){
    return;
@@ -336,6 +389,27 @@ function renderNews(rows){
   }
 
   html +=
+  '<div class="shareRow">' +
+  '<button class="shareBtn fb" onclick="shareFacebook(' +
+  index +
+  ')">Facebook</button>' +
+  '<button class="shareBtn line" onclick="shareLine(' +
+  index +
+  ')">LINE</button>' +
+  '<button class="shareBtn x" onclick="shareX(' +
+  index +
+  ')">X</button>' +
+  '<button class="shareBtn copy" onclick="copyLink(' +
+  index +
+  ')">コピー</button>' +
+  '</div>';
+
+  html +=
+  '<div class="fbGuide">' +
+  'Facebookは「コピー」を押して投稿欄へ貼り付けると画像付きで共有できます' +
+  '</div>';
+
+  html +=
   '</div>';
  });
 
@@ -351,15 +425,15 @@ function hideBrokenImage(img){
  }
 }
 
-function normalizeNewsRow(row){
+function normalizeNewsRow(row,index){
  if(Array.isArray(row)){
-  return normalizeArrayRow(row);
+  return normalizeArrayRow(row,index);
  }
 
- return normalizeObjectRow(row);
+ return normalizeObjectRow(row,index);
 }
 
-function normalizeObjectRow(row){
+function normalizeObjectRow(row,index){
  row =
  row || {};
 
@@ -371,7 +445,9 @@ function normalizeObjectRow(row){
   row.件名,
   row.subject,
   row.見出し,
-  row.headline
+  row.headline,
+  row.col1,
+  row.col2
  );
 
  const text =
@@ -384,7 +460,9 @@ function normalizeObjectRow(row){
   row.description,
   row.説明,
   row.detail,
-  row.details
+  row.details,
+  row.col3,
+  row.col4
  );
 
  const date =
@@ -396,7 +474,8 @@ function normalizeObjectRow(row){
    row.updatedAt,
    row.日付,
    row.日時,
-   row.掲載日
+   row.掲載日,
+   row.col0
   )
  );
 
@@ -404,6 +483,7 @@ function normalizeObjectRow(row){
  findImageUrl(row);
 
  return {
+  id:getString(row.id || row.ID || index),
   title:title,
   text:text,
   date:date,
@@ -411,7 +491,7 @@ function normalizeObjectRow(row){
  };
 }
 
-function normalizeArrayRow(row){
+function normalizeArrayRow(row,index){
  const image =
  findImageUrl(row);
 
@@ -429,7 +509,7 @@ function normalizeArrayRow(row){
 
  for(let i = 0; i < values.length; i++){
   const value =
-  cleanText(values[i]);
+  getString(values[i]);
 
   if(!value){
    continue;
@@ -459,6 +539,7 @@ function normalizeArrayRow(row){
  }
 
  return {
+  id:String(index),
   title:title,
   text:text,
   date:date,
@@ -510,8 +591,8 @@ function parseGvizRows(table){
  table.cols || [];
 
  const headers =
- cols.map(function(col){
-  return cleanText(col.label || col.id || "");
+ cols.map(function(col,index){
+  return getString(col.label || col.id || "col" + index);
  });
 
  return rows.map(function(row){
@@ -534,11 +615,12 @@ function parseGvizRows(table){
  });
 }
 
-function getJson(url){
- return fetchJson(url,12000)
- .catch(function(){
-  return jsonp(url,15000);
- });
+async function getJson(url){
+ try{
+  return await fetchJson(url,12000);
+ }catch(error){
+  return await jsonp(url,15000);
+ }
 }
 
 async function fetchJson(url,timeoutMs){
@@ -656,15 +738,18 @@ function jsonp(url,timeoutMs){
 }
 
 function findImageUrl(row){
- const values =
- flattenValues(row);
+ if(!row){
+  return "";
+ }
 
  const directKeys =
  [
   "image1",
   "image2",
+  "image3",
   "imageUrl",
   "imageURL",
+  "image_url",
   "image",
   "img",
   "photo",
@@ -673,31 +758,35 @@ function findImageUrl(row){
   "thumb",
   "画像",
   "画像URL",
+  "画像url",
   "写真",
   "写真URL",
   "サムネイル",
   "添付画像"
  ];
 
- if(row && !Array.isArray(row) && typeof row === "object"){
+ if(!Array.isArray(row) && typeof row === "object"){
   for(let i = 0; i < directKeys.length; i++){
    const key =
    directKeys[i];
 
    if(row[key]){
-    const direct =
+    const image =
     extractImageUrlFromText(getCellText(row[key]));
 
-    if(direct){
-     return direct;
+    if(image){
+     return image;
     }
    }
   }
  }
 
+ const values =
+ flattenValues(row);
+
  for(let i = 0; i < values.length; i++){
   const text =
-  cleanText(values[i]);
+  getString(values[i]);
 
   const image =
   extractImageUrlFromText(text);
@@ -712,7 +801,7 @@ function findImageUrl(row){
 
 function extractImageUrlFromText(text){
  text =
- cleanText(text);
+ getString(text);
 
  if(!text){
   return "";
@@ -727,14 +816,14 @@ function extractImageUrlFromText(text){
  .trim();
 
  const urls =
- text.match(/https?:\/\/[^\s"'<>),]+/g) || [];
+ text.match(/https?:\/\/[^\s"'<>]+/g) || [];
 
  for(let i = 0; i < urls.length; i++){
-  const url =
+  const image =
   normalizeImageUrl(urls[i]);
 
-  if(url){
-   return url;
+  if(image){
+   return image;
   }
  }
 
@@ -756,7 +845,7 @@ function extractImageUrlFromText(text){
 
 function normalizeImageUrl(value){
  let url =
- cleanText(value);
+ getString(value);
 
  if(!url){
   return "";
@@ -803,10 +892,6 @@ function normalizeImageUrl(value){
   return "https://drive.google.com/thumbnail?id=" +
   encodeURIComponent(match[1]) +
   "&sz=w1600";
- }
-
- if(url.indexOf("uc?id=") >= 0 && url.indexOf("drive.google.com") >= 0){
-  return url;
  }
 
  if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0){
@@ -878,7 +963,7 @@ function getCellText(cell){
  }
 
  if(typeof cell === "object"){
-  return cleanText(
+  return getString(
    cell.v ||
    cell.f ||
    cell.formattedValue ||
@@ -888,13 +973,13 @@ function getCellText(cell){
   );
  }
 
- return cleanText(cell);
+ return getString(cell);
 }
 
 function getFirst(){
  for(let i = 0; i < arguments.length; i++){
   const value =
-  cleanText(getCellText(arguments[i]));
+  getString(getCellText(arguments[i]));
 
   if(value){
    return value;
@@ -906,7 +991,7 @@ function getFirst(){
 
 function looksLikeDate(value){
  const text =
- cleanText(value);
+ getString(value);
 
  if(!text){
   return false;
@@ -922,7 +1007,7 @@ function looksLikeDate(value){
 
 function formatDate(value){
  const text =
- cleanText(value);
+ getString(value);
 
  if(!text){
   return "";
@@ -974,13 +1059,58 @@ function formatDate(value){
 
 function isImageLike(value){
  const text =
- cleanText(value);
+ getString(value);
 
  return !!extractImageUrlFromText(text);
 }
 
+function shareUrl(id){
+ return SITE_BASE +
+ "share-news.html?id=" +
+ encodeURIComponent(id);
+}
+
+function shareFacebook(id){
+ window.open(
+  "https://www.facebook.com/sharer/sharer.php?u=" +
+  encodeURIComponent(shareUrl(id)),
+  "_blank",
+  "noopener,noreferrer"
+ );
+}
+
+function shareLine(id){
+ window.open(
+  "https://social-plugins.line.me/lineit/share?url=" +
+  encodeURIComponent(shareUrl(id)),
+  "_blank",
+  "noopener,noreferrer"
+ );
+}
+
+function shareX(id){
+ window.open(
+  "https://twitter.com/intent/tweet?url=" +
+  encodeURIComponent(shareUrl(id)),
+  "_blank",
+  "noopener,noreferrer"
+ );
+}
+
+async function copyLink(id){
+ const url =
+ shareUrl(id);
+
+ try{
+  await navigator.clipboard.writeText(url);
+  alert("リンクをコピーしました");
+ }catch(error){
+  alert(url);
+ }
+}
+
 function escapeHtml(value){
- return cleanText(value)
+ return getString(value)
  .replace(/&/g,"&amp;")
  .replace(/</g,"&lt;")
  .replace(/>/g,"&gt;")
@@ -988,7 +1118,7 @@ function escapeHtml(value){
  .replace(/'/g,"&#39;");
 }
 
-function cleanText(value){
+function getString(value){
  if(value === null || value === undefined){
   return "";
  }
