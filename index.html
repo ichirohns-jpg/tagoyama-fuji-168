@@ -221,10 +221,6 @@ body{
   background:linear-gradient(180deg,#777 0%,#262626 100%);
 }
 
-.redBtn{
-  background:linear-gradient(180deg,#ff654d 0%,#c61f14 100%);
-}
-
 .inputLabel{
   display:block;
   margin:18px 0 8px;
@@ -867,10 +863,12 @@ function openSection(id){
   section.classList.remove("hidden");
 
   if(id === "newsSection"){
+    newsLoaded = false;
     loadNews();
   }
 
   if(id === "goenSection"){
+    goenLoaded = false;
     loadGoen();
   }
 
@@ -942,15 +940,8 @@ async function loadNews(){
         item.title,
         item.タイトル,
         item.name,
-        item.件名
-      );
-
-      const body = getFirst(
-        item.body,
-        item.message,
-        item.text,
-        item.本文,
-        item.内容
+        item.件名,
+        item.subject
       );
 
       const date = formatDate(
@@ -958,10 +949,28 @@ async function loadNews(){
           item.date,
           item.datetime,
           item.createdAt,
+          item.updatedAt,
           item.日時,
           item.日付
         )
       );
+
+      let body = getFirst(
+        item.body,
+        item.message,
+        item.text,
+        item.content,
+        item.description,
+        item.本文,
+        item.内容,
+        item.説明,
+        item.メッセージ,
+        item.お知らせ本文
+      );
+
+      if(!body){
+        body = makeBodyFromItem(item);
+      }
 
       if(!title && !body){
         return;
@@ -991,6 +1000,48 @@ async function loadNews(){
     list.innerHTML =
       '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
   }
+}
+
+function makeBodyFromItem(item){
+  const skipKeys = [
+    "title",
+    "タイトル",
+    "name",
+    "件名",
+    "subject",
+    "date",
+    "datetime",
+    "createdAt",
+    "updatedAt",
+    "日時",
+    "日付",
+    "link",
+    "url",
+    "URL",
+    "リンク"
+  ];
+
+  const parts = [];
+
+  Object.keys(item || {}).forEach(function(key){
+    if(skipKeys.indexOf(key) >= 0){
+      return;
+    }
+
+    const value = getString(item[key]);
+
+    if(!value){
+      return;
+    }
+
+    if(value.indexOf("https://") === 0 || value.indexOf("http://") === 0){
+      return;
+    }
+
+    parts.push(value);
+  });
+
+  return parts.join("\n");
 }
 
 async function saveKicho(){
@@ -1255,12 +1306,16 @@ function formatDate(value){
     return "";
   }
 
-  if(/^\d{4}\/\d{1,2}\/\d{1,2}/.test(s)){
-    return s;
+  const m1 = s.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+
+  if(m1){
+    return m1[1] + "/" + m1[2].padStart(2,"0") + "/" + m1[3].padStart(2,"0");
   }
 
-  if(/^\d{4}-\d{1,2}-\d{1,2}/.test(s)){
-    return s.replace(/-/g,"/").slice(0,10);
+  const m2 = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+
+  if(m2){
+    return m2[1] + "/" + m2[2].padStart(2,"0") + "/" + m2[3].padStart(2,"0");
   }
 
   const d = new Date(s);
