@@ -325,14 +325,9 @@ body{
     </div>
 
     <div class="btnGrid">
-      <a
-        class="linkBtn greenBtn"
-        id="imageOpenBtn"
-        href="omikuji-atari.jpg"
-        target="_blank"
-        rel="noopener">
+      <button class="btn greenBtn" onclick="openImageForSave()">
         画像を開く・保存
-      </a>
+      </button>
 
       <button class="btn grayBtn" onclick="copyOmikujiPost()">
         投稿文をコピー
@@ -371,13 +366,16 @@ const FIXED_OMIKUJI_SHARE_URL =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02";
 
 const DEFAULT_OMIKUJI_IMAGE =
-"omikuji-atari.jpg?v=20260701-atari-card-02";
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02";
 
 let currentUserId =
 "";
 
 let latestResult =
 null;
+
+let currentImageUrl =
+DEFAULT_OMIKUJI_IMAGE;
 
 window.addEventListener("load",initOmikuji);
 
@@ -542,12 +540,15 @@ function normalizeOmikujiResult(data){
 
 function renderOmikuji(result){
   const imageUrl =
-  result.imageUrl || DEFAULT_OMIKUJI_IMAGE;
+  normalizeImageUrl(
+    result.imageUrl ||
+    DEFAULT_OMIKUJI_IMAGE
+  );
 
-  document.getElementById("resultImage").src =
+  currentImageUrl =
   imageUrl;
 
-  document.getElementById("imageOpenBtn").href =
+  document.getElementById("resultImage").src =
   imageUrl;
 
   document.getElementById("resultMessage").innerText =
@@ -561,6 +562,27 @@ function renderOmikuji(result){
       block:"start"
     });
   },100);
+}
+
+function openImageForSave(){
+  const img =
+  document.getElementById("resultImage");
+
+  const url =
+  normalizeImageUrl(
+    currentImageUrl ||
+    img.currentSrc ||
+    img.src ||
+    DEFAULT_OMIKUJI_IMAGE
+  );
+
+  if(!url){
+    alert("画像を開けませんでした。");
+    return;
+  }
+
+  location.href =
+  url;
 }
 
 function buildOmikujiPostText(){
@@ -783,6 +805,10 @@ function normalizeImageUrl(value){
     return url;
   }
 
+  if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0){
+    return url;
+  }
+
   if(url.indexOf("drive.google.com/thumbnail") >= 0){
     return url;
   }
@@ -805,7 +831,14 @@ function normalizeImageUrl(value){
     "&sz=w1200";
   }
 
-  return url;
+  try{
+    return new URL(
+      url,
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/"
+    ).href;
+  }catch(e){
+    return DEFAULT_OMIKUJI_IMAGE;
+  }
 }
 
 function setStatus(text){
