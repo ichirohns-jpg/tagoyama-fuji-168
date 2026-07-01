@@ -224,24 +224,59 @@ body{
   background:linear-gradient(180deg,#35df86,#19b75e);
 }
 
-.facebookBtn{
-  background:linear-gradient(180deg,#1688ff,#075ec9);
-}
-
-.lineBtn{
-  background:linear-gradient(180deg,#06d45f,#06b84f);
-}
-
-.xBtn{
-  background:linear-gradient(180deg,#222,#030303);
-}
-
 .grayBtn{
   background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
 
 .blackBtn{
   background:linear-gradient(180deg,#232323,#050505);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.88);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:16px;
+}
+
+.modal.open{
+  display:flex;
+}
+
+.modalBox{
+  width:100%;
+  max-width:760px;
+  max-height:94vh;
+  overflow:auto;
+  border-radius:28px;
+  background:#111;
+  border:3px solid rgba(255,220,95,.80);
+  padding:16px;
+  text-align:center;
+}
+
+.modalBox img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:20px;
+  border:2px solid rgba(255,220,95,.70);
+  background:#000;
+}
+
+.saveNote{
+  margin:0 0 12px;
+  padding:12px 10px;
+  border-radius:18px;
+  background:rgba(0,0,0,.36);
+  color:#fff3c4;
+  font-size:clamp(16px,4.6vw,26px);
+  font-weight:900;
+  line-height:1.5;
 }
 
 .footer{
@@ -325,24 +360,12 @@ body{
     </div>
 
     <div class="btnGrid">
-      <button class="btn greenBtn" onclick="openImageForSave()">
-        画像を開く・保存
+      <button class="btn greenBtn" onclick="openSaveModal()">
+        写真に保存する
       </button>
 
       <button class="btn grayBtn" onclick="copyOmikujiPost()">
         投稿文をコピー
-      </button>
-
-      <button class="btn facebookBtn" onclick="shareOmikuji('facebook')">
-        Facebookで投稿
-      </button>
-
-      <button class="btn lineBtn" onclick="shareOmikuji('line')">
-        LINEで送る
-      </button>
-
-      <button class="btn xBtn" onclick="shareOmikuji('x')">
-        Xで投稿
       </button>
 
       <a class="linkBtn blackBtn" href="./">
@@ -358,12 +381,25 @@ body{
 
 </div>
 
+<div class="modal" id="saveModal">
+  <div class="modalBox">
+    <div class="saveNote">
+      画像を長押しして保存
+    </div>
+
+    <img id="saveImage" src="omikuji-atari.jpg" alt="保存用画像">
+
+    <div class="btnGrid">
+      <button class="btn blackBtn" onclick="closeSaveModal()">
+        閉じる
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
 const OMIKUJI_GAS_URL =
 "https://script.google.com/macros/s/AKfycbx5w_dEKm4Tb-GFB0o9AhUgLB1MdziOntuQ8iChEbnSbB6jcUCxp4STritRJeyF_osy/exec";
-
-const FIXED_OMIKUJI_SHARE_URL =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02";
 
 const DEFAULT_OMIKUJI_IMAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02";
@@ -477,20 +513,6 @@ function normalizeOmikujiResult(data){
   data.item ||
   data;
 
-  const no =
-  getString(
-    source.no ||
-    source.number ||
-    source.omikujiNo ||
-    source.id ||
-    source.resultNo ||
-    data.no ||
-    data.number ||
-    data.omikujiNo ||
-    data.id ||
-    ""
-  );
-
   const title =
   getString(
     source.title ||
@@ -531,7 +553,6 @@ function normalizeOmikujiResult(data){
   );
 
   return {
-    no:no,
     title:title,
     message:message,
     imageUrl:imageUrl
@@ -551,6 +572,9 @@ function renderOmikuji(result){
   document.getElementById("resultImage").src =
   imageUrl;
 
+  document.getElementById("saveImage").src =
+  imageUrl;
+
   document.getElementById("resultMessage").innerText =
   result.message || "田子山富士でまた良いご縁がありますように。";
 
@@ -564,25 +588,19 @@ function renderOmikuji(result){
   },100);
 }
 
-function openImageForSave(){
+function openSaveModal(){
   const img =
-  document.getElementById("resultImage");
+  document.getElementById("saveImage");
 
-  const url =
-  normalizeImageUrl(
-    currentImageUrl ||
-    img.currentSrc ||
-    img.src ||
-    DEFAULT_OMIKUJI_IMAGE
-  );
+  img.src =
+  currentImageUrl ||
+  DEFAULT_OMIKUJI_IMAGE;
 
-  if(!url){
-    alert("画像を開けませんでした。");
-    return;
-  }
+  document.getElementById("saveModal").classList.add("open");
+}
 
-  location.href =
-  url;
+function closeSaveModal(){
+  document.getElementById("saveModal").classList.remove("open");
 }
 
 function buildOmikujiPostText(){
@@ -612,53 +630,13 @@ function buildOmikujiPostText(){
 
 async function copyOmikujiPost(){
   const text =
-  buildOmikujiPostText() +
-  "\n" +
-  FIXED_OMIKUJI_SHARE_URL;
+  buildOmikujiPostText();
 
   try{
     await copyText(text);
-    alert("投稿文とリンクをコピーしました。");
+    alert("投稿文をコピーしました。");
   }catch(e){
     alert("コピーできませんでした。");
-  }
-}
-
-async function shareOmikuji(type){
-  const shareUrl =
-  FIXED_OMIKUJI_SHARE_URL;
-
-  const text =
-  buildOmikujiPostText();
-
-  if(type === "facebook"){
-    try{
-      await copyText(text + "\n" + shareUrl);
-    }catch(e){}
-
-    location.href =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(shareUrl);
-
-    return;
-  }
-
-  if(type === "line"){
-    location.href =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(shareUrl);
-
-    return;
-  }
-
-  if(type === "x"){
-    location.href =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text) +
-    "&url=" +
-    encodeURIComponent(shareUrl);
-
-    return;
   }
 }
 
