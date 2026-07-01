@@ -541,7 +541,7 @@ body{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzNDCMHEOagahZdJguPjuE5ecPbEF_UrXGb57lmDabLYcTORl71rK7gR8tFuwAMtuCB/exec";
+"https://script.google.com/macros/s/AKfycbzQHiV6CPqv-szRz9EjwWdTsKGXmC8oPtLM6fQsyU-lF8AWXEsN5PG_14b6awu2Esk1/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -672,45 +672,16 @@ async function handleClimb(){
   }
 
   try{
-    const sessionKey =
-    "tagoyamaClimbSaved:" +
-    urlUserId;
-
-    let data =
-    null;
-
-    const cached =
-    sessionStorage.getItem(sessionKey);
-
-    if(cached){
-      try{
-        data =
-        JSON.parse(cached);
-      }catch(e){
-        data =
-        null;
-      }
-    }
-
-    if(!data){
-      data =
-      await fetchJson(
-        GAS_URL +
-        "?mode=saveClimb" +
-        "&userId=" +
-        encodeURIComponent(urlUserId) +
-        "&t=" +
-        Date.now(),
-        20000
-      );
-
-      if(data && data.success){
-        sessionStorage.setItem(
-          sessionKey,
-          JSON.stringify(data)
-        );
-      }
-    }
+    const data =
+    await fetchJson(
+      GAS_URL +
+      "?mode=saveClimb" +
+      "&userId=" +
+      encodeURIComponent(urlUserId) +
+      "&t=" +
+      Date.now(),
+      20000
+    );
 
     if(!data || data.success === false){
       throw new Error(
@@ -721,13 +692,13 @@ async function handleClimb(){
     }
 
     const count =
-    data.count ||
     data.climbCount ||
+    data.count ||
     "";
 
     const serial =
-    data.serial ||
     data.serialNo ||
+    data.serial ||
     data.certificateNo ||
     "";
 
@@ -759,6 +730,10 @@ async function handleClimb(){
       CERTIFICATE_PAGE +
       "?userId=" +
       encodeURIComponent(urlUserId) +
+      "&climbCount=" +
+      encodeURIComponent(count) +
+      "&serialNo=" +
+      encodeURIComponent(serial) +
       "&v=" +
       Date.now();
 
