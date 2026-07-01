@@ -4,28 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>田子山富士 開運おみくじ</title>
+<title>田子山富士 開運おみくじ 当たりカード</title>
 
-<meta name="description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
+<meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじの当たりカードです。">
 
 <meta property="og:title" content="田子山富士 開運おみくじ">
-<meta property="og:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
+<meta property="og:description" content="田子山富士168の縁プロジェクト 開運おみくじの当たりカードです。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-ogp">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-ogp">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02">
 <meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="田子山富士 開運おみくじ">
+<meta property="og:image:alt" content="田子山富士 開運おみくじ 当たりカード">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 開運おみくじ">
-<meta name="twitter:description" content="田子山富士168の縁プロジェクトでおみくじを引きました。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-ogp">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクト 開運おみくじの当たりカードです。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02">
 
-<link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html">
+<link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02">
+<link rel="image_src" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <style>
 *{
@@ -45,7 +46,7 @@ body{
 
 body{
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,224,120,.25),rgba(0,0,0,0) 38%),
+    radial-gradient(circle at 50% 0%,rgba(255,224,120,.26),rgba(0,0,0,0) 38%),
     linear-gradient(180deg,#1d1204 0%,#070707 48%,#000 100%);
 }
 
@@ -90,6 +91,12 @@ body{
   color:#fff3c4;
 }
 
+.imageLink{
+  display:block;
+  width:100%;
+  text-decoration:none;
+}
+
 .ogpImage{
   display:block;
   width:100%;
@@ -102,15 +109,30 @@ body{
     0 12px 24px rgba(0,0,0,.42);
 }
 
+.imageError{
+  display:none;
+  margin-top:16px;
+  padding:18px 14px;
+  border-radius:20px;
+  border:1px solid rgba(255,220,140,.42);
+  background:rgba(0,0,0,.32);
+  color:#fff3c4;
+  font-size:clamp(17px,4.6vw,26px);
+  font-weight:900;
+  line-height:1.7;
+}
+
 .btnGrid{
   display:grid;
   gap:12px;
   margin-top:18px;
 }
 
-.linkBtn{
+.linkBtn,
+.btn{
   width:100%;
   min-height:66px;
+  border:none;
   border-radius:22px;
   display:flex;
   align-items:center;
@@ -121,6 +143,7 @@ body{
   letter-spacing:.02em;
   color:#fff;
   text-align:center;
+  cursor:pointer;
   box-shadow:
     0 7px 0 rgba(0,0,0,.32),
     0 13px 22px rgba(0,0,0,.34);
@@ -131,8 +154,29 @@ body{
   color:#251400;
 }
 
+.greenBtn{
+  background:linear-gradient(180deg,#35df86,#19b75e);
+}
+
+.grayBtn{
+  background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
+}
+
 .blackBtn{
   background:linear-gradient(180deg,#232323,#050505);
+}
+
+.note{
+  margin:18px 0 0;
+  padding:16px 12px;
+  border-radius:20px;
+  border:1px solid rgba(255,220,140,.42);
+  background:rgba(0,0,0,.30);
+  color:#fff3c4;
+  font-size:clamp(16px,4.4vw,25px);
+  line-height:1.7;
+  font-weight:900;
+  text-align:center;
 }
 
 .footer{
@@ -151,30 +195,64 @@ body{
 <div class="wrap">
 
   <section class="card">
+
     <h1 class="title">
       田子山富士<br>
       開運おみくじ
     </h1>
 
     <p class="lead">
-      田子山富士168の縁プロジェクトで<br>
-      おみくじを引きました。
+      田子山富士168の縁プロジェクト<br>
+      開運おみくじの当たりカードです。
     </p>
 
-    <img
-      class="ogpImage"
-      src="omikuji-atari.jpg?v=20260701-atari-ogp"
-      alt="田子山富士 開運おみくじ">
+    <a
+      class="imageLink"
+      href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02"
+      target="_blank"
+      rel="noopener">
+
+      <img
+        class="ogpImage"
+        id="atariImage"
+        src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02"
+        alt="田子山富士 開運おみくじ 当たりカード">
+    </a>
+
+    <div class="imageError" id="imageError">
+      当たりカード画像を読み込めませんでした。<br>
+      画像ファイル名を確認してください。
+    </div>
 
     <div class="btnGrid">
-      <a class="linkBtn goldBtn" href="omikuji.html?v=from-share-atari">
+      <a
+        class="linkBtn greenBtn"
+        href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02"
+        target="_blank"
+        rel="noopener">
+        当たりカード画像を開く
+      </a>
+
+      <a
+        class="linkBtn goldBtn"
+        href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html?v=from-atari-card-02">
         開運おみくじを開く
       </a>
 
-      <a class="linkBtn blackBtn" href="./">
+      <button class="btn grayBtn" onclick="copyShareUrl()">
+        このページのリンクをコピー
+      </button>
+
+      <a class="linkBtn blackBtn" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
         トップへ戻る
       </a>
     </div>
+
+    <div class="note">
+      Facebookにはこの共有ページを渡します。<br>
+      カード画像も、タップ後の画面も、同じ当たりカード画像を表示します。
+    </div>
+
   </section>
 
   <footer class="footer">
@@ -183,6 +261,68 @@ body{
   </footer>
 
 </div>
+
+<script>
+const SHARE_PAGE_URL =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji-atari.html?v=20260701-atari-card-02";
+
+window.addEventListener("load",function(){
+  const img =
+  document.getElementById("atariImage");
+
+  const errorBox =
+  document.getElementById("imageError");
+
+  img.onerror =
+  function(){
+    errorBox.style.display =
+    "block";
+  };
+});
+
+async function copyShareUrl(){
+  try{
+    await copyText(SHARE_PAGE_URL);
+    alert("リンクをコピーしました。");
+  }catch(e){
+    alert("コピーできませんでした。");
+  }
+}
+
+async function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea =
+  document.createElement("textarea");
+
+  textarea.value =
+  text;
+
+  textarea.setAttribute("readonly","readonly");
+  textarea.style.position =
+  "fixed";
+  textarea.style.left =
+  "-9999px";
+  textarea.style.top =
+  "0";
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  const ok =
+  document.execCommand("copy");
+
+  document.body.removeChild(textarea);
+
+  if(!ok){
+    throw new Error("copy failed");
+  }
+}
+</script>
 
 </body>
 </html>
