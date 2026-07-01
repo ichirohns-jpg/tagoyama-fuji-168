@@ -292,16 +292,6 @@ body{
   white-space:pre-wrap;
 }
 
-.itemImage{
-  display:block;
-  width:100%;
-  height:auto;
-  margin:14px 0 0;
-  border-radius:18px;
-  border:1px solid rgba(255,220,95,.50);
-  background:#000;
-}
-
 .footer{
   margin-top:32px;
   padding:18px 0 0;
@@ -919,16 +909,6 @@ async function loadNews(){
         )
       );
 
-      const imageUrl =
-      normalizeImageUrl(
-        getFirst(
-          item.imageUrl,
-          item.image,
-          item.画像URL,
-          item.画像
-        )
-      );
-
       if(!title && !body){
         return;
       }
@@ -944,11 +924,6 @@ async function loadNews(){
       '<p class="itemBody">' +
       escapeHtml(body) +
       '</p>' +
-      (
-        imageUrl
-        ? '<img class="itemImage" src="' + escapeHtml(imageUrl) + '" alt="">'
-        : ''
-      ) +
       '</div>';
     });
 
@@ -1130,16 +1105,6 @@ async function loadGoen(){
         )
       );
 
-      const imageUrl =
-      normalizeImageUrl(
-        getFirst(
-          item.imageUrl,
-          item.image,
-          item.画像URL,
-          item.画像
-        )
-      );
-
       if(!message){
         return;
       }
@@ -1160,11 +1125,6 @@ async function loadGoen(){
       '<p class="itemBody">' +
       escapeHtml(message) +
       '</p>' +
-      (
-        imageUrl
-        ? '<img class="itemImage" src="' + escapeHtml(imageUrl) + '" alt="">'
-        : ''
-      ) +
       '</div>';
     });
 
@@ -1348,48 +1308,6 @@ function getFirst(){
   return "";
 }
 
-function normalizeImageUrl(value){
-  let url =
-  getString(value);
-
-  if(!url){
-    return "";
-  }
-
-  url =
-  url
-  .replace(/\\u003d/g,"=")
-  .replace(/\\u0026/g,"&")
-  .replace(/\\\//g,"/")
-  .replace(/&amp;/g,"&")
-  .replace(/[),.;]+$/g,"")
-  .trim();
-
-  if(url.indexOf("drive.google.com/thumbnail") >= 0){
-    return url;
-  }
-
-  let match =
-  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-
-  if(match && match[1]){
-    return "https://drive.google.com/thumbnail?id=" +
-    encodeURIComponent(match[1]) +
-    "&sz=w1200";
-  }
-
-  match =
-  url.match(/[?&]id=([^&]+)/);
-
-  if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
-    return "https://drive.google.com/thumbnail?id=" +
-    encodeURIComponent(match[1]) +
-    "&sz=w1200";
-  }
-
-  return url;
-}
-
 function formatDate(value){
   value =
   getString(value);
@@ -1433,6 +1351,7 @@ function escapeHtml(value){
 function getString(value){
   if(value === null || value === undefined){
     return "";
+;
   }
 
   return String(value).trim();
