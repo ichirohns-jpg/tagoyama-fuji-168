@@ -198,6 +198,10 @@ body{
     0 13px 22px rgba(0,0,0,.34);
 }
 
+.btn:disabled{
+  opacity:.55;
+}
+
 .goldBtn{
   background:linear-gradient(180deg,#ffe27a,#c79218);
   color:#251400;
@@ -659,14 +663,13 @@ async function handleClimb(){
 
   try{
     const data =
-    await fetchJson(
+    await getJson(
       GAS_URL +
       "?mode=saveClimb" +
       "&userId=" +
       encodeURIComponent(urlUserId) +
       "&t=" +
-      Date.now(),
-      20000
+      Date.now()
     );
 
     if(!data || data.success === false){
@@ -736,4 +739,705 @@ async function handleClimb(){
     await loadStats();
 
   }catch(err){
-    if(cl
+    if(climbMessage){
+      climbMessage.innerHTML =
+      "登頂受付で<br><strong>エラーが発生しました</strong>";
+    }
+
+    if(climbStatus){
+      climbStatus.innerText =
+      err && err.message
+      ? err.message
+      : "もう一度QRコードからお試しください";
+    }
+
+    if(certificateBtn){
+      certificateBtn.classList.add("hidden");
+    }
+  }
+}
+
+async function loadStats(){
+  const el =
+  document.getElementById("participants");
+
+  if(!el){
+    return;
+  }
+
+  try{
+    const data =
+    await getJson(
+      GAS_URL +
+      "?mode=stats&t=" +
+      Date.now()
+    );
+
+    if(data && data.success){
+      const n =
+      Number(
+        data.participants ||
+        data.count ||
+        data.total ||
+        0
+      );
+
+      if(Number.isFinite(n) && n >= 0){
+        el.innerText =
+        String(n);
+
+        return;
+      }
+    }
+
+    el.innerText =
+    "--";
+
+  }catch(e){
+    el.innerText =
+    "--";
+  }
+}
+
+function openSection(id){
+  closeAllSections();
+
+  const section =
+  document.getElementById(id);
+
+  if(!section){
+    return;
+  }
+
+  section.classList.remove("hidden");
+
+  if(id === "newsSection"){
+    loadNews();
+  }
+
+  if(id === "goenSection"){
+    loadGoen();
+  }
+
+  setTimeout(function(){
+    section.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  },80);
+}
+
+function closeAllSections(){
+  [
+    "newsSection",
+    "kichoSection",
+    "goenSection"
+  ].forEach(function(id){
+    const el =
+    document.getElementById(id);
+
+    if(el){
+      el.classList.add("hidden");
+    }
+  });
+}
+
+function closeSection(id){
+  const el =
+  document.getElementById(id);
+
+  if(el){
+    el.classList.add("hidden");
+  }
+}
+
+async function loadNews(){
+  const list =
+  document.getElementById("newsList");
+
+  if(!list){
+    return;
+  }
+
+  if(newsLoaded){
+    return;
+  }
+
+  list.innerHTML =
+  '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
+
+  try{
+    const data =
+    await getJson(
+      GAS_URL +
+      "?mode=news&t=" +
+      Date.now()
+    );
+
+    const rows =
+    getArrayRows(data);
+
+    if(!rows || rows.length === 0){
+      list.innerHTML =
+      '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
+
+      newsLoaded =
+      true;
+
+      return;
+    }
+
+    let html =
+    "";
+
+    rows.forEach(function(item){
+      const title =
+      getFirst(
+        item.title,
+        item.タイトル,
+        item.name,
+        item.件名
+      );
+
+      const body =
+      getFirst(
+        item.body,
+        item.message,
+        item.text,
+        item.本文,
+        item.内容
+      );
+
+      const date =
+      formatDate(
+        getFirst(
+          item.date,
+          item.datetime,
+          item.createdAt,
+          item.日時,
+          item.日付
+        )
+      );
+
+      const imageUrl =
+      normalizeImageUrl(
+        getFirst(
+          item.imageUrl,
+          item.image,
+          item.画像URL,
+          item.画像
+        )
+      );
+
+      if(!title && !body){
+        return;
+      }
+
+      html +=
+      '<div class="item">' +
+      '<h3 class="itemTitle">' +
+      escapeHtml(title || "お知らせ") +
+      '</h3>' +
+      '<div class="itemDate">' +
+      escapeHtml(date) +
+      '</div>' +
+      '<p class="itemBody">' +
+      escapeHtml(body) +
+      '</p>' +
+      (
+        imageUrl
+        ? '<img class="itemImage" src="' + escapeHtml(imageUrl) + '" alt="">'
+        : ''
+      ) +
+      '</div>';
+    });
+
+    list.innerHTML =
+    html ||
+    '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
+
+    newsLoaded =
+    true;
+
+  }catch(e){
+    list.innerHTML =
+    '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
+  }
+}
+
+async function saveKicho(){
+  const area =
+  getString(document.getElementById("kichoArea").value);
+
+  const name =
+  getString(document.getElementById("kichoName").value);
+
+  const message =
+  getString(document.getElementById("kichoMessage").value);
+
+  const btn =
+  document.getElementById("kichoBtn");
+
+  if(!area){
+    alert("どこから来たかを選んでください。");
+    return;
+  }
+
+  if(!message){
+    alert("メッセージを書いてください。");
+    return;
+  }
+
+  btn.disabled =
+  true;
+
+  btn.style.opacity =
+  ".55";
+
+  btn.innerText =
+  "記帳しています...";
+
+  try{
+    const url =
+    GAS_URL +
+    "?mode=saveKicho" +
+    "&area=" +
+    encodeURIComponent(area) +
+    "&name=" +
+    encodeURIComponent(name) +
+    "&message=" +
+    encodeURIComponent(message) +
+    "&imageUrl=" +
+    encodeURIComponent("") +
+    "&t=" +
+    Date.now();
+
+    const data =
+    await getJson(url);
+
+    if(!data || data.success === false){
+      throw new Error(
+        data && data.message
+        ? data.message
+        : "記帳できませんでした"
+      );
+    }
+
+    alert("記帳しました。");
+
+    document.getElementById("kichoName").value =
+    "";
+
+    document.getElementById("kichoMessage").value =
+    "";
+
+    goenLoaded =
+    false;
+
+  }catch(e){
+    alert(
+      e && e.message
+      ? e.message
+      : "記帳できませんでした。"
+    );
+  }finally{
+    btn.disabled =
+    false;
+
+    btn.style.opacity =
+    "1";
+
+    btn.innerText =
+    "記帳する";
+  }
+}
+
+async function loadGoen(){
+  const list =
+  document.getElementById("goenList");
+
+  if(!list){
+    return;
+  }
+
+  if(goenLoaded){
+    return;
+  }
+
+  list.innerHTML =
+  '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
+
+  try{
+    const data =
+    await getJson(
+      GAS_URL +
+      "?mode=goen&t=" +
+      Date.now()
+    );
+
+    const rows =
+    getArrayRows(data);
+
+    if(!rows || rows.length === 0){
+      list.innerHTML =
+      '<div class="item"><p class="itemBody">まだご縁の記録はありません。</p></div>';
+
+      goenLoaded =
+      true;
+
+      return;
+    }
+
+    let html =
+    "";
+
+    rows.forEach(function(item){
+      const area =
+      getFirst(
+        item.area,
+        item.place,
+        item.地域,
+        item.場所,
+        item.from
+      );
+
+      const name =
+      getFirst(
+        item.name,
+        item.nickname,
+        item.名前,
+        item.お名前
+      );
+
+      const message =
+      getFirst(
+        item.message,
+        item.body,
+        item.text,
+        item.メッセージ,
+        item.本文
+      );
+
+      const date =
+      formatDate(
+        getFirst(
+          item.date,
+          item.datetime,
+          item.createdAt,
+          item.timestamp,
+          item.日時,
+          item.日付
+        )
+      );
+
+      const imageUrl =
+      normalizeImageUrl(
+        getFirst(
+          item.imageUrl,
+          item.image,
+          item.画像URL,
+          item.画像
+        )
+      );
+
+      if(!message){
+        return;
+      }
+
+      html +=
+      '<div class="item">' +
+      '<h3 class="itemTitle">' +
+      escapeHtml(area || "ご縁の記録") +
+      (
+        name
+        ? '　' + escapeHtml(name)
+        : ''
+      ) +
+      '</h3>' +
+      '<div class="itemDate">' +
+      escapeHtml(date) +
+      '</div>' +
+      '<p class="itemBody">' +
+      escapeHtml(message) +
+      '</p>' +
+      (
+        imageUrl
+        ? '<img class="itemImage" src="' + escapeHtml(imageUrl) + '" alt="">'
+        : ''
+      ) +
+      '</div>';
+    });
+
+    list.innerHTML =
+    html ||
+    '<div class="item"><p class="itemBody">まだご縁の記録はありません。</p></div>';
+
+    goenLoaded =
+    true;
+
+  }catch(e){
+    list.innerHTML =
+    '<div class="item"><p class="itemBody">ご縁帳を読み込めませんでした。</p></div>';
+  }
+}
+
+async function getJson(url){
+  try{
+    return await fetchJson(url,12000);
+  }catch(error){
+    return await jsonp(url,15000);
+  }
+}
+
+async function fetchJson(url,timeoutMs){
+  const controller =
+  new AbortController();
+
+  const timer =
+  setTimeout(function(){
+    controller.abort();
+  },timeoutMs || 12000);
+
+  try{
+    const res =
+    await fetch(
+      url,
+      {
+        method:"GET",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
+
+    const text =
+    await res.text();
+
+    if(!res.ok){
+      throw new Error("通信エラー");
+    }
+
+    try{
+      return JSON.parse(text);
+    }catch(e){}
+
+    const match =
+    text.match(/^[\s\S]*?\(([\s\S]*)\)[\s;]*$/);
+
+    if(match && match[1]){
+      return JSON.parse(match[1]);
+    }
+
+    throw new Error("JSONではありません");
+
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function jsonp(url,timeoutMs){
+  return new Promise(function(resolve,reject){
+    const callbackName =
+    "__tagoyamaIndexCallback_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 100000);
+
+    const sep =
+    url.indexOf("?") >= 0
+    ? "&"
+    : "?";
+
+    const script =
+    document.createElement("script");
+
+    let done =
+    false;
+
+    const timer =
+    setTimeout(function(){
+      cleanup();
+      reject(new Error("JSONP timeout"));
+    },timeoutMs || 15000);
+
+    function cleanup(){
+      if(done){
+        return;
+      }
+
+      done =
+      true;
+
+      clearTimeout(timer);
+
+      try{
+        delete window[callbackName];
+      }catch(e){
+        window[callbackName] =
+        undefined;
+      }
+
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
+      }
+    }
+
+    window[callbackName] =
+    function(data){
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror =
+    function(){
+      cleanup();
+      reject(new Error("JSONP error"));
+    };
+
+    script.src =
+    url +
+    sep +
+    "callback=" +
+    encodeURIComponent(callbackName);
+
+    document.body.appendChild(script);
+  });
+}
+
+function getArrayRows(data){
+  if(!data){
+    return [];
+  }
+
+  if(Array.isArray(data.items)){
+    return data.items;
+  }
+
+  if(Array.isArray(data.rows)){
+    return data.rows;
+  }
+
+  if(Array.isArray(data.goen)){
+    return data.goen;
+  }
+
+  if(Array.isArray(data.news)){
+    return data.news;
+  }
+
+  if(Array.isArray(data.history)){
+    return data.history;
+  }
+
+  if(Array.isArray(data.data)){
+    return data.data;
+  }
+
+  return [];
+}
+
+function getFirst(){
+  for(let i=0;i<arguments.length;i++){
+    const value =
+    getString(arguments[i]);
+
+    if(value){
+      return value;
+    }
+  }
+
+  return "";
+}
+
+function normalizeImageUrl(value){
+  let url =
+  getString(value);
+
+  if(!url){
+    return "";
+  }
+
+  url =
+  url
+  .replace(/\\u003d/g,"=")
+  .replace(/\\u0026/g,"&")
+  .replace(/\\\//g,"/")
+  .replace(/&amp;/g,"&")
+  .replace(/[),.;]+$/g,"")
+  .trim();
+
+  if(url.indexOf("drive.google.com/thumbnail") >= 0){
+    return url;
+  }
+
+  let match =
+  url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+  if(match && match[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(match[1]) +
+    "&sz=w1200";
+  }
+
+  match =
+  url.match(/[?&]id=([^&]+)/);
+
+  if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
+    return "https://drive.google.com/thumbnail?id=" +
+    encodeURIComponent(match[1]) +
+    "&sz=w1200";
+  }
+
+  return url;
+}
+
+function formatDate(value){
+  value =
+  getString(value);
+
+  if(!value){
+    return "";
+  }
+
+  if(value.indexOf("GMT") >= 0 || value.indexOf("標準時") >= 0){
+    const d =
+    new Date(value);
+
+    if(!isNaN(d.getTime())){
+      return d.getFullYear() +
+      "/" +
+      String(d.getMonth() + 1).padStart(2,"0") +
+      "/" +
+      String(d.getDate()).padStart(2,"0") +
+      " " +
+      String(d.getHours()).padStart(2,"0") +
+      ":" +
+      String(d.getMinutes()).padStart(2,"0");
+    }
+  }
+
+  return value
+  .replace("T15:00:00.000Z","")
+  .replace("T00:00:00.000Z","")
+  .replace(/-/g,"/");
+}
+
+function escapeHtml(value){
+  return getString(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+function getString(value){
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+}
+</script>
+
+</body>
+</html>
