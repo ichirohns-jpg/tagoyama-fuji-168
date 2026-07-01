@@ -2,220 +2,242 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>お知らせ</title>
 
-<link
-rel="manifest"
-href="manifest.json">
-
-<meta
-name="theme-color"
-content="#111111">
-
-<link
-rel="icon"
-href="logo.png">
-
-<link
-rel="apple-touch-icon"
-href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
 }
 
 body{
-background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
-color:#fff;
+ background:#0b0b0b;
+ font-family:
+ "Hiragino Sans",
+ "Yu Gothic",
+ "Meiryo",
+ sans-serif;
+ color:#fff;
 }
 
 .hero img{
-width:100%;
-aspect-ratio:16/9;
-object-fit:cover;
-display:block;
+ width:100%;
+ aspect-ratio:16/9;
+ object-fit:cover;
+ display:block;
 }
 
 .wrap{
-max-width:900px;
-margin:auto;
-padding:16px;
+ max-width:900px;
+ margin:auto;
+ padding:16px;
 }
 
 .titleBox{
-text-align:center;
-margin-bottom:20px;
+ text-align:center;
+ margin-bottom:20px;
 }
 
 .title{
-font-size:42px;
-font-weight:900;
-color:#d4af37;
+ font-size:42px;
+ font-weight:900;
+ color:#d4af37;
 }
 
 .sub{
-margin-top:8px;
-font-size:20px;
-color:#ccc;
+ margin-top:8px;
+ font-size:20px;
+ color:#ccc;
 }
 
 .cardLink{
-display:block;
-text-decoration:none;
-color:inherit;
+ display:block;
+ text-decoration:none;
+ color:inherit;
 }
 
 .newsCard{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:24px;
-padding:20px;
-margin-bottom:24px;
-box-shadow:
-0 12px 32px rgba(0,0,0,.45);
+ background:
+ linear-gradient(
+ 180deg,
+ #1c1c1c,
+ #0f0f0f
+ );
+ border:2px solid #d4af37;
+ border-radius:24px;
+ padding:20px;
+ margin-bottom:24px;
+ box-shadow:
+ 0 12px 32px rgba(0,0,0,.45);
 }
 
 .newBadge{
-display:inline-block;
-background:#ff3b30;
-color:#fff;
-font-size:18px;
-font-weight:900;
-padding:6px 14px;
-border-radius:999px;
-margin-bottom:12px;
+ display:inline-block;
+ background:#ff3b30;
+ color:#fff;
+ font-size:18px;
+ font-weight:900;
+ padding:6px 14px;
+ border-radius:999px;
+ margin-bottom:12px;
 }
 
 .newsTitle{
-background:#d4af37;
-color:#000;
-padding:14px;
-border-radius:14px;
-font-size:30px;
-font-weight:900;
-line-height:1.4;
-margin-bottom:14px;
+ background:#d4af37;
+ color:#000;
+ padding:14px;
+ border-radius:14px;
+ font-size:30px;
+ font-weight:900;
+ line-height:1.4;
+ margin-bottom:14px;
 }
 
 .newsDate{
-font-size:20px;
-font-weight:900;
-color:#d4af37;
-margin-top:14px;
-margin-bottom:14px;
+ font-size:20px;
+ font-weight:900;
+ color:#d4af37;
+ margin-top:14px;
+ margin-bottom:14px;
 }
 
 .newsText{
-font-size:22px;
-line-height:1.9;
-color:#fff;
-margin-top:14px;
-margin-bottom:14px;
-white-space:pre-wrap;
+ font-size:22px;
+ line-height:1.9;
+ color:#fff;
+ margin-top:14px;
+ margin-bottom:14px;
+ white-space:pre-wrap;
 }
 
 .slider{
-display:block;
-width:100%;
-margin-bottom:16px;
+ display:block;
+ width:100%;
+ margin:14px 0 16px;
 }
 
 .slider img{
-width:100%;
-max-height:420px;
-object-fit:contain;
-background:#111;
-border-radius:20px;
-border:2px solid #333;
-display:block;
+ width:100%;
+ max-height:520px;
+ object-fit:contain;
+ background:#111;
+ border-radius:20px;
+ border:2px solid #333;
+ display:block;
 }
 
 .shareRow{
-display:grid;
-grid-template-columns:
-repeat(4,1fr);
-gap:8px;
-margin-top:16px;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+ margin-top:16px;
 }
 
 .shareBtn{
-height:60px;
-border:none;
-border-radius:14px;
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
+ height:60px;
+ border:none;
+ border-radius:14px;
+ font-size:18px;
+ font-weight:900;
+ cursor:pointer;
+ color:#fff;
 }
 
 .fb{
-background:#1877f2;
+ background:#1877f2;
 }
 
 .line{
-background:#06c755;
+ background:#06c755;
 }
 
 .x{
-background:#000;
-color:#fff;
+ background:#000;
+ color:#fff;
 }
 
 .copy{
-background:#607d8b;
+ background:#607d8b;
 }
 
 .fbGuide{
-background:#1c1c1c;
-border:1px solid #333;
-border-radius:12px;
-padding:10px 14px;
-margin-top:12px;
-font-size:15px;
-line-height:1.6;
-text-align:center;
-color:#d0d0d0;
+ background:#1c1c1c;
+ border:1px solid #333;
+ border-radius:12px;
+ padding:10px 14px;
+ margin-top:12px;
+ font-size:15px;
+ line-height:1.6;
+ text-align:center;
+ color:#d0d0d0;
 }
 
 .homeBtn{
-display:block;
-width:100%;
-padding:20px;
-margin-top:20px;
-background:#263238;
-color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:22px;
-font-weight:900;
-border-radius:16px;
+ display:block;
+ width:100%;
+ padding:20px;
+ margin-top:20px;
+ background:#263238;
+ color:#fff;
+ text-decoration:none;
+ text-align:center;
+ font-size:22px;
+ font-weight:900;
+ border-radius:16px;
 }
 
 .loading{
-text-align:center;
-font-size:28px;
-font-weight:900;
-padding:60px 0;
-color:#d4af37;
+ text-align:center;
+ font-size:28px;
+ font-weight:900;
+ padding:60px 0;
+ color:#d4af37;
 }
 
+@media(max-width:600px){
+ .wrap{
+  padding:14px;
+ }
+
+ .title{
+  font-size:38px;
+ }
+
+ .sub{
+  font-size:19px;
+ }
+
+ .newsCard{
+  padding:18px;
+  border-radius:24px;
+ }
+
+ .newsTitle{
+  font-size:28px;
+  line-height:1.45;
+ }
+
+ .newsText{
+  font-size:22px;
+  line-height:1.9;
+ }
+
+ .shareRow{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .shareBtn{
+  height:62px;
+  font-size:18px;
+ }
+}
 </style>
 
 </head>
@@ -223,300 +245,418 @@ color:#d4af37;
 <body>
 
 <div class="hero">
-
-<img
-src="top.jpg"
-alt="田子山富士">
-
+ <img src="top.jpg" alt="田子山富士">
 </div>
 
 <div class="wrap">
 
-<div class="titleBox">
+ <div class="titleBox">
+  <div class="title">
+   お知らせ
+  </div>
 
-<div class="title">
+  <div class="sub">
+   田子山富士からのお知らせ
+  </div>
+ </div>
 
-📢 お知らせ
+ <div id="loading" class="loading">
+  読込中...
+ </div>
 
-</div>
+ <div id="newsList">
+ </div>
 
-<div class="sub">
+ <a href="archive.html" class="homeBtn">
+  過去のお知らせを見る
+ </a>
 
-田子山富士からのお知らせ
-
-</div>
-
-</div>
-
-<div
-id="loading"
-class="loading">
-
-読込中...
-
-</div>
-
-<div
-id="newsList">
-
-</div>
-
-<a
-href="archive.html"
-class="homeBtn">
-
-📚 過去のお知らせを見る
-
-</a>
-
-<a
-href="index.html"
-class="homeBtn">
-
-🏠 田子山富士へ戻る
-
-</a>
+ <a href="index.html" class="homeBtn">
+  田子山富士へ戻る
+ </a>
 
 </div>
 
 <script>
-
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
+"https://script.google.com/macros/s/AKfycbzQHiV6CPqv-szRz9EjwWdTsKGXmC8oPtLM6fQsyU-lF8AWXEsN5PG_14b6awu2Esk1/exec";
 
 function shareFacebook(id){
-
-window.open(
-
-"https://www.facebook.com/sharer/sharer.php?u="+
-
-encodeURIComponent(
-
-location.origin+
-
-"/tagoyama-fuji-168/share-news.html?id="+
-
-id
-
-)
-
-);
-
+ window.open(
+  "https://www.facebook.com/sharer/sharer.php?u=" +
+  encodeURIComponent(
+   location.origin +
+   "/tagoyama-fuji-168/share-news.html?id=" +
+   id
+  ),
+  "_blank",
+  "noopener,noreferrer"
+ );
 }
 
 function shareLine(id){
-
-window.open(
-
-"https://social-plugins.line.me/lineit/share?url="+
-
-encodeURIComponent(
-
-location.origin+
-
-"/tagoyama-fuji-168/share-news.html?id="+
-
-id
-
-)
-
-);
-
+ window.open(
+  "https://social-plugins.line.me/lineit/share?url=" +
+  encodeURIComponent(
+   location.origin +
+   "/tagoyama-fuji-168/share-news.html?id=" +
+   id
+  ),
+  "_blank",
+  "noopener,noreferrer"
+ );
 }
 
 function shareX(id){
-
-window.open(
-
-"https://twitter.com/intent/tweet?url="+
-
-encodeURIComponent(
-
-location.origin+
-
-"/tagoyama-fuji-168/share-news.html?id="+
-
-id
-
-)
-
-);
-
+ window.open(
+  "https://twitter.com/intent/tweet?url=" +
+  encodeURIComponent(
+   location.origin +
+   "/tagoyama-fuji-168/share-news.html?id=" +
+   id
+  ),
+  "_blank",
+  "noopener,noreferrer"
+ );
 }
 
-function copyLink(id){
+async function copyLink(id){
+ const url =
+ location.origin +
+ "/tagoyama-fuji-168/share-news.html?id=" +
+ id;
 
-navigator.clipboard.writeText(
+ try{
+  await navigator.clipboard.writeText(url);
+  alert("リンクをコピーしました");
+ }catch(e){
+  alert(url);
+ }
+}
 
-location.origin+
+function getString(value){
+ if(value === null || value === undefined){
+  return "";
+ }
 
-"/tagoyama-fuji-168/share-news.html?id="+
+ return String(value).trim();
+}
 
-id
+function escapeHtml(value){
+ return getString(value)
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#39;");
+}
 
-);
+function formatDate(value){
+ const text =
+ getString(value);
 
-alert(
+ if(!text){
+  return "";
+ }
 
-"リンクをコピーしました"
+ if(text.indexOf("T") >= 0){
+  const date =
+  new Date(text);
 
-);
+  if(!Number.isNaN(date.getTime())){
+   const y =
+   date.getFullYear();
 
+   const m =
+   String(date.getMonth() + 1).padStart(2,"0");
+
+   const d =
+   String(date.getDate()).padStart(2,"0");
+
+   return y + "/" + m + "/" + d;
+  }
+ }
+
+ return text
+ .replace("T15:00:00.000Z","")
+ .replace("T00:00:00.000Z","")
+ .replace(/-/g,"/");
+}
+
+function normalizeImageUrl(value){
+ let url =
+ getString(value);
+
+ if(!url){
+  return "";
+ }
+
+ url =
+ url
+ .replace(/\\u003d/g,"=")
+ .replace(/\\u0026/g,"&")
+ .replace(/\\\//g,"/")
+ .replace(/&amp;/g,"&")
+ .replace(/[),.;]+$/g,"")
+ .trim();
+
+ if(!url){
+  return "";
+ }
+
+ if(url.indexOf("data:image") === 0){
+  return url;
+ }
+
+ if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0){
+  return url;
+ }
+
+ if(url.indexOf("drive.google.com/thumbnail") >= 0){
+  return url;
+ }
+
+ let match =
+ url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+ if(match && match[1]){
+  return "https://drive.google.com/thumbnail?id=" +
+  encodeURIComponent(match[1]) +
+  "&sz=w1600";
+ }
+
+ match =
+ url.match(/[?&]id=([^&]+)/);
+
+ if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
+  return "https://drive.google.com/thumbnail?id=" +
+  encodeURIComponent(match[1]) +
+  "&sz=w1600";
+ }
+
+ try{
+  return new URL(
+   url,
+   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/"
+  ).href;
+ }catch(e){
+  return "";
+ }
+}
+
+function findImageUrl(row){
+ if(!row){
+  return "";
+ }
+
+ const direct =
+ getString(
+  row.image1 ||
+  row.imageUrl ||
+  row.image ||
+  row.img ||
+  row.photo ||
+  row.picture ||
+  row.thumbnail ||
+  row.画像 ||
+  row.画像URL ||
+  row.写真 ||
+  row.写真URL ||
+  ""
+ );
+
+ if(direct){
+  return normalizeImageUrl(direct);
+ }
+
+ const values =
+ Object.values(row);
+
+ for(let i = 0; i < values.length; i++){
+  const value =
+  getString(values[i]);
+
+  if(
+   value.indexOf("drive.google.com") >= 0 ||
+   value.indexOf("googleusercontent.com") >= 0 ||
+   value.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i)
+  ){
+   const matched =
+   value.match(/https?:\/\/[^\s"'<>]+/);
+
+   if(matched && matched[0]){
+    return normalizeImageUrl(matched[0]);
+   }
+
+   return normalizeImageUrl(value);
+  }
+ }
+
+ return "";
+}
+
+function getRows(data){
+ if(!data){
+  return [];
+ }
+
+ if(Array.isArray(data)){
+  return data;
+ }
+
+ if(Array.isArray(data.rows)){
+  return data.rows;
+ }
+
+ if(Array.isArray(data.items)){
+  return data.items;
+ }
+
+ if(Array.isArray(data.list)){
+  return data.list;
+ }
+
+ if(Array.isArray(data.data)){
+  return data.data;
+ }
+
+ return [];
+}
+
+function renderNews(rows){
+ const loading =
+ document.getElementById("loading");
+
+ const newsList =
+ document.getElementById("newsList");
+
+ loading.style.display =
+ "none";
+
+ newsList.innerHTML =
+ "";
+
+ if(!rows || rows.length === 0){
+  newsList.innerHTML =
+  '<div class="loading">お知らせがありません</div>';
+  return;
+ }
+
+ rows.forEach(function(row,index){
+  const title =
+  getString(
+   row.title ||
+   row.タイトル ||
+   row.name ||
+   row.件名 ||
+   ""
+  );
+
+  const text =
+  getString(
+   row.text ||
+   row.body ||
+   row.message ||
+   row.本文 ||
+   row.内容 ||
+   ""
+  );
+
+  const date =
+  formatDate(
+   row.date ||
+   row.datetime ||
+   row.createdAt ||
+   row.日付 ||
+   row.日時 ||
+   ""
+  );
+
+  const image =
+  findImageUrl(row);
+
+  let html =
+  "";
+
+  html +=
+  '<div class="newsCard">';
+
+  if(index === 0){
+   html +=
+   '<div class="newBadge">NEW</div>';
+  }
+
+  html +=
+  '<div class="newsTitle">' +
+  escapeHtml(title || "お知らせ") +
+  '</div>';
+
+  if(image){
+   html +=
+   '<div class="slider">' +
+   '<img src="' +
+   escapeHtml(image) +
+   '" alt="' +
+   escapeHtml(title || "お知らせ画像") +
+   '" loading="lazy">' +
+   '</div>';
+  }
+
+  html +=
+  '<div class="newsDate">' +
+  escapeHtml(date) +
+  '</div>';
+
+  html +=
+  '<div class="newsText">' +
+  escapeHtml(text) +
+  '</div>';
+
+  html +=
+  '<div class="shareRow">' +
+  '<button class="shareBtn fb" onclick="shareFacebook(' + index + ')">Facebook</button>' +
+  '<button class="shareBtn line" onclick="shareLine(' + index + ')">LINE</button>' +
+  '<button class="shareBtn x" onclick="shareX(' + index + ')">X</button>' +
+  '<button class="shareBtn copy" onclick="copyLink(' + index + ')">コピー</button>' +
+  '</div>';
+
+  html +=
+  '<div class="fbGuide">' +
+  'Facebookは「コピー」を押して投稿欄へ貼り付けると画像付きで共有できます' +
+  '</div>';
+
+  html +=
+  '</div>';
+
+  newsList.innerHTML +=
+  html;
+ });
 }
 
 fetch(
-
-GAS_URL+
-
-"?mode=news"
-
+ GAS_URL +
+ "?mode=news&t=" +
+ Date.now(),
+ {
+  method:"GET",
+  cache:"no-store"
+ }
 )
-
-.then(
-
-r=>r.json()
-
-)
-
-.then(
-
-rows=>{
-
-document.getElementById(
-
-"loading"
-
-).style.display="none";
-
-const newsList=
-
-document.getElementById(
-
-"newsList"
-
-);
-
-newsList.innerHTML="";
-
-rows.forEach((row,index)=>{
-
-const image =
-row.image1 || "";
-
-newsList.innerHTML +=
-`
-
-<div class="newsCard">
-
-${
-index===0
-?
-'<div class="newBadge">NEW</div>'
-:
-''
-}
-
-<div class="newsTitle">
-
-${row.title||""}
-
-</div>
-
-${
-image
-?
-`
-<div class="slider">
-
-<img src="${image}">
-
-</div>
-`
-:
-""
-}
-
-<div class="newsDate">
-
-${String(row.date||"")
-
-.replace("T15:00:00.000Z","")
-
-.replace(/-/g,"/")}
-
-</div>
-
-<div class="newsText">
-
-${row.text||""}
-
-</div>
-
-<div class="shareRow">
-
-<button
-class="shareBtn fb"
-onclick="shareFacebook(${index})">
-
-Facebook
-
-</button>
-
-<button
-class="shareBtn line"
-onclick="shareLine(${index})">
-
-LINE
-
-</button>
-
-<button
-class="shareBtn x"
-onclick="shareX(${index})">
-
-X
-
-</button>
-
-<button
-class="shareBtn copy"
-onclick="copyLink(${index})">
-
-コピー
-
-</button>
-
-</div>
-
-<div class="fbGuide">
-
-📘 Facebookは
-「コピー」を押して
-投稿欄へ貼り付けると
-画像付きで共有できます
-
-</div>
-
-</div>
-
-`;
-
-});
-
+.then(function(response){
+ return response.json();
 })
+.then(function(data){
+ const rows =
+ getRows(data);
 
-.catch(err=>{
+ renderNews(rows);
+})
+.catch(function(error){
+ document.getElementById("loading").innerHTML =
+ "お知らせがありません";
 
-document.getElementById(
-"loading"
-).innerHTML=
-
-"お知らせがありません";
-
-console.log(err);
-
+ console.log(error);
 });
-
 </script>
 
 </body>
