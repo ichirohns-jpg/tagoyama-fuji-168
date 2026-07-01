@@ -414,9 +414,6 @@ const OMIKUJI_GAS_URL =
 const DEFAULT_OMIKUJI_IMAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260701-atari-card-02";
 
-const OMIKUJI_PAGE_URL =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
-
 let currentUserId =
 "";
 
@@ -661,40 +658,13 @@ async function saveOmikujiImage(){
   },1000);
 
  }catch(error){
-  const a =
-  document.createElement("a");
-
-  a.href =
-  imageUrl;
-
-  a.download =
-  "tagoyama-fuji-omikuji.png";
-
-  a.target =
-  "_blank";
-
-  a.rel =
-  "noopener";
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  document.body.removeChild(a);
-
-  alert("画像が開いたら、共有ボタンまたは保存を選んでください。");
+  openShareWindow(imageUrl);
  }
 }
 
 async function shareOmikujiImage(){
  const imageUrl =
  getShareImageUrl();
-
- const text =
- buildOmikujiPostText();
-
- const shareUrl =
- buildSharePageUrl();
 
  try{
   const blob =
@@ -716,8 +686,7 @@ async function shareOmikujiImage(){
   ){
    await navigator.share({
     files:[file],
-    title:"田子山富士 開運おみくじ",
-    text:text
+    title:"田子山富士 開運おみくじ"
    });
 
    return;
@@ -726,68 +695,63 @@ async function shareOmikujiImage(){
   if(navigator.share){
    await navigator.share({
     title:"田子山富士 開運おみくじ",
-    text:text,
-    url:shareUrl
+    url:imageUrl
    });
 
    return;
   }
 
-  await copyText(text + "\n" + shareUrl);
+  await copyText(imageUrl);
 
-  alert("投稿文とリンクをコピーしました。");
+  alert("画像URLをコピーしました。");
 
  }catch(error){
   if(navigator.share){
    try{
     await navigator.share({
      title:"田子山富士 開運おみくじ",
-     text:text,
-     url:shareUrl
+     url:imageUrl
     });
 
     return;
    }catch(e){}
   }
 
-  await copyText(text + "\n" + shareUrl);
+  await copyText(imageUrl);
 
-  alert("投稿文とリンクをコピーしました。");
+  alert("画像URLをコピーしました。");
  }
 }
 
 function shareToLine(){
- const text =
- buildOmikujiPostText() +
- "\n" +
- buildSharePageUrl();
+ const imageUrl =
+ getShareImageUrl();
 
  const url =
  "https://social-plugins.line.me/lineit/share?url=" +
- encodeURIComponent(buildSharePageUrl()) +
- "&text=" +
- encodeURIComponent(text);
+ encodeURIComponent(imageUrl);
 
  openShareWindow(url);
 }
 
 function shareToFacebook(){
+ const imageUrl =
+ getShareImageUrl();
+
  const url =
  "https://www.facebook.com/sharer/sharer.php?u=" +
- encodeURIComponent(buildSharePageUrl());
+ encodeURIComponent(imageUrl);
 
  openShareWindow(url);
 }
 
 function shareToX(){
- const text =
- buildOmikujiPostText();
+ const imageUrl =
+ getShareImageUrl();
 
  const url =
- "https://twitter.com/intent/tweet?text=" +
- encodeURIComponent(text) +
- "&url=" +
- encodeURIComponent(buildSharePageUrl());
+ "https://twitter.com/intent/tweet?url=" +
+ encodeURIComponent(imageUrl);
 
  openShareWindow(url);
 }
@@ -805,25 +769,6 @@ function getShareImageUrl(){
   currentImageUrl ||
   DEFAULT_OMIKUJI_IMAGE
  );
-}
-
-function buildSharePageUrl(){
- const userId =
- getString(
-  currentUserId ||
-  localStorage.getItem("tagoyamaUserId") ||
-  localStorage.getItem("tagoyamaFujiUserId") ||
-  localStorage.getItem("userId") ||
-  ""
- );
-
- if(userId){
-  return OMIKUJI_PAGE_URL +
-  "?userId=" +
-  encodeURIComponent(userId);
- }
-
- return OMIKUJI_PAGE_URL;
 }
 
 async function getImageBlob(imageUrl){
@@ -885,14 +830,16 @@ function buildOmikujiPostText(){
   "#168の縁プロジェクト"
  );
 
+ lines.push(
+  getShareImageUrl()
+ );
+
  return lines.join("\n");
 }
 
 async function copyOmikujiPost(){
  const text =
- buildOmikujiPostText() +
- "\n" +
- buildSharePageUrl();
+ buildOmikujiPostText();
 
  try{
   await copyText(text);
