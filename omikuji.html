@@ -254,22 +254,6 @@ body{
  background:linear-gradient(180deg,#35df86,#19b75e);
 }
 
-.blueBtn{
- background:linear-gradient(180deg,#1688ff,#075ec9);
-}
-
-.lineBtn{
- background:linear-gradient(180deg,#25d366,#06a941);
-}
-
-.facebookBtn{
- background:linear-gradient(180deg,#4b8cff,#1458c8);
-}
-
-.xBtn{
- background:linear-gradient(180deg,#333,#000);
-}
-
 .grayBtn{
  background:linear-gradient(180deg,#7f9aa8,#5f7d8d);
 }
@@ -370,24 +354,8 @@ body{
   </div>
 
   <div class="btnGrid">
-   <button class="btn greenBtn" onclick="saveOmikujiImage()">
-    画像を保存する
-   </button>
-
-   <button class="btn blueBtn" onclick="shareOmikujiImage()">
-    画像を共有する
-   </button>
-
-   <button class="btn lineBtn" onclick="shareToLine()">
-    LINEで送る
-   </button>
-
-   <button class="btn facebookBtn" onclick="shareToFacebook()">
-    Facebookでシェア
-   </button>
-
-   <button class="btn xBtn" onclick="shareToX()">
-    Xで投稿
+   <button class="btn greenBtn" onclick="shareCurrentImageFile()">
+    画像を保存・共有する
    </button>
 
    <button class="btn grayBtn" onclick="copyOmikujiPost()">
@@ -627,26 +595,6 @@ function renderOmikuji(result){
  },100);
 }
 
-async function saveOmikujiImage(){
- await shareCurrentImageFile();
-}
-
-async function shareOmikujiImage(){
- await shareCurrentImageFile();
-}
-
-async function shareToLine(){
- await shareCurrentImageFile();
-}
-
-async function shareToFacebook(){
- await shareCurrentImageFile();
-}
-
-async function shareToX(){
- await shareCurrentImageFile();
-}
-
 async function shareCurrentImageFile(){
  const imageUrl =
  getShareImageUrl();
@@ -676,43 +624,15 @@ async function shareCurrentImageFile(){
    return;
   }
 
-  await downloadImageBlob(blob);
+  alert(
+   "この端末では画像ファイル共有に対応していません。\nSafariで開いてからもう一度お試しください。"
+  );
 
  }catch(error){
-  openImageOnly(imageUrl);
+  alert(
+   "画像共有を開けませんでした。\nSafariで開いてからもう一度お試しください。"
+  );
  }
-}
-
-async function downloadImageBlob(blob){
- const objectUrl =
- URL.createObjectURL(blob);
-
- const a =
- document.createElement("a");
-
- a.href =
- objectUrl;
-
- a.download =
- getOmikujiFileName(blob);
-
- document.body.appendChild(a);
-
- a.click();
-
- document.body.removeChild(a);
-
- setTimeout(function(){
-  URL.revokeObjectURL(objectUrl);
- },1000);
-}
-
-function openImageOnly(imageUrl){
- window.open(
-  imageUrl,
-  "_blank",
-  "noopener,noreferrer"
- );
 }
 
 function getShareImageUrl(){
@@ -796,10 +716,6 @@ function buildOmikujiPostText(){
 
  lines.push(
   "#168の縁プロジェクト"
- );
-
- lines.push(
-  getShareImageUrl()
  );
 
  return lines.join("\n");
