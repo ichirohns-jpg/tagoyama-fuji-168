@@ -13,15 +13,15 @@
   <meta property="og:description" content="木花咲耶姫から届く、ご縁の開運カード。田子山富士の今日のご縁を引いてみましょう。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
   <meta property="og:image:alt" content="田子山富士 開運おみくじ">
   <meta property="og:locale" content="ja_JP">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 開運おみくじ">
   <meta name="twitter:description" content="木花咲耶姫から届く、ご縁の開運カード。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
 
   <style>
     * {
@@ -366,11 +366,7 @@
       <h2 class="cardTitle">結果</h2>
 
       <div class="resultImageBox hidden" id="resultImageBox">
-        <img
-          id="resultImage"
-          src=""
-          alt="おみくじ画像"
-        >
+        <img id="resultImage" src="" alt="おみくじ画像">
       </div>
 
       <div class="resultBox hidden" aria-hidden="true">
@@ -443,14 +439,11 @@
     const OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
-    const SHARE_OMIKUJI_BASE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
     const SHARE_OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
 
     const DEFAULT_IMAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp";
 
     let currentUserId = "";
     let omikujiDrawFinished = false;
@@ -515,7 +508,10 @@
       const message = getString(p.get("message"));
       const imageNo = getString(p.get("imageNo"));
       const imageName = getString(p.get("imageName"));
-      const imageUrl = cleanImageText(p.get("imageUrl"));
+      const imgid = getString(p.get("imgid"));
+      const imageUrl = imgid
+        ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imgid) + "&sz=w1200"
+        : cleanImageText(p.get("imageUrl"));
 
       if (!result && !title && !message && !imageUrl) {
         return null;
@@ -1246,66 +1242,27 @@
     function buildShareUrl() {
       const p = new URLSearchParams();
 
-      p.set("shared", "1");
+      const id = getDriveFileId(currentResult.imageUrl || currentResult.displayImageUrl || "");
 
       if (currentUserId) {
-        p.set("userId", currentUserId);
-      }
-
-      if (currentResult.result) {
-        p.set("result", currentResult.result);
-      }
-
-      if (currentResult.title) {
-        p.set("title", currentResult.title);
-      }
-
-      if (currentResult.message) {
-        p.set("message", currentResult.message);
+        p.set("u", currentUserId);
       }
 
       if (currentResult.imageNo) {
-        p.set("imageNo", currentResult.imageNo);
+        p.set("n", currentResult.imageNo);
       }
 
-      if (currentResult.imageName) {
-        p.set("imageName", currentResult.imageName);
+      if (id) {
+        p.set("imgid", id);
       }
 
-      if (currentResult.imageUrl) {
-        p.set("imageUrl", currentResult.imageUrl);
+      if (currentResult.result) {
+        p.set("r", currentResult.result);
       }
 
       p.set("v", String(Date.now()));
 
-      return getOmikujiSharePageUrl() + "?" + p.toString();
-    }
-
-    function getOmikujiSharePageUrl() {
-      const text =
-        String(currentResult.result || "") +
-        " " +
-        String(currentResult.title || "") +
-        " " +
-        String(currentResult.imageName || "");
-
-      if (
-        text.indexOf("超大当たり") >= 0 ||
-        text.indexOf("大当たり") >= 0 ||
-        text.indexOf("当たり") >= 0
-      ) {
-        return SHARE_OMIKUJI_BASE + "share-omikuji-atari.html";
-      }
-
-      const imageNoText = String(currentResult.imageNo || "").trim();
-      const m = imageNoText.match(/\d+/);
-
-      if (m && m[0]) {
-        const no = m[0].padStart(3, "0");
-        return SHARE_OMIKUJI_BASE + "share-omikuji-" + no + ".html";
-      }
-
-      return SHARE_OMIKUJI_PAGE;
+      return SHARE_OMIKUJI_PAGE + "?" + p.toString();
     }
 
     function postFacebook() {
@@ -1334,9 +1291,7 @@
       const text =
         "田子山富士 開運おみくじ\n" +
         "結果：" +
-        (currentResult.result || "おみくじ") +
-        "\n" +
-        (currentResult.message || "");
+        (currentResult.result || "おみくじ");
 
       const url =
         "https://twitter.com/intent/tweet?text=" +
