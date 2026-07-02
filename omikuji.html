@@ -453,6 +453,7 @@
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
     let currentUserId = "";
+    let omikujiDrawFinished = false;
 
     let currentResult = {
       result: "",
@@ -480,7 +481,9 @@
 
       if (sharedResult) {
         currentResult = sharedResult;
+        omikujiDrawFinished = true;
         renderResult(currentResult);
+        lockDrawButton();
 
         const statusBox = document.getElementById("statusBox");
 
@@ -569,6 +572,19 @@
     }
 
     async function drawOmikuji() {
+      if (omikujiDrawFinished) {
+        const section = document.getElementById("resultSection");
+
+        if (section) {
+          section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+
+        return;
+      }
+
       const btn = document.getElementById("drawBtn");
       const statusBox = document.getElementById("statusBox");
 
@@ -626,7 +642,10 @@
           currentResult.message = "今日のご縁を大切にお過ごしください。";
         }
 
+        omikujiDrawFinished = true;
+
         renderResult(currentResult);
+        lockDrawButton();
 
         if (statusBox) {
           statusBox.innerText = "おみくじを引きました。";
@@ -642,11 +661,20 @@
               : "おみくじを取得できませんでした。";
         }
 
-      } finally {
         if (btn) {
           btn.disabled = false;
-          btn.innerText = "もう一度引く";
+          btn.innerText = "おみくじを引く";
         }
+      }
+    }
+
+    function lockDrawButton() {
+      const btn = document.getElementById("drawBtn");
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "おみくじを引きました";
+        btn.style.display = "none";
       }
     }
 
