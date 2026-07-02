@@ -159,6 +159,7 @@
       display: block;
       width: 100%;
       height: auto;
+      background: #000000;
     }
 
     .resultBox {
@@ -363,8 +364,6 @@
           id="resultImage"
           src=""
           alt="おみくじ画像"
-          crossorigin="anonymous"
-          onerror="hideResultImage()"
         >
       </div>
 
@@ -449,7 +448,8 @@
       message: "",
       imageNo: "",
       imageName: "",
-      imageUrl: ""
+      imageUrl: "",
+      displayImageUrl: ""
     };
 
     window.addEventListener("load", init);
@@ -548,42 +548,7 @@
           );
         }
 
-        currentResult = {
-          result: getFirst(
-            data.result,
-            data.luck,
-            data.結果,
-            data.運勢
-          ),
-          title: getFirst(
-            data.title,
-            data.name,
-            data.タイトル,
-            data.名前
-          ),
-          message: getFirst(
-            data.message,
-            data.body,
-            data.text,
-            data.本文,
-            data.メッセージ
-          ),
-          imageNo: getFirst(
-            data.imageNo,
-            data.image,
-            data.画像番号
-          ),
-          imageName: getFirst(
-            data.imageName,
-            data.画像名
-          ),
-          imageUrl: getFirst(
-            data.imageUrl,
-            data.imageURL,
-            data.url,
-            data.画像URL
-          )
-        };
+        currentResult = normalizeOmikujiData(data);
 
         if (!currentResult.result && currentResult.title) {
           currentResult.result = currentResult.title;
@@ -591,6 +556,14 @@
 
         if (!currentResult.title && currentResult.result) {
           currentResult.title = currentResult.result;
+        }
+
+        if (!currentResult.result) {
+          currentResult.result = "おみくじ";
+        }
+
+        if (!currentResult.title) {
+          currentResult.title = "今日の運勢";
         }
 
         if (!currentResult.message) {
@@ -621,13 +594,210 @@
       }
     }
 
+    function normalizeOmikujiData(data) {
+      const objects = collectObjectsDeep(data);
+
+      const imageUrl =
+        pickValue(objects, [
+          "imageUrl",
+          "imageURL",
+          "img",
+          "imgUrl",
+          "url",
+          "thumbnail",
+          "thumbnailUrl",
+          "image",
+          "画像URL",
+          "画像url",
+          "画像",
+          "URL"
+        ]) || findImageUrlDeep(data);
+
+      return {
+        result: pickValue(objects, [
+          "result",
+          "luck",
+          "fortune",
+          "omikuji",
+          "omikujiResult",
+          "kuji",
+          "運勢",
+          "結果",
+          "おみくじ"
+        ]),
+
+        title: pickValue(objects, [
+          "title",
+          "name",
+          "subtitle",
+          "imageName",
+          "cardName",
+          "タイトル",
+          "名前",
+          "見出し",
+          "画像名"
+        ]),
+
+        message: pickValue(objects, [
+          "message",
+          "body",
+          "text",
+          "comment",
+          "description",
+          "本文",
+          "メッセージ",
+          "説明",
+          "言葉"
+        ]),
+
+        imageNo: pickValue(objects, [
+          "imageNo",
+          "imageNumber",
+          "no",
+          "number",
+          "画像番号",
+          "番号"
+        ]),
+
+        imageName: pickValue(objects, [
+          "imageName",
+          "imageTitle",
+          "画像名",
+          "画像タイトル"
+        ]),
+
+        imageUrl: imageUrl,
+        displayImageUrl: ""
+      };
+    }
+
+    function collectObjectsDeep(value) {
+      const result = [];
+      const seen = [];
+
+      function walk(v) {
+        if (!v || typeof v !== "object") {
+          return;
+        }
+
+        if (seen.indexOf(v) >= 0) {
+          return;
+        }
+
+        seen.push(v);
+
+        if (!Array.isArray(v)) {
+          result.push(v);
+        }
+
+        const keys = Object.keys(v);
+
+        for (let i = 0; i < keys.length; i++) {
+          walk(v[keys[i]]);
+        }
+      }
+
+      walk(value);
+
+      return result;
+    }
+
+    function pickValue(objects, keys) {
+      for (let i = 0; i < objects.length; i++) {
+        for (let j = 0; j < keys.length; j++) {
+          const key = keys[j];
+
+          if (objects[i][key] !== null && objects[i][key] !== undefined) {
+            const value = cleanImageText(String(objects[i][key]).trim());
+
+            if (value) {
+              return value;
+            }
+          }
+        }
+      }
+
+      return "";
+    }
+
+    function cleanImageText(text) {
+      return getString(text)
+        .replace(/\\\//g, "/")
+        .replace(/\\u0026/g, "&")
+        .replace(/&amp;/g, "&");
+    }
+
+    function findImageUrlDeep(value) {
+      const seen = [];
+
+      function walk(v) {
+        if (v === null || v === undefined) {
+          return "";
+        }
+
+        if (typeof v === "string") {
+          const text = cleanImageText(v);
+
+          if (
+            text.indexOf("drive.google.com") >= 0 ||
+            text.indexOf("googleusercontent.com") >= 0 ||
+            text.indexOf("thumbnail?id=") >= 0
+          ) {
+            const match = text.match(/https?:\/\/[^\s"'<>]+/);
+
+            if (match && match[0]) {
+              return match[0];
+            }
+
+            return text;
+          }
+
+          return "";
+        }
+
+        if (typeof v !== "object") {
+          return "";
+        }
+
+        if (seen.indexOf(v) >= 0) {
+          return "";
+        }
+
+        seen.push(v);
+
+        if (Array.isArray(v)) {
+          for (let i = 0; i < v.length; i++) {
+            const found = walk(v[i]);
+
+            if (found) {
+              return found;
+            }
+          }
+
+          return "";
+        }
+
+        const keys = Object.keys(v);
+
+        for (let i = 0; i < keys.length; i++) {
+          const found = walk(v[keys[i]]);
+
+          if (found) {
+            return found;
+          }
+        }
+
+        return "";
+      }
+
+      return walk(value);
+    }
+
     function renderResult(result) {
       const section = document.getElementById("resultSection");
       const resultText = document.getElementById("resultText");
       const titleText = document.getElementById("titleText");
       const messageText = document.getElementById("messageText");
-      const imageBox = document.getElementById("resultImageBox");
-      const image = document.getElementById("resultImage");
 
       if (section) {
         section.classList.remove("hidden");
@@ -648,20 +818,7 @@
           result.message || "今日のご縁を大切にお過ごしください。";
       }
 
-      if (imageBox && image) {
-        if (result.imageUrl) {
-          image.src =
-            result.imageUrl +
-            (result.imageUrl.indexOf("?") >= 0 ? "&" : "?") +
-            "v=" +
-            Date.now();
-
-          imageBox.classList.remove("hidden");
-        } else {
-          image.src = DEFAULT_IMAGE;
-          imageBox.classList.remove("hidden");
-        }
-      }
+      setResultImage(result.imageUrl);
 
       updateLinks();
 
@@ -675,16 +832,68 @@
       }, 120);
     }
 
-    function hideResultImage() {
-      const box = document.getElementById("resultImageBox");
+    function setResultImage(url) {
+      const imageBox = document.getElementById("resultImageBox");
+      const image = document.getElementById("resultImage");
 
-      if (box) {
-        box.classList.add("hidden");
+      if (!imageBox || !image) {
+        return;
       }
+
+      const candidates = makeImageDisplayUrlList(url);
+
+      if (!candidates.length) {
+        image.removeAttribute("src");
+        imageBox.classList.add("hidden");
+        return;
+      }
+
+      let index = 0;
+
+      image.onload = function () {
+        currentResult.displayImageUrl = image.src;
+        imageBox.classList.remove("hidden");
+      };
+
+      image.onerror = function () {
+        index++;
+
+        if (index >= candidates.length) {
+          image.removeAttribute("src");
+          imageBox.classList.add("hidden");
+          return;
+        }
+
+        image.src = candidates[index];
+      };
+
+      imageBox.classList.add("hidden");
+      image.src = candidates[index];
+    }
+
+    function makeImageDisplayUrlList(url) {
+      const text = cleanImageText(url);
+      const id = getDriveFileId(text);
+      const list = [];
+
+      if (text) {
+        list.push(text);
+      }
+
+      if (id) {
+        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1200");
+        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
+        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1200");
+        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
+      }
+
+      return list.filter(function (v, i, arr) {
+        return v && arr.indexOf(v) === i;
+      });
     }
 
     function getDriveFileId(url) {
-      const text = getString(url).replace(/&amp;/g, "&");
+      const text = cleanImageText(url);
 
       let m = text.match(/[?&]id=([^&]+)/);
 
@@ -702,18 +911,22 @@
     }
 
     function makeDownloadUrlList(url) {
-      const text = getString(url).replace(/&amp;/g, "&");
+      const text = cleanImageText(url);
       const id = getDriveFileId(text);
       const list = [];
 
-      if (id) {
-        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
-        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
-        list.push("https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id));
+      if (currentResult.displayImageUrl) {
+        list.push(currentResult.displayImageUrl);
       }
 
       if (text) {
         list.push(text);
+      }
+
+      if (id) {
+        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
+        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
+        list.push("https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id));
       }
 
       return list.filter(function (v, i, arr) {
@@ -722,7 +935,7 @@
     }
 
     async function downloadOmikujiImage() {
-      if (!currentResult.imageUrl) {
+      if (!currentResult.imageUrl && !currentResult.displayImageUrl) {
         alert("画像URLがありません。");
         return;
       }
@@ -740,15 +953,14 @@
         ".png";
 
       try {
-        const urls = makeDownloadUrlList(currentResult.imageUrl);
+        const urls = makeDownloadUrlList(currentResult.imageUrl || currentResult.displayImageUrl);
         let blob = null;
 
         for (let i = 0; i < urls.length; i++) {
           try {
             const res = await fetch(urls[i], {
               method: "GET",
-              cache: "no-store",
-              mode: "cors"
+              cache: "no-store"
             });
 
             if (res.ok) {
@@ -760,14 +972,7 @@
         }
 
         if (!blob) {
-          const a = document.createElement("a");
-          a.href = currentResult.imageUrl;
-          a.download = fileName;
-          a.target = "_blank";
-          a.rel = "noopener";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          openImageForDownload(fileName);
           return;
         }
 
@@ -787,15 +992,7 @@
 
       } catch (e) {
         console.error(e);
-
-        const a = document.createElement("a");
-        a.href = currentResult.imageUrl;
-        a.download = fileName;
-        a.target = "_blank";
-        a.rel = "noopener";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        openImageForDownload(fileName);
 
       } finally {
         if (btn) {
@@ -803,6 +1000,25 @@
           btn.innerText = "画像をダウンロード";
         }
       }
+    }
+
+    function openImageForDownload(fileName) {
+      const url = currentResult.displayImageUrl || currentResult.imageUrl;
+
+      if (!url) {
+        alert("画像URLがありません。");
+        return;
+      }
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.target = "_blank";
+      a.rel = "noopener";
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     function makeShareText() {
