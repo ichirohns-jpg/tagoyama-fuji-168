@@ -447,6 +447,9 @@
     const OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
+    const SHARE_OMIKUJI_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
+
     const DEFAULT_IMAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
@@ -972,8 +975,8 @@
 
       const imageUrl = omikujiCleanSaveUrl(
         currentResult.displayImageUrl ||
-        (img && (img.currentSrc || img.src)) ||
         currentResult.imageUrl ||
+        (img && (img.currentSrc || img.src)) ||
         ""
       );
 
@@ -994,25 +997,43 @@
 
       if (btn) {
         btn.disabled = true;
-        btn.innerText = "画像を保存中...";
+        btn.innerText = "画像を準備中...";
       }
 
       try {
-        const urls = omikujiMakeSaveUrlList(imageUrl);
+        const urls = omikujiMakeShareUrlList(imageUrl);
+        const blob = await omikujiCreateShareBlob(urls);
 
-        let saved = await omikujiSaveByFetch(urls, fileName);
-
-        if (!saved) {
-          saved = await omikujiSaveByCanvas(urls, fileName);
+        if (!blob) {
+          alert("画像ファイルを作成できませんでした。もう一度押してください。");
+          return;
         }
 
-        if (!saved) {
-          omikujiDirectDownload(urls[0], fileName);
+        const file = new File([blob], fileName, {
+          type: "image/png"
+        });
+
+        if (
+          navigator.canShare &&
+          navigator.share &&
+          navigator.canShare({
+            files: [file]
+          })
+        ) {
+          await navigator.share({
+            files: [file],
+            title: "田子山富士 開運おみくじ",
+            text: "田子山富士 開運おみくじ"
+          });
+
+          return;
         }
+
+        alert("このブラウザでは画像共有保存に対応していません。Safariで開いてください。");
 
       } catch (e) {
         console.error(e);
-        omikujiDirectDownload(imageUrl, fileName);
+        alert("画像共有保存に失敗しました。もう一度押してください。");
 
       } finally {
         if (btn) {
@@ -1048,21 +1069,20 @@
       return "";
     }
 
-    function omikujiMakeSaveUrlList(url) {
+    function omikujiMakeShareUrlList(url) {
       const text = omikujiCleanSaveUrl(url);
       const id = omikujiGetDriveId(text);
       const list = [];
-
-      if (text) {
-        list.push(text);
-      }
 
       if (id) {
         list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
         list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1200");
         list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
         list.push("https://lh3.googleusercontent.com/d/" + id + "=w1200");
-        list.push("https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id));
+      }
+
+      if (text) {
+        list.push(text);
       }
 
       return list.filter(function (v, i, arr) {
@@ -1070,7 +1090,23 @@
       });
     }
 
-    async function omikujiSaveByFetch(urls, fileName) {
+    async function omikujiCreateShareBlob(urls) {
+      let blob = await omikujiFetchShareBlob(urls);
+
+      if (blob) {
+        return blob;
+      }
+
+      blob = await omikujiCanvasShareBlob(urls);
+
+      if (blob) {
+        return blob;
+      }
+
+      return null;
+    }
+
+    async function omikujiFetchShareBlob(urls) {
       for (let i = 0; i < urls.length; i++) {
         try {
           const res = await fetch(urls[i], {
@@ -1092,22 +1128,20 @@
             continue;
           }
 
-          omikujiSaveBlob(blob, fileName);
-          return true;
+          return blob;
 
         } catch (e) {
         }
       }
 
-      return false;
+      return null;
     }
 
-    async function omikujiSaveByCanvas(urls, fileName) {
+    async function omikujiCanvasShareBlob(urls) {
       for (let i = 0; i < urls.length; i++) {
         try {
-          const image = await omikujiLoadImageForSave(urls[i]);
+          const image = await omikujiLoadImageForShare(urls[i]);
 
-          const canvas = document.createElement("canvas");
           const w = image.naturalWidth || image.width;
           const h = image.naturalHeight || image.height;
 
@@ -1115,6 +1149,7 @@
             continue;
           }
 
+          const canvas = document.createElement("canvas");
           canvas.width = w;
           canvas.height = h;
 
@@ -1131,17 +1166,16 @@
             continue;
           }
 
-          omikujiSaveBlob(blob, fileName);
-          return true;
+          return blob;
 
         } catch (e) {
         }
       }
 
-      return false;
+      return null;
     }
 
-    function omikujiLoadImageForSave(url) {
+    function omikujiLoadImageForShare(url) {
       return new Promise(function (resolve, reject) {
         const image = new Image();
 
@@ -1157,35 +1191,6 @@
 
         image.src = url;
       });
-    }
-
-    function omikujiSaveBlob(blob, fileName) {
-      const objectUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-
-      a.href = objectUrl;
-      a.download = fileName;
-
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      setTimeout(function () {
-        URL.revokeObjectURL(objectUrl);
-      }, 1000);
-    }
-
-    function omikujiDirectDownload(url, fileName) {
-      const a = document.createElement("a");
-
-      a.href = url;
-      a.download = fileName;
-      a.target = "_blank";
-      a.rel = "noopener";
-
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     }
 
     function makeShareText() {
@@ -1246,7 +1251,7 @@
 
       p.set("v", String(Date.now()));
 
-      return OMIKUJI_PAGE + "?" + p.toString();
+      return SHARE_OMIKUJI_PAGE + "?" + p.toString();
     }
 
     function postFacebook() {
