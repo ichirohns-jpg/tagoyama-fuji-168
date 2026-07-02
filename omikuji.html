@@ -10,7 +10,7 @@
 
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 開運おみくじ">
-  <meta property="og:description" content="木花咲耶姫から届く、ご縁の開運カード。田子山富士の今日のご縁を引いてみましょう。">
+  <meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
   <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
@@ -20,7 +20,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 開運おみくじ">
-  <meta name="twitter:description" content="木花咲耶姫から届く、ご縁の開運カード。">
+  <meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
   <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
 
   <style>
@@ -366,13 +366,17 @@
       <h2 class="cardTitle">結果</h2>
 
       <div class="resultImageBox hidden" id="resultImageBox">
-        <img id="resultImage" src="" alt="おみくじ画像">
+        <img
+          id="resultImage"
+          src=""
+          alt="おみくじ画像"
+        >
       </div>
 
       <div class="resultBox hidden" aria-hidden="true">
         <h3 class="resultTitle" id="resultText">おみくじ</h3>
         <p class="resultSubTitle" id="titleText">今日の運勢</p>
-        <p class="resultMessage" id="messageText">今日のご縁を大切にお過ごしください。</p>
+        <p class="resultMessage" id="messageText">田子山富士のご縁を、みなさんにもおすそ分けします。</p>
       </div>
 
       <div class="btnArea">
@@ -499,16 +503,38 @@
     function readSharedOmikujiFromUrl() {
       const p = new URLSearchParams(location.search);
 
-      if (p.get("shared") !== "1") {
+      const isShared =
+        p.get("shared") === "1" ||
+        p.get("imgid") ||
+        p.get("r") ||
+        p.get("n");
+
+      if (!isShared) {
         return null;
       }
 
-      const result = getString(p.get("result"));
-      const title = getString(p.get("title"));
-      const message = getString(p.get("message"));
-      const imageNo = getString(p.get("imageNo"));
-      const imageName = getString(p.get("imageName"));
-      const imgid = getString(p.get("imgid"));
+      const result =
+        getString(p.get("result")) ||
+        getString(p.get("r"));
+
+      const title =
+        getString(p.get("title")) ||
+        result;
+
+      const message =
+        getString(p.get("message")) ||
+        "田子山富士のご縁を、みなさんにもおすそ分けします。";
+
+      const imageNo =
+        getString(p.get("imageNo")) ||
+        getString(p.get("n"));
+
+      const imageName =
+        getString(p.get("imageName"));
+
+      const imgid =
+        getString(p.get("imgid"));
+
       const imageUrl = imgid
         ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imgid) + "&sz=w1200"
         : cleanImageText(p.get("imageUrl"));
@@ -520,7 +546,7 @@
       return {
         result: result || title || "おみくじ",
         title: title || result || "今日の運勢",
-        message: message || "今日のご縁を大切にお過ごしください。",
+        message: message,
         imageNo: imageNo,
         imageName: imageName,
         imageUrl: imageUrl,
@@ -535,6 +561,7 @@
         params.get("userId") ||
         params.get("id") ||
         params.get("uid") ||
+        params.get("u") ||
         localStorage.getItem("tagoyamaUserId") ||
         localStorage.getItem("tagoyamaFujiUserId") ||
         ""
@@ -635,7 +662,8 @@
         }
 
         if (!currentResult.message) {
-          currentResult.message = "今日のご縁を大切にお過ごしください。";
+          currentResult.message =
+            "田子山富士のご縁を、みなさんにもおすそ分けします。";
         }
 
         omikujiDrawFinished = true;
@@ -895,7 +923,8 @@
 
       if (messageText) {
         messageText.innerText =
-          result.message || "今日のご縁を大切にお過ごしください。";
+          result.message ||
+          "田子山富士のご縁を、みなさんにもおすそ分けします。";
       }
 
       setResultImage(result.imageUrl);
@@ -1218,25 +1247,13 @@
 
     function makeShareText() {
       const result = currentResult.result || "おみくじ";
-      const title = currentResult.title || "";
-      const message = currentResult.message || "";
 
-      let text =
+      return (
         "田子山富士 開運おみくじ\n" +
-        "結果：" +
-        result;
-
-      if (title && title !== result) {
-        text += "\n" + title;
-      }
-
-      if (message) {
-        text += "\n" + message;
-      }
-
-      text += "\n" + buildShareUrl();
-
-      return text;
+        "結果：" + result + "\n" +
+        "田子山富士のご縁を、みなさんにもおすそ分けします。\n" +
+        buildShareUrl()
+      );
     }
 
     function buildShareUrl() {
@@ -1288,10 +1305,12 @@
     }
 
     function postX() {
+      const result = currentResult.result || "おみくじ";
+
       const text =
         "田子山富士 開運おみくじ\n" +
-        "結果：" +
-        (currentResult.result || "おみくじ");
+        "結果：" + result + "\n" +
+        "田子山富士のご縁を、みなさんにもおすそ分けします。";
 
       const url =
         "https://twitter.com/intent/tweet?text=" +
