@@ -331,9 +331,9 @@ body{
     </div>
 
     <div class="resultBox">
-      <h3 class="resultTitle" id="resultText">大吉</h3>
+      <h3 class="resultTitle" id="resultText">おみくじ</h3>
       <p class="resultSubTitle" id="titleText">今日の運勢</p>
-      <p class="resultMessage" id="messageText">ご縁が広がる日です。</p>
+      <p class="resultMessage" id="messageText">今日のご縁を大切にお過ごしください。</p>
     </div>
 
     <div class="btnArea">
@@ -376,7 +376,7 @@ body{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwshePJjzud_qTHbO_KAPLO4c6vEClPcHU20vhCWCKtIdh_lmyDpnKJFtSrZPf4ibBY/exec";
+"https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -571,7 +571,7 @@ function renderResult(result){
 
   if(resultText){
     resultText.innerText =
-      result.result || "吉";
+      result.result || "おみくじ";
   }
 
   if(titleText){
@@ -586,7 +586,12 @@ function renderResult(result){
 
   if(imageBox && image){
     if(result.imageUrl){
-      image.src = result.imageUrl;
+      image.src =
+        result.imageUrl +
+        (result.imageUrl.indexOf("?") >= 0 ? "&" : "?") +
+        "v=" +
+        Date.now();
+
       imageBox.classList.remove("hidden");
     }else{
       image.src = DEFAULT_IMAGE;
