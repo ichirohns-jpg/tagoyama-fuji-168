@@ -8,11 +8,18 @@
 
 <meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ">
 <meta property="og:title" content="田子山富士 開運おみくじ">
-<meta property="og:description" content="田子山富士のご縁に願いを込めて、おみくじを引いてください。">
+<meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-omikuji.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-omikuji.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 開運おみくじ">
+<meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-omikuji.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -424,8 +431,8 @@ button{
 
   <div class="resultLabel">開運おみくじ</div>
 
-  <p class="resultMain" id="resultText">おみくじ</p>
-  <p class="resultTitle" id="titleText">今日の運勢</p>
+  <p class="resultMain" id="resultText">開運おみくじ</p>
+  <p class="resultTitle" id="titleText">田子山富士のご縁</p>
   <p class="message" id="messageText">
     田子山富士のご縁を、みなさんにもおすそ分けします。
   </p>
@@ -461,7 +468,7 @@ button{
   </div>
 
   <p class="noticeSmall">
-    「画像を保存」を押すと、iPhoneの共有画面が開きます。
+    Facebook・LINE・Xは、同じシェアページと同じOGP画像を使います。
   </p>
 </section>
 
@@ -498,8 +505,8 @@ const HOME_PAGE =
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
-const SHARE_OMIKUJI_PAGE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
+const SHARE_OMIKUJI_URL =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=ogp-omikuji-fixed";
 
 let currentUserId = "";
 let currentResult = null;
@@ -747,7 +754,7 @@ function normalizeOmikujiData(data){
       "運勢",
       "結果",
       "おみくじ"
-    ]) || "おみくじ",
+    ]) || "開運おみくじ",
     title: pickValue(objects, [
       "title",
       "name",
@@ -911,18 +918,7 @@ function renderResult(result){
   const titleText = document.getElementById("titleText");
   const messageText = document.getElementById("messageText");
 
-  const cleanResult = cleanText(result.result);
-  const cleanTitle = cleanText(result.title);
-
-  let displayTitle = "";
-
-  if(cleanTitle && cleanTitle !== "おみくじ" && cleanTitle !== cleanResult){
-    displayTitle = cleanTitle;
-  }else if(cleanResult && cleanResult !== "おみくじ"){
-    displayTitle = cleanResult;
-  }else{
-    displayTitle = "開運おみくじ";
-  }
+  const displayTitle = getOmikujiDisplayTitle(result);
 
   if(section){
     section.classList.remove("hidden");
@@ -938,7 +934,6 @@ function renderResult(result){
 
   if(messageText){
     messageText.innerText =
-      result.message ||
       "田子山富士のご縁を、みなさんにもおすそ分けします。";
   }
 
@@ -953,6 +948,28 @@ function renderResult(result){
       });
     }
   },120);
+}
+
+function getOmikujiDisplayTitle(result){
+  const cleanResult =
+    result && result.result
+      ? cleanText(result.result)
+      : "";
+
+  const cleanTitle =
+    result && result.title
+      ? cleanText(result.title)
+      : "";
+
+  if(cleanTitle && cleanTitle !== "おみくじ" && cleanTitle !== "今日の運勢"){
+    return cleanTitle;
+  }
+
+  if(cleanResult && cleanResult !== "おみくじ"){
+    return cleanResult;
+  }
+
+  return "開運おみくじ";
 }
 
 function setResultImage(url){
@@ -1066,57 +1083,14 @@ function getDriveFileId(url){
 }
 
 function buildShareText(){
-  const result =
-    currentResult && currentResult.result
-      ? cleanText(currentResult.result)
-      : "";
-
-  const title =
-    currentResult && currentResult.title
-      ? cleanText(currentResult.title)
-      : "";
-
-  let displayTitle = "";
-
-  if(title && title !== "おみくじ" && title !== "今日の運勢" && title !== result){
-    displayTitle = title;
-  }else if(result && result !== "おみくじ"){
-    displayTitle = result;
-  }else{
-    displayTitle = "開運おみくじ";
-  }
-
   return (
-    "田子山富士 開運おみくじ\n" +
-    displayTitle + "\n\n" +
+    "田子山富士 開運おみくじ\n\n" +
     "田子山富士のご縁を、みなさんにもおすそ分けします。"
   );
 }
 
 function buildShareUrl(){
-  const params = new URLSearchParams();
-
-  params.set("v", String(Date.now()));
-
-  if(currentResult){
-    const result = cleanText(currentResult.result);
-    const title = cleanText(currentResult.title);
-    const imageUrl = cleanText(currentResult.imageUrl);
-
-    if(result && result !== "おみくじ"){
-      params.set("result", result);
-    }
-
-    if(title && title !== result && title !== "おみくじ" && title !== "今日の運勢"){
-      params.set("title", title);
-    }
-
-    if(imageUrl){
-      params.set("imageUrl", imageUrl);
-    }
-  }
-
-  return SHARE_OMIKUJI_PAGE + "?" + params.toString();
+  return SHARE_OMIKUJI_URL;
 }
 
 function shareFacebook(){
@@ -1130,26 +1104,26 @@ function shareFacebook(){
 }
 
 function shareLine(){
+  const url = buildShareUrl();
+
   const text =
     buildShareText() +
     "\n" +
-    buildShareUrl();
+    url;
 
-  window.open(
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(buildShareUrl()) +
-    "&text=" +
-    encodeURIComponent(text),
-    "_blank"
-  );
+  location.href =
+    "https://line.me/R/share?text=" +
+    encodeURIComponent(text);
 }
 
 function shareX(){
+  const url = buildShareUrl();
+
   window.open(
     "https://twitter.com/intent/tweet?text=" +
     encodeURIComponent(buildShareText()) +
     "&url=" +
-    encodeURIComponent(buildShareUrl()),
+    encodeURIComponent(url),
     "_blank"
   );
 }
@@ -1250,10 +1224,7 @@ async function downloadImage(){
       ctx.fillText("田子山富士",width / 2,535);
     }
 
-    const displayTitle =
-      currentResult.title && currentResult.title !== "おみくじ"
-        ? currentResult.title
-        : currentResult.result || "開運おみくじ";
+    const displayTitle = getOmikujiDisplayTitle(currentResult);
 
     ctx.fillStyle = "#8b1712";
     ctx.font = "900 84px sans-serif";
