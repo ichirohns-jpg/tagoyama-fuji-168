@@ -441,7 +441,7 @@ button{
 
   <div class="shareGrid">
     <button class="btn goldBtn wide" type="button" onclick="downloadImage()">
-      画像をダウンロード
+      画像を保存
     </button>
 
     <button class="btn facebookBtn" type="button" onclick="shareFacebook()">
@@ -466,7 +466,7 @@ button{
   </div>
 
   <p class="noticeSmall">
-    SNS投稿画面が開いたら、本文を確認して投稿してください。
+    「画像を保存」を押すと、iPhoneの共有画面が開きます。
   </p>
 </section>
 
@@ -1269,13 +1269,48 @@ async function downloadImage(){
       1270
     );
 
-    const link = document.createElement("a");
-    link.download = "tagoyama-omikuji.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    await shareCanvasImageForIphone(canvas,"tagoyama-omikuji.png");
   }catch(e){
-    alert("画像を作成できませんでした。結果コピーを使ってください。");
+    alert("iPhoneの共有画面を開けませんでした。Safariで開いてもう一度お試しください。");
   }
+}
+
+async function shareCanvasImageForIphone(canvas,fileName){
+  const blob = await new Promise(function(resolve){
+    canvas.toBlob(function(b){
+      resolve(b);
+    },"image/png");
+  });
+
+  if(!blob){
+    throw new Error("画像を作成できませんでした。");
+  }
+
+  const file = new File(
+    [blob],
+    fileName,
+    {
+      type:"image/png"
+    }
+  );
+
+  if(
+    navigator.share &&
+    navigator.canShare &&
+    navigator.canShare({
+      files:[file]
+    })
+  ){
+    await navigator.share({
+      files:[file],
+      title:"田子山富士 開運おみくじ",
+      text:"田子山富士 開運おみくじ"
+    });
+
+    return;
+  }
+
+  throw new Error("iPhone共有シートが使えません。");
 }
 
 function drawRoundRect(ctx,x,y,w,h,r,fill,stroke){
