@@ -236,10 +236,6 @@
       background: linear-gradient(180deg, #323232 0%, #050505 100%);
     }
 
-    .grayBtn {
-      background: linear-gradient(180deg, #777777 0%, #262626 100%);
-    }
-
     .sectionCard {
       margin: 18px 0;
       padding: 20px 14px;
@@ -295,11 +291,13 @@
       display: block;
       width: 100%;
       height: auto;
+      max-height: 520px;
+      object-fit: cover;
       border-radius: 18px;
       margin: 0 0 14px;
       background: #000000;
       border: 2px solid rgba(255, 220, 95, 0.45);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.32);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.32);
     }
 
     .inputLabel {
@@ -523,12 +521,6 @@
     const GAS_URL =
       "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
-    const HOME_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
-    const CERTIFICATE_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
-
     const OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
@@ -642,7 +634,7 @@
           );
         }
 
-        const cleanData = {
+        const cleanClimbData = {
           userId: urlUserId,
           climbCount: getFirst(data.climbCount, data.count, data.登頂回数),
           serialNo: getFirst(data.serialNo, data.serial, data.no, data.シリアル番号),
@@ -653,19 +645,19 @@
           participantNo: getFirst(data.participantNo, data.participantCount, data.participants, data.total, data.参加人数)
         };
 
-        saveClimbData(cleanData);
-        updateParticipants(cleanData.participantNo);
+        saveClimbData(cleanClimbData);
+        updateParticipants(cleanClimbData.participantNo);
         showCertificateButton(urlUserId);
 
         if (status) {
           const countText =
-            cleanData.climbCount
-              ? "第" + cleanData.climbCount + "回登頂"
+            cleanClimbData.climbCount
+              ? "第" + cleanClimbData.climbCount + "回登頂"
               : "登頂";
 
           const noText =
-            cleanData.serialNo
-              ? "\nNo." + cleanData.serialNo
+            cleanClimbData.serialNo
+              ? "\nNo." + cleanClimbData.serialNo
               : "";
 
           status.innerText =
@@ -874,14 +866,13 @@
             Date.now()
           );
 
-        const rows = getArrayRows(data);
+        const rows = newsRowsFromData(data);
 
         if (!rows || rows.length === 0) {
           list.innerHTML =
             '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
 
           newsLoaded = true;
-
           return;
         }
 
@@ -898,26 +889,26 @@
             (
               item.imageUrl
                 ? '<img class="newsImage" src="' +
-                  escapeHtml(item.imageUrl) +
+                  newsEscapeHtml(item.imageUrl) +
                   '" alt="' +
-                  escapeHtml(item.title || "お知らせ画像") +
+                  newsEscapeHtml(item.title || "お知らせ画像") +
                   '" onerror="this.style.display=\'none\';">'
                 : ''
             ) +
 
             '<h3 class="itemTitle">' +
-            escapeHtml(item.title || "お知らせ") +
+            newsEscapeHtml(item.title || "お知らせ") +
             '</h3>' +
 
             (
               item.date
-                ? '<div class="itemDate">' + escapeHtml(item.date) + '</div>'
+                ? '<div class="itemDate">' + newsEscapeHtml(item.date) + '</div>'
                 : ''
             ) +
 
             (
               item.body
-                ? '<p class="itemBody">' + escapeHtml(item.body) + '</p>'
+                ? '<p class="itemBody">' + newsEscapeHtml(item.body) + '</p>'
                 : ''
             ) +
 
@@ -939,59 +930,13 @@
     }
 
     function normalizeNewsItem(rawItem) {
-      const cells = getNewsCells(rawItem);
+      const cells = newsCollectAllText(rawItem);
+      const jsonText = newsCleanText(JSON.stringify(rawItem || ""));
 
-      let title = getFirstFromItem(rawItem, [
-        "title",
-        "タイトル",
-        "name",
-        "件名",
-        "subject",
-        "見出し"
-      ]);
-
-      let date = formatDate(
-        getFirstFromItem(rawItem, [
-          "date",
-          "datetime",
-          "createdAt",
-          "updatedAt",
-          "日時",
-          "日付"
-        ])
-      );
-
-      let body = getFirstFromItem(rawItem, [
-        "body",
-        "message",
-        "text",
-        "content",
-        "description",
-        "本文",
-        "内容",
-        "説明",
-        "メッセージ",
-        "お知らせ本文",
-        "文章"
-      ]);
-
-      let imageUrl = getNewsImageUrl(rawItem);
-
-      if (!imageUrl) {
-        imageUrl = findNewsImageUrlFromCells(cells);
-      }
-
-      if (!date) {
-        date = findNewsDateFromCells(cells);
-      }
-
-      if (!title) {
-        title = findNewsTitleFromCells(cells, date, imageUrl);
-      }
-
-      if (!body) {
-        body = findNewsBodyFromCells(cells, title, date, imageUrl);
-      }
+      const imageUrl = newsFindImageUrl(cells, jsonText);
+      const date = newsFindDate(cells);
+      const title = newsFindTitle(cells, date, imageUrl);
+      const body = newsFindBody(cells, title, date, imageUrl);
 
       return {
         title: title,
@@ -1001,108 +946,118 @@
       };
     }
 
-    function getFirstFromItem(item, keys) {
-      if (!item || typeof item !== "object" || Array.isArray(item)) {
-        return "";
-      }
+    function newsRowsFromData(data) {
+      if (!data) return [];
 
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.rows)) return data.rows;
+      if (Array.isArray(data.data)) return data.data;
+      if (Array.isArray(data.items)) return data.items;
+      if (Array.isArray(data.list)) return data.list;
+      if (Array.isArray(data.news)) return data.news;
+      if (Array.isArray(data.records)) return data.records;
+      if (data.result && Array.isArray(data.result)) return data.result;
 
-        if (item[key] !== null && item[key] !== undefined && String(item[key]).trim() !== "") {
-          return String(item[key]).trim();
-        }
-      }
-
-      return "";
+      return [];
     }
 
-    function getNewsCells(item) {
-      const cells = [];
+    function newsCollectAllText(value) {
+      const results = [];
+      const seen = [];
 
       function add(v) {
-        const text = getString(v);
+        const text = newsCleanText(v);
 
-        if (text) {
-          cells.push(text);
+        if (!text) return;
+
+        if (results.indexOf(text) < 0) {
+          results.push(text);
         }
       }
 
-      if (Array.isArray(item)) {
-        item.forEach(add);
-        return cells;
+      function walk(v) {
+        if (v === null || v === undefined) return;
+
+        if (
+          typeof v === "string" ||
+          typeof v === "number" ||
+          typeof v === "boolean"
+        ) {
+          add(v);
+          return;
+        }
+
+        if (typeof v !== "object") return;
+
+        if (seen.indexOf(v) >= 0) return;
+
+        seen.push(v);
+
+        if (Array.isArray(v)) {
+          v.forEach(function (x) {
+            walk(x);
+          });
+          return;
+        }
+
+        if (v.v !== undefined) walk(v.v);
+        if (v.f !== undefined) walk(v.f);
+        if (v.formattedValue !== undefined) walk(v.formattedValue);
+        if (v.value !== undefined) walk(v.value);
+        if (v.text !== undefined) walk(v.text);
+        if (v.title !== undefined) walk(v.title);
+        if (v.body !== undefined) walk(v.body);
+        if (v.message !== undefined) walk(v.message);
+        if (v.content !== undefined) walk(v.content);
+        if (v.description !== undefined) walk(v.description);
+        if (v.imageUrl !== undefined) walk(v.imageUrl);
+        if (v.imageURL !== undefined) walk(v.imageURL);
+        if (v.img !== undefined) walk(v.img);
+        if (v.url !== undefined) walk(v.url);
+        if (v.URL !== undefined) walk(v.URL);
+
+        Object.keys(v).forEach(function (key) {
+          walk(v[key]);
+        });
       }
 
-      if (item && typeof item === "object") {
-        Object.keys(item).forEach(function (key) {
-          const value = item[key];
+      walk(value);
 
-          if (Array.isArray(value)) {
-            value.forEach(add);
-          } else if (value && typeof value === "object") {
-            Object.keys(value).forEach(function (k) {
-              add(value[k]);
-            });
-          } else {
-            add(value);
+      return results;
+    }
+
+    function newsFindImageUrl(cells, jsonText) {
+      const allText = []
+        .concat(cells || [])
+        .concat([jsonText || ""])
+        .join("\n");
+
+      const candidates = [];
+
+      const urlMatches = allText.match(/https?:\/\/[^\s"'<>\\]+/g);
+
+      if (urlMatches && urlMatches.length) {
+        urlMatches.forEach(function (url) {
+          candidates.push(url);
+        });
+      }
+
+      const driveIdMatches = allText.match(/[-\w]{25,}/g);
+
+      if (driveIdMatches && driveIdMatches.length) {
+        driveIdMatches.forEach(function (id) {
+          if (id.length >= 25) {
+            candidates.push(
+              "https://drive.google.com/thumbnail?id=" +
+              encodeURIComponent(id) +
+              "&sz=w1200"
+            );
           }
         });
       }
 
-      return cells;
-    }
-
-    function findNewsTitleFromCells(cells, date, imageUrl) {
-      for (let i = 0; i < cells.length; i++) {
-        const text = getString(cells[i]);
-
-        if (!text) continue;
-        if (isNewsImageText(text)) continue;
-        if (isLikelyUrl(text)) continue;
-        if (formatDate(text) && formatDate(text) === date) continue;
-        if (text === imageUrl) continue;
-
-        return text;
-      }
-
-      return "";
-    }
-
-    function findNewsBodyFromCells(cells, title, date, imageUrl) {
-      const parts = [];
-
-      for (let i = 0; i < cells.length; i++) {
-        const text = getString(cells[i]);
-
-        if (!text) continue;
-        if (text === title) continue;
-        if (text === date) continue;
-        if (text === imageUrl) continue;
-        if (formatDate(text) && formatDate(text) === date) continue;
-        if (isNewsImageText(text)) continue;
-        if (isLikelyUrl(text)) continue;
-
-        parts.push(text);
-      }
-
-      return parts.join("\n");
-    }
-
-    function findNewsDateFromCells(cells) {
-      for (let i = 0; i < cells.length; i++) {
-        const date = formatDate(cells[i]);
-
-        if (date) {
-          return date;
-        }
-      }
-
-      return "";
-    }
-
-    function findNewsImageUrlFromCells(cells) {
-      for (let i = 0; i < cells.length; i++) {
-        const imageUrl = normalizeNewsImageUrl(cells[i]);
+      for (let i = 0; i < candidates.length; i++) {
+        const imageUrl = newsNormalizeImageUrl(candidates[i]);
 
         if (imageUrl) {
           return imageUrl;
@@ -1112,52 +1067,18 @@
       return "";
     }
 
-    function getNewsImageUrl(item) {
-      const direct = getFirstFromItem(item, [
-        "imageUrl",
-        "imageURL",
-        "img",
-        "imgUrl",
-        "thumbnail",
-        "thumbnailUrl",
-        "photo",
-        "photoUrl",
-        "picture",
-        "pictureUrl",
-        "url",
-        "URL",
-        "画像URL",
-        "画像url",
-        "画像",
-        "写真",
-        "写真URL",
-        "サムネイル",
-        "サムネイルURL"
-      ]);
+    function newsNormalizeImageUrl(value) {
+      let text = newsCleanText(value);
 
-      const fromDirect = normalizeNewsImageUrl(direct);
+      if (!text) return "";
 
-      if (fromDirect) {
-        return fromDirect;
-      }
+      text = text
+        .replace(/[)\]}]+$/g, "")
+        .replace(/,$/g, "")
+        .replace(/\\n/g, "")
+        .replace(/\\r/g, "");
 
-      return findNewsImageUrlDeep(item);
-    }
-
-    function normalizeNewsImageUrl(value) {
-      const text = getString(value)
-        .replace(/\\\//g, "/")
-        .replace(/\\u0026/g, "&")
-        .replace(/&amp;/g, "&");
-
-      if (!text) {
-        return "";
-      }
-
-      const urlMatch = text.match(/https?:\/\/[^\s"'<>]+/);
-      const url = urlMatch && urlMatch[0] ? urlMatch[0] : text;
-
-      const driveId = getNewsDriveFileId(url);
+      const driveId = newsGetDriveFileId(text);
 
       if (driveId) {
         return "https://drive.google.com/thumbnail?id=" +
@@ -1166,22 +1087,19 @@
       }
 
       if (
-        url.indexOf("googleusercontent.com") >= 0 ||
-        url.indexOf("raw.githubusercontent.com") >= 0 ||
-        url.indexOf("github.io") >= 0 ||
-        url.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i)
+        /googleusercontent\.com/i.test(text) ||
+        /raw\.githubusercontent\.com/i.test(text) ||
+        /github\.io/i.test(text) ||
+        /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(text)
       ) {
-        return url;
+        return text;
       }
 
       return "";
     }
 
-    function getNewsDriveFileId(url) {
-      const text = getString(url)
-        .replace(/\\\//g, "/")
-        .replace(/\\u0026/g, "&")
-        .replace(/&amp;/g, "&");
+    function newsGetDriveFileId(url) {
+      const text = newsCleanText(url);
 
       let m = text.match(/[?&]id=([^&]+)/);
 
@@ -1195,71 +1113,112 @@
         return decodeURIComponent(m[1]);
       }
 
+      m = text.match(/drive\.google\.com\/open\?id=([^&]+)/);
+
+      if (m && m[1]) {
+        return decodeURIComponent(m[1]);
+      }
+
       return "";
     }
 
-    function findNewsImageUrlDeep(value) {
-      const seen = [];
+    function newsFindDate(cells) {
+      for (let i = 0; i < cells.length; i++) {
+        const date = newsFormatDate(cells[i]);
 
-      function walk(v) {
-        if (v === null || v === undefined) {
-          return "";
+        if (date) {
+          return date;
         }
+      }
 
-        if (typeof v === "string") {
-          const imageUrl = normalizeNewsImageUrl(v);
+      return "";
+    }
 
-          if (imageUrl) {
-            return imageUrl;
-          }
+    function newsFindTitle(cells, date, imageUrl) {
+      for (let i = 0; i < cells.length; i++) {
+        const text = newsCleanText(cells[i]);
 
-          return "";
+        if (!text) continue;
+        if (text === date) continue;
+        if (text === imageUrl) continue;
+        if (newsFormatDate(text)) continue;
+        if (newsNormalizeImageUrl(text)) continue;
+        if (/^https?:\/\//i.test(text)) continue;
+
+        return text;
+      }
+
+      return "";
+    }
+
+    function newsFindBody(cells, title, date, imageUrl) {
+      const parts = [];
+
+      for (let i = 0; i < cells.length; i++) {
+        const text = newsCleanText(cells[i]);
+
+        if (!text) continue;
+        if (text === title) continue;
+        if (text === date) continue;
+        if (text === imageUrl) continue;
+        if (newsFormatDate(text)) continue;
+        if (newsNormalizeImageUrl(text)) continue;
+        if (/^https?:\/\//i.test(text)) continue;
+
+        if (parts.indexOf(text) < 0) {
+          parts.push(text);
         }
+      }
 
-        if (typeof v !== "object") {
-          return "";
-        }
+      return parts.join("\n");
+    }
 
-        if (seen.indexOf(v) >= 0) {
-          return "";
-        }
+    function newsFormatDate(value) {
+      let text = newsCleanText(value);
 
-        seen.push(v);
+      if (!text) return "";
 
-        if (Array.isArray(v)) {
-          for (let i = 0; i < v.length; i++) {
-            const found = walk(v[i]);
+      text = text.replace(/-/g, "/");
 
-            if (found) {
-              return found;
-            }
-          }
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}T/.test(text)) {
+        text = text.split("T")[0];
+      }
 
-          return "";
-        }
+      text = text.replace(/\s00:00:00$/, "");
+      text = text.replace(/\s00:00$/, "");
 
-        const keys = Object.keys(v);
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)) {
+        return text;
+      }
 
-        for (let i = 0; i < keys.length; i++) {
-          const found = walk(v[keys[i]]);
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{2}(:\d{2})?$/.test(text)) {
+        return text;
+      }
 
-          if (found) {
-            return found;
-          }
-        }
+      return "";
+    }
 
+    function newsCleanText(value) {
+      if (value === null || value === undefined) {
         return "";
       }
 
-      return walk(value);
+      return String(value)
+        .replace(/\\\//g, "/")
+        .replace(/\\u0026/g, "&")
+        .replace(/&amp;/g, "&")
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .trim();
     }
 
-    function isNewsImageText(text) {
-      return !!normalizeNewsImageUrl(text);
-    }
-
-    function isLikelyUrl(text) {
-      return /^https?:\/\//i.test(getString(text));
+    function newsEscapeHtml(value) {
+      return newsCleanText(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     async function saveKicho() {
@@ -1414,6 +1373,12 @@
         return JSON.parse(trimmed);
       }
 
+      const jsonpMatch = trimmed.match(/^[^(]*\(([\s\S]*)\)\s*;?$/);
+
+      if (jsonpMatch && jsonpMatch[1]) {
+        return JSON.parse(jsonpMatch[1]);
+      }
+
       const jsonMatch = trimmed.match(/\{[\s\S]*\}/);
 
       if (jsonMatch) {
@@ -1427,19 +1392,12 @@
       if (!data) return [];
 
       if (Array.isArray(data)) return data;
-
       if (Array.isArray(data.rows)) return data.rows;
-
       if (Array.isArray(data.data)) return data.data;
-
       if (Array.isArray(data.items)) return data.items;
-
       if (Array.isArray(data.list)) return data.list;
-
       if (Array.isArray(data.news)) return data.news;
-
       if (Array.isArray(data.records)) return data.records;
-
       if (data.result && Array.isArray(data.result)) return data.result;
 
       return [];
@@ -1479,6 +1437,7 @@
       }
 
       text = text.replace(/\s00:00:00$/, "");
+      text = text.replace(/\s00:00$/, "");
 
       if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)) {
         return text;
