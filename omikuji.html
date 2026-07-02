@@ -331,11 +331,6 @@ button{
   background:linear-gradient(180deg,#333333 0%,#050505 100%);
 }
 
-.grayBtn{
-  color:#ffffff;
-  background:linear-gradient(180deg,#888888 0%,#2a2a2a 100%);
-}
-
 .noticeSmall{
   margin:14px 0 0;
   color:#d9ca87;
@@ -502,9 +497,6 @@ const HOME_PAGE =
 
 const CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
-
-const OMIKUJI_PAGE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
 const SHARE_OMIKUJI_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
@@ -766,7 +758,7 @@ function normalizeOmikujiData(data){
       "名前",
       "見出し",
       "画像名"
-    ]) || "今日の運勢",
+    ]) || "",
     message: pickValue(objects, [
       "message",
       "body",
@@ -919,6 +911,11 @@ function renderResult(result){
   const titleText = document.getElementById("titleText");
   const messageText = document.getElementById("messageText");
 
+  const mainTitle =
+    result.title && result.title !== result.result
+      ? result.title
+      : result.result;
+
   if(section){
     section.classList.remove("hidden");
   }
@@ -928,7 +925,7 @@ function renderResult(result){
   }
 
   if(titleText){
-    titleText.innerText = result.title || "今日の運勢";
+    titleText.innerText = mainTitle || "今日の運勢";
   }
 
   if(messageText){
@@ -1063,26 +1060,41 @@ function getDriveFileId(url){
 function buildShareText(){
   const result =
     currentResult && currentResult.result
-      ? currentResult.result
-      : "おみくじ";
+      ? cleanText(currentResult.result)
+      : "";
 
   const title =
     currentResult && currentResult.title
-      ? currentResult.title
-      : "今日の運勢";
+      ? cleanText(currentResult.title)
+      : "";
 
   const message =
     currentResult && currentResult.message
-      ? currentResult.message
+      ? cleanText(currentResult.message)
       : "田子山富士のご縁を、みなさんにもおすそ分けします。";
 
-  return (
-    "田子山富士 開運おみくじ\n" +
-    result + "\n" +
-    title + "\n\n" +
-    message + "\n\n" +
-    "田子山富士のご縁を、みなさんにもおすそ分けします。"
-  );
+  const lines = [];
+
+  lines.push("田子山富士 開運おみくじ");
+
+  if(result){
+    lines.push(result);
+  }
+
+  if(title && title !== result){
+    lines.push(title);
+  }
+
+  lines.push("");
+
+  if(message && message !== result && message !== title){
+    lines.push(message);
+    lines.push("");
+  }
+
+  lines.push("田子山富士のご縁を、みなさんにもおすそ分けします。");
+
+  return lines.join("\n");
 }
 
 function buildShareUrl(){
@@ -1248,7 +1260,7 @@ async function downloadImage(){
 
     ctx.fillStyle = "#4b2b05";
     ctx.font = "900 48px sans-serif";
-    wrapTextCenter(ctx,currentResult.title || "今日の運勢",width / 2,1010,820,58);
+    wrapTextCenter(ctx,currentResult.title || currentResult.result || "今日の運勢",width / 2,1010,820,58);
 
     ctx.fillStyle = "#5b3608";
     ctx.font = "800 34px sans-serif";
