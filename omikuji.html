@@ -910,14 +910,94 @@
       return "";
     }
 
-    function makeDownloadUrlList(url) {
-      const text = cleanImageText(url);
-      const id = getDriveFileId(text);
-      const list = [];
+    async function downloadOmikujiImage() {
+      const btn = document.getElementById("downloadBtn");
+      const img = document.getElementById("resultImage");
 
-      if (currentResult.displayImageUrl) {
-        list.push(currentResult.displayImageUrl);
+      const oldText = btn ? btn.innerText : "";
+
+      const imageUrl = omikujiCleanSaveUrl(
+        currentResult.displayImageUrl ||
+        (img && (img.currentSrc || img.src)) ||
+        currentResult.imageUrl ||
+        ""
+      );
+
+      if (!imageUrl) {
+        alert("保存するおみくじ画像がありません。");
+        return;
       }
+
+      const imageNo =
+        currentResult.imageNo
+          ? currentResult.imageNo
+          : "result";
+
+      const fileName =
+        "tagoyama-omikuji-" +
+        String(imageNo).replace(/[\\/:*?"<>|]/g, "") +
+        ".png";
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "画像を保存中...";
+      }
+
+      try {
+        const urls = omikujiMakeSaveUrlList(imageUrl);
+
+        let saved = await omikujiSaveByFetch(urls, fileName);
+
+        if (!saved) {
+          saved = await omikujiSaveByCanvas(urls, fileName);
+        }
+
+        if (!saved) {
+          omikujiDirectDownload(urls[0], fileName);
+        }
+
+      } catch (e) {
+        console.error(e);
+        omikujiDirectDownload(imageUrl, fileName);
+
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = oldText || "画像をダウンロード";
+        }
+      }
+    }
+
+    function omikujiCleanSaveUrl(url) {
+      return String(url || "")
+        .trim()
+        .replace(/\\\//g, "/")
+        .replace(/\\u0026/g, "&")
+        .replace(/&amp;/g, "&");
+    }
+
+    function omikujiGetDriveId(url) {
+      const text = omikujiCleanSaveUrl(url);
+
+      let m = text.match(/[?&]id=([^&]+)/);
+
+      if (m && m[1]) {
+        return decodeURIComponent(m[1]);
+      }
+
+      m = text.match(/\/d\/([^/]+)/);
+
+      if (m && m[1]) {
+        return decodeURIComponent(m[1]);
+      }
+
+      return "";
+    }
+
+    function omikujiMakeSaveUrlList(url) {
+      const text = omikujiCleanSaveUrl(url);
+      const id = omikujiGetDriveId(text);
+      const list = [];
 
       if (text) {
         list.push(text);
@@ -925,7 +1005,9 @@
 
       if (id) {
         list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
+        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1200");
         list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
+        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1200");
         list.push("https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id));
       }
 
@@ -934,83 +1016,114 @@
       });
     }
 
-    async function downloadOmikujiImage() {
-      if (!currentResult.imageUrl && !currentResult.displayImageUrl) {
-        alert("画像URLがありません。");
-        return;
-      }
+    async function omikujiSaveByFetch(urls, fileName) {
+      for (let i = 0; i < urls.length; i++) {
+        try {
+          const res = await fetch(urls[i], {
+            method: "GET",
+            cache: "no-store"
+          });
 
-      const btn = document.getElementById("downloadBtn");
-
-      if (btn) {
-        btn.disabled = true;
-        btn.innerText = "画像を保存中...";
-      }
-
-      const fileName =
-        "tagoyama-omikuji-" +
-        (currentResult.imageNo || "result") +
-        ".png";
-
-      try {
-        const urls = makeDownloadUrlList(currentResult.imageUrl || currentResult.displayImageUrl);
-        let blob = null;
-
-        for (let i = 0; i < urls.length; i++) {
-          try {
-            const res = await fetch(urls[i], {
-              method: "GET",
-              cache: "no-store"
-            });
-
-            if (res.ok) {
-              blob = await res.blob();
-              break;
-            }
-          } catch (e) {
+          if (!res.ok) {
+            continue;
           }
-        }
 
-        if (!blob) {
-          openImageForDownload(fileName);
-          return;
-        }
+          const blob = await res.blob();
 
-        const objectUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
+          if (!blob || blob.size < 1000) {
+            continue;
+          }
 
-        a.href = objectUrl;
-        a.download = fileName;
+          if (blob.type && blob.type.indexOf("text/html") >= 0) {
+            continue;
+          }
 
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+          omikujiSaveBlob(blob, fileName);
+          return true;
 
-        setTimeout(function () {
-          URL.revokeObjectURL(objectUrl);
-        }, 1000);
-
-      } catch (e) {
-        console.error(e);
-        openImageForDownload(fileName);
-
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerText = "画像をダウンロード";
+        } catch (e) {
         }
       }
+
+      return false;
     }
 
-    function openImageForDownload(fileName) {
-      const url = currentResult.displayImageUrl || currentResult.imageUrl;
+    async function omikujiSaveByCanvas(urls, fileName) {
+      for (let i = 0; i < urls.length; i++) {
+        try {
+          const image = await omikujiLoadImageForSave(urls[i]);
 
-      if (!url) {
-        alert("画像URLがありません。");
-        return;
+          const canvas = document.createElement("canvas");
+          const w = image.naturalWidth || image.width;
+          const h = image.naturalHeight || image.height;
+
+          if (!w || !h) {
+            continue;
+          }
+
+          canvas.width = w;
+          canvas.height = h;
+
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(image, 0, 0, w, h);
+
+          const blob = await new Promise(function (resolve) {
+            canvas.toBlob(function (b) {
+              resolve(b);
+            }, "image/png");
+          });
+
+          if (!blob || blob.size < 1000) {
+            continue;
+          }
+
+          omikujiSaveBlob(blob, fileName);
+          return true;
+
+        } catch (e) {
+        }
       }
 
+      return false;
+    }
+
+    function omikujiLoadImageForSave(url) {
+      return new Promise(function (resolve, reject) {
+        const image = new Image();
+
+        image.crossOrigin = "anonymous";
+
+        image.onload = function () {
+          resolve(image);
+        };
+
+        image.onerror = function () {
+          reject(new Error("image load error"));
+        };
+
+        image.src = url;
+      });
+    }
+
+    function omikujiSaveBlob(blob, fileName) {
+      const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
+
+      a.href = objectUrl;
+      a.download = fileName;
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      setTimeout(function () {
+        URL.revokeObjectURL(objectUrl);
+      }, 1000);
+    }
+
+    function omikujiDirectDownload(url, fileName) {
+      const a = document.createElement("a");
+
       a.href = url;
       a.download = fileName;
       a.target = "_blank";
