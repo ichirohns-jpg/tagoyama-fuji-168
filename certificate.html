@@ -8,13 +8,13 @@
 <meta name="description" content="田子山富士の登頂記念証です。">
 <meta property="og:title" content="田子山富士 登頂記念証">
 <meta property="og:description" content="田子山富士の登頂記念証です。">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
 <style>
 *{
@@ -42,7 +42,7 @@ body{
   width:100%;
   max-width:760px;
   margin:0 auto;
-  padding:16px 12px 44px;
+  padding:16px 12px 48px;
 }
 
 .hidden{
@@ -51,7 +51,7 @@ body{
 
 .header{
   text-align:center;
-  margin:0 0 12px;
+  margin:0 0 14px;
 }
 
 .headerLogo{
@@ -319,7 +319,11 @@ canvas{
 
   <header class="header">
     <div class="headerLogo">
-      <img src="logo.png" alt="田子山富士" onerror="this.style.display='none'">
+      <img
+        src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+        alt="田子山富士"
+        onerror="this.style.display='none'"
+      >
     </div>
     <h1 class="pageTitle">田子山富士 登頂記念証</h1>
   </header>
@@ -333,7 +337,7 @@ canvas{
       <img
         id="certificateImage"
         class="certImage"
-        src="sakura01.jpg"
+        src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
         alt="登頂記念画像"
         crossorigin="anonymous"
         onerror="handleImageError()"
@@ -393,7 +397,7 @@ canvas{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzQHiV6CPqv-szRz9EjwWdTsKGXmC8oPtLM6fQsyU-lF8AWXEsN5PG_14b6awu2Esk1/exec";
+"https://script.google.com/macros/s/AKfycbwshePJjzud_qTHbO_KAPLO4c6vEClPcHU20vhCWCKtIdh_lmyDpnKJFtSrZPf4ibBY/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -407,8 +411,8 @@ const SHARE_CERTIFICATE_PAGE =
 const OMIKUJI_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
-const CERT_IMAGE =
-"sakura01.jpg";
+const DEFAULT_CERT_IMAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
 let currentData = {
   userId:"",
@@ -417,6 +421,7 @@ let currentData = {
   lastDate:"",
   imageNo:"",
   imageName:"",
+  imageUrl:"",
   participantNo:""
 };
 
@@ -494,11 +499,15 @@ function readParams(){
       p.get("imageName"),
       p.get("title")
     ),
+    imageUrl:getFirst(
+      p.get("imageUrl"),
+      p.get("imageURL"),
+      p.get("img")
+    ),
     participantNo:getFirst(
       p.get("participantNo"),
       p.get("participantCount"),
       p.get("participants"),
-      p.get("totalParticipants"),
       p.get("total")
     )
   });
@@ -539,6 +548,9 @@ function readLocalData(){
     ),
     imageName:getFirst(
       data.imageName
+    ),
+    imageUrl:getFirst(
+      data.imageUrl
     ),
     participantNo:getFirst(
       data.participantNo,
@@ -598,6 +610,12 @@ async function loadClimbHistory(userId){
       data.title,
       data.画像名
     ),
+    imageUrl:getFirst(
+      data.imageUrl,
+      data.imageURL,
+      data.img,
+      data.画像URL
+    ),
     participantNo:getFirst(
       data.participantNo,
       data.participantCount,
@@ -617,6 +635,7 @@ function cleanData(data){
     lastDate:getString(data.lastDate),
     imageNo:getString(data.imageNo),
     imageName:getString(data.imageName),
+    imageUrl:getString(data.imageUrl),
     participantNo:getString(data.participantNo)
   };
 }
@@ -632,6 +651,7 @@ function mergeData(primary, secondary){
     lastDate:getFirst(primary.lastDate, secondary.lastDate),
     imageNo:getFirst(primary.imageNo, secondary.imageNo),
     imageName:getFirst(primary.imageName, secondary.imageName),
+    imageUrl:getFirst(primary.imageUrl, secondary.imageUrl),
     participantNo:getFirst(primary.participantNo, secondary.participantNo)
   });
 }
@@ -671,11 +691,23 @@ function renderCertificate(data, state, message){
   const serialNo = document.getElementById("serialNo");
   const dateText = document.getElementById("dateText");
   const participantText = document.getElementById("participantText");
+  const certificateImage = document.getElementById("certificateImage");
+  const imageError = document.getElementById("imageError");
 
   const climbCount = data.climbCount;
   const serial = data.serialNo;
   const date = formatDate(data.lastDate);
   const participant = data.participantNo;
+  const imageUrl = data.imageUrl || DEFAULT_CERT_IMAGE;
+
+  if(certificateImage){
+    certificateImage.style.display = "block";
+    certificateImage.src = imageUrl;
+  }
+
+  if(imageError){
+    imageError.style.display = "none";
+  }
 
   if(climbTitle){
     climbTitle.innerText =
@@ -771,6 +803,10 @@ function buildCertificateUrl(){
 
   if(currentData.imageName){
     p.set("imageName", currentData.imageName);
+  }
+
+  if(currentData.imageUrl){
+    p.set("imageUrl", currentData.imageUrl);
   }
 
   if(currentData.participantNo){
@@ -871,7 +907,6 @@ function handleImageError(){
 
 function saveCertificateImage(){
   const canvas = document.getElementById("saveCanvas");
-  const img = document.getElementById("certificateImage");
   const btn = document.getElementById("saveBtn");
 
   if(!canvas){
@@ -889,6 +924,7 @@ function saveCertificateImage(){
 
   const base = new Image();
   base.crossOrigin = "anonymous";
+
   base.onload = function(){
     try{
       drawSaveImage(canvas, base);
@@ -929,7 +965,11 @@ function saveCertificateImage(){
     }
   };
 
-  base.src = CERT_IMAGE + "?v=20260702";
+  base.src =
+    (currentData.imageUrl || DEFAULT_CERT_IMAGE) +
+    ((currentData.imageUrl || DEFAULT_CERT_IMAGE).indexOf("?") >= 0 ? "&" : "?") +
+    "v=" +
+    Date.now();
 }
 
 function drawSaveImage(canvas, baseImage){
@@ -1129,12 +1169,16 @@ function formatDate(value){
     return "";
   }
 
-  if(/^\d{4}\/\d{1,2}\/\d{1,2}/.test(s)){
-    return s;
+  const m1 = s.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
+
+  if(m1){
+    return m1[1] + "/" + m1[2].padStart(2,"0") + "/" + m1[3].padStart(2,"0");
   }
 
-  if(/^\d{4}-\d{1,2}-\d{1,2}/.test(s)){
-    return s.replace(/-/g,"/").slice(0,10);
+  const m2 = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+
+  if(m2){
+    return m2[1] + "/" + m2[2].padStart(2,"0") + "/" + m2[3].padStart(2,"0");
   }
 
   const d = new Date(s);
