@@ -409,16 +409,10 @@
 
   <script>
     const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+      "https://script.google.com/macros/s/AKfycbzXwy6ixLrQI5ltUZ4X6dUBT64GY12gZQdECCatAooDZaNTtGcMDBFmHKlEBfLzWaI/exec";
 
     const SHARE_CERTIFICATE_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
-
-    const OMIKUJI_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
-
-    const HOME_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
     const FALLBACK_OGP =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp";
@@ -750,7 +744,7 @@
             : "参加人数 取得中";
       }
 
-      setActionButtonsEnabled(hasShareData || hasRealData);
+      setActionButtonsEnabled(hasShareData);
 
       if (hasRealData) {
         setCertificateImageForDisplay(data.imageUrl);
@@ -883,7 +877,7 @@
       try {
         const data = certGetCurrentData();
 
-        if (!hasRealCertificateData(data)) {
+        if (!hasShareReadyData(data)) {
           alert("登頂記念証は山頂QRから登頂受付後に保存できます。");
           return;
         }
@@ -966,10 +960,6 @@
       }, 1000);
     }
 
-    function buildShareUrl() {
-      return buildCertificateShareUrl();
-    }
-
     function buildCertificateShareUrl() {
       const data = certGetCurrentData();
       const p = new URLSearchParams();
@@ -1033,7 +1023,7 @@
     async function postFacebook() {
       const data = certGetCurrentData();
 
-      if (!hasRealCertificateData(data)) {
+      if (!hasShareReadyData(data)) {
         alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
         return;
       }
@@ -1054,7 +1044,7 @@
     function sendLine() {
       const data = certGetCurrentData();
 
-      if (!hasRealCertificateData(data)) {
+      if (!hasShareReadyData(data)) {
         alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
         return;
       }
@@ -1069,7 +1059,7 @@
     function postX() {
       const data = certGetCurrentData();
 
-      if (!hasRealCertificateData(data)) {
+      if (!hasShareReadyData(data)) {
         alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
         return;
       }
@@ -1100,7 +1090,7 @@
     async function copyShareLink() {
       const data = certGetCurrentData();
 
-      if (!hasRealCertificateData(data)) {
+      if (!hasShareReadyData(data)) {
         alert("登頂記念証は山頂QRから登頂受付後にコピーできます。");
         return;
       }
