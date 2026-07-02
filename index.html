@@ -257,11 +257,6 @@ select{
   background:linear-gradient(180deg,#fff3ae 0%,#ffdc56 48%,#c99217 100%);
 }
 
-.redBtn{
-  color:#ffffff;
-  background:linear-gradient(180deg,#f44747 0%,#b81418 100%);
-}
-
 .greenBtn{
   color:#ffffff;
   background:linear-gradient(180deg,#39ec8c 0%,#08b858 100%);
@@ -272,11 +267,6 @@ select{
   background:linear-gradient(180deg,#3a8cff 0%,#0b4ec4 100%);
 }
 
-.purpleBtn{
-  color:#ffffff;
-  background:linear-gradient(180deg,#a35cff 0%,#6620bb 100%);
-}
-
 .blackBtn{
   color:#ffffff;
   background:linear-gradient(180deg,#333333 0%,#050505 100%);
@@ -285,12 +275,6 @@ select{
 .grayBtn{
   color:#ffffff;
   background:linear-gradient(180deg,#888888 0%,#2a2a2a 100%);
-}
-
-.whiteBtn{
-  color:#322000;
-  border:2px solid rgba(255,220,95,0.80);
-  background:linear-gradient(180deg,#ffffff 0%,#f7e7b1 100%);
 }
 
 .inputLabel{
@@ -378,6 +362,53 @@ select{
   overflow-wrap:anywhere;
 }
 
+.newsShareGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:16px;
+}
+
+.newsShareBtn{
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+  min-height:58px;
+  border:none;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 14px;
+  color:#fff;
+  text-decoration:none;
+  text-align:center;
+  cursor:pointer;
+  font-size:clamp(17px,4.8vw,27px);
+  font-weight:900;
+  line-height:1.25;
+  box-shadow:
+    0 5px 0 rgba(0,0,0,0.32),
+    0 10px 18px rgba(0,0,0,0.30);
+}
+
+.newsFacebook{
+  background:linear-gradient(180deg,#3186ff 0%,#1877f2 100%);
+}
+
+.newsLine{
+  background:linear-gradient(180deg,#19dc68 0%,#06c755 100%);
+}
+
+.newsX{
+  background:linear-gradient(180deg,#333333 0%,#050505 100%);
+}
+
+.newsCopy{
+  color:#291700;
+  background:linear-gradient(180deg,#ffffff 0%,#f6e4a8 100%);
+}
+
 .closeSectionBtn{
   margin-top:18px;
 }
@@ -412,6 +443,10 @@ select{
 
   .menuGrid .wide{
     grid-column:1 / -1;
+  }
+
+  .newsShareGrid{
+    grid-template-columns:1fr 1fr;
   }
 }
 
@@ -626,6 +661,7 @@ const OMIKUJI_PAGE =
 let currentUserId = "";
 let newsLoaded = false;
 let goenLoaded = false;
+let newsShareItems = [];
 
 window.addEventListener("load", init);
 
@@ -1072,6 +1108,8 @@ async function loadNews(){
     return;
   }
 
+  newsShareItems = [];
+
   list.innerHTML =
     '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
 
@@ -1138,6 +1176,15 @@ async function loadNews(){
         return;
       }
 
+      const shareIndex = newsShareItems.length;
+
+      newsShareItems.push({
+        title:title || "田子山富士 お知らせ",
+        date:date || "",
+        body:body || "",
+        imageUrl:imageUrl || ""
+      });
+
       html +=
         '<div class="item">' +
         (
@@ -1148,6 +1195,12 @@ async function loadNews(){
         '<h3 class="itemTitle">' + escapeHtml(title || "お知らせ") + '</h3>' +
         '<div class="itemDate">' + escapeHtml(date) + '</div>' +
         '<p class="itemBody">' + escapeHtml(body) + '</p>' +
+        '<div class="newsShareGrid">' +
+          '<button class="newsShareBtn newsFacebook" type="button" onclick="shareNewsFacebook(' + shareIndex + ')">Facebookに投稿</button>' +
+          '<button class="newsShareBtn newsLine" type="button" onclick="shareNewsLine(' + shareIndex + ')">LINEで送る</button>' +
+          '<button class="newsShareBtn newsX" type="button" onclick="shareNewsX(' + shareIndex + ')">Xで投稿</button>' +
+          '<button class="newsShareBtn newsCopy" type="button" onclick="copyNews(' + shareIndex + ')">お知らせをコピー</button>' +
+        '</div>' +
         '</div>';
     });
 
@@ -1160,6 +1213,117 @@ async function loadNews(){
     list.innerHTML =
       '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
   }
+}
+
+function buildNewsShareText(index){
+  const item = newsShareItems[index];
+
+  if(!item){
+    return (
+      "田子山富士 お知らせ\n\n" +
+      "田子山富士 168の縁プロジェクト\n" +
+      HOME_PAGE
+    );
+  }
+
+  const lines = [];
+
+  lines.push("田子山富士 お知らせ");
+
+  if(item.title){
+    lines.push(item.title);
+  }
+
+  if(item.date){
+    lines.push(item.date);
+  }
+
+  if(item.body){
+    lines.push("");
+    lines.push(item.body);
+  }
+
+  lines.push("");
+  lines.push("田子山富士 168の縁プロジェクト");
+
+  return lines.join("\n");
+}
+
+function buildNewsShareUrl(index){
+  return HOME_PAGE + "?v=" + Date.now();
+}
+
+function shareNewsFacebook(index){
+  const text = buildNewsShareText(index);
+  const url = buildNewsShareUrl(index);
+
+  window.open(
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(url) +
+    "&quote=" +
+    encodeURIComponent(text),
+    "_blank"
+  );
+}
+
+function shareNewsLine(index){
+  const text =
+    buildNewsShareText(index) +
+    "\n" +
+    buildNewsShareUrl(index);
+
+  window.open(
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(buildNewsShareUrl(index)) +
+    "&text=" +
+    encodeURIComponent(text),
+    "_blank"
+  );
+}
+
+function shareNewsX(index){
+  window.open(
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(buildNewsShareText(index)) +
+    "&url=" +
+    encodeURIComponent(buildNewsShareUrl(index)),
+    "_blank"
+  );
+}
+
+async function copyNews(index){
+  const text =
+    buildNewsShareText(index) +
+    "\n" +
+    buildNewsShareUrl(index);
+
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+    }else{
+      copyByTextarea(text);
+    }
+
+    alert("お知らせをコピーしました。");
+  }catch(e){
+    copyByTextarea(text);
+    alert("お知らせをコピーしました。");
+  }
+}
+
+function copyByTextarea(text){
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly","readonly");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.top = "0";
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
 }
 
 function getNewsImageUrl(item){
