@@ -887,73 +887,37 @@
 
         let html = "";
 
-        rows.forEach(function (item) {
-          const title = getFirst(
-            item.title,
-            item.タイトル,
-            item.name,
-            item.件名,
-            item.subject
-          );
+        rows.forEach(function (rawItem) {
+          const item = normalizeNewsItem(rawItem);
 
-          const date = formatDate(
-            getFirst(
-              item.date,
-              item.datetime,
-              item.createdAt,
-              item.updatedAt,
-              item.日時,
-              item.日付
-            )
-          );
-
-          let body = getFirst(
-            item.body,
-            item.message,
-            item.text,
-            item.content,
-            item.description,
-            item.本文,
-            item.内容,
-            item.説明,
-            item.メッセージ,
-            item.お知らせ本文
-          );
-
-          if (!body) {
-            body = makeBodyFromItem(item);
-          }
-
-          const imageUrl = getNewsImageUrl(item);
-
-          if (!title && !body && !imageUrl) return;
+          if (!item.title && !item.body && !item.imageUrl) return;
 
           html +=
             '<div class="item">' +
 
             (
-              imageUrl
+              item.imageUrl
                 ? '<img class="newsImage" src="' +
-                  escapeHtml(imageUrl) +
+                  escapeHtml(item.imageUrl) +
                   '" alt="' +
-                  escapeHtml(title || "お知らせ画像") +
+                  escapeHtml(item.title || "お知らせ画像") +
                   '" onerror="this.style.display=\'none\';">'
                 : ''
             ) +
 
             '<h3 class="itemTitle">' +
-            escapeHtml(title || "お知らせ") +
+            escapeHtml(item.title || "お知らせ") +
             '</h3>' +
 
             (
-              date
-                ? '<div class="itemDate">' + escapeHtml(date) + '</div>'
+              item.date
+                ? '<div class="itemDate">' + escapeHtml(item.date) + '</div>'
                 : ''
             ) +
 
             (
-              body
-                ? '<p class="itemBody">' + escapeHtml(body) + '</p>'
+              item.body
+                ? '<p class="itemBody">' + escapeHtml(item.body) + '</p>'
                 : ''
             ) +
 
@@ -974,26 +938,201 @@
       }
     }
 
-    function getNewsImageUrl(item) {
-      const direct = getFirst(
-        item.imageUrl,
-        item.imageURL,
-        item.img,
-        item.imgUrl,
-        item.thumbnail,
-        item.thumbnailUrl,
-        item.photo,
-        item.photoUrl,
-        item.picture,
-        item.pictureUrl,
-        item.画像URL,
-        item.画像url,
-        item.画像,
-        item.写真,
-        item.写真URL,
-        item.サムネイル,
-        item.サムネイルURL
+    function normalizeNewsItem(rawItem) {
+      const cells = getNewsCells(rawItem);
+
+      let title = getFirstFromItem(rawItem, [
+        "title",
+        "タイトル",
+        "name",
+        "件名",
+        "subject",
+        "見出し"
+      ]);
+
+      let date = formatDate(
+        getFirstFromItem(rawItem, [
+          "date",
+          "datetime",
+          "createdAt",
+          "updatedAt",
+          "日時",
+          "日付"
+        ])
       );
+
+      let body = getFirstFromItem(rawItem, [
+        "body",
+        "message",
+        "text",
+        "content",
+        "description",
+        "本文",
+        "内容",
+        "説明",
+        "メッセージ",
+        "お知らせ本文",
+        "文章"
+      ]);
+
+      let imageUrl = getNewsImageUrl(rawItem);
+
+      if (!imageUrl) {
+        imageUrl = findNewsImageUrlFromCells(cells);
+      }
+
+      if (!date) {
+        date = findNewsDateFromCells(cells);
+      }
+
+      if (!title) {
+        title = findNewsTitleFromCells(cells, date, imageUrl);
+      }
+
+      if (!body) {
+        body = findNewsBodyFromCells(cells, title, date, imageUrl);
+      }
+
+      return {
+        title: title,
+        date: date,
+        body: body,
+        imageUrl: imageUrl
+      };
+    }
+
+    function getFirstFromItem(item, keys) {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return "";
+      }
+
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+
+        if (item[key] !== null && item[key] !== undefined && String(item[key]).trim() !== "") {
+          return String(item[key]).trim();
+        }
+      }
+
+      return "";
+    }
+
+    function getNewsCells(item) {
+      const cells = [];
+
+      function add(v) {
+        const text = getString(v);
+
+        if (text) {
+          cells.push(text);
+        }
+      }
+
+      if (Array.isArray(item)) {
+        item.forEach(add);
+        return cells;
+      }
+
+      if (item && typeof item === "object") {
+        Object.keys(item).forEach(function (key) {
+          const value = item[key];
+
+          if (Array.isArray(value)) {
+            value.forEach(add);
+          } else if (value && typeof value === "object") {
+            Object.keys(value).forEach(function (k) {
+              add(value[k]);
+            });
+          } else {
+            add(value);
+          }
+        });
+      }
+
+      return cells;
+    }
+
+    function findNewsTitleFromCells(cells, date, imageUrl) {
+      for (let i = 0; i < cells.length; i++) {
+        const text = getString(cells[i]);
+
+        if (!text) continue;
+        if (isNewsImageText(text)) continue;
+        if (isLikelyUrl(text)) continue;
+        if (formatDate(text) && formatDate(text) === date) continue;
+        if (text === imageUrl) continue;
+
+        return text;
+      }
+
+      return "";
+    }
+
+    function findNewsBodyFromCells(cells, title, date, imageUrl) {
+      const parts = [];
+
+      for (let i = 0; i < cells.length; i++) {
+        const text = getString(cells[i]);
+
+        if (!text) continue;
+        if (text === title) continue;
+        if (text === date) continue;
+        if (text === imageUrl) continue;
+        if (formatDate(text) && formatDate(text) === date) continue;
+        if (isNewsImageText(text)) continue;
+
+        if (isLikelyUrl(text)) continue;
+
+        parts.push(text);
+      }
+
+      return parts.join("\n");
+    }
+
+    function findNewsDateFromCells(cells) {
+      for (let i = 0; i < cells.length; i++) {
+        const date = formatDate(cells[i]);
+
+        if (date) {
+          return date;
+        }
+      }
+
+      return "";
+    }
+
+    function findNewsImageUrlFromCells(cells) {
+      for (let i = 0; i < cells.length; i++) {
+        const imageUrl = normalizeNewsImageUrl(cells[i]);
+
+        if (imageUrl) {
+          return imageUrl;
+        }
+      }
+
+      return "";
+    }
+
+    function getNewsImageUrl(item) {
+      const direct = getFirstFromItem(item, [
+        "imageUrl",
+        "imageURL",
+        "img",
+        "imgUrl",
+        "thumbnail",
+        "thumbnailUrl",
+        "photo",
+        "photoUrl",
+        "picture",
+        "pictureUrl",
+        "画像URL",
+        "画像url",
+        "画像",
+        "写真",
+        "写真URL",
+        "サムネイル",
+        "サムネイルURL"
+      ]);
 
       const fromDirect = normalizeNewsImageUrl(direct);
 
@@ -1014,7 +1153,10 @@
         return "";
       }
 
-      const driveId = getNewsDriveFileId(text);
+      const urlMatch = text.match(/https?:\/\/[^\s"'<>]+/);
+      const url = urlMatch && urlMatch[0] ? urlMatch[0] : text;
+
+      const driveId = getNewsDriveFileId(url);
 
       if (driveId) {
         return "https://drive.google.com/thumbnail?id=" +
@@ -1023,12 +1165,12 @@
       }
 
       if (
-        text.indexOf("googleusercontent.com") >= 0 ||
-        text.indexOf("raw.githubusercontent.com") >= 0 ||
-        text.indexOf("github.io") >= 0 ||
-        text.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i)
+        url.indexOf("googleusercontent.com") >= 0 ||
+        url.indexOf("raw.githubusercontent.com") >= 0 ||
+        url.indexOf("github.io") >= 0 ||
+        url.match(/\.(jpg|jpeg|png|webp|gif)(\?|$)/i)
       ) {
-        return text;
+        return url;
       }
 
       return "";
@@ -1111,57 +1253,12 @@
       return walk(value);
     }
 
-    function makeBodyFromItem(item) {
-      const skipKeys = [
-        "title",
-        "タイトル",
-        "name",
-        "件名",
-        "subject",
-        "date",
-        "datetime",
-        "createdAt",
-        "updatedAt",
-        "日時",
-        "日付",
-        "link",
-        "url",
-        "URL",
-        "リンク",
-        "imageUrl",
-        "imageURL",
-        "img",
-        "imgUrl",
-        "thumbnail",
-        "thumbnailUrl",
-        "photo",
-        "photoUrl",
-        "picture",
-        "pictureUrl",
-        "画像URL",
-        "画像url",
-        "画像",
-        "写真",
-        "写真URL",
-        "サムネイル",
-        "サムネイルURL"
-      ];
+    function isNewsImageText(text) {
+      return !!normalizeNewsImageUrl(text);
+    }
 
-      const parts = [];
-
-      Object.keys(item || {}).forEach(function (key) {
-        if (skipKeys.indexOf(key) >= 0) return;
-
-        const value = getString(item[key]);
-
-        if (!value) return;
-
-        if (value.indexOf("https://") === 0 || value.indexOf("http://") === 0) return;
-
-        parts.push(value);
-      });
-
-      return parts.join("\n");
+    function isLikelyUrl(text) {
+      return /^https?:\/\//i.test(getString(text));
     }
 
     async function saveKicho() {
@@ -1364,13 +1461,29 @@
     }
 
     function formatDate(value) {
-      const text = getString(value);
+      let text = getString(value);
 
       if (!text) {
         return "";
       }
 
-      return text.replace(/-/g, "/");
+      text = text.replace(/-/g, "/");
+
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}T/.test(text)) {
+        text = text.split("T")[0];
+      }
+
+      text = text.replace(/\s00:00:00$/, "");
+
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)) {
+        return text;
+      }
+
+      if (/^\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{2}(:\d{2})?$/.test(text)) {
+        return text;
+      }
+
+      return "";
     }
 
     function escapeHtml(value) {
