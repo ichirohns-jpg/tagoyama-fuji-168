@@ -1,1280 +1,1445 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-  <title>田子山富士 開運おみくじ</title>
+<title>田子山富士 開運おみくじ</title>
 
-  <meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ">
-  <meta property="og:title" content="田子山富士 開運おみくじ">
-  <meta property="og:description" content="田子山富士のご縁に願いを込めて、おみくじを引いてください。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-omikuji.jpg">
+<meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ">
+<meta property="og:title" content="田子山富士 開運おみくじ">
+<meta property="og:description" content="田子山富士のご縁に願いを込めて、おみくじを引いてください。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-omikuji.jpg">
+<meta name="twitter:card" content="summary_large_image">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-    html {
-      scroll-behavior: smooth;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    body {
-      margin: 0;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Sans",
-        "Yu Gothic",
-        "YuGothic",
-        "Meiryo",
-        sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(255, 255, 255, 0.92), rgba(255, 247, 226, 0.96) 42%, rgba(236, 210, 150, 0.98) 100%);
-      color: #3a2608;
-      line-height: 1.7;
-    }
+html{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  scroll-behavior:smooth;
+  background:#050505;
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0) 36%),
-        radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.42), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(255, 238, 164, 0.28), transparent 32%);
-      z-index: -1;
-    }
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100vh;
+  color:#fff8dc;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Hiragino Sans",
+    "Yu Gothic",
+    "YuGothic",
+    "Meiryo",
+    sans-serif;
+  background:
+    radial-gradient(circle at top,rgba(255,224,120,0.26),rgba(0,0,0,0) 36%),
+    linear-gradient(180deg,#271404 0%,#090705 48%,#000000 100%);
+  line-height:1.7;
+  -webkit-text-size-adjust:100%;
+}
 
-    a {
-      color: inherit;
-    }
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 16% 8%,rgba(255,255,255,0.14),rgba(255,255,255,0) 22%),
+    radial-gradient(circle at 88% 12%,rgba(255,218,90,0.16),rgba(255,218,90,0) 24%),
+    linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0) 38%);
+  z-index:-1;
+}
 
-    .page {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 18px 14px 34px;
-    }
+a{
+  color:inherit;
+}
 
-    .hero {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,250,235,0.94)),
-        linear-gradient(135deg, rgba(190, 32, 38, 0.10), rgba(218, 173, 60, 0.12));
-      border: 2px solid rgba(126, 79, 19, 0.18);
-      border-radius: 28px;
-      padding: 22px 16px 24px;
-      box-shadow: 0 18px 40px rgba(88, 54, 11, 0.18);
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
+button{
+  font-family:inherit;
+}
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      left: -30%;
-      top: -25%;
-      width: 160%;
-      height: 60%;
-      background: radial-gradient(circle, rgba(255,255,255,0.55), transparent 62%);
-      pointer-events: none;
-    }
+.hidden{
+  display:none !important;
+}
 
-    .logo {
-      display: block;
-      width: 108px;
-      height: 108px;
-      object-fit: contain;
-      margin: 0 auto 10px;
-      filter: drop-shadow(0 8px 12px rgba(88, 54, 11, 0.18));
-      position: relative;
-      z-index: 1;
-    }
+.page{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:18px 12px 48px;
+}
 
-    h1 {
-      margin: 4px 0 2px;
-      font-size: clamp(30px, 8vw, 48px);
-      line-height: 1.18;
-      color: #7b170f;
-      letter-spacing: 0.02em;
-      position: relative;
-      z-index: 1;
-    }
+.hero{
+  text-align:center;
+  padding:8px 0 4px;
+}
 
-    .project-name {
-      margin: 0;
-      font-weight: 800;
-      font-size: 16px;
-      color: #7b4b10;
-      position: relative;
-      z-index: 1;
-    }
+.logoFrame{
+  width:128px;
+  height:128px;
+  margin:0 auto 12px;
+  border-radius:28px;
+  overflow:hidden;
+  background:#060606;
+  border:3px solid rgba(255,220,89,0.88);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.56),
+    0 0 24px rgba(255,218,90,0.22);
+}
 
-    .card {
-      margin-top: 18px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(126, 79, 19, 0.18);
-      border-radius: 24px;
-      padding: 18px 16px;
-      box-shadow: 0 12px 28px rgba(88, 54, 11, 0.13);
-    }
+.logoFrame img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 25px;
-      color: #7b170f;
-      line-height: 1.3;
-      text-align: center;
-    }
+.mainTitle{
+  margin:0;
+  color:#ffdf75;
+  font-size:clamp(36px,10.8vw,68px);
+  font-weight:900;
+  line-height:1.12;
+  letter-spacing:0.06em;
+  text-shadow:
+    0 5px 5px rgba(0,0,0,0.95),
+    0 0 22px rgba(255,220,90,0.28);
+}
 
-    .lead {
-      margin: 0;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      color: #4a310c;
-    }
+.mainSubTitle{
+  margin:8px 0 0;
+  color:#fff1bd;
+  font-size:clamp(22px,6vw,38px);
+  font-weight:900;
+  line-height:1.35;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,0.95),
+    0 0 18px rgba(255,220,90,0.20);
+}
 
-    .status {
-      margin: 14px auto 0;
-      max-width: 520px;
-      border-radius: 16px;
-      background: rgba(255, 247, 223, 0.92);
-      border: 1px solid rgba(156, 104, 23, 0.18);
-      padding: 12px 14px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #71440f;
-      text-align: center;
-    }
+.card{
+  margin:22px 0;
+  padding:24px 15px;
+  border-radius:30px;
+  border:3px solid rgba(214,183,60,0.95);
+  background:
+    radial-gradient(circle at top,rgba(255,224,120,0.20),rgba(0,0,0,0) 46%),
+    linear-gradient(180deg,rgba(36,30,17,0.98),rgba(14,14,14,0.98));
+  box-shadow:
+    0 0 0 1px rgba(255,241,174,0.10) inset,
+    0 14px 30px rgba(0,0,0,0.48);
+}
 
-    .main-button,
-    .share-button,
-    .back-button {
-      appearance: none;
-      -webkit-appearance: none;
-      display: block;
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      padding: 16px 18px;
-      margin: 12px 0 0;
-      text-align: center;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 900;
-      line-height: 1.25;
-      cursor: pointer;
-      transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.08s ease;
-    }
+.cardTitle{
+  margin:0 0 14px;
+  color:#ffdf75;
+  text-align:center;
+  font-size:clamp(30px,8.4vw,54px);
+  font-weight:900;
+  line-height:1.25;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,0.95),
+    0 0 18px rgba(255,220,90,0.26);
+}
 
-    .main-button:active,
-    .share-button:active,
-    .back-button:active {
-      transform: translateY(1px);
-      box-shadow: none;
-    }
+.cardText{
+  margin:0 0 16px;
+  color:#fff1bd;
+  text-align:center;
+  font-size:clamp(20px,5.5vw,34px);
+  font-weight:900;
+  line-height:1.55;
+}
 
-    .main-button {
-      background: linear-gradient(180deg, #d71920, #9f1118);
-      color: #fff;
-      box-shadow: 0 10px 18px rgba(159, 17, 24, 0.28);
-    }
+.statusBox{
+  margin:18px 0 0;
+  padding:17px 14px;
+  border-radius:22px;
+  background:rgba(0,0,0,0.38);
+  border:1px solid rgba(255,226,140,0.36);
+  color:#fff1bd;
+  text-align:center;
+  font-size:clamp(18px,4.9vw,29px);
+  font-weight:900;
+  line-height:1.65;
+  white-space:pre-wrap;
+}
 
-    .main-button:disabled {
-      opacity: 0.7;
-      cursor: default;
-    }
+.resultCard{
+  text-align:center;
+}
 
-    .share-button {
-      background: #fff;
-      color: #5c3608;
-      border: 2px solid rgba(126, 79, 19, 0.20);
-      box-shadow: 0 8px 16px rgba(88, 54, 11, 0.11);
-    }
+.resultLabel{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:160px;
+  margin:0 auto 12px;
+  padding:8px 18px;
+  border-radius:999px;
+  color:#fff;
+  background:#8b1712;
+  font-size:clamp(18px,5vw,30px);
+  font-weight:900;
+  box-shadow:0 8px 16px rgba(0,0,0,0.28);
+}
 
-    .share-button.facebook {
-      background: #1877f2;
-      border-color: #1877f2;
-      color: #fff;
-    }
+.resultMain{
+  margin:0;
+  color:#ffdf75;
+  font-size:clamp(38px,11vw,74px);
+  font-weight:900;
+  line-height:1.15;
+  letter-spacing:0.06em;
+  text-shadow:
+    0 5px 5px rgba(0,0,0,0.95),
+    0 0 22px rgba(255,220,90,0.30);
+}
 
-    .share-button.line {
-      background: #06c755;
-      border-color: #06c755;
-      color: #fff;
-    }
+.resultTitle{
+  margin:14px 0 0;
+  color:#fff1bd;
+  font-size:clamp(23px,6.4vw,40px);
+  font-weight:900;
+  line-height:1.35;
+}
 
-    .share-button.x {
-      background: #111;
-      border-color: #111;
-      color: #fff;
-    }
+.message{
+  margin:14px 0 0;
+  color:#fff1bd;
+  font-size:clamp(18px,5vw,29px);
+  font-weight:900;
+  line-height:1.65;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
 
-    .share-button.copy {
-      background: linear-gradient(180deg, #fff8dc, #f4dfa4);
-      color: #583507;
-      border-color: rgba(126, 79, 19, 0.24);
-    }
+.imageBox{
+  margin:18px auto 0;
+  width:100%;
+  overflow:hidden;
+  border-radius:24px;
+  border:3px solid rgba(255,220,89,0.80);
+  background:#111111;
+  box-shadow:0 14px 28px rgba(0,0,0,0.44);
+}
 
-    .back-button {
-      background: #5a3a0b;
-      color: #fff;
-      box-shadow: 0 8px 16px rgba(68, 43, 7, 0.2);
-    }
+.imageBox img{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#111111;
+}
 
-    .back-button.sub {
-      background: #fff;
-      color: #5a3a0b;
-      border: 2px solid rgba(90, 58, 11, 0.25);
-    }
+.buttonArea{
+  display:grid;
+  gap:13px;
+  margin-top:18px;
+}
 
-    .hidden {
-      display: none !important;
-    }
+.shareGrid{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
 
-    .result-card {
-      text-align: center;
-      border: 2px solid rgba(169, 32, 32, 0.18);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,248,231,0.96)),
-        radial-gradient(circle at top, rgba(255, 228, 141, 0.28), transparent 60%);
-    }
+.btn,
+.linkBtn{
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+  min-height:68px;
+  border:none;
+  border-radius:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 16px;
+  color:#fff;
+  text-decoration:none;
+  text-align:center;
+  cursor:pointer;
+  font-size:clamp(19px,5.2vw,32px);
+  font-weight:900;
+  line-height:1.25;
+  letter-spacing:0.02em;
+  box-shadow:
+    0 7px 0 rgba(0,0,0,0.34),
+    0 13px 22px rgba(0,0,0,0.36);
+}
 
-    .result-label {
-      margin: 0 auto 8px;
-      display: inline-block;
-      padding: 6px 18px;
-      border-radius: 999px;
-      background: #7b170f;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 900;
-    }
+.btn:active,
+.linkBtn:active{
+  transform:translateY(2px);
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.34),
+    0 8px 16px rgba(0,0,0,0.30);
+}
 
-    .result-main {
-      margin: 0;
-      color: #b31318;
-      font-size: clamp(32px, 9vw, 58px);
-      line-height: 1.1;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.85);
-    }
+.btn:disabled,
+.linkBtn.disabled{
+  opacity:0.55;
+  pointer-events:none;
+}
 
-    .result-title {
-      margin: 12px 0 0;
-      font-size: 22px;
-      color: #553306;
-      font-weight: 900;
-    }
+.goldBtn{
+  color:#291700;
+  background:linear-gradient(180deg,#fff3ae 0%,#ffdc56 48%,#c99217 100%);
+}
 
-    .message {
-      margin: 14px 0 0;
-      font-size: 18px;
-      font-weight: 700;
-      color: #3f2a08;
-      white-space: pre-wrap;
-    }
+.facebookBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#3186ff 0%,#1877f2 100%);
+}
 
-    .image-box {
-      margin: 16px auto 0;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1px solid rgba(126, 79, 19, 0.18);
-      background: #fff8e5;
-      box-shadow: 0 12px 24px rgba(88, 54, 11, 0.18);
-    }
+.lineBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#19dc68 0%,#06c755 100%);
+}
 
-    .image-box img {
-      display: block;
-      width: 100%;
-      height: auto;
-      min-height: 140px;
-      object-fit: cover;
-      background: #fff8e5;
-    }
+.xBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#333333 0%,#050505 100%);
+}
 
-    .share-area {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
+.copyBtn{
+  color:#291700;
+  background:linear-gradient(180deg,#ffffff 0%,#f6e4a8 100%);
+}
 
-    .notice-small {
-      margin: 12px 0 0;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #725115;
-      text-align: center;
-    }
+.redBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#f44747 0%,#b81418 100%);
+}
 
-    .footer {
-      margin-top: 18px;
-      text-align: center;
-      color: #7b4b10;
-      font-size: 13px;
-      font-weight: 700;
-    }
+.blackBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#333333 0%,#050505 100%);
+}
 
-    #saveCanvas {
-      display: none;
-    }
+.grayBtn{
+  color:#ffffff;
+  background:linear-gradient(180deg,#888888 0%,#2a2a2a 100%);
+}
 
-    @media (min-width: 560px) {
-      .share-area {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+.noticeSmall{
+  margin:14px 0 0;
+  color:#d9ca87;
+  text-align:center;
+  font-size:clamp(14px,4vw,22px);
+  font-weight:800;
+  line-height:1.6;
+}
 
-      .share-area .share-button {
-        margin-top: 0;
-      }
+.footer{
+  margin:28px 0 0;
+  color:#c9b56b;
+  text-align:center;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.7;
+}
 
-      .share-area .wide {
-        grid-column: 1 / -1;
-      }
-    }
-  </style>
+#saveCanvas{
+  display:none;
+}
+
+@media (min-width:640px){
+  .shareGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .shareGrid .wide{
+    grid-column:1 / -1;
+  }
+}
+
+@media (max-width:420px){
+  .page{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  .card{
+    padding-left:13px;
+    padding-right:13px;
+    border-radius:26px;
+  }
+
+  .btn,
+  .linkBtn{
+    min-height:66px;
+    border-radius:22px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="page">
-    <section class="hero">
-      <img class="logo" src="logo.png" alt="田子山富士">
-      <h1>開運おみくじ</h1>
-      <p class="project-name">田子山富士 168の縁プロジェクト</p>
-    </section>
+<main class="page">
 
-    <section class="card" id="drawSection">
-      <h2>⛩️ 今日のご縁</h2>
-      <p class="lead">
-        田子山富士のご縁に願いを込めて、<br>
-        おみくじを引いてください。
-      </p>
+<header class="hero">
+  <div class="logoFrame">
+    <img
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+      alt="田子山富士"
+      onerror="this.style.display='none';"
+    >
+  </div>
 
-      <div class="status" id="statusBox">
-        おみくじを引く準備ができました。
-      </div>
+  <h1 class="mainTitle">田子山富士</h1>
+  <p class="mainSubTitle">開運おみくじ</p>
+</header>
 
-      <button class="main-button" id="drawBtn" type="button" onclick="drawOmikuji()">
-        おみくじを引く
-      </button>
-    </section>
+<section class="card" id="drawSection">
+  <h2 class="cardTitle">⛩️ 今日のご縁</h2>
 
-    <section class="card result-card hidden" id="resultSection">
-      <h2>結果</h2>
+  <p class="cardText">
+    田子山富士のご縁に願いを込めて、<br>
+    おみくじを引いてください。
+  </p>
 
-      <div class="result-label">おみくじ</div>
-      <p class="result-main" id="resultText">おみくじ</p>
-      <p class="result-title" id="titleText">今日の運勢</p>
-      <p class="message" id="messageText">
-        田子山富士のご縁を、みなさんにもおすそ分けします。
-      </p>
+  <div class="statusBox" id="statusBox">
+    おみくじを引く準備ができました。
+  </div>
 
-      <div class="image-box hidden" id="resultImageBox">
-        <img id="resultImage" src="" alt="おみくじ画像">
-      </div>
+  <div class="buttonArea">
+    <button class="btn goldBtn" id="drawBtn" type="button" onclick="drawOmikuji()">
+      おみくじを引く
+    </button>
+  </div>
+</section>
 
-      <div class="share-area">
-        <button class="share-button wide" type="button" onclick="downloadImage()">
-          画像をダウンロード
-        </button>
+<section class="card resultCard hidden" id="resultSection">
+  <h2 class="cardTitle">結果</h2>
 
-        <button class="share-button facebook" type="button" onclick="shareFacebook()">
-          Facebookに投稿
-        </button>
+  <div class="resultLabel">おみくじ</div>
 
-        <button class="share-button line" type="button" onclick="shareLine()">
-          LINEで送る
-        </button>
+  <p class="resultMain" id="resultText">おみくじ</p>
+  <p class="resultTitle" id="titleText">今日の運勢</p>
+  <p class="message" id="messageText">
+    田子山富士のご縁を、みなさんにもおすそ分けします。
+  </p>
 
-        <button class="share-button x" type="button" onclick="shareX()">
-          Xで投稿
-        </button>
+  <div class="imageBox hidden" id="resultImageBox">
+    <img id="resultImage" src="" alt="おみくじ画像">
+  </div>
 
-        <button class="share-button copy" type="button" onclick="copyResult()">
-          結果をコピー
-        </button>
+  <div class="shareGrid">
+    <button class="btn goldBtn wide" type="button" onclick="downloadImage()">
+      画像をダウンロード
+    </button>
 
-        <a class="share-button" id="backBtn" href="index.html">
-          トップへ戻る
-        </a>
-      </div>
+    <button class="btn facebookBtn" type="button" onclick="shareFacebook()">
+      Facebookに投稿
+    </button>
 
-      <p class="notice-small">
-        SNS投稿画面が開いたら、本文を確認して投稿してください。
-      </p>
-    </section>
+    <button class="btn lineBtn" type="button" onclick="shareLine()">
+      LINEで送る
+    </button>
 
-    <section class="card">
-      <h2>戻る</h2>
+    <button class="btn xBtn" type="button" onclick="shareX()">
+      Xで投稿
+    </button>
 
-      <a class="back-button" id="certificateBtn" href="certificate.html">
-        登頂記念証へ戻る
-      </a>
+    <button class="btn copyBtn" type="button" onclick="copyResult()">
+      結果をコピー
+    </button>
 
-      <a class="back-button sub" id="backBtn2" href="index.html">
-        トップへ戻る
-      </a>
-    </section>
+    <a class="linkBtn blackBtn" id="topLink" href="index.html">
+      トップへ戻る
+    </a>
+  </div>
 
-    <footer class="footer">
-      田子山富士 168の縁プロジェクト<br>
-      開運おみくじ
-    </footer>
+  <p class="noticeSmall">
+    SNS投稿画面が開いたら、本文を確認して投稿してください。
+  </p>
+</section>
 
-    <canvas id="saveCanvas"></canvas>
-  </main>
+<section class="card">
+  <h2 class="cardTitle">戻る</h2>
 
-  <script>
-    const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbzXwy6ixLrQI5ltUZ4X6dUBT64GY12gZQdECCatAooDZaNTtGcMDBFmHKlEBfLzWaI/exec";
+  <div class="buttonArea">
+    <a class="linkBtn redBtn" id="certificateLink" href="certificate.html">
+      登頂記念証へ戻る
+    </a>
 
-    const HOME_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
+    <a class="linkBtn blackBtn" id="topLink2" href="index.html">
+      トップへ戻る
+    </a>
+  </div>
+</section>
 
-    const CERTIFICATE_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
+<footer class="footer">
+  田子山富士 168の縁プロジェクト<br>
+  開運おみくじ
+</footer>
 
-    const OMIKUJI_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
+<canvas id="saveCanvas"></canvas>
 
-    const SHARE_OMIKUJI_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
+</main>
 
-    let currentUserId = "";
-    let currentResult = null;
-    let omikujiDrawFinished = false;
+<script>
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbxVNG0afPqotqc0-YZOhL1QDhozzbYbAwA5uUEOAtz7L2ZjzaG70aY81dt8-O0Alx_5/exec";
 
-    document.addEventListener("DOMContentLoaded", function () {
-      currentUserId = getUserId();
-      updateLinks();
+const HOME_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
-      const params = new URLSearchParams(location.search);
-      const auto = params.get("auto") || "";
+const CERTIFICATE_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
-      if (auto === "1" || auto === "true") {
-        setTimeout(function () {
-          drawOmikuji();
-        }, 400);
-      }
-    });
+const OMIKUJI_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
-    function getString(value) {
-      if (value === null || value === undefined) {
-        return "";
-      }
-      return String(value).trim();
-    }
+const SHARE_OMIKUJI_PAGE =
+"https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
 
-    function getUserId() {
-      const params = new URLSearchParams(location.search);
+let currentUserId = "";
+let currentResult = null;
+let drawFinished = false;
 
-      return getString(
-        params.get("userId") ||
-        params.get("userid") ||
-        params.get("uid") ||
-        params.get("id") ||
-        ""
-      );
-    }
+window.addEventListener("load", init);
 
-    function updateLinks() {
-      const backBtn = document.getElementById("backBtn");
-      const backBtn2 = document.getElementById("backBtn2");
-      const certificateBtn = document.getElementById("certificateBtn");
+function init(){
+  currentUserId = getUserIdFromUrl();
 
-      const indexUrl =
-        currentUserId
-          ? "index.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
-          : "index.html?v=" + Date.now();
+  if(currentUserId){
+    localStorage.setItem("tagoyamaUserId", currentUserId);
+    localStorage.setItem("tagoyamaFujiUserId", currentUserId);
+  }else{
+    currentUserId =
+      localStorage.getItem("tagoyamaUserId") ||
+      localStorage.getItem("tagoyamaFujiUserId") ||
+      "";
+  }
 
-      const certificateUrl =
+  updateLinks();
+
+  const params = new URLSearchParams(location.search);
+  const auto = getString(params.get("auto"));
+
+  if(auto === "1" || auto === "true"){
+    setTimeout(function(){
+      drawOmikuji();
+    },400);
+  }
+}
+
+function getUserIdFromUrl(){
+  const params = new URLSearchParams(location.search);
+
+  return getString(
+    params.get("userId") ||
+    params.get("userid") ||
+    params.get("uid") ||
+    params.get("id") ||
+    ""
+  );
+}
+
+function updateLinks(){
+  const topLink = document.getElementById("topLink");
+  const topLink2 = document.getElementById("topLink2");
+  const certificateLink = document.getElementById("certificateLink");
+
+  if(topLink){
+    topLink.href =
+      currentUserId
+        ? "index.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
+        : "index.html?v=" + Date.now();
+  }
+
+  if(topLink2){
+    topLink2.href =
+      currentUserId
+        ? "index.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
+        : "index.html?v=" + Date.now();
+  }
+
+  if(certificateLink){
+    const savedData = getSavedClimbData();
+
+    if(savedData && savedData.userId && savedData.climbCount && savedData.serialNo){
+      certificateLink.href = buildCertificateUrl(savedData);
+    }else{
+      certificateLink.href =
         currentUserId
           ? "certificate.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
           : "certificate.html?v=" + Date.now();
+    }
+  }
+}
 
-      if (backBtn) {
-        backBtn.href = indexUrl;
-      }
+function getSavedClimbData(){
+  try{
+    const text = localStorage.getItem("tagoyamaClimbData");
 
-      if (backBtn2) {
-        backBtn2.href = indexUrl;
-      }
-
-      if (certificateBtn) {
-        certificateBtn.href = certificateUrl;
-      }
+    if(!text){
+      return null;
     }
 
-    async function drawOmikuji() {
-      if (omikujiDrawFinished) {
-        const section = document.getElementById("resultSection");
-        if (section) {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }
-        return;
-      }
+    const data = JSON.parse(text);
 
-      const btn = document.getElementById("drawBtn");
-      const statusBox = document.getElementById("statusBox");
-
-      if (btn) {
-        btn.disabled = true;
-        btn.innerText = "引いています...";
-      }
-
-      if (statusBox) {
-        statusBox.innerText = "おみくじを引いています。";
-      }
-
-      try {
-        let url =
-          GAS_URL +
-          "?mode=omikuji" +
-          "&t=" +
-          Date.now();
-
-        if (currentUserId) {
-          url +=
-            "&userId=" +
-            encodeURIComponent(currentUserId);
-        }
-
-        const data = await getJson(url);
-
-        if (!data || data.success === false) {
-          throw new Error(
-            data && data.message
-              ? data.message
-              : "おみくじを取得できませんでした。"
-          );
-        }
-
-        currentResult = normalizeOmikujiData(data);
-
-        if (!currentResult.result && !currentResult.title && !currentResult.message && !currentResult.imageUrl) {
-          throw new Error("おみくじの内容を取得できませんでした。");
-        }
-
-        renderResult(currentResult);
-        omikujiDrawFinished = true;
-        lockDrawButton();
-
-        if (statusBox) {
-          statusBox.innerText = "おみくじを引きました。";
-        }
-      } catch (e) {
-        console.error(e);
-
-        if (statusBox) {
-          statusBox.innerText =
-            e && e.message
-              ? e.message
-              : "おみくじを取得できませんでした。";
-        }
-
-        if (btn) {
-          btn.disabled = false;
-          btn.innerText = "おみくじを引く";
-        }
-      }
+    if(!data || !data.userId){
+      return null;
     }
 
-    async function getJson(url) {
-      const res = await fetch(url, {
-        method: "GET",
-        cache: "no-store"
+    return data;
+  }catch(e){
+    return null;
+  }
+}
+
+function buildCertificateUrl(data){
+  const params = new URLSearchParams();
+
+  params.set("userId", getString(data.userId));
+
+  if(data.climbCount){
+    params.set("climbCount", getString(data.climbCount));
+  }
+
+  if(data.serialNo){
+    params.set("serialNo", getString(data.serialNo));
+  }
+
+  if(data.lastDate){
+    params.set("lastDate", getString(data.lastDate));
+  }
+
+  if(data.imageNo){
+    params.set("imageNo", getString(data.imageNo));
+  }
+
+  if(data.imageName){
+    params.set("imageName", getString(data.imageName));
+  }
+
+  if(data.imageUrl){
+    params.set("imageUrl", getString(data.imageUrl));
+  }
+
+  if(data.participantNo){
+    params.set("participantNo", getString(data.participantNo));
+  }
+
+  params.set("v", String(Date.now()));
+
+  return CERTIFICATE_PAGE + "?" + params.toString();
+}
+
+async function drawOmikuji(){
+  if(drawFinished){
+    const section = document.getElementById("resultSection");
+
+    if(section){
+      section.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
       });
-
-      if (!res.ok) {
-        throw new Error("通信に失敗しました。");
-      }
-
-      const text = await res.text();
-
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        const jsonpMatch = text.match(/^[^(]*\(([\s\S]*)\)\s*;?\s*$/);
-        if (jsonpMatch && jsonpMatch[1]) {
-          return JSON.parse(jsonpMatch[1]);
-        }
-        throw new Error("データの形式を読み込めませんでした。");
-      }
     }
 
-    function lockDrawButton() {
-      const btn = document.getElementById("drawBtn");
+    return;
+  }
 
-      if (btn) {
-        btn.disabled = true;
-        btn.innerText = "おみくじを引きました";
-        btn.style.display = "none";
+  const btn = document.getElementById("drawBtn");
+  const statusBox = document.getElementById("statusBox");
+
+  if(btn){
+    btn.disabled = true;
+    btn.innerText = "引いています...";
+  }
+
+  if(statusBox){
+    statusBox.innerText = "おみくじを引いています。";
+  }
+
+  try{
+    let url =
+      GAS_URL +
+      "?mode=omikuji" +
+      "&t=" +
+      Date.now();
+
+    if(currentUserId){
+      url +=
+        "&userId=" +
+        encodeURIComponent(currentUserId);
+    }
+
+    const data = await getJson(url);
+
+    if(!data || data.success === false){
+      throw new Error(
+        data && data.message
+          ? data.message
+          : "おみくじを取得できませんでした。"
+      );
+    }
+
+    currentResult = normalizeOmikujiData(data);
+
+    if(!currentResult.result && !currentResult.title && !currentResult.message && !currentResult.imageUrl){
+      throw new Error("おみくじの内容を取得できませんでした。");
+    }
+
+    renderResult(currentResult);
+    drawFinished = true;
+
+    if(statusBox){
+      statusBox.innerText = "おみくじを引きました。";
+    }
+
+    if(btn){
+      btn.disabled = true;
+      btn.innerText = "おみくじを引きました";
+      btn.style.display = "none";
+    }
+  }catch(e){
+    if(statusBox){
+      statusBox.innerText =
+        e && e.message
+          ? e.message
+          : "おみくじを取得できませんでした。";
+    }
+
+    if(btn){
+      btn.disabled = false;
+      btn.innerText = "おみくじを引く";
+    }
+  }
+}
+
+function normalizeOmikujiData(data){
+  const objects = collectObjectsDeep(data);
+
+  const imageUrl =
+    pickValue(objects, [
+      "imageUrl",
+      "imageURL",
+      "img",
+      "imgUrl",
+      "url",
+      "thumbnail",
+      "thumbnailUrl",
+      "image",
+      "画像URL",
+      "画像url",
+      "画像",
+      "URL"
+    ]) || findImageUrlDeep(data);
+
+  return {
+    result: pickValue(objects, [
+      "result",
+      "luck",
+      "fortune",
+      "omikuji",
+      "omikujiResult",
+      "kuji",
+      "運勢",
+      "結果",
+      "おみくじ"
+    ]) || "おみくじ",
+    title: pickValue(objects, [
+      "title",
+      "name",
+      "subtitle",
+      "imageName",
+      "cardName",
+      "タイトル",
+      "名前",
+      "見出し",
+      "画像名"
+    ]) || "今日の運勢",
+    message: pickValue(objects, [
+      "message",
+      "body",
+      "text",
+      "comment",
+      "description",
+      "本文",
+      "メッセージ",
+      "説明",
+      "言葉"
+    ]) || "田子山富士のご縁を、みなさんにもおすそ分けします。",
+    imageNo: pickValue(objects, [
+      "imageNo",
+      "imageNumber",
+      "no",
+      "number",
+      "画像番号",
+      "番号"
+    ]),
+    imageName: pickValue(objects, [
+      "imageName",
+      "imageTitle",
+      "画像名",
+      "画像タイトル"
+    ]),
+    imageUrl: imageUrl,
+    displayImageUrl: ""
+  };
+}
+
+function collectObjectsDeep(value){
+  const result = [];
+  const seen = [];
+
+  function walk(v){
+    if(!v || typeof v !== "object"){
+      return;
+    }
+
+    if(seen.indexOf(v) >= 0){
+      return;
+    }
+
+    seen.push(v);
+
+    if(!Array.isArray(v)){
+      result.push(v);
+    }
+
+    const keys = Object.keys(v);
+
+    for(let i = 0; i < keys.length; i++){
+      walk(v[keys[i]]);
+    }
+  }
+
+  walk(value);
+
+  return result;
+}
+
+function pickValue(objects, keys){
+  for(let i = 0; i < objects.length; i++){
+    for(let j = 0; j < keys.length; j++){
+      const key = keys[j];
+
+      if(objects[i][key] !== null && objects[i][key] !== undefined){
+        const value = cleanText(objects[i][key]);
+
+        if(value){
+          return value;
+        }
       }
     }
+  }
 
-    function normalizeOmikujiData(data) {
-      const objects = collectObjectsDeep(data);
+  return "";
+}
 
-      const imageUrl =
-        pickValue(objects, [
-          "imageUrl",
-          "imageURL",
-          "img",
-          "imgUrl",
-          "url",
-          "thumbnail",
-          "thumbnailUrl",
-          "image",
-          "画像URL",
-          "画像url",
-          "画像",
-          "URL"
-        ]) || findImageUrlDeep(data);
+function findImageUrlDeep(value){
+  const seen = [];
 
-      return {
-        result: pickValue(objects, [
-          "result",
-          "luck",
-          "fortune",
-          "omikuji",
-          "omikujiResult",
-          "kuji",
-          "運勢",
-          "結果",
-          "おみくじ"
-        ]),
-        title: pickValue(objects, [
-          "title",
-          "name",
-          "subtitle",
-          "imageName",
-          "cardName",
-          "タイトル",
-          "名前",
-          "見出し",
-          "画像名"
-        ]),
-        message: pickValue(objects, [
-          "message",
-          "body",
-          "text",
-          "comment",
-          "description",
-          "本文",
-          "メッセージ",
-          "説明",
-          "言葉"
-        ]),
-        imageNo: pickValue(objects, [
-          "imageNo",
-          "imageNumber",
-          "no",
-          "number",
-          "画像番号",
-          "番号"
-        ]),
-        imageName: pickValue(objects, [
-          "imageName",
-          "imageTitle",
-          "画像名",
-          "画像タイトル"
-        ]),
-        imageUrl: imageUrl,
-        displayImageUrl: ""
-      };
+  function walk(v){
+    if(v === null || v === undefined){
+      return "";
     }
 
-    function collectObjectsDeep(value) {
-      const result = [];
-      const seen = [];
+    if(typeof v === "string"){
+      const text = cleanText(v);
 
-      function walk(v) {
-        if (!v || typeof v !== "object") {
-          return;
+      if(
+        text.indexOf("drive.google.com") >= 0 ||
+        text.indexOf("googleusercontent.com") >= 0 ||
+        text.indexOf("thumbnail?id=") >= 0 ||
+        text.match(/\.(jpg|jpeg|png|webp|gif)(\?|#|$)/i)
+      ){
+        const match = text.match(/https?:\/\/[^\s"'<>]+/);
+
+        if(match && match[0]){
+          return match[0];
         }
 
-        if (seen.indexOf(v) >= 0) {
-          return;
-        }
-
-        seen.push(v);
-
-        if (!Array.isArray(v)) {
-          result.push(v);
-        }
-
-        const keys = Object.keys(v);
-        for (let i = 0; i < keys.length; i++) {
-          walk(v[keys[i]]);
-        }
+        return text;
       }
 
-      walk(value);
-      return result;
+      return "";
     }
 
-    function pickValue(objects, keys) {
-      for (let i = 0; i < objects.length; i++) {
-        for (let j = 0; j < keys.length; j++) {
-          const key = keys[j];
+    if(typeof v !== "object"){
+      return "";
+    }
 
-          if (objects[i][key] !== null && objects[i][key] !== undefined) {
-            const value = cleanImageText(String(objects[i][key]).trim());
+    if(seen.indexOf(v) >= 0){
+      return "";
+    }
 
-            if (value) {
-              return value;
-            }
-          }
+    seen.push(v);
+
+    if(Array.isArray(v)){
+      for(let i = 0; i < v.length; i++){
+        const found = walk(v[i]);
+
+        if(found){
+          return found;
         }
       }
 
       return "";
     }
 
-    function cleanImageText(text) {
-      return getString(text)
-        .replace(/\\\//g, "/")
-        .replace(/\\u0026/g, "&")
-        .replace(/&amp;/g, "&");
+    const keys = Object.keys(v);
+
+    for(let i = 0; i < keys.length; i++){
+      const found = walk(v[keys[i]]);
+
+      if(found){
+        return found;
+      }
     }
 
-    function findImageUrlDeep(value) {
-      const seen = [];
+    return "";
+  }
 
-      function walk(v) {
-        if (v === null || v === undefined) {
-          return "";
-        }
+  return walk(value);
+}
 
-        if (typeof v === "string") {
-          const text = cleanImageText(v);
+function renderResult(result){
+  const section = document.getElementById("resultSection");
+  const resultText = document.getElementById("resultText");
+  const titleText = document.getElementById("titleText");
+  const messageText = document.getElementById("messageText");
 
-          if (
-            text.indexOf("drive.google.com") >= 0 ||
-            text.indexOf("googleusercontent.com") >= 0 ||
-            text.indexOf("thumbnail?id=") >= 0 ||
-            text.match(/\.(jpg|jpeg|png|webp|gif)(\?|#|$)/i)
-          ) {
-            const match = text.match(/https?:\/\/[^\s"'<>]+/);
-            if (match && match[0]) {
-              return match[0];
-            }
-            return text;
-          }
+  if(section){
+    section.classList.remove("hidden");
+  }
 
-          return "";
-        }
+  if(resultText){
+    resultText.innerText = result.result || "おみくじ";
+  }
 
-        if (typeof v !== "object") {
-          return "";
-        }
+  if(titleText){
+    titleText.innerText = result.title || "今日の運勢";
+  }
 
-        if (seen.indexOf(v) >= 0) {
-          return "";
-        }
+  if(messageText){
+    messageText.innerText =
+      result.message ||
+      "田子山富士のご縁を、みなさんにもおすそ分けします。";
+  }
 
-        seen.push(v);
+  setResultImage(result.imageUrl);
+  updateLinks();
 
-        if (Array.isArray(v)) {
-          for (let i = 0; i < v.length; i++) {
-            const found = walk(v[i]);
-            if (found) {
-              return found;
-            }
-          }
-          return "";
-        }
+  setTimeout(function(){
+    if(section){
+      section.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+    }
+  },120);
+}
 
-        const keys = Object.keys(v);
-        for (let i = 0; i < keys.length; i++) {
-          const found = walk(v[keys[i]]);
-          if (found) {
-            return found;
-          }
-        }
+function setResultImage(url){
+  const imageBox = document.getElementById("resultImageBox");
+  const image = document.getElementById("resultImage");
 
-        return "";
-      }
+  if(!imageBox || !image){
+    return;
+  }
 
-      return walk(value);
+  const candidates = makeImageDisplayUrlList(url);
+
+  if(!candidates.length){
+    image.removeAttribute("src");
+    imageBox.classList.add("hidden");
+    return;
+  }
+
+  let index = 0;
+
+  image.onload = function(){
+    if(currentResult){
+      currentResult.displayImageUrl = image.src;
     }
 
-    function renderResult(result) {
-      const section = document.getElementById("resultSection");
-      const resultText = document.getElementById("resultText");
-      const titleText = document.getElementById("titleText");
-      const messageText = document.getElementById("messageText");
+    imageBox.classList.remove("hidden");
+  };
 
-      if (section) {
-        section.classList.remove("hidden");
-      }
+  image.onerror = function(){
+    index++;
 
-      if (resultText) {
-        resultText.innerText =
-          result.result || "おみくじ";
-      }
-
-      if (titleText) {
-        titleText.innerText =
-          result.title || result.result || "今日の運勢";
-      }
-
-      if (messageText) {
-        messageText.innerText =
-          result.message ||
-          "田子山富士のご縁を、みなさんにもおすそ分けします。";
-      }
-
-      setResultImage(result.imageUrl);
-      updateLinks();
-
-      setTimeout(function () {
-        if (section) {
-          section.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }
-      }, 120);
-    }
-
-    function setResultImage(url) {
-      const imageBox = document.getElementById("resultImageBox");
-      const image = document.getElementById("resultImage");
-
-      if (!imageBox || !image) {
-        return;
-      }
-
-      const candidates = makeImageDisplayUrlList(url);
-
-      if (!candidates.length) {
-        image.removeAttribute("src");
-        imageBox.classList.add("hidden");
-        return;
-      }
-
-      let index = 0;
-
-      image.onload = function () {
-        if (currentResult) {
-          currentResult.displayImageUrl = image.src;
-        }
-        imageBox.classList.remove("hidden");
-      };
-
-      image.onerror = function () {
-        index++;
-
-        if (index >= candidates.length) {
-          image.removeAttribute("src");
-          imageBox.classList.add("hidden");
-          return;
-        }
-
-        image.src = candidates[index];
-      };
-
+    if(index >= candidates.length){
+      image.removeAttribute("src");
       imageBox.classList.add("hidden");
-      image.src = candidates[index];
+      return;
     }
 
-    function makeImageDisplayUrlList(url) {
-      const text = cleanImageText(url);
-      const id = getDriveFileId(text);
-      const list = [];
+    image.src = candidates[index];
+  };
 
-      if (text) {
-        list.push(text);
+  imageBox.classList.add("hidden");
+  image.src = candidates[index];
+}
+
+function makeImageDisplayUrlList(url){
+  const text = cleanText(url);
+  const id = getDriveFileId(text);
+  const list = [];
+
+  if(text){
+    list.push(text);
+  }
+
+  if(id){
+    list.push(
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(id) +
+      "&sz=w1600"
+    );
+
+    list.push(
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(id) +
+      "&sz=w1200"
+    );
+
+    list.push(
+      "https://lh3.googleusercontent.com/d/" +
+      id +
+      "=w1600"
+    );
+
+    list.push(
+      "https://lh3.googleusercontent.com/d/" +
+      id +
+      "=w1200"
+    );
+  }
+
+  return list.filter(function(v,i,arr){
+    return v && arr.indexOf(v) === i;
+  });
+}
+
+function getDriveFileId(url){
+  const text = cleanText(url);
+
+  if(!text){
+    return "";
+  }
+
+  let match = text.match(/\/file\/d\/([^/]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = text.match(/[?&]id=([^&]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = text.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  return "";
+}
+
+function buildShareText(){
+  const result =
+    currentResult && currentResult.result
+      ? currentResult.result
+      : "おみくじ";
+
+  const title =
+    currentResult && currentResult.title
+      ? currentResult.title
+      : "今日の運勢";
+
+  const message =
+    currentResult && currentResult.message
+      ? currentResult.message
+      : "田子山富士のご縁を、みなさんにもおすそ分けします。";
+
+  return (
+    "田子山富士 開運おみくじ\n" +
+    result + "\n" +
+    title + "\n\n" +
+    message + "\n\n" +
+    "田子山富士のご縁を、みなさんにもおすそ分けします。"
+  );
+}
+
+function buildShareUrl(){
+  const params = new URLSearchParams();
+
+  params.set("v", String(Date.now()));
+
+  if(currentUserId){
+    params.set("userId", currentUserId);
+  }
+
+  if(currentResult){
+    if(currentResult.result){
+      params.set("result", currentResult.result);
+    }
+
+    if(currentResult.title){
+      params.set("title", currentResult.title);
+    }
+
+    if(currentResult.message){
+      params.set("message", currentResult.message);
+    }
+
+    if(currentResult.imageUrl){
+      params.set("imageUrl", currentResult.imageUrl);
+    }
+  }
+
+  return SHARE_OMIKUJI_PAGE + "?" + params.toString();
+}
+
+function shareFacebook(){
+  const url = buildShareUrl();
+
+  window.open(
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(url),
+    "_blank"
+  );
+}
+
+function shareLine(){
+  const text = buildShareText() + "\n" + buildShareUrl();
+
+  window.open(
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(buildShareUrl()) +
+    "&text=" +
+    encodeURIComponent(text),
+    "_blank"
+  );
+}
+
+function shareX(){
+  const text = buildShareText();
+
+  window.open(
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text) +
+    "&url=" +
+    encodeURIComponent(buildShareUrl()),
+    "_blank"
+  );
+}
+
+async function copyResult(){
+  const text = buildShareText() + "\n" + buildShareUrl();
+
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+    }else{
+      copyByTextarea(text);
+    }
+
+    alert("おみくじ結果をコピーしました。");
+  }catch(e){
+    copyByTextarea(text);
+    alert("おみくじ結果をコピーしました。");
+  }
+}
+
+function copyByTextarea(text){
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly","readonly");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.top = "0";
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+}
+
+async function downloadImage(){
+  if(!currentResult){
+    alert("先におみくじを引いてください。");
+    return;
+  }
+
+  try{
+    const canvas = document.getElementById("saveCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const width = 1080;
+    const height = 1350;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const bg = ctx.createLinearGradient(0,0,0,height);
+    bg.addColorStop(0,"#fff8db");
+    bg.addColorStop(0.48,"#f3d489");
+    bg.addColorStop(1,"#b47a19");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,width,height);
+
+    drawRoundRect(ctx,60,60,width - 120,height - 120,48,"#fff8df","rgba(90,55,7,0.34)");
+    drawRoundRect(ctx,92,92,width - 184,height - 184,34,"rgba(255,255,255,0)","rgba(140,89,13,0.34)");
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillStyle = "#7b170f";
+    ctx.font = "900 60px sans-serif";
+    ctx.fillText("田子山富士 開運おみくじ",width / 2,150);
+
+    ctx.fillStyle = "#7b4b10";
+    ctx.font = "800 32px sans-serif";
+    ctx.fillText("田子山富士 168の縁プロジェクト",width / 2,216);
+
+    let imageDrawn = false;
+
+    const imageUrl =
+      currentResult.displayImageUrl ||
+      currentResult.imageUrl ||
+      "";
+
+    if(imageUrl){
+      try{
+        const img = await loadImageForCanvas(imageUrl);
+        drawCoverImage(ctx,img,140,285,width - 280,500);
+        imageDrawn = true;
+      }catch(e){
+        imageDrawn = false;
       }
+    }
 
-      if (id) {
-        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1200");
-        list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
-        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1200");
-        list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
+    if(!imageDrawn){
+      drawRoundRect(ctx,140,285,width - 280,500,30,"#f3d489","rgba(90,55,7,0.24)");
+      ctx.fillStyle = "#8a5b11";
+      ctx.font = "900 52px sans-serif";
+      ctx.fillText("田子山富士",width / 2,535);
+    }
+
+    ctx.fillStyle = "#8b1712";
+    ctx.font = "900 84px sans-serif";
+    wrapTextCenter(ctx,currentResult.result || "おみくじ",width / 2,870,820,92);
+
+    ctx.fillStyle = "#4b2b05";
+    ctx.font = "900 48px sans-serif";
+    wrapTextCenter(ctx,currentResult.title || "今日の運勢",width / 2,1010,820,58);
+
+    ctx.fillStyle = "#5b3608";
+    ctx.font = "800 34px sans-serif";
+    wrapTextCenter(
+      ctx,
+      currentResult.message || "田子山富士のご縁を、みなさんにもおすそ分けします。",
+      width / 2,
+      1150,
+      820,
+      46
+    );
+
+    ctx.fillStyle = "#7b4b10";
+    ctx.font = "800 28px sans-serif";
+    ctx.fillText(
+      "田子山富士のご縁を、みなさんにもおすそ分けします。",
+      width / 2,
+      1270
+    );
+
+    const link = document.createElement("a");
+    link.download = "tagoyama-omikuji.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }catch(e){
+    alert("画像を作成できませんでした。結果コピーを使ってください。");
+  }
+}
+
+function drawRoundRect(ctx,x,y,w,h,r,fill,stroke){
+  ctx.beginPath();
+  ctx.moveTo(x + r,y);
+  ctx.lineTo(x + w - r,y);
+  ctx.quadraticCurveTo(x + w,y,x + w,y + r);
+  ctx.lineTo(x + w,y + h - r);
+  ctx.quadraticCurveTo(x + w,y + h,x + w - r,y + h);
+  ctx.lineTo(x + r,y + h);
+  ctx.quadraticCurveTo(x,y + h,x,y + h - r);
+  ctx.lineTo(x,y + r);
+  ctx.quadraticCurveTo(x,y,x + r,y);
+  ctx.closePath();
+
+  if(fill){
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+
+  if(stroke){
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  }
+}
+
+function drawCoverImage(ctx,img,x,y,w,h){
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+
+  if(!iw || !ih){
+    return;
+  }
+
+  const scale = Math.max(w / iw,h / ih);
+  const sw = w / scale;
+  const sh = h / scale;
+  const sx = (iw - sw) / 2;
+  const sy = (ih - sh) / 2;
+
+  ctx.save();
+  roundedClip(ctx,x,y,w,h,30);
+  ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
+  ctx.restore();
+}
+
+function roundedClip(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x + r,y);
+  ctx.lineTo(x + w - r,y);
+  ctx.quadraticCurveTo(x + w,y,x + w,y + r);
+  ctx.lineTo(x + w,y + h - r);
+  ctx.quadraticCurveTo(x + w,y + h,x + w - r,y + h);
+  ctx.lineTo(x + r,y + h);
+  ctx.quadraticCurveTo(x,y + h,x,y + h - r);
+  ctx.lineTo(x,y + r);
+  ctx.quadraticCurveTo(x,y,x + r,y);
+  ctx.closePath();
+  ctx.clip();
+}
+
+function wrapTextCenter(ctx,text,x,y,maxWidth,lineHeight){
+  const safeText = getString(text);
+  const paragraphs = safeText.split(/\n+/);
+  const lines = [];
+
+  paragraphs.forEach(function(paragraph){
+    const chars = paragraph.split("");
+    let line = "";
+
+    chars.forEach(function(ch){
+      const test = line + ch;
+      const width = ctx.measureText(test).width;
+
+      if(width > maxWidth && line){
+        lines.push(line);
+        line = ch;
+      }else{
+        line = test;
       }
+    });
 
-      return list.filter(function (v, i, arr) {
-        return v && arr.indexOf(v) === i;
-      });
+    if(line){
+      lines.push(line);
     }
+  });
 
-    function getDriveFileId(url) {
-      const text = cleanImageText(url);
+  const startY = y - ((lines.length - 1) * lineHeight) / 2;
 
-      if (!text) {
-        return "";
-      }
+  lines.forEach(function(line,i){
+    ctx.fillText(line,x,startY + i * lineHeight);
+  });
+}
 
-      let match = text.match(/\/file\/d\/([^/]+)/);
-      if (match && match[1]) {
-        return match[1];
-      }
+function loadImageForCanvas(url){
+  return new Promise(function(resolve,reject){
+    const list = makeImageDisplayUrlList(url);
+    let index = 0;
 
-      match = text.match(/[?&]id=([^&]+)/);
-      if (match && match[1]) {
-        return match[1];
-      }
-
-      match = text.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
-      if (match && match[1]) {
-        return match[1];
-      }
-
-      return "";
-    }
-
-    function buildShareText() {
-      const result =
-        currentResult && currentResult.result
-          ? currentResult.result
-          : "おみくじ";
-
-      const title =
-        currentResult && currentResult.title
-          ? currentResult.title
-          : "今日の運勢";
-
-      const message =
-        currentResult && currentResult.message
-          ? currentResult.message
-          : "田子山富士のご縁を、みなさんにもおすそ分けします。";
-
-      return (
-        "田子山富士 開運おみくじ\n" +
-        result + "\n" +
-        title + "\n\n" +
-        message + "\n\n" +
-        "田子山富士のご縁を、みなさんにもおすそ分けします。"
-      );
-    }
-
-    function buildShareUrl() {
-      const params = new URLSearchParams();
-
-      params.set("v", String(Date.now()));
-
-      if (currentUserId) {
-        params.set("userId", currentUserId);
-      }
-
-      if (currentResult) {
-        if (currentResult.result) {
-          params.set("result", currentResult.result);
-        }
-
-        if (currentResult.title) {
-          params.set("title", currentResult.title);
-        }
-
-        if (currentResult.message) {
-          params.set("message", currentResult.message);
-        }
-
-        if (currentResult.imageUrl) {
-          params.set("imageUrl", currentResult.imageUrl);
-        }
-      }
-
-      return SHARE_OMIKUJI_PAGE + "?" + params.toString();
-    }
-
-    function shareFacebook() {
-      const url = buildShareUrl();
-
-      window.open(
-        "https://www.facebook.com/sharer/sharer.php?u=" +
-        encodeURIComponent(url),
-        "_blank"
-      );
-    }
-
-    function shareLine() {
-      const text = buildShareText() + "\n" + buildShareUrl();
-
-      window.open(
-        "https://social-plugins.line.me/lineit/share?url=" +
-        encodeURIComponent(buildShareUrl()) +
-        "&text=" +
-        encodeURIComponent(text),
-        "_blank"
-      );
-    }
-
-    function shareX() {
-      const text = buildShareText();
-
-      window.open(
-        "https://twitter.com/intent/tweet?text=" +
-        encodeURIComponent(text) +
-        "&url=" +
-        encodeURIComponent(buildShareUrl()),
-        "_blank"
-      );
-    }
-
-    async function copyResult() {
-      const text = buildShareText() + "\n" + buildShareUrl();
-
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(text);
-        } else {
-          copyByTextarea(text);
-        }
-
-        alert("おみくじ結果をコピーしました。");
-      } catch (e) {
-        copyByTextarea(text);
-        alert("おみくじ結果をコピーしました。");
-      }
-    }
-
-    function copyByTextarea(text) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.setAttribute("readonly", "readonly");
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-      textarea.style.top = "0";
-
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-    }
-
-    async function downloadImage() {
-      if (!currentResult) {
-        alert("先におみくじを引いてください。");
+    function tryNext(){
+      if(index >= list.length){
+        reject(new Error("画像を読み込めませんでした。"));
         return;
       }
 
-      try {
-        const canvas = document.getElementById("saveCanvas");
-        const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.crossOrigin = "anonymous";
 
-        const width = 1080;
-        const height = 1350;
+      img.onload = function(){
+        resolve(img);
+      };
 
-        canvas.width = width;
-        canvas.height = height;
-
-        ctx.fillStyle = "#fff8e5";
-        ctx.fillRect(0, 0, width, height);
-
-        const bg = ctx.createLinearGradient(0, 0, 0, height);
-        bg.addColorStop(0, "#fffdf5");
-        bg.addColorStop(0.48, "#fff4cd");
-        bg.addColorStop(1, "#ead08c");
-        ctx.fillStyle = bg;
-        ctx.fillRect(0, 0, width, height);
-
-        drawRoundRect(ctx, 70, 70, width - 140, height - 140, 42, "#ffffff", "rgba(126,79,19,0.22)");
-
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        ctx.fillStyle = "#7b170f";
-        ctx.font = "900 58px sans-serif";
-        ctx.fillText("田子山富士 開運おみくじ", width / 2, 155);
-
-        ctx.fillStyle = "#7b4b10";
-        ctx.font = "800 30px sans-serif";
-        ctx.fillText("田子山富士 168の縁プロジェクト", width / 2, 220);
-
-        let imageDrawn = false;
-        const imageUrl =
-          currentResult.displayImageUrl ||
-          currentResult.imageUrl ||
-          "";
-
-        if (imageUrl) {
-          try {
-            const img = await loadImageForCanvas(imageUrl);
-            drawCoverImage(ctx, img, 150, 285, width - 300, 490);
-            imageDrawn = true;
-          } catch (e) {
-            console.warn("画像保存用の読み込みに失敗", e);
-          }
-        }
-
-        if (!imageDrawn) {
-          drawRoundRect(ctx, 150, 285, width - 300, 490, 28, "#fff3c4", "rgba(126,79,19,0.18)");
-          ctx.fillStyle = "#8a5b11";
-          ctx.font = "900 44px sans-serif";
-          ctx.fillText("田子山富士", width / 2, 530);
-        }
-
-        ctx.fillStyle = "#b31318";
-        ctx.font = "900 88px sans-serif";
-        wrapTextCenter(ctx, currentResult.result || "おみくじ", width / 2, 860, 820, 98);
-
-        ctx.fillStyle = "#553306";
-        ctx.font = "900 44px sans-serif";
-        wrapTextCenter(ctx, currentResult.title || "今日の運勢", width / 2, 1010, 820, 56);
-
-        ctx.fillStyle = "#3f2a08";
-        ctx.font = "700 34px sans-serif";
-        wrapTextCenter(
-          ctx,
-          currentResult.message || "田子山富士のご縁を、みなさんにもおすそ分けします。",
-          width / 2,
-          1135,
-          820,
-          46
-        );
-
-        ctx.fillStyle = "#7b4b10";
-        ctx.font = "800 26px sans-serif";
-        ctx.fillText("田子山富士のご縁を、みなさんにもおすそ分けします。", width / 2, 1268);
-
-        const link = document.createElement("a");
-        link.download = "tagoyama-omikuji.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      } catch (e) {
-        console.error(e);
-        alert("画像を作成できませんでした。結果コピーを使ってください。");
-      }
-    }
-
-    function drawRoundRect(ctx, x, y, w, h, r, fill, stroke) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r);
-      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h);
-      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-
-      if (fill) {
-        ctx.fillStyle = fill;
-        ctx.fill();
-      }
-
-      if (stroke) {
-        ctx.strokeStyle = stroke;
-        ctx.lineWidth = 4;
-        ctx.stroke();
-      }
-    }
-
-    function drawCoverImage(ctx, img, x, y, w, h) {
-      const iw = img.naturalWidth || img.width;
-      const ih = img.naturalHeight || img.height;
-
-      if (!iw || !ih) {
-        return;
-      }
-
-      const scale = Math.max(w / iw, h / ih);
-      const sw = w / scale;
-      const sh = h / scale;
-      const sx = (iw - sw) / 2;
-      const sy = (ih - sh) / 2;
-
-      ctx.save();
-      roundedClip(ctx, x, y, w, h, 28);
-      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
-      ctx.restore();
-    }
-
-    function roundedClip(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r);
-      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h);
-      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-      ctx.clip();
-    }
-
-    function wrapTextCenter(ctx, text, x, y, maxWidth, lineHeight) {
-      const safeText = getString(text);
-      const paragraphs = safeText.split(/\n+/);
-      const lines = [];
-
-      for (let p = 0; p < paragraphs.length; p++) {
-        const words = paragraphs[p].split("");
-        let line = "";
-
-        for (let i = 0; i < words.length; i++) {
-          const test = line + words[i];
-          const width = ctx.measureText(test).width;
-
-          if (width > maxWidth && line) {
-            lines.push(line);
-            line = words[i];
-          } else {
-            line = test;
-          }
-        }
-
-        if (line) {
-          lines.push(line);
-        }
-      }
-
-      const startY = y - ((lines.length - 1) * lineHeight) / 2;
-
-      for (let i = 0; i < lines.length; i++) {
-        ctx.fillText(lines[i], x, startY + i * lineHeight);
-      }
-    }
-
-    function loadImageForCanvas(url) {
-      return new Promise(function (resolve, reject) {
-        const list = makeImageDisplayUrlList(url);
-        let index = 0;
-
-        function tryNext() {
-          if (index >= list.length) {
-            reject(new Error("画像を読み込めませんでした。"));
-            return;
-          }
-
-          const img = new Image();
-          img.crossOrigin = "anonymous";
-
-          img.onload = function () {
-            resolve(img);
-          };
-
-          img.onerror = function () {
-            index++;
-            tryNext();
-          };
-
-          img.src = list[index];
-        }
-
+      img.onerror = function(){
+        index++;
         tryNext();
-      });
+      };
+
+      img.src = list[index];
     }
-  </script>
+
+    tryNext();
+  });
+}
+
+async function getJson(url){
+  const response = await fetch(url,{
+    method:"GET",
+    cache:"no-store"
+  });
+
+  if(!response.ok){
+    throw new Error("通信に失敗しました。");
+  }
+
+  const text = await response.text();
+
+  try{
+    return JSON.parse(text);
+  }catch(e){
+    const match = text.match(/^[^(]*\(([\s\S]*)\)\s*;?\s*$/);
+
+    if(match && match[1]){
+      return JSON.parse(match[1]);
+    }
+
+    throw new Error("データを読み込めませんでした。");
+  }
+}
+
+function getString(value){
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+}
+
+function cleanText(value){
+  return getString(value)
+    .replace(/\\\//g,"/")
+    .replace(/\\u0026/g,"&")
+    .replace(/&amp;/g,"&");
+}
+</script>
 </body>
 </html>
