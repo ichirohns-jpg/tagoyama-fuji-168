@@ -1104,16 +1104,16 @@ function shareFacebook(){
 }
 
 function shareLine(){
-  const url = buildShareUrl();
-
   const text =
     buildShareText() +
     "\n" +
-    url;
+    buildShareUrl();
 
-  location.href =
+  const lineUrl =
     "https://line.me/R/share?text=" +
     encodeURIComponent(text);
+
+  window.location.href = lineUrl;
 }
 
 function shareX(){
