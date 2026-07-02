@@ -12,7 +12,14 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 登頂記念証">
+<meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -424,11 +431,6 @@ button{
   background:linear-gradient(180deg,#333333 0%,#050505 100%);
 }
 
-.grayBtn{
-  color:#ffffff;
-  background:linear-gradient(180deg,#888888 0%,#2a2a2a 100%);
-}
-
 .footer{
   margin:28px 0 0;
   color:#c9b56b;
@@ -563,7 +565,7 @@ button{
 
   <div class="shareGrid">
     <button class="btn goldBtn wide" type="button" onclick="downloadCertificateImage()">
-      画像をダウンロード
+      画像を保存
     </button>
 
     <button class="btn facebookBtn" type="button" onclick="shareFacebook()">
@@ -613,9 +615,6 @@ const CERTIFICATE_PAGE =
 
 const SHARE_CERTIFICATE_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
-
-const OMIKUJI_PAGE =
-"https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
 const DEFAULT_CERTIFICATE_IMAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg";
@@ -1106,53 +1105,64 @@ function getDriveFileId(url){
 
 function buildShareText(){
   if(!currentData){
-    return "";
+    return (
+      "田子山富士 登頂記念証\n\n" +
+      "田子山富士に登ってきました。\n" +
+      "山頂でいただいたご縁を、みなさんにもおすそ分けします。\n" +
+      "次はぜひ、あなたも田子山富士へ。"
+    );
   }
 
-  return (
-    "田子山富士 登頂記念証\n" +
-    "第" + currentData.climbCount + "回 登頂記念\n" +
-    "No." + currentData.serialNo + "\n" +
-    (currentData.lastDate || getTodayText()) +
-    "\n\n" +
-    "田子山富士に登ってきました。\n" +
-    "山頂でいただいたご縁を、みなさんにもおすそ分けします。\n" +
-    "次はぜひ、あなたも田子山富士へ。"
-  );
+  const climbCount = getString(currentData.climbCount);
+  const serialNo = getString(currentData.serialNo);
+  const lastDate = getString(currentData.lastDate || getTodayText());
+
+  const lines = [];
+
+  lines.push("田子山富士 登頂記念証");
+
+  if(climbCount){
+    lines.push("第" + climbCount + "回 登頂記念");
+  }
+
+  if(serialNo){
+    lines.push("No." + serialNo);
+  }
+
+  if(lastDate){
+    lines.push(lastDate);
+  }
+
+  lines.push("");
+  lines.push("田子山富士に登ってきました。");
+  lines.push("山頂でいただいたご縁を、みなさんにもおすそ分けします。");
+  lines.push("次はぜひ、あなたも田子山富士へ。");
+
+  return lines.join("\n");
 }
 
 function buildShareUrl(){
-  if(!currentData){
-    return SHARE_CERTIFICATE_PAGE + "?v=" + Date.now();
-  }
-
   const params = new URLSearchParams();
 
-  params.set("userId", currentData.userId);
-  params.set("climbCount", currentData.climbCount);
-  params.set("serialNo", currentData.serialNo);
-
-  if(currentData.lastDate){
-    params.set("lastDate", currentData.lastDate);
-  }
-
-  if(currentData.imageNo){
-    params.set("imageNo", currentData.imageNo);
-  }
-
-  if(currentData.imageName){
-    params.set("imageName", currentData.imageName);
-  }
-
-  if(currentData.imageUrl){
-    params.set("imageUrl", currentData.imageUrl);
-  }
-
-  if(currentData.participantNo){
-    params.set("participantNo", currentData.participantNo);
-  }
-
   params.set("v", String(Date.now()));
+
+  if(currentData){
+    if(currentData.userId){
+      params.set("userId", currentData.userId);
+    }
+
+    if(currentData.climbCount){
+      params.set("climbCount", currentData.climbCount);
+    }
+
+    if(currentData.serialNo){
+      params.set("serialNo", currentData.serialNo);
+    }
+
+    if(currentData.lastDate){
+      params.set("lastDate", currentData.lastDate);
+    }
+  }
 
   return SHARE_CERTIFICATE_PAGE + "?" + params.toString();
 }
@@ -1168,7 +1178,10 @@ function shareFacebook(){
 }
 
 function shareLine(){
-  const text = buildShareText() + "\n" + buildShareUrl();
+  const text =
+    buildShareText() +
+    "\n" +
+    buildShareUrl();
 
   window.open(
     "https://social-plugins.line.me/lineit/share?url=" +
@@ -1192,7 +1205,10 @@ function shareX(){
 }
 
 async function copyShareText(){
-  const text = buildShareText() + "\n" + buildShareUrl();
+  const text =
+    buildShareText() +
+    "\n" +
+    buildShareUrl();
 
   try{
     if(navigator.clipboard && navigator.clipboard.writeText){
@@ -1263,8 +1279,19 @@ async function downloadCertificateImage(){
     let imageDrawn = false;
 
     try{
-      const img = await loadImageForCanvas(currentData.imageUrl || DEFAULT_CERTIFICATE_IMAGE);
-      drawCoverImage(ctx,img,140,285,width - 280,560);
+      const img = await loadImageForCanvas(
+        currentData.imageUrl || DEFAULT_CERTIFICATE_IMAGE
+      );
+
+      drawCoverImage(
+        ctx,
+        img,
+        140,
+        285,
+        width - 280,
+        560
+      );
+
       imageDrawn = true;
     }catch(e){
       imageDrawn = false;
@@ -1272,6 +1299,7 @@ async function downloadCertificateImage(){
 
     if(!imageDrawn){
       drawRoundRect(ctx,140,285,width - 280,560,30,"#f3d489","rgba(90,55,7,0.24)");
+
       ctx.fillStyle = "#8a5b11";
       ctx.font = "900 52px sans-serif";
       ctx.fillText("田子山富士",width / 2,565);
@@ -1304,7 +1332,14 @@ async function downloadCertificateImage(){
     if(currentData.imageName){
       ctx.fillStyle = "#6d430b";
       ctx.font = "900 36px sans-serif";
-      wrapTextCenter(ctx,currentData.imageName,width / 2,1204,820,44);
+      wrapTextCenter(
+        ctx,
+        currentData.imageName,
+        width / 2,
+        1204,
+        820,
+        44
+      );
     }
 
     if(currentData.participantNo){
@@ -1325,13 +1360,51 @@ async function downloadCertificateImage(){
       1380
     );
 
-    const link = document.createElement("a");
-    link.download = "tagoyama-certificate.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    await shareCanvasImageForIphone(
+      canvas,
+      "tagoyama-certificate.png"
+    );
   }catch(e){
-    alert("画像を作成できませんでした。結果コピーを使ってください。");
+    alert("iPhoneの共有画面を開けませんでした。Safariで開いてもう一度お試しください。");
   }
+}
+
+async function shareCanvasImageForIphone(canvas,fileName){
+  const blob = await new Promise(function(resolve){
+    canvas.toBlob(function(b){
+      resolve(b);
+    },"image/png");
+  });
+
+  if(!blob){
+    throw new Error("画像を作成できませんでした。");
+  }
+
+  const file = new File(
+    [blob],
+    fileName,
+    {
+      type:"image/png"
+    }
+  );
+
+  if(
+    navigator.share &&
+    navigator.canShare &&
+    navigator.canShare({
+      files:[file]
+    })
+  ){
+    await navigator.share({
+      files:[file],
+      title:"田子山富士 登頂記念証",
+      text:"田子山富士 登頂記念証"
+    });
+
+    return;
+  }
+
+  throw new Error("iPhone共有シートが使えません。");
 }
 
 function drawRoundRect(ctx,x,y,w,h,r,fill,stroke){
