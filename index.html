@@ -473,7 +473,7 @@ body{
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwshePJjzud_qTHbO_KAPLO4c6vEClPcHU20vhCWCKtIdh_lmyDpnKJFtSrZPf4ibBY/exec";
+"https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
 const HOME_PAGE =
 "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -607,54 +607,13 @@ async function handleClimb(urlUserId){
       );
     }
 
-    const climbCount = getFirst(
-      data.climbCount,
-      data.climbNo,
-      data.count,
-      data.登頂回数
-    );
-
-    const serialNo = getFirst(
-      data.serialNo,
-      data.serial,
-      data.certificateNo,
-      data.no,
-      data.シリアル番号
-    );
-
-    const lastDate = getFirst(
-      data.lastDate,
-      data.date,
-      data.climbDate,
-      data.日付
-    );
-
-    const imageNo = getFirst(
-      data.imageNo,
-      data.image,
-      data.imageNumber,
-      data.画像番号
-    );
-
-    const imageName = getFirst(
-      data.imageName,
-      data.title,
-      data.画像名
-    );
-
-    const imageUrl = getFirst(
-      data.imageUrl,
-      data.画像URL
-    );
-
-    const participantNo = getFirst(
-      data.participantNo,
-      data.participantCount,
-      data.participants,
-      data.totalParticipants,
-      data.total,
-      data.参加人数
-    );
+    const climbCount = getFirst(data.climbCount,data.climbNo,data.count,data.登頂回数);
+    const serialNo = getFirst(data.serialNo,data.serial,data.certificateNo,data.no,data.シリアル番号);
+    const lastDate = getFirst(data.lastDate,data.date,data.climbDate,data.日付);
+    const imageNo = getFirst(data.imageNo,data.image,data.imageNumber,data.画像番号);
+    const imageName = getFirst(data.imageName,data.title,data.画像名);
+    const imageUrl = getFirst(data.imageUrl,data.画像URL);
+    const participantNo = getFirst(data.participantNo,data.participantCount,data.participants,data.totalParticipants,data.total,data.参加人数);
 
     if(!climbCount || !serialNo){
       throw new Error("GASから登頂回数またはシリアル番号が返っていません");
@@ -692,21 +651,15 @@ async function handleClimb(urlUserId){
     }
 
     let statusText =
-      "第" +
-      escapeHtml(climbData.climbCount) +
-      "回 登頂記念<br>" +
-      "No." +
-      escapeHtml(climbData.serialNo);
+      "第" + escapeHtml(climbData.climbCount) + "回 登頂記念<br>" +
+      "No." + escapeHtml(climbData.serialNo);
 
     if(climbData.lastDate){
-      statusText +=
-        "<br>" +
-        escapeHtml(formatDate(climbData.lastDate));
+      statusText += "<br>" + escapeHtml(formatDate(climbData.lastDate));
     }
 
     if(data.alreadyClimbedToday === true){
-      statusText +=
-        "<br>本日の登頂受付は完了しています";
+      statusText += "<br>本日の登頂受付は完了しています";
     }
 
     if(climbStatus){
@@ -743,25 +696,11 @@ function buildCertificateUrl(data){
   params.set("climbCount", data.climbCount);
   params.set("serialNo", data.serialNo);
 
-  if(data.lastDate){
-    params.set("lastDate", data.lastDate);
-  }
-
-  if(data.imageNo){
-    params.set("imageNo", data.imageNo);
-  }
-
-  if(data.imageName){
-    params.set("imageName", data.imageName);
-  }
-
-  if(data.imageUrl){
-    params.set("imageUrl", data.imageUrl);
-  }
-
-  if(data.participantNo){
-    params.set("participantNo", data.participantNo);
-  }
+  if(data.lastDate) params.set("lastDate", data.lastDate);
+  if(data.imageNo) params.set("imageNo", data.imageNo);
+  if(data.imageName) params.set("imageName", data.imageName);
+  if(data.imageUrl) params.set("imageUrl", data.imageUrl);
+  if(data.participantNo) params.set("participantNo", data.participantNo);
 
   params.set("v", String(Date.now()));
 
@@ -796,15 +735,7 @@ async function loadStats(){
       );
 
     if(data && data.success !== false){
-      const n = getFirst(
-        data.participantNo,
-        data.participantCount,
-        data.participants,
-        data.totalParticipants,
-        data.count,
-        data.total,
-        data.参加人数
-      );
+      const n = getFirst(data.participantNo,data.participantCount,data.participants,data.totalParticipants,data.count,data.total,data.参加人数);
 
       if(n !== "" && n !== null && n !== undefined){
         setParticipantNumber(n);
@@ -824,13 +755,8 @@ async function loadStats(){
 function setParticipantNumber(value){
   const el = document.getElementById("participants");
 
-  if(!el){
-    return;
-  }
-
-  if(value === "" || value === null || value === undefined){
-    return;
-  }
+  if(!el) return;
+  if(value === "" || value === null || value === undefined) return;
 
   const n = Number(String(value).replace(/[^\d]/g,""));
 
@@ -848,9 +774,7 @@ function openSection(id){
 
   const section = document.getElementById(id);
 
-  if(!section){
-    return;
-  }
+  if(!section) return;
 
   section.classList.remove("hidden");
 
@@ -873,37 +797,22 @@ function openSection(id){
 }
 
 function closeAllSections(){
-  [
-    "newsSection",
-    "kichoSection",
-    "goenSection"
-  ].forEach(function(id){
+  ["newsSection","kichoSection","goenSection"].forEach(function(id){
     const el = document.getElementById(id);
-
-    if(el){
-      el.classList.add("hidden");
-    }
+    if(el) el.classList.add("hidden");
   });
 }
 
 function closeSection(id){
   const el = document.getElementById(id);
-
-  if(el){
-    el.classList.add("hidden");
-  }
+  if(el) el.classList.add("hidden");
 }
 
 async function loadNews(){
   const list = document.getElementById("newsList");
 
-  if(!list){
-    return;
-  }
-
-  if(newsLoaded){
-    return;
-  }
+  if(!list) return;
+  if(newsLoaded) return;
 
   list.innerHTML =
     '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
@@ -928,24 +837,8 @@ async function loadNews(){
     let html = "";
 
     rows.forEach(function(item){
-      const title = getFirst(
-        item.title,
-        item.タイトル,
-        item.name,
-        item.件名,
-        item.subject
-      );
-
-      const date = formatDate(
-        getFirst(
-          item.date,
-          item.datetime,
-          item.createdAt,
-          item.updatedAt,
-          item.日時,
-          item.日付
-        )
-      );
+      const title = getFirst(item.title,item.タイトル,item.name,item.件名,item.subject);
+      const date = formatDate(getFirst(item.date,item.datetime,item.createdAt,item.updatedAt,item.日時,item.日付));
 
       let body = getFirst(
         item.body,
@@ -964,21 +857,13 @@ async function loadNews(){
         body = makeBodyFromItem(item);
       }
 
-      if(!title && !body){
-        return;
-      }
+      if(!title && !body) return;
 
       html +=
         '<div class="item">' +
-        '<h3 class="itemTitle">' +
-        escapeHtml(title || "お知らせ") +
-        '</h3>' +
-        '<div class="itemDate">' +
-        escapeHtml(date) +
-        '</div>' +
-        '<p class="itemBody">' +
-        escapeHtml(body) +
-        '</p>' +
+        '<h3 class="itemTitle">' + escapeHtml(title || "お知らせ") + '</h3>' +
+        '<div class="itemDate">' + escapeHtml(date) + '</div>' +
+        '<p class="itemBody">' + escapeHtml(body) + '</p>' +
         '</div>';
     });
 
@@ -996,39 +881,20 @@ async function loadNews(){
 
 function makeBodyFromItem(item){
   const skipKeys = [
-    "title",
-    "タイトル",
-    "name",
-    "件名",
-    "subject",
-    "date",
-    "datetime",
-    "createdAt",
-    "updatedAt",
-    "日時",
-    "日付",
-    "link",
-    "url",
-    "URL",
-    "リンク"
+    "title","タイトル","name","件名","subject",
+    "date","datetime","createdAt","updatedAt","日時","日付",
+    "link","url","URL","リンク"
   ];
 
   const parts = [];
 
   Object.keys(item || {}).forEach(function(key){
-    if(skipKeys.indexOf(key) >= 0){
-      return;
-    }
+    if(skipKeys.indexOf(key) >= 0) return;
 
     const value = getString(item[key]);
 
-    if(!value){
-      return;
-    }
-
-    if(value.indexOf("https://") === 0 || value.indexOf("http://") === 0){
-      return;
-    }
+    if(!value) return;
+    if(value.indexOf("https://") === 0 || value.indexOf("http://") === 0) return;
 
     parts.push(value);
   });
@@ -1060,25 +926,16 @@ async function saveKicho(){
     const url =
       GAS_URL +
       "?mode=saveKicho" +
-      "&area=" +
-      encodeURIComponent(area) +
-      "&name=" +
-      encodeURIComponent(name) +
-      "&message=" +
-      encodeURIComponent(message) +
-      "&imageUrl=" +
-      encodeURIComponent("") +
-      "&t=" +
-      Date.now();
+      "&area=" + encodeURIComponent(area) +
+      "&name=" + encodeURIComponent(name) +
+      "&message=" + encodeURIComponent(message) +
+      "&imageUrl=" + encodeURIComponent("") +
+      "&t=" + Date.now();
 
     const data = await getJson(url);
 
     if(!data || data.success === false){
-      throw new Error(
-        data && data.message
-          ? data.message
-          : "記帳できませんでした"
-      );
+      throw new Error(data && data.message ? data.message : "記帳できませんでした");
     }
 
     alert("記帳しました。ありがとうございます。");
@@ -1089,11 +946,7 @@ async function saveKicho(){
     goenLoaded = false;
 
   }catch(e){
-    alert(
-      e && e.message
-        ? e.message
-        : "記帳できませんでした。"
-    );
+    alert(e && e.message ? e.message : "記帳できませんでした。");
   }finally{
     btn.disabled = false;
     btn.style.opacity = "1";
@@ -1104,13 +957,8 @@ async function saveKicho(){
 async function loadGoen(){
   const list = document.getElementById("goenList");
 
-  if(!list){
-    return;
-  }
-
-  if(goenLoaded){
-    return;
-  }
+  if(!list) return;
+  if(goenLoaded) return;
 
   list.innerHTML =
     '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
@@ -1135,54 +983,18 @@ async function loadGoen(){
     let html = "";
 
     rows.forEach(function(item){
-      const area = getFirst(
-        item.area,
-        item.place,
-        item.地域,
-        item.場所
-      );
+      const area = getFirst(item.area,item.place,item.地域,item.場所);
+      const name = getFirst(item.name,item.nickname,item.名前,item.お名前);
+      const message = getFirst(item.message,item.body,item.text,item.メッセージ,item.本文);
+      const date = formatDate(getFirst(item.date,item.datetime,item.createdAt,item.日時,item.日付));
 
-      const name = getFirst(
-        item.name,
-        item.nickname,
-        item.名前,
-        item.お名前
-      );
-
-      const message = getFirst(
-        item.message,
-        item.body,
-        item.text,
-        item.メッセージ,
-        item.本文
-      );
-
-      const date = formatDate(
-        getFirst(
-          item.date,
-          item.datetime,
-          item.createdAt,
-          item.日時,
-          item.日付
-        )
-      );
-
-      if(!message){
-        return;
-      }
+      if(!message) return;
 
       html +=
         '<div class="item">' +
-        '<h3 class="itemTitle">' +
-        escapeHtml(name || "匿名") +
-        '</h3>' +
-        '<div class="itemDate">' +
-        escapeHtml(date) +
-        (area ? " ／ " + escapeHtml(area) : "") +
-        '</div>' +
-        '<p class="itemBody">' +
-        escapeHtml(message) +
-        '</p>' +
+        '<h3 class="itemTitle">' + escapeHtml(name || "匿名") + '</h3>' +
+        '<div class="itemDate">' + escapeHtml(date) + (area ? " ／ " + escapeHtml(area) : "") + '</div>' +
+        '<p class="itemBody">' + escapeHtml(message) + '</p>' +
         '</div>';
     });
 
@@ -1231,34 +1043,13 @@ async function getJson(url){
 }
 
 function getArrayRows(data){
-  if(!data){
-    return [];
-  }
-
-  if(Array.isArray(data)){
-    return data;
-  }
-
-  if(Array.isArray(data.rows)){
-    return data.rows;
-  }
-
-  if(Array.isArray(data.items)){
-    return data.items;
-  }
-
-  if(Array.isArray(data.data)){
-    return data.data;
-  }
-
-  if(Array.isArray(data.news)){
-    return data.news;
-  }
-
-  if(Array.isArray(data.goen)){
-    return data.goen;
-  }
-
+  if(!data) return [];
+  if(Array.isArray(data)) return data;
+  if(Array.isArray(data.rows)) return data.rows;
+  if(Array.isArray(data.items)) return data.items;
+  if(Array.isArray(data.data)) return data.data;
+  if(Array.isArray(data.news)) return data.news;
+  if(Array.isArray(data.goen)) return data.goen;
   return [];
 }
 
@@ -1294,9 +1085,7 @@ function escapeHtml(value){
 function formatDate(value){
   const s = getString(value);
 
-  if(!s){
-    return "";
-  }
+  if(!s) return "";
 
   const m1 = s.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})/);
 
