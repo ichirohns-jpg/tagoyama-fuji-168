@@ -648,8 +648,6 @@ async function init(){
     await loadStats();
     showSavedCertificateButtonIfAvailable();
   }
-
-  handleOpenParameter();
 }
 
 function getUserIdFromUrl(){
@@ -681,23 +679,6 @@ function getSavedUserId(){
     localStorage.getItem("tagoyamaFujiUserId") ||
     ""
   );
-}
-
-function handleOpenParameter(){
-  const params = new URLSearchParams(location.search);
-  const open = getString(params.get("open")).toLowerCase();
-
-  if(open === "news"){
-    openSection("newsSection");
-  }
-
-  if(open === "kicho"){
-    openSection("kichoSection");
-  }
-
-  if(open === "goen"){
-    openSection("goenSection");
-  }
 }
 
 function updateUserLinks(){
