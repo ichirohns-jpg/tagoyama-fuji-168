@@ -24,8 +24,8 @@
       width: 100%;
       min-height: 100%;
       background:
-        radial-gradient(circle at top, rgba(255, 226, 122, 0.22), transparent 36%),
-        linear-gradient(180deg, #261600 0%, #070707 46%, #000000 100%);
+        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 35%),
+        linear-gradient(180deg, #1b1304 0%, #070707 46%, #000000 100%);
       color: #fff7ca;
       font-family:
         -apple-system,
@@ -40,47 +40,54 @@
       overflow-x: hidden;
     }
 
-    .page {
+    .wrap {
       width: 100%;
       max-width: 760px;
       margin: 0 auto;
-      padding: 22px 14px 40px;
+      padding: 16px 12px 48px;
     }
 
-    .topTitle {
-      margin: 0 0 14px;
-      padding: 18px 14px;
-      border-radius: 24px;
-      background:
-        linear-gradient(180deg, rgba(68, 42, 0, 0.96), rgba(20, 12, 0, 0.96));
-      border: 2px solid rgba(255, 219, 97, 0.62);
-      box-shadow:
-        0 10px 26px rgba(0, 0, 0, 0.42),
-        inset 0 0 18px rgba(255, 216, 90, 0.12);
+    .hidden {
+      display: none !important;
+    }
+
+    .header {
       text-align: center;
+      margin: 0 0 14px;
     }
 
-    .topTitle h1 {
+    .headerLogo {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 220, 95, 0.80);
+      background: #000;
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.50),
+        0 0 18px rgba(255, 210, 80, 0.22);
+    }
+
+    .headerLogo img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .pageTitle {
       margin: 0;
-      font-size: clamp(28px, 8vw, 52px);
-      line-height: 1.22;
+      font-size: clamp(30px, 8vw, 54px);
+      line-height: 1.25;
       font-weight: 900;
       color: #ffdf72;
       text-shadow:
-        0 3px 3px rgba(0, 0, 0, 0.92),
-        0 0 14px rgba(255, 210, 80, 0.26);
-    }
-
-    .projectName {
-      margin: 8px 0 0;
-      color: #fff4bc;
-      font-size: clamp(15px, 4.2vw, 24px);
-      font-weight: 800;
-      line-height: 1.45;
+        0 4px 4px rgba(0, 0, 0, 0.90),
+        0 0 18px rgba(255, 210, 80, 0.24);
     }
 
     .statusBox {
-      margin: 0 0 16px;
+      margin: 16px 0;
       padding: 14px 16px;
       border-radius: 18px;
       background: rgba(0, 0, 0, 0.56);
@@ -92,25 +99,30 @@
       line-height: 1.55;
     }
 
-    .certificateWrap {
+    .certificateCard {
+      width: 100%;
+      margin: 0;
+    }
+
+    .certImageWrap {
       position: relative;
       width: 100%;
       border-radius: 28px;
       overflow: hidden;
-      background: #111;
+      background: #111111;
       border: 3px solid rgba(255, 219, 97, 0.76);
       box-shadow:
         0 14px 34px rgba(0, 0, 0, 0.56),
         0 0 28px rgba(255, 203, 73, 0.14);
     }
 
-    .certificateImage {
+    .certImage {
       display: block;
       width: 100%;
       height: auto;
       min-height: 420px;
       object-fit: cover;
-      background: #111;
+      background: #111111;
     }
 
     .imageError {
@@ -120,7 +132,7 @@
       justify-content: center;
       padding: 24px;
       color: #fff3c4;
-      background: #111;
+      background: #111111;
       text-align: center;
       font-size: 22px;
       font-weight: 900;
@@ -210,7 +222,7 @@
       font-size: clamp(20px, 5.5vw, 34px);
       font-weight: 900;
       letter-spacing: 0.02em;
-      color: #fff;
+      color: #ffffff;
       cursor: pointer;
       text-align: center;
       box-shadow:
@@ -266,35 +278,44 @@
 </head>
 
 <body>
-  <div class="page">
-    <header class="topTitle">
-      <h1>田子山富士<br>登頂記念証</h1>
-      <p class="projectName">田子山富士 168の縁プロジェクト</p>
+  <div class="wrap">
+    <header class="header">
+      <div class="headerLogo">
+        <img src="logo.png" alt="田子山富士">
+      </div>
+
+      <h1 class="pageTitle">
+        田子山富士<br>
+        登頂記念証
+      </h1>
     </header>
 
     <div class="statusBox" id="statusBox">
       登頂記録を読み込んでいます。
     </div>
 
-    <section class="certificateWrap" id="certificateArea">
-      <img
-        id="certificateImage"
-        class="certificateImage"
-        src=""
-        alt="田子山富士 登頂記念証"
-        onerror="handleImageError()"
-      >
+    <section class="certificateCard">
+      <div class="certImageWrap" id="certificateArea">
+        <img
+          id="certificateImage"
+          class="certImage"
+          src=""
+          alt="田子山富士 登頂記念証"
+          crossorigin="anonymous"
+          onerror="handleImageError()"
+        >
 
-      <div class="imageError" id="imageError">
-        記念画像を読み込めませんでした。<br>
-        記念画像URLを確認してください。
-      </div>
+        <div class="imageError" id="imageError">
+          登頂記念証を読み込めませんでした。<br>
+          画像URLを確認してください。
+        </div>
 
-      <div class="certOverlay" id="certOverlay">
-        <h2 class="climbTitle" id="climbTitle">登頂記念</h2>
-        <p class="serialNo" id="serialNo">No.取得中</p>
-        <p class="dateText" id="dateText">日付取得中</p>
-        <p class="participantText" id="participantText">参加人数 取得中</p>
+        <div class="certOverlay">
+          <h2 class="climbTitle" id="climbTitle">登頂記念</h2>
+          <p class="serialNo" id="serialNo">No.取得中</p>
+          <p class="dateText" id="dateText">日付取得中</p>
+          <p class="participantText" id="participantText">参加人数 取得中</p>
+        </div>
       </div>
     </section>
 
@@ -378,66 +399,45 @@
 
       try {
         if (currentData.userId) {
-          const loaded = await loadClimbHistory(currentData.userId);
-          currentData = mergeData(loaded, currentData);
-          saveLocalData(currentData);
+          const historyData = await loadClimbHistory(currentData.userId);
+          currentData = mergeData(historyData, currentData);
         }
 
-        renderCertificate(currentData, "ready");
+        if (!currentData.climbCount || !currentData.serialNo) {
+          throw new Error("登頂回数または記念番号を取得できません。QRコードから入り直してください。");
+        }
+
+        if (!currentData.imageUrl) {
+          throw new Error("画像URLがありません。スプレッドシートの画像URLを確認してください。");
+        }
+
+        saveLocalData(currentData);
+        renderCertificate(currentData, "ok");
         updateLinks();
 
       } catch (e) {
-        console.error(e);
-        renderCertificate(currentData, "ready");
+        renderCertificate(
+          currentData,
+          "error",
+          e && e.message ? e.message : "登頂記録を取得できませんでした。"
+        );
+
         updateLinks();
       }
     }
 
     function readParams() {
-      const p = new URLSearchParams(window.location.search);
+      const p = new URLSearchParams(location.search);
 
       return cleanData({
-        userId: getFirst(
-          p.get("userId"),
-          p.get("id"),
-          p.get("uid")
-        ),
-        climbCount: getFirst(
-          p.get("climbCount"),
-          p.get("climbNo"),
-          p.get("count")
-        ),
-        serialNo: getFirst(
-          p.get("serialNo"),
-          p.get("serial"),
-          p.get("no"),
-          p.get("certificateNo")
-        ),
-        lastDate: getFirst(
-          p.get("lastDate"),
-          p.get("date"),
-          p.get("climbDate")
-        ),
-        imageNo: getFirst(
-          p.get("imageNo"),
-          p.get("image"),
-          p.get("imageNumber")
-        ),
-        imageName: getFirst(
-          p.get("imageName"),
-          p.get("title")
-        ),
-        imageUrl: getFirst(
-          p.get("imageUrl"),
-          p.get("imageURL"),
-          p.get("img")
-        ),
-        participantNo: getFirst(
-          p.get("participantNo"),
-          p.get("participantCount"),
-          p.get("participants"),
-          p.get("total")
-        )
+        userId: getFirst(p.get("userId"), p.get("id"), p.get("uid")),
+        climbCount: getFirst(p.get("climbCount"), p.get("climbNo"), p.get("count")),
+        serialNo: getFirst(p.get("serialNo"), p.get("serial"), p.get("certificateNo"), p.get("no")),
+        lastDate: getFirst(p.get("lastDate"), p.get("date"), p.get("climbDate")),
+        imageNo: getFirst(p.get("imageNo"), p.get("image"), p.get("imageNumber")),
+        imageName: getFirst(p.get("imageName"), p.get("title")),
+        imageUrl: getFirst(p.get("imageUrl"), p.get("imageURL"), p.get("img")),
+        participantNo: getFirst(p.get("participantNo"), p.get("participantCount"), p.get("participants"), p.get("total"))
       });
     }
 
@@ -455,36 +455,14 @@
       }
 
       return cleanData({
-        userId: getFirst(
-          data.userId,
-          localStorage.getItem("tagoyamaUserId"),
-          localStorage.getItem("tagoyamaFujiUserId")
-        ),
-        climbCount: getFirst(
-          data.climbCount,
-          localStorage.getItem("tagoyamaLastClimbCount")
-        ),
-        serialNo: getFirst(
-          data.serialNo,
-          localStorage.getItem("tagoyamaLastSerialNo")
-        ),
-        lastDate: getFirst(
-          data.lastDate,
-          localStorage.getItem("tagoyamaLastDate")
-        ),
-        imageNo: getFirst(
-          data.imageNo
-        ),
-        imageName: getFirst(
-          data.imageName
-        ),
-        imageUrl: getFirst(
-          data.imageUrl
-        ),
-        participantNo: getFirst(
-          data.participantNo,
-          localStorage.getItem("tagoyamaLastParticipantNo")
-        )
+        userId: getFirst(data.userId, localStorage.getItem("tagoyamaUserId"), localStorage.getItem("tagoyamaFujiUserId")),
+        climbCount: getFirst(data.climbCount, localStorage.getItem("tagoyamaLastClimbCount")),
+        serialNo: getFirst(data.serialNo, localStorage.getItem("tagoyamaLastSerialNo")),
+        lastDate: getFirst(data.lastDate, localStorage.getItem("tagoyamaLastDate")),
+        imageNo: getFirst(data.imageNo),
+        imageName: getFirst(data.imageName),
+        imageUrl: getFirst(data.imageUrl),
+        participantNo: getFirst(data.participantNo, localStorage.getItem("tagoyamaLastParticipantNo"))
       });
     }
 
@@ -509,50 +487,13 @@
 
       return cleanData({
         userId: userId,
-        climbCount: getFirst(
-          data.climbCount,
-          data.climbNo,
-          data.count,
-          data.登頂回数
-        ),
-        serialNo: getFirst(
-          data.serialNo,
-          data.serial,
-          data.certificateNo,
-          data.no,
-          data.シリアル番号
-        ),
-        lastDate: getFirst(
-          data.lastDate,
-          data.date,
-          data.climbDate,
-          data.日付
-        ),
-        imageNo: getFirst(
-          data.imageNo,
-          data.image,
-          data.imageNumber,
-          data.画像番号
-        ),
-        imageName: getFirst(
-          data.imageName,
-          data.title,
-          data.画像名
-        ),
-        imageUrl: getFirst(
-          data.imageUrl,
-          data.imageURL,
-          data.img,
-          data.画像URL
-        ),
-        participantNo: getFirst(
-          data.participantNo,
-          data.participantCount,
-          data.participants,
-          data.totalParticipants,
-          data.total,
-          data.参加人数
-        )
+        climbCount: getFirst(data.climbCount, data.climbNo, data.count, data.登頂回数),
+        serialNo: getFirst(data.serialNo, data.serial, data.certificateNo, data.no, data.シリアル番号),
+        lastDate: getFirst(data.lastDate, data.date, data.climbDate, data.日付),
+        imageNo: getFirst(data.imageNo, data.image, data.imageNumber, data.画像番号),
+        imageName: getFirst(data.imageName, data.title, data.画像名),
+        imageUrl: getFirst(data.imageUrl, data.imageURL, data.img, data.画像URL),
+        participantNo: getFirst(data.participantNo, data.participantCount, data.participants, data.totalParticipants, data.total, data.参加人数)
       });
     }
 
@@ -570,6 +511,8 @@
     }
 
     function cleanData(data) {
+      data = data || {};
+
       return {
         userId: getString(data.userId),
         climbCount: getString(data.climbCount),
@@ -647,7 +590,7 @@
       }
     }
 
-    function renderCertificate(data, mode) {
+    function renderCertificate(data, mode, message) {
       data = cleanData(data || {});
 
       const statusBox = document.getElementById("statusBox");
@@ -661,6 +604,8 @@
       if (statusBox) {
         if (mode === "loading") {
           statusBox.innerText = "登頂記録を読み込んでいます。";
+        } else if (mode === "error") {
+          statusBox.innerText = message || "登頂記録を確認してください。";
         } else {
           statusBox.innerText = "登頂記念証を表示しています。";
         }
@@ -695,7 +640,10 @@
       }
 
       if (img && data.imageUrl) {
-        imageError.style.display = "none";
+        if (imageError) {
+          imageError.style.display = "none";
+        }
+
         img.style.display = "block";
         img.src = data.imageUrl;
       }
@@ -810,6 +758,7 @@
       }
 
       const ta = document.createElement("textarea");
+
       ta.value = text;
       document.body.appendChild(ta);
       ta.select();
@@ -856,14 +805,13 @@
       if (id) {
         list.push("https://lh3.googleusercontent.com/d/" + id + "=w1600");
         list.push("https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1600");
-        list.push("https://drive.google.com/uc?export=view&id=" + encodeURIComponent(id));
       }
 
       if (text) {
         list.push(text);
       }
 
-      return list.filter(function (v, i, arr) {
+      return list.filter(function(v, i, arr) {
         return v && arr.indexOf(v) === i;
       });
     }
@@ -871,7 +819,7 @@
     function loadImageForCanvas(url) {
       const urls = makeCanvasSafeImageUrls(url);
 
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         let index = 0;
 
         function tryNext() {
@@ -883,11 +831,11 @@
           const img = new Image();
           img.crossOrigin = "anonymous";
 
-          img.onload = function () {
+          img.onload = function() {
             resolve(img);
           };
 
-          img.onerror = function () {
+          img.onerror = function() {
             index++;
             tryNext();
           };
@@ -914,7 +862,7 @@
       }
 
       if (!currentData.imageUrl) {
-        alert("記念画像URLがありません。");
+        alert("登頂記念証の画像URLがありません。");
         return;
       }
 
@@ -928,9 +876,9 @@
 
         drawSaveImage(canvas, base);
 
-        canvas.toBlob(function (blob) {
+        canvas.toBlob(function(blob) {
           if (!blob) {
-            alert("画像保存に失敗しました。もう一度押してください。");
+            alert("登頂記念証の保存に失敗しました。もう一度押してください。");
 
             if (btn) {
               btn.disabled = false;
@@ -941,20 +889,21 @@
           }
 
           const link = document.createElement("a");
+          const objectUrl = URL.createObjectURL(blob);
 
           link.download =
             "tagoyama-fuji-" +
             currentData.serialNo.replace(/[^\w\-]/g, "") +
             ".png";
 
-          link.href = URL.createObjectURL(blob);
+          link.href = objectUrl;
 
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
 
-          setTimeout(function () {
-            URL.revokeObjectURL(link.href);
+          setTimeout(function() {
+            URL.revokeObjectURL(objectUrl);
           }, 1000);
 
           if (btn) {
@@ -966,7 +915,7 @@
       } catch (e) {
         console.error(e);
 
-        alert("記念画像を読み込めませんでした。もう一度押してください。");
+        alert("登頂記念証の保存に失敗しました。もう一度押してください。");
 
         if (btn) {
           btn.disabled = false;
@@ -1033,6 +982,10 @@
     function drawCoverImage(ctx, img, x, y, w, h) {
       const iw = img.naturalWidth || img.width;
       const ih = img.naturalHeight || img.height;
+
+      if (!iw || !ih) {
+        return;
+      }
 
       const scale = Math.max(w / iw, h / ih);
       const nw = iw * scale;
