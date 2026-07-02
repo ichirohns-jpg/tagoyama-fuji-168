@@ -6,15 +6,17 @@
 
   <title>田子山富士 登頂記念証</title>
 
-  <meta name="description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html">
+
+  <meta name="description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
 
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 登頂記念証">
   <meta property="og:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp-3">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp-3">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -24,7 +26,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 登頂記念証">
   <meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp-3">
 
   <style>
     * {
@@ -284,9 +286,9 @@
     <header class="hero">
       <div class="logoBox">
         <img
-          src="logo.png"
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
           alt="田子山富士"
-          onerror="this.onerror=null; this.src='https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png';"
+          onerror="this.style.display='none';"
         >
       </div>
 
@@ -300,7 +302,7 @@
       <div class="certificateBox" id="certificateBox">
         <img
           id="certificateImage"
-          src="logo.png"
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp-3"
           alt="田子山富士 登頂記念証"
           onerror="this.onerror=null; this.src='https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png';"
         >
@@ -318,7 +320,7 @@
 次はぜひ、あなたも田子山富士へ。</p>
 
       <div class="btnArea">
-        <a class="linkBtn blackBtn" href="index.html">
+        <a class="linkBtn blackBtn" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
           トップへ戻る
         </a>
       </div>
@@ -332,7 +334,7 @@
 
   <script>
     const DEFAULT_IMAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate-ogp-3";
 
     window.addEventListener("load", initShareCertificate);
 
@@ -373,14 +375,14 @@
       const imageUrl =
         imgid
           ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imgid) + "&sz=w1600"
-          : cleanText(p.get("imageUrl"));
+          : normalizeImageUrl(p.get("imageUrl"));
 
       return {
         climbCount: climbCount,
         serialNo: serialNo,
         date: date,
         participantNo: participantNo,
-        imageUrl: imageUrl
+        imageUrl: imageUrl || DEFAULT_IMAGE
       };
     }
 
@@ -394,7 +396,7 @@
       if (img) {
         img.onerror = function () {
           img.onerror = null;
-          img.src = DEFAULT_IMAGE;
+          img.src = "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
         };
 
         img.src = data.imageUrl || DEFAULT_IMAGE;
@@ -427,6 +429,42 @@
             ? "参加人数 " + data.participantNo + "人"
             : "参加人数 確認中";
       }
+    }
+
+    function normalizeImageUrl(value) {
+      const text = cleanText(value);
+
+      if (!text) {
+        return "";
+      }
+
+      const driveId = getDriveFileId(text);
+
+      if (driveId) {
+        return "https://drive.google.com/thumbnail?id=" +
+          encodeURIComponent(driveId) +
+          "&sz=w1600";
+      }
+
+      return text;
+    }
+
+    function getDriveFileId(url) {
+      const text = cleanText(url);
+
+      let m = text.match(/[?&]id=([^&]+)/);
+
+      if (m && m[1]) {
+        return decodeURIComponent(m[1]);
+      }
+
+      m = text.match(/\/d\/([^/]+)/);
+
+      if (m && m[1]) {
+        return decodeURIComponent(m[1]);
+      }
+
+      return "";
     }
 
     function cleanText(value) {
