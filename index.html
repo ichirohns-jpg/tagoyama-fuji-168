@@ -1,1463 +1,198 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <title>田子山富士 168の縁プロジェクト</title>
-
-  <meta name="description" content="田子山富士168の縁プロジェクト 登頂記念・ご縁帳・おみくじ">
-  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
-  <meta property="og:title" content="田子山富士 168の縁プロジェクト">
-  <meta property="og:description" content="田子山富士の登頂記念、ご縁帳、開運おみくじ。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
-  <meta property="og:locale" content="ja_JP">
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 36%),
-        linear-gradient(180deg, #221600 0%, #070707 48%, #000000 100%);
-      color: #fff7ca;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Sans",
-        "Yu Gothic",
-        "Meiryo",
-        sans-serif;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    .wrap {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 16px 12px 48px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .hero {
-      text-align: center;
-      margin: 0 0 16px;
-    }
-
-    .logoBox {
-      width: 100%;
-      max-width: 620px;
-      margin: 0 auto 14px;
-      border-radius: 28px;
-      overflow: hidden;
-      border: 3px solid rgba(255, 220, 95, 0.80);
-      background: #000000;
-      box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.50),
-        0 0 18px rgba(255, 210, 80, 0.22);
-    }
-
-    .logoBox img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    .siteTitle {
-      margin: 0;
-      font-size: clamp(38px, 10vw, 72px);
-      line-height: 1.14;
-      font-weight: 900;
-      color: #ffdf72;
-      text-shadow:
-        0 4px 4px rgba(0, 0, 0, 0.92),
-        0 0 18px rgba(255, 210, 80, 0.28);
-    }
-
-    .siteSub {
-      margin: 10px 0 0;
-      font-size: clamp(20px, 5.5vw, 34px);
-      line-height: 1.42;
-      font-weight: 900;
-      color: #fff3c4;
-      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.88);
-    }
-
-    .card {
-      margin: 16px 0;
-      padding: 20px 14px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
-      border: 2px solid rgba(255, 220, 95, 0.58);
-      box-shadow:
-        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
-        0 12px 28px rgba(0, 0, 0, 0.42);
-    }
-
-    .cardTitle {
-      margin: 0 0 14px;
-      font-size: clamp(30px, 8.4vw, 54px);
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.25;
-      color: #ffdf72;
-      text-shadow:
-        0 4px 4px rgba(0, 0, 0, 0.90),
-        0 0 18px rgba(255, 210, 80, 0.28);
-    }
-
-    .cardText {
-      margin: 0 0 18px;
-      font-size: clamp(20px, 5.5vw, 34px);
-      font-weight: 900;
-      line-height: 1.55;
-      color: #fff3c4;
-      text-align: center;
-    }
-
-    .numberBox {
-      width: 100%;
-      margin: 16px auto 8px;
-      padding: 16px 12px;
-      border-radius: 24px;
-      background: rgba(0, 0, 0, 0.38);
-      border: 1px solid rgba(255, 220, 140, 0.34);
-      text-align: center;
-    }
-
-    .participantNumber {
-      margin: 0;
-      font-size: clamp(54px, 16vw, 104px);
-      font-weight: 900;
-      line-height: 1.0;
-      color: #ffdf72;
-      text-shadow:
-        0 5px 5px rgba(0, 0, 0, 0.95),
-        0 0 24px rgba(255, 210, 80, 0.32);
-    }
-
-    .smallText {
-      margin: 10px 0 0;
-      font-size: clamp(17px, 4.8vw, 28px);
-      font-weight: 900;
-      line-height: 1.45;
-      color: #d9c886;
-      text-align: center;
-    }
-
-    .statusBox {
-      margin: 18px 0;
-      padding: 18px 14px;
-      border-radius: 20px;
-      background: rgba(0, 0, 0, 0.34);
-      border: 1px solid rgba(255, 220, 140, 0.34);
-      font-size: clamp(18px, 4.8vw, 28px);
-      font-weight: 900;
-      line-height: 1.65;
-      color: #fff3c4;
-      text-align: center;
-      white-space: pre-wrap;
-    }
-
-    .btnArea {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .btn,
-    .linkBtn {
-      width: 100%;
-      min-height: 70px;
-      border: none;
-      border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: clamp(20px, 5.5vw, 34px);
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      color: #ffffff;
-      cursor: pointer;
-      text-align: center;
-      box-shadow:
-        0 7px 0 rgba(0, 0, 0, 0.32),
-        0 13px 22px rgba(0, 0, 0, 0.34);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .btn:active,
-    .linkBtn:active {
-      transform: translateY(3px);
-      box-shadow:
-        0 4px 0 rgba(0, 0, 0, 0.32),
-        0 8px 14px rgba(0, 0, 0, 0.32);
-    }
-
-    .btn:disabled,
-    .linkBtn.disabled {
-      opacity: 0.55;
-      pointer-events: none;
-      transform: none;
-    }
-
-    .goldBtn {
-      color: #271400;
-      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
-    }
-
-    .greenBtn {
-      background: linear-gradient(180deg, #38e988 0%, #09b957 100%);
-    }
-
-    .blueBtn {
-      background: linear-gradient(180deg, #2e83ff 0%, #0b4fc4 100%);
-    }
-
-    .blackBtn {
-      background: linear-gradient(180deg, #323232 0%, #050505 100%);
-    }
-
-    .sectionCard {
-      margin: 18px 0;
-      padding: 20px 14px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(44, 28, 0, 0.96), rgba(9, 9, 9, 0.96));
-      border: 3px solid rgba(255, 220, 95, 0.72);
-      box-shadow:
-        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
-        0 12px 28px rgba(0, 0, 0, 0.45);
-    }
-
-    .list {
-      display: grid;
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .item {
-      padding: 16px 14px;
-      border-radius: 22px;
-      background: rgba(0, 0, 0, 0.42);
-      border: 1px solid rgba(255, 220, 140, 0.28);
-    }
-
-    .itemTitle {
-      margin: 0 0 10px;
-      font-size: clamp(22px, 6vw, 38px);
-      line-height: 1.36;
-      font-weight: 900;
-      color: #ffdf72;
-      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.85);
-    }
-
-    .itemDate {
-      margin: 0 0 10px;
-      font-size: clamp(16px, 4.4vw, 26px);
-      font-weight: 900;
-      color: #d9c886;
-      line-height: 1.35;
-    }
-
-    .itemBody {
-      margin: 0;
-      font-size: clamp(17px, 4.8vw, 29px);
-      line-height: 1.58;
-      font-weight: 850;
-      color: #fff3c4;
-      white-space: pre-wrap;
-    }
-
-    .newsImage {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-height: 520px;
-      object-fit: cover;
-      border-radius: 18px;
-      margin: 0 0 14px;
-      background: #000000;
-      border: 2px solid rgba(255, 220, 95, 0.45);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.32);
-    }
-
-    .inputLabel {
-      display: block;
-      margin: 16px 0 8px;
-      font-size: clamp(18px, 5vw, 30px);
-      font-weight: 900;
-      color: #ffdf72;
-    }
-
-    .input,
-    textarea.input {
-      width: 100%;
-      min-height: 58px;
-      border: 2px solid rgba(255, 220, 95, 0.50);
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.52);
-      color: #fff7ca;
-      font-size: clamp(18px, 5vw, 30px);
-      font-weight: 800;
-      padding: 12px 14px;
-      outline: none;
-    }
-
-    textarea.input {
-      min-height: 130px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    .closeSectionBtn {
-      margin-top: 18px;
-    }
-
-    .footer {
-      margin: 28px 0 0;
-      text-align: center;
-      color: #c9b56b;
-      font-weight: 800;
-      line-height: 1.6;
-      font-size: clamp(15px, 4vw, 22px);
-    }
-
-    @media (max-width: 420px) {
-      .wrap {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      .card,
-      .sectionCard {
-        border-radius: 26px;
-        padding-left: 14px;
-        padding-right: 14px;
-      }
-
-      .btn,
-      .linkBtn {
-        min-height: 66px;
-        border-radius: 22px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="logoBox">
-        <img
-          src="logo.png"
-          alt="田子山富士"
-          onerror="this.onerror=null; this.src='https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png';"
-        >
-      </div>
-
-      <h1 class="siteTitle">田子山富士</h1>
-      <div class="siteSub">168の縁プロジェクト</div>
-    </header>
-
-    <section class="card">
-      <h2 class="cardTitle">参加人数</h2>
-
-      <div class="numberBox">
-        <p class="participantNumber" id="participants">--</p>
-        <p class="smallText">登頂受付された人数を表示しています</p>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2 class="cardTitle">⛩️ 登頂受付</h2>
-
-      <p class="cardText">
-        登頂受付は<br>
-        山頂に設置されたQRコード<br>
-        からご利用ください。
-      </p>
-
-      <div class="statusBox" id="climbStatus">
-        登頂情報を確認しています...
-      </div>
-
-      <div class="btnArea">
-        <a class="linkBtn goldBtn hidden disabled" id="certificateBtn" href="certificate.html">
-          登頂記念証を受け取る
-        </a>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2 class="cardTitle">メニュー</h2>
-
-      <p class="cardText">
-        使いたい項目を<br>
-        選んでください。
-      </p>
-
-      <div class="btnArea">
-        <a class="linkBtn goldBtn" id="omikujiLink" href="omikuji.html">
-          開運おみくじ
-        </a>
-
-        <button class="btn blueBtn" onclick="openSection('newsSection')">
-          お知らせ
-        </button>
-
-        <button class="btn greenBtn" onclick="openSection('kichoSection')">
-          参拝記帳
-        </button>
-
-        <button class="btn blackBtn" onclick="openSection('goenSection')">
-          ご縁帳
-        </button>
-
-        <a class="linkBtn blackBtn" href="https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E5%AD%90%E5%B1%B1%E5%AF%8C%E5%A3%AB" target="_blank" rel="noopener">
-          田子山富士への行き方
-        </a>
-      </div>
-    </section>
-
-    <section class="sectionCard hidden" id="newsSection">
-      <h2 class="cardTitle">お知らせ</h2>
-
-      <div class="list" id="newsList">
-        <div class="item">
-          <p class="itemBody">お知らせを読み込み中です。</p>
-        </div>
-      </div>
-
-      <button class="btn blackBtn closeSectionBtn" onclick="closeSection('newsSection')">
-        閉じる
-      </button>
-    </section>
-
-    <section class="sectionCard hidden" id="kichoSection">
-      <h2 class="cardTitle">参拝記帳</h2>
-
-      <p class="cardText">
-        田子山富士への想いを<br>
-        ご縁帳に残せます。
-      </p>
-
-      <label class="inputLabel" for="kichoArea">どこから来ましたか</label>
-      <select id="kichoArea" class="input">
-        <option value="">選択してください</option>
-        <option value="志木市">志木市</option>
-        <option value="朝霞市">朝霞市</option>
-        <option value="新座市">新座市</option>
-        <option value="和光市">和光市</option>
-        <option value="富士見市">富士見市</option>
-        <option value="ふじみ野市">ふじみ野市</option>
-        <option value="さいたま市">さいたま市</option>
-        <option value="東京都">東京都</option>
-        <option value="埼玉県内">埼玉県内</option>
-        <option value="その他">その他</option>
-      </select>
-
-      <label class="inputLabel" for="kichoName">お名前</label>
-      <input id="kichoName" class="input" type="text" placeholder="未入力でも記帳できます">
-
-      <label class="inputLabel" for="kichoMessage">メッセージ</label>
-      <textarea id="kichoMessage" class="input" placeholder="田子山富士への想いを書いてください"></textarea>
-
-      <div class="btnArea">
-        <button class="btn goldBtn" id="kichoBtn" onclick="saveKicho()">
-          記帳する
-        </button>
-
-        <button class="btn blackBtn closeSectionBtn" onclick="closeSection('kichoSection')">
-          閉じる
-        </button>
-      </div>
-    </section>
-
-    <section class="sectionCard hidden" id="goenSection">
-      <h2 class="cardTitle">ご縁帳</h2>
-
-      <p class="cardText">
-        田子山富士に集まった<br>
-        ご縁の記録です。
-      </p>
-
-      <div class="list" id="goenList">
-        <div class="item">
-          <p class="itemBody">ご縁帳を読み込み中です。</p>
-        </div>
-      </div>
-
-      <button class="btn blackBtn closeSectionBtn" onclick="closeSection('goenSection')">
-        閉じる
-      </button>
-    </section>
-
-    <footer class="footer">
-      田子山富士 168の縁プロジェクト<br>
-      登頂記念・ご縁帳・おみくじ
-    </footer>
-  </div>
-
-  <script>
-    const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
-
-    const OMIKUJI_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
-
-    let currentUserId = "";
-    let newsLoaded = false;
-    let goenLoaded = false;
-
-    window.addEventListener("load", init);
-
-    async function init() {
-      const urlUserId = getUserIdFromUrl();
-
-      if (urlUserId) {
-        currentUserId = urlUserId;
-        localStorage.setItem("tagoyamaUserId", urlUserId);
-        localStorage.setItem("tagoyamaFujiUserId", urlUserId);
-      } else {
-        currentUserId =
-          localStorage.getItem("tagoyamaUserId") ||
-          localStorage.getItem("tagoyamaFujiUserId") ||
-          "";
-      }
-
-      updateUserLinks();
-
-      if (urlUserId) {
-        await handleClimb(urlUserId);
-      } else {
-        hideCertificateButton();
-        await loadStats();
-      }
-
-      handleOpenParameter();
-    }
-
-    function getUserIdFromUrl() {
-      const p = new URLSearchParams(location.search);
-
-      return getString(
-        p.get("userId") ||
-        p.get("id") ||
-        p.get("uid") ||
-        ""
-      );
-    }
-
-    function handleOpenParameter() {
-      const p = new URLSearchParams(location.search);
-      const open = getString(p.get("open"));
-
-      if (open === "news") {
-        setTimeout(function () {
-          openSection("newsSection");
-        }, 300);
-      }
-
-      if (open === "goen") {
-        setTimeout(function () {
-          openSection("goenSection");
-        }, 300);
-      }
-
-      if (open === "kicho") {
-        setTimeout(function () {
-          openSection("kichoSection");
-        }, 300);
-      }
-    }
-
-    function updateUserLinks() {
-      const omikujiLink = document.getElementById("omikujiLink");
-
-      if (omikujiLink) {
-        if (currentUserId) {
-          omikujiLink.href =
-            OMIKUJI_PAGE +
-            "?userId=" +
-            encodeURIComponent(currentUserId) +
-            "&v=" +
-            Date.now();
-        } else {
-          omikujiLink.href =
-            "omikuji.html?v=" +
-            Date.now();
-        }
-      }
-    }
-
-    async function handleClimb(urlUserId) {
-      const status = document.getElementById("climbStatus");
-
-      if (status) {
-        status.innerText = "登頂受付を確認しています。";
-      }
-
-      try {
-        const data =
-          await getJson(
-            GAS_URL +
-            "?userId=" +
-            encodeURIComponent(urlUserId) +
-            "&t=" +
-            Date.now()
-          );
-
-        if (!data || data.success === false) {
-          throw new Error(
-            data && data.message
-              ? data.message
-              : "登頂受付を確認できませんでした。"
-          );
-        }
-
-        const cleanClimbData = {
-          userId: urlUserId,
-          climbCount: getFirst(data.climbCount, data.count, data.登頂回数),
-          serialNo: getFirst(data.serialNo, data.serial, data.no, data.シリアル番号),
-          lastDate: getFirst(data.lastDate, data.date, data.日付),
-          imageNo: getFirst(data.imageNo, data.image, data.画像番号),
-          imageName: getFirst(data.imageName, data.title, data.画像名),
-          imageUrl: getFirst(data.imageUrl, data.imageURL, data.画像URL),
-          participantNo: getFirst(data.participantNo, data.participantCount, data.participants, data.total, data.参加人数)
-        };
-
-        saveClimbData(cleanClimbData);
-        updateParticipants(cleanClimbData.participantNo);
-        showCertificateButton(urlUserId);
-
-        if (status) {
-          const countText =
-            cleanClimbData.climbCount
-              ? "第" + cleanClimbData.climbCount + "回登頂"
-              : "登頂";
-
-          const noText =
-            cleanClimbData.serialNo
-              ? "\nNo." + cleanClimbData.serialNo
-              : "";
-
-          status.innerText =
-            "登頂受付が完了しました。\n" +
-            countText +
-            noText;
-        }
-
-      } catch (e) {
-        console.error(e);
-
-        if (status) {
-          status.innerText =
-            e && e.message
-              ? e.message
-              : "登頂受付を確認できませんでした。";
-        }
-
-        showCertificateButton(urlUserId);
-        await loadStats();
-      }
-    }
-
-    function saveClimbData(data) {
-      try {
-        localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
-
-        if (data.userId) {
-          localStorage.setItem("tagoyamaUserId", data.userId);
-          localStorage.setItem("tagoyamaFujiUserId", data.userId);
-        }
-
-        if (data.climbCount) {
-          localStorage.setItem("tagoyamaLastClimbCount", data.climbCount);
-        }
-
-        if (data.serialNo) {
-          localStorage.setItem("tagoyamaLastSerialNo", data.serialNo);
-        }
-
-        if (data.lastDate) {
-          localStorage.setItem("tagoyamaLastDate", data.lastDate);
-        }
-
-        if (data.participantNo) {
-          localStorage.setItem("tagoyamaLastParticipantNo", data.participantNo);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    function showCertificateButton(userId) {
-      const certificateBtn = document.getElementById("certificateBtn");
-
-      if (certificateBtn) {
-        certificateBtn.classList.remove("hidden");
-        certificateBtn.classList.remove("disabled");
-        certificateBtn.href =
-          "certificate.html?userId=" +
-          encodeURIComponent(userId || currentUserId || "") +
-          "&v=" +
-          Date.now();
-      }
-    }
-
-    function hideCertificateButton() {
-      const certificateBtn = document.getElementById("certificateBtn");
-
-      if (certificateBtn) {
-        certificateBtn.classList.add("hidden");
-        certificateBtn.classList.add("disabled");
-        certificateBtn.href = "certificate.html";
-      }
-
-      const status = document.getElementById("climbStatus");
-
-      if (status) {
-        status.innerText =
-          "登頂受付は\n山頂のQRコードから行えます。";
-      }
-    }
-
-    async function loadStats() {
-      const el = document.getElementById("participants");
-
-      if (!el) {
-        return;
-      }
-
-      el.innerText = "--";
-
-      try {
-        const data =
-          await getJson(
-            GAS_URL +
-            "?mode=stats&t=" +
-            Date.now()
-          );
-
-        if (data && data.success !== false) {
-          const value = getFirst(
-            data.participantNo,
-            data.participantCount,
-            data.participants,
-            data.totalParticipants,
-            data.total,
-            data.count,
-            data.参加人数
-          );
-
-          updateParticipants(value);
-        } else {
-          updateParticipants(
-            localStorage.getItem("tagoyamaLastParticipantNo") || "--"
-          );
-        }
-
-      } catch (e) {
-        console.error(e);
-
-        updateParticipants(
-          localStorage.getItem("tagoyamaLastParticipantNo") || "--"
-        );
-      }
-    }
-
-    function updateParticipants(value) {
-      const el = document.getElementById("participants");
-
-      if (!el) return;
-
-      if (value === "" || value === null || value === undefined) return;
-
-      const n = Number(String(value).replace(/[^\d]/g, ""));
-
-      if (Number.isFinite(n) && n >= 0) {
-        el.innerText = String(n);
-        localStorage.setItem("tagoyamaLastParticipantNo", String(n));
-      } else {
-        el.innerText = String(value);
-        localStorage.setItem("tagoyamaLastParticipantNo", String(value));
-      }
-    }
-
-    function openSection(id) {
-      closeAllSections();
-
-      const section = document.getElementById(id);
-
-      if (!section) return;
-
-      section.classList.remove("hidden");
-
-      if (id === "newsSection") {
-        newsLoaded = false;
-        loadNews();
-      }
-
-      if (id === "goenSection") {
-        goenLoaded = false;
-        loadGoen();
-      }
-
-      setTimeout(function () {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }, 80);
-    }
-
-    function closeAllSections() {
-      ["newsSection", "kichoSection", "goenSection"].forEach(function (id) {
-        const el = document.getElementById(id);
-
-        if (el) {
-          el.classList.add("hidden");
-        }
-      });
-    }
-
-    function closeSection(id) {
-      const el = document.getElementById(id);
-
-      if (el) {
-        el.classList.add("hidden");
-      }
-    }
-
-    async function loadNews() {
-      const list = document.getElementById("newsList");
-
-      if (!list) return;
-
-      if (newsLoaded) return;
-
-      list.innerHTML =
-        '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
-
-      try {
-        const data =
-          await getJson(
-            GAS_URL +
-            "?mode=news&t=" +
-            Date.now()
-          );
-
-        const rows = newsRowsFromData(data);
-
-        if (!rows || rows.length === 0) {
-          list.innerHTML =
-            '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
-
-          newsLoaded = true;
-          return;
-        }
-
-        let html = "";
-
-        rows.forEach(function (rawItem) {
-          const item = normalizeNewsItem(rawItem);
-
-          if (!item.title && !item.body && !item.imageUrl) return;
-
-          html +=
-            '<div class="item">' +
-
-            (
-              item.imageUrl
-                ? '<img class="newsImage" src="' +
-                  newsEscapeHtml(item.imageUrl) +
-                  '" alt="' +
-                  newsEscapeHtml(item.title || "お知らせ画像") +
-                  '" onerror="this.style.display=\'none\';">'
-                : ''
-            ) +
-
-            '<h3 class="itemTitle">' +
-            newsEscapeHtml(item.title || "お知らせ") +
-            '</h3>' +
-
-            (
-              item.date
-                ? '<div class="itemDate">' + newsEscapeHtml(item.date) + '</div>'
-                : ''
-            ) +
-
-            (
-              item.body
-                ? '<p class="itemBody">' + newsEscapeHtml(item.body) + '</p>'
-                : ''
-            ) +
-
-            '</div>';
-        });
-
-        list.innerHTML =
-          html ||
-          '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
-
-        newsLoaded = true;
-
-      } catch (e) {
-        console.error(e);
-
-        list.innerHTML =
-          '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
-      }
-    }
-
-    function normalizeNewsItem(rawItem) {
-      const cells = newsCollectAllText(rawItem);
-      const jsonText = newsCleanText(JSON.stringify(rawItem || ""));
-
-      const imageUrl = newsFindImageUrl(cells, jsonText);
-      const date = newsFindDate(cells);
-      const title = newsFindTitle(cells, date, imageUrl);
-      const body = newsFindBody(cells, title, date, imageUrl);
-
-      return {
-        title: title,
-        date: date,
-        body: body,
-        imageUrl: imageUrl
-      };
-    }
-
-    function newsRowsFromData(data) {
-      if (!data) return [];
-
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data.rows)) return data.rows;
-      if (Array.isArray(data.data)) return data.data;
-      if (Array.isArray(data.items)) return data.items;
-      if (Array.isArray(data.list)) return data.list;
-      if (Array.isArray(data.news)) return data.news;
-      if (Array.isArray(data.records)) return data.records;
-      if (data.result && Array.isArray(data.result)) return data.result;
-
-      return [];
-    }
-
-    function newsCollectAllText(value) {
-      const results = [];
-      const seen = [];
-
-      function add(v) {
-        const text = newsCleanText(v);
-
-        if (!text) return;
-
-        if (results.indexOf(text) < 0) {
-          results.push(text);
-        }
-      }
-
-      function walk(v) {
-        if (v === null || v === undefined) return;
-
-        if (
-          typeof v === "string" ||
-          typeof v === "number" ||
-          typeof v === "boolean"
-        ) {
-          add(v);
-          return;
-        }
-
-        if (typeof v !== "object") return;
-
-        if (seen.indexOf(v) >= 0) return;
-
-        seen.push(v);
-
-        if (Array.isArray(v)) {
-          v.forEach(function (x) {
-            walk(x);
-          });
-          return;
-        }
-
-        if (v.v !== undefined) walk(v.v);
-        if (v.f !== undefined) walk(v.f);
-        if (v.formattedValue !== undefined) walk(v.formattedValue);
-        if (v.value !== undefined) walk(v.value);
-        if (v.text !== undefined) walk(v.text);
-        if (v.title !== undefined) walk(v.title);
-        if (v.body !== undefined) walk(v.body);
-        if (v.message !== undefined) walk(v.message);
-        if (v.content !== undefined) walk(v.content);
-        if (v.description !== undefined) walk(v.description);
-        if (v.imageUrl !== undefined) walk(v.imageUrl);
-        if (v.imageURL !== undefined) walk(v.imageURL);
-        if (v.img !== undefined) walk(v.img);
-        if (v.url !== undefined) walk(v.url);
-        if (v.URL !== undefined) walk(v.URL);
-
-        Object.keys(v).forEach(function (key) {
-          walk(v[key]);
-        });
-      }
-
-      walk(value);
-
-      return results;
-    }
-
-    function newsFindImageUrl(cells, jsonText) {
-      const allText = []
-        .concat(cells || [])
-        .concat([jsonText || ""])
-        .join("\n");
-
-      const candidates = [];
-
-      const urlMatches = allText.match(/https?:\/\/[^\s"'<>\\]+/g);
-
-      if (urlMatches && urlMatches.length) {
-        urlMatches.forEach(function (url) {
-          candidates.push(url);
-        });
-      }
-
-      const driveIdMatches = allText.match(/[-\w]{25,}/g);
-
-      if (driveIdMatches && driveIdMatches.length) {
-        driveIdMatches.forEach(function (id) {
-          if (id.length >= 25) {
-            candidates.push(
-              "https://drive.google.com/thumbnail?id=" +
-              encodeURIComponent(id) +
-              "&sz=w1200"
-            );
-          }
-        });
-      }
-
-      for (let i = 0; i < candidates.length; i++) {
-        const imageUrl = newsNormalizeImageUrl(candidates[i]);
-
-        if (imageUrl) {
-          return imageUrl;
-        }
-      }
-
-      return "";
-    }
-
-    function newsNormalizeImageUrl(value) {
-      let text = newsCleanText(value);
-
-      if (!text) return "";
-
-      text = text
-        .replace(/[)\]}]+$/g, "")
-        .replace(/,$/g, "")
-        .replace(/\\n/g, "")
-        .replace(/\\r/g, "");
-
-      const driveId = newsGetDriveFileId(text);
-
-      if (driveId) {
-        return "https://drive.google.com/thumbnail?id=" +
-          encodeURIComponent(driveId) +
-          "&sz=w1200";
-      }
-
-      if (
-        /googleusercontent\.com/i.test(text) ||
-        /raw\.githubusercontent\.com/i.test(text) ||
-        /github\.io/i.test(text) ||
-        /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(text)
-      ) {
-        return text;
-      }
-
-      return "";
-    }
-
-    function newsGetDriveFileId(url) {
-      const text = newsCleanText(url);
-
-      let m = text.match(/[?&]id=([^&]+)/);
-
-      if (m && m[1]) {
-        return decodeURIComponent(m[1]);
-      }
-
-      m = text.match(/\/d\/([^/]+)/);
-
-      if (m && m[1]) {
-        return decodeURIComponent(m[1]);
-      }
-
-      m = text.match(/drive\.google\.com\/open\?id=([^&]+)/);
-
-      if (m && m[1]) {
-        return decodeURIComponent(m[1]);
-      }
-
-      return "";
-    }
-
-    function newsFindDate(cells) {
-      for (let i = 0; i < cells.length; i++) {
-        const date = newsFormatDate(cells[i]);
-
-        if (date) {
-          return date;
-        }
-      }
-
-      return "";
-    }
-
-    function newsFindTitle(cells, date, imageUrl) {
-      for (let i = 0; i < cells.length; i++) {
-        const text = newsCleanText(cells[i]);
-
-        if (!text) continue;
-        if (text === date) continue;
-        if (text === imageUrl) continue;
-        if (newsFormatDate(text)) continue;
-        if (newsNormalizeImageUrl(text)) continue;
-        if (/^https?:\/\//i.test(text)) continue;
-
-        return text;
-      }
-
-      return "";
-    }
-
-    function newsFindBody(cells, title, date, imageUrl) {
-      const parts = [];
-
-      for (let i = 0; i < cells.length; i++) {
-        const text = newsCleanText(cells[i]);
-
-        if (!text) continue;
-        if (text === title) continue;
-        if (text === date) continue;
-        if (text === imageUrl) continue;
-        if (newsFormatDate(text)) continue;
-        if (newsNormalizeImageUrl(text)) continue;
-        if (/^https?:\/\//i.test(text)) continue;
-
-        if (parts.indexOf(text) < 0) {
-          parts.push(text);
-        }
-      }
-
-      return parts.join("\n");
-    }
-
-    function newsFormatDate(value) {
-      let text = newsCleanText(value);
-
-      if (!text) return "";
-
-      text = text.replace(/-/g, "/");
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}T/.test(text)) {
-        text = text.split("T")[0];
-      }
-
-      text = text.replace(/\s00:00:00$/, "");
-      text = text.replace(/\s00:00$/, "");
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)) {
-        return text;
-      }
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{2}(:\d{2})?$/.test(text)) {
-        return text;
-      }
-
-      return "";
-    }
-
-    function newsCleanText(value) {
-      if (value === null || value === undefined) {
-        return "";
-      }
-
-      return String(value)
-        .replace(/\\\//g, "/")
-        .replace(/\\u0026/g, "&")
-        .replace(/&amp;/g, "&")
-        .replace(/\r\n/g, "\n")
-        .replace(/\r/g, "\n")
-        .trim();
-    }
-
-    function newsEscapeHtml(value) {
-      return newsCleanText(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    async function saveKicho() {
-      const area = getString(document.getElementById("kichoArea").value);
-      const name = getString(document.getElementById("kichoName").value);
-      const message = getString(document.getElementById("kichoMessage").value);
-      const btn = document.getElementById("kichoBtn");
-
-      if (!area) {
-        alert("どこから来たかを選んでください。");
-        return;
-      }
-
-      if (!message) {
-        alert("メッセージを書いてください。");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.style.opacity = ".55";
-      btn.innerText = "記帳しています...";
-
-      try {
-        const url =
-          GAS_URL +
-          "?mode=saveKicho" +
-          "&area=" + encodeURIComponent(area) +
-          "&name=" + encodeURIComponent(name) +
-          "&message=" + encodeURIComponent(message) +
-          "&imageUrl=" + encodeURIComponent("") +
-          "&t=" + Date.now();
-
-        const data = await getJson(url);
-
-        if (!data || data.success === false) {
-          throw new Error(data && data.message ? data.message : "記帳できませんでした");
-        }
-
-        alert("記帳しました。ありがとうございます。");
-
-        document.getElementById("kichoName").value = "";
-        document.getElementById("kichoMessage").value = "";
-
-        goenLoaded = false;
-
-      } catch (e) {
-        console.error(e);
-
-        alert(e && e.message ? e.message : "記帳できませんでした。");
-
-      } finally {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.innerText = "記帳する";
-      }
-    }
-
-    async function loadGoen() {
-      const list = document.getElementById("goenList");
-
-      if (!list) return;
-
-      if (goenLoaded) return;
-
-      list.innerHTML =
-        '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
-
-      try {
-        const data =
-          await getJson(
-            GAS_URL +
-            "?mode=goen&t=" +
-            Date.now()
-          );
-
-        const rows = getArrayRows(data);
-
-        if (!rows || rows.length === 0) {
-          list.innerHTML =
-            '<div class="item"><p class="itemBody">まだご縁帳の記録はありません。</p></div>';
-
-          goenLoaded = true;
-
-          return;
-        }
-
-        let html = "";
-
-        rows.forEach(function (item) {
-          const area = getFirst(item.area, item.place, item.地域, item.場所);
-          const name = getFirst(item.name, item.nickname, item.名前, item.お名前);
-          const message = getFirst(item.message, item.body, item.text, item.本文, item.メッセージ);
-          const date = formatDate(getFirst(item.date, item.datetime, item.日時, item.日付));
-
-          if (!area && !name && !message) return;
-
-          html +=
-            '<div class="item">' +
-            '<h3 class="itemTitle">' +
-            escapeHtml(name || "ご縁") +
-            '</h3>' +
-            (
-              area
-                ? '<div class="itemDate">' + escapeHtml(area) + '</div>'
-                : ''
-            ) +
-            (
-              date
-                ? '<div class="itemDate">' + escapeHtml(date) + '</div>'
-                : ''
-            ) +
-            '<p class="itemBody">' +
-            escapeHtml(message || "") +
-            '</p>' +
-            '</div>';
-        });
-
-        list.innerHTML =
-          html ||
-          '<div class="item"><p class="itemBody">まだご縁帳の記録はありません。</p></div>';
-
-        goenLoaded = true;
-
-      } catch (e) {
-        console.error(e);
-
-        list.innerHTML =
-          '<div class="item"><p class="itemBody">ご縁帳を読み込めませんでした。</p></div>';
-      }
-    }
-
-    async function getJson(url) {
-      const res = await fetch(url, {
-        method: "GET",
-        cache: "no-store",
-        redirect: "follow"
-      });
-
-      const text = await res.text();
-
-      if (!res.ok) {
-        throw new Error("通信エラーが発生しました。");
-      }
-
-      if (!text) {
-        throw new Error("空の応答です。");
-      }
-
-      const trimmed = text.trim();
-
-      if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
-        return JSON.parse(trimmed);
-      }
-
-      const jsonpMatch = trimmed.match(/^[^(]*\(([\s\S]*)\)\s*;?$/);
-
-      if (jsonpMatch && jsonpMatch[1]) {
-        return JSON.parse(jsonpMatch[1]);
-      }
-
-      const jsonMatch = trimmed.match(/\{[\s\S]*\}/);
-
-      if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]);
-      }
-
-      throw new Error("JSONを読み込めませんでした。");
-    }
-
-    function getArrayRows(data) {
-      if (!data) return [];
-
-      if (Array.isArray(data)) return data;
-      if (Array.isArray(data.rows)) return data.rows;
-      if (Array.isArray(data.data)) return data.data;
-      if (Array.isArray(data.items)) return data.items;
-      if (Array.isArray(data.list)) return data.list;
-      if (Array.isArray(data.news)) return data.news;
-      if (Array.isArray(data.records)) return data.records;
-      if (data.result && Array.isArray(data.result)) return data.result;
-
-      return [];
-    }
-
-    function getFirst() {
-      for (let i = 0; i < arguments.length; i++) {
-        const v = arguments[i];
-
-        if (v !== null && v !== undefined && String(v).trim() !== "") {
-          return String(v).trim();
-        }
-      }
-
-      return "";
-    }
-
-    function getString(value) {
-      if (value === null || value === undefined) {
-        return "";
-      }
-
-      return String(value).trim();
-    }
-
-    function formatDate(value) {
-      let text = getString(value);
-
-      if (!text) {
-        return "";
-      }
-
-      text = text.replace(/-/g, "/");
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}T/.test(text)) {
-        text = text.split("T")[0];
-      }
-
-      text = text.replace(/\s00:00:00$/, "");
-      text = text.replace(/\s00:00$/, "");
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(text)) {
-        return text;
-      }
-
-      if (/^\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{2}(:\d{2})?$/.test(text)) {
-        return text;
-      }
-
-      return "";
-    }
-
-    function escapeHtml(value) {
-      return getString(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-  </script>
-</body>
-</html>
+async function loadNews(){
+
+ const list = document.getElementById("newsList");
+
+ if(!list) return;
+
+ if(newsLoaded) return;
+
+ list.innerHTML =
+ '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
+
+ try{
+
+ const data =
+ await getJson(
+ GAS_URL +
+ "?mode=news&t=" +
+ Date.now()
+ );
+
+ const rows = getArrayRows(data);
+
+ if(!rows || rows.length === 0){
+
+ list.innerHTML =
+ '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
+
+ newsLoaded = true;
+
+ return;
+
+ }
+
+ let html = "";
+
+ rows.forEach(function(item){
+
+ const title = getFirst(
+ item.title,
+ item.タイトル,
+ item.name,
+ item.件名,
+ item.subject
+ );
+
+ const date = formatDate(
+ getFirst(
+ item.date,
+ item.datetime,
+ item.createdAt,
+ item.updatedAt,
+ item.日時,
+ item.日付
+ )
+ );
+
+ let body = getFirst(
+ item.body,
+ item.message,
+ item.text,
+ item.content,
+ item.description,
+ item.本文,
+ item.内容,
+ item.説明,
+ item.メッセージ,
+ item.お知らせ本文
+ );
+
+ if(!body){
+ body = makeBodyFromItem(item);
+ }
+
+ const imageUrl = getNewsImageUrl(item);
+
+ if(!title && !body && !imageUrl) return;
+
+ let imageHtml = "";
+
+ if(imageUrl){
+
+ imageHtml =
+ '<img src="' + escapeHtml(imageUrl) + '" ' +
+ 'alt="' + escapeHtml(title || "田子山富士のお知らせ画像") + '" ' +
+ 'loading="lazy" ' +
+ 'style="display:block;width:100%;max-height:420px;object-fit:cover;border-radius:16px;margin:0 0 12px;background:#111;" ' +
+ 'onerror="this.style.display=\'none\';">';
+
+ }
+
+ html +=
+ '<div class="item">' +
+ imageHtml +
+ '<h3 class="itemTitle">' + escapeHtml(title || "お知らせ") + '</h3>' +
+ (date ? '<div class="itemDate">' + escapeHtml(date) + '</div>' : '') +
+ (body ? '<p class="itemBody">' + escapeHtml(body) + '</p>' : '') +
+ '</div>';
+
+ });
+
+ list.innerHTML =
+ html ||
+ '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
+
+ newsLoaded = true;
+
+ }catch(e){
+
+ list.innerHTML =
+ '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
+
+ }
+
+}
+
+function getNewsImageUrl(item){
+
+ const raw = getFirst(
+ item.imageUrl,
+ item.imageURL,
+ item.image,
+ item.photo,
+ item.picture,
+ item.thumbnail,
+ item.画像URL,
+ item.画像Url,
+ item.画像url,
+ item.画像,
+ item.写真,
+ item.サムネイル,
+ item.お知らせ画像
+ );
+
+ return normalizeNewsImageUrl(raw);
+
+}
+
+function normalizeNewsImageUrl(url){
+
+ url = getString(url);
+
+ if(!url) return "";
+
+ url = url.replace(/&amp;/g,"&").trim();
+
+ let match = url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+
+ if(match && match[1]){
+ return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(match[1]) + "&sz=w1200";
+ }
+
+ match = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+
+ if(url.indexOf("drive.google.com") >= 0 && match && match[1]){
+ return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(match[1]) + "&sz=w1200";
+ }
+
+ return url;
+
+}
+
+function makeBodyFromItem(item){
+
+ const skipKeys = [
+ "title","タイトル","name","件名","subject",
+ "date","datetime","createdAt","updatedAt","日時","日付",
+ "link","url","URL","リンク",
+ "imageUrl","imageURL","image","photo","picture","thumbnail",
+ "画像URL","画像Url","画像url","画像","写真","サムネイル","お知らせ画像"
+ ];
+
+ const parts = [];
+
+ Object.keys(item || {}).forEach(function(key){
+
+ if(skipKeys.indexOf(key) >= 0) return;
+
+ const lowerKey = String(key).toLowerCase();
+
+ if(lowerKey.indexOf("image") >= 0) return;
+ if(lowerKey.indexOf("photo") >= 0) return;
+ if(lowerKey.indexOf("thumbnail") >= 0) return;
+ if(String(key).indexOf("画像") >= 0) return;
+ if(String(key).indexOf("写真") >= 0) return;
+
+ const value = getString(item[key]);
+
+ if(!value) return;
+
+ if(value.indexOf("https://") === 0 || value.indexOf("http://") === 0) return;
+
+ parts.push(value);
+
+ });
+
+ return parts.join("\n");
+
+}
