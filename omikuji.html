@@ -246,6 +246,10 @@ body{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
+.grayBtn{
+  background:linear-gradient(180deg,#777 0%,#262626 100%);
+}
+
 .footer{
   margin:28px 0 0;
   text-align:center;
@@ -264,6 +268,10 @@ body{
   font-size:13px;
   line-height:1.55;
   word-break:break-all;
+  display:none;
+}
+
+canvas{
   display:none;
 }
 
@@ -327,7 +335,7 @@ body{
     <h2 class="cardTitle">結果</h2>
 
     <div class="resultImageBox hidden" id="resultImageBox">
-      <img id="resultImage" src="" alt="おみくじ画像" onerror="hideResultImage()">
+      <img id="resultImage" src="" alt="おみくじ画像" crossorigin="anonymous" onerror="hideResultImage()">
     </div>
 
     <div class="resultBox">
@@ -337,6 +345,14 @@ body{
     </div>
 
     <div class="btnArea">
+      <button class="btn goldBtn" id="downloadBtn" onclick="downloadOmikujiImage()">
+        画像をダウンロード
+      </button>
+
+      <button class="btn blueBtn" onclick="postFacebook()">
+        Facebookに投稿
+      </button>
+
       <button class="btn greenBtn" onclick="sendLine()">
         LINEで送る
       </button>
@@ -348,6 +364,10 @@ body{
       <button class="btn blueBtn" onclick="copyShareText()">
         結果をコピー
       </button>
+
+      <a class="linkBtn blackBtn" id="backBtn2" href="index.html">
+        トップへ戻る
+      </a>
     </div>
   </section>
 
@@ -372,6 +392,7 @@ body{
     開運おみくじ
   </footer>
 
+  <canvas id="saveCanvas"></canvas>
 </div>
 
 <script>
@@ -436,13 +457,20 @@ function getUserId(){
 
 function updateLinks(){
   const backBtn = document.getElementById("backBtn");
+  const backBtn2 = document.getElementById("backBtn2");
   const certificateBtn = document.getElementById("certificateBtn");
 
+  const indexUrl =
+    currentUserId
+      ? "index.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
+      : "index.html?v=" + Date.now();
+
   if(backBtn){
-    backBtn.href =
-      currentUserId
-        ? "index.html?userId=" + encodeURIComponent(currentUserId) + "&v=" + Date.now()
-        : "index.html?v=" + Date.now();
+    backBtn.href = indexUrl;
+  }
+
+  if(backBtn2){
+    backBtn2.href = indexUrl;
   }
 
   if(certificateBtn){
@@ -599,6 +627,8 @@ function renderResult(result){
     }
   }
 
+  updateLinks();
+
   setTimeout(function(){
     if(section){
       section.scrollIntoView({
@@ -614,6 +644,59 @@ function hideResultImage(){
 
   if(box){
     box.classList.add("hidden");
+  }
+}
+
+async function downloadOmikujiImage(){
+  if(!currentResult.imageUrl){
+    alert("画像URLがありません。");
+    return;
+  }
+
+  const btn = document.getElementById("downloadBtn");
+  btn.disabled = true;
+  btn.innerText = "画像を保存中...";
+
+  try{
+    const imageUrl =
+      currentResult.imageUrl +
+      (currentResult.imageUrl.indexOf("?") >= 0 ? "&" : "?") +
+      "download=" +
+      Date.now();
+
+    const res = await fetch(imageUrl, {
+      method:"GET",
+      cache:"no-store"
+    });
+
+    if(!res.ok){
+      throw new Error("画像を取得できませんでした");
+    }
+
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download =
+      "tagoyama-omikuji-" +
+      (currentResult.imageNo || "result") +
+      ".png";
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(function(){
+      URL.revokeObjectURL(objectUrl);
+    },1000);
+
+  }catch(e){
+    window.open(currentResult.imageUrl, "_blank");
+    alert("画像ページを開きました。表示された画像を保存してください。");
+  }finally{
+    btn.disabled = false;
+    btn.innerText = "画像をダウンロード";
   }
 }
 
@@ -658,6 +741,18 @@ function buildShareUrl(){
   return OMIKUJI_PAGE + "?" + p.toString();
 }
 
+function postFacebook(){
+  copyText(makeShareText());
+
+  const url =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(buildShareUrl());
+
+  window.open(url, "_blank");
+
+  alert("投稿文をコピーしました。Facebookの投稿欄に貼り付けてください。");
+}
+
 function sendLine(){
   const url =
     "https://line.me/R/msg/text/?" +
@@ -670,7 +765,9 @@ function postX(){
   const text =
     "田子山富士 開運おみくじ\n" +
     "結果：" +
-    (currentResult.result || "おみくじ");
+    (currentResult.result || "おみくじ") +
+    "\n" +
+    (currentResult.message || "");
 
   const url =
     "https://twitter.com/intent/tweet?text=" +
