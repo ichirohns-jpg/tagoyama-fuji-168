@@ -1080,7 +1080,6 @@
         if (text === imageUrl) continue;
         if (formatDate(text) && formatDate(text) === date) continue;
         if (isNewsImageText(text)) continue;
-
         if (isLikelyUrl(text)) continue;
 
         parts.push(text);
@@ -1125,6 +1124,8 @@
         "photoUrl",
         "picture",
         "pictureUrl",
+        "url",
+        "URL",
         "画像URL",
         "画像url",
         "画像",
@@ -1434,6 +1435,10 @@
       if (Array.isArray(data.items)) return data.items;
 
       if (Array.isArray(data.list)) return data.list;
+
+      if (Array.isArray(data.news)) return data.news;
+
+      if (Array.isArray(data.records)) return data.records;
 
       if (data.result && Array.isArray(data.result)) return data.result;
 
