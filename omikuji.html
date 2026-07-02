@@ -6,12 +6,22 @@
 
   <title>田子山富士 開運おみくじ</title>
 
-  <meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ">
+  <meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ。木花咲耶姫から届く、ご縁の開運カードです。">
+
+  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 開運おみくじ">
-  <meta property="og:description" content="木花咲耶姫から届く、ご縁の開運カード。">
+  <meta property="og:description" content="木花咲耶姫から届く、ご縁の開運カード。田子山富士の今日のご縁を引いてみましょう。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
   <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <meta property="og:image:alt" content="田子山富士 開運おみくじ">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="田子山富士 開運おみくじ">
+  <meta name="twitter:description" content="木花咲耶姫から届く、ご縁の開運カード。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
   <style>
     * {
@@ -464,6 +474,21 @@
 
       updateLinks();
 
+      const sharedResult = readSharedOmikujiFromUrl();
+
+      if (sharedResult) {
+        currentResult = sharedResult;
+        renderResult(currentResult);
+
+        const statusBox = document.getElementById("statusBox");
+
+        if (statusBox) {
+          statusBox.innerText = "共有されたおみくじ結果を表示しています。";
+        }
+
+        return;
+      }
+
       const params = new URLSearchParams(location.search);
 
       if (params.get("draw") === "1") {
@@ -471,6 +496,35 @@
           drawOmikuji();
         }, 300);
       }
+    }
+
+    function readSharedOmikujiFromUrl() {
+      const p = new URLSearchParams(location.search);
+
+      if (p.get("shared") !== "1") {
+        return null;
+      }
+
+      const result = getString(p.get("result"));
+      const title = getString(p.get("title"));
+      const message = getString(p.get("message"));
+      const imageNo = getString(p.get("imageNo"));
+      const imageName = getString(p.get("imageName"));
+      const imageUrl = cleanImageText(p.get("imageUrl"));
+
+      if (!result && !title && !message && !imageUrl) {
+        return null;
+      }
+
+      return {
+        result: result || title || "おみくじ",
+        title: title || result || "今日の運勢",
+        message: message || "今日のご縁を大切にお過ごしください。",
+        imageNo: imageNo,
+        imageName: imageName,
+        imageUrl: imageUrl,
+        displayImageUrl: ""
+      };
     }
 
     function getUserId() {
@@ -1145,20 +1199,14 @@
         result;
 
       if (title && title !== result) {
-        text +=
-          "\n" +
-          title;
+        text += "\n" + title;
       }
 
       if (message) {
-        text +=
-          "\n" +
-          message;
+        text += "\n" + message;
       }
 
-      text +=
-        "\n" +
-        buildShareUrl();
+      text += "\n" + buildShareUrl();
 
       return text;
     }
@@ -1166,8 +1214,34 @@
     function buildShareUrl() {
       const p = new URLSearchParams();
 
+      p.set("shared", "1");
+
       if (currentUserId) {
         p.set("userId", currentUserId);
+      }
+
+      if (currentResult.result) {
+        p.set("result", currentResult.result);
+      }
+
+      if (currentResult.title) {
+        p.set("title", currentResult.title);
+      }
+
+      if (currentResult.message) {
+        p.set("message", currentResult.message);
+      }
+
+      if (currentResult.imageNo) {
+        p.set("imageNo", currentResult.imageNo);
+      }
+
+      if (currentResult.imageName) {
+        p.set("imageName", currentResult.imageName);
+      }
+
+      if (currentResult.imageUrl) {
+        p.set("imageUrl", currentResult.imageUrl);
       }
 
       p.set("v", String(Date.now()));
@@ -1176,11 +1250,13 @@
     }
 
     function postFacebook() {
+      const shareUrl = buildShareUrl();
+
       copyText(makeShareText());
 
       const url =
         "https://www.facebook.com/sharer/sharer.php?u=" +
-        encodeURIComponent(buildShareUrl());
+        encodeURIComponent(shareUrl);
 
       window.open(url, "_blank");
 
