@@ -269,10 +269,6 @@
       background: linear-gradient(180deg, #323232 0%, #050505 100%);
     }
 
-    .grayBtn {
-      background: linear-gradient(180deg, #777777 0%, #262626 100%);
-    }
-
     .notice {
       margin: 18px 0 0;
       padding: 18px 14px;
@@ -377,7 +373,7 @@
         >
       </div>
 
-      <div class="resultBox">
+      <div class="resultBox hidden" aria-hidden="true">
         <h3 class="resultTitle" id="resultText">おみくじ</h3>
         <p class="resultSubTitle" id="titleText">今日の運勢</p>
         <p class="resultMessage" id="messageText">今日のご縁を大切にお過ごしください。</p>
@@ -446,6 +442,9 @@
 
     const OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
+
+    const SHARE_OMIKUJI_BASE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
     const SHARE_OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
@@ -1251,7 +1250,34 @@
 
       p.set("v", String(Date.now()));
 
-      return SHARE_OMIKUJI_PAGE + "?" + p.toString();
+      return getOmikujiSharePageUrl() + "?" + p.toString();
+    }
+
+    function getOmikujiSharePageUrl() {
+      const text =
+        String(currentResult.result || "") +
+        " " +
+        String(currentResult.title || "") +
+        " " +
+        String(currentResult.imageName || "");
+
+      if (
+        text.indexOf("超大当たり") >= 0 ||
+        text.indexOf("大当たり") >= 0 ||
+        text.indexOf("当たり") >= 0
+      ) {
+        return SHARE_OMIKUJI_BASE + "share-omikuji-atari.html";
+      }
+
+      const imageNoText = String(currentResult.imageNo || "").trim();
+      const m = imageNoText.match(/\d+/);
+
+      if (m && m[0]) {
+        const no = m[0].padStart(3, "0");
+        return SHARE_OMIKUJI_BASE + "share-omikuji-" + no + ".html";
+      }
+
+      return SHARE_OMIKUJI_PAGE;
     }
 
     function postFacebook() {
