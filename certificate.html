@@ -167,20 +167,6 @@
       background: #111111;
     }
 
-    .imageError {
-      display: none;
-      min-height: 420px;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      color: #fff3c4;
-      background: #111111;
-      text-align: center;
-      font-size: 22px;
-      font-weight: 900;
-      line-height: 1.5;
-    }
-
     .certOverlay {
       position: absolute;
       left: 5.5%;
@@ -243,6 +229,7 @@
       font-size: clamp(18px, 5vw, 29px);
       line-height: 1.65;
       font-weight: 900;
+      white-space: pre-wrap;
     }
 
     .btnArea {
@@ -283,7 +270,7 @@
 
     .btn:disabled,
     .linkBtn.disabled {
-      opacity: 0.55;
+      opacity: 0.50;
       pointer-events: none;
       transform: none;
     }
@@ -369,12 +356,7 @@
           onerror="handleImageError()"
         >
 
-        <div class="imageError" id="imageError">
-          登頂記念証を読み込めませんでした。<br>
-          画像URLを確認してください。
-        </div>
-
-        <div class="certOverlay">
+        <div class="certOverlay" id="certOverlay">
           <h2 class="climbTitle" id="climbTitle">登頂記念</h2>
           <p class="serialNo" id="serialNo">No.取得中</p>
           <p class="dateText" id="dateText">日付取得中</p>
@@ -382,7 +364,7 @@
         </div>
       </div>
 
-      <div class="notice">
+      <div class="notice" id="noticeBox">
         登頂記念証を保存したり、SNSでシェアできます。
       </div>
 
@@ -391,19 +373,19 @@
           画像をダウンロード
         </button>
 
-        <button class="btn blueBtn" onclick="postFacebook()">
+        <button class="btn blueBtn" id="facebookBtn" onclick="postFacebook()">
           Facebookに投稿
         </button>
 
-        <button class="btn greenBtn" onclick="sendLine()">
+        <button class="btn greenBtn" id="lineBtn" onclick="sendLine()">
           LINEで送る
         </button>
 
-        <button class="btn blackBtn" onclick="postX()">
+        <button class="btn blackBtn" id="xBtn" onclick="postX()">
           Xで投稿
         </button>
 
-        <button class="btn blueBtn" onclick="copyShareLink()">
+        <button class="btn blueBtn" id="copyBtn" onclick="copyShareLink()">
           結果をコピー
         </button>
 
@@ -481,7 +463,7 @@
 
         saveLocalData(currentData);
 
-        if (hasCertificateData(currentData)) {
+        if (hasRealCertificateData(currentData)) {
           renderCertificate(currentData, "ok");
         } else {
           renderCertificate(currentData, "noqr");
@@ -492,10 +474,10 @@
       } catch (e) {
         console.error(e);
 
-        if (hasCertificateData(currentData)) {
+        if (hasRealCertificateData(currentData)) {
           renderCertificate(currentData, "ok");
         } else {
-          renderCertificate(currentData, "error", "登頂記録を確認してください。");
+          renderCertificate(currentData, "noqr");
         }
 
         updateLinks();
@@ -642,15 +624,24 @@
       });
     }
 
-    function hasCertificateData(data) {
+    function hasRealCertificateData(data) {
       data = cleanData(data || {});
 
       return !!(
-        data.userId ||
         data.climbCount ||
         data.serialNo ||
         data.lastDate ||
         data.imageUrl
+      );
+    }
+
+    function hasShareReadyData(data) {
+      data = cleanData(data || {});
+
+      return !!(
+        data.climbCount ||
+        data.serialNo ||
+        data.lastDate
       );
     }
 
@@ -689,22 +680,46 @@
       data = cleanData(data || {});
 
       const statusBox = document.getElementById("statusBox");
+      const certificateArea = document.getElementById("certificateArea");
+      const certOverlay = document.getElementById("certOverlay");
+      const noticeBox = document.getElementById("noticeBox");
       const climbTitle = document.getElementById("climbTitle");
       const serialNo = document.getElementById("serialNo");
       const dateText = document.getElementById("dateText");
       const participantText = document.getElementById("participantText");
 
+      const hasRealData = hasRealCertificateData(data);
+      const hasShareData = hasShareReadyData(data);
+
       if (statusBox) {
         if (mode === "loading") {
           statusBox.innerText = "登頂記録を読み込んでいます。";
-        } else if (mode === "error") {
-          statusBox.innerText = message || "登頂記録を確認してください。";
         } else if (mode === "noqr") {
           statusBox.innerText =
             "登頂記念証は\n山頂QRから登頂受付後に表示されます。";
+        } else if (mode === "error") {
+          statusBox.innerText =
+            message ||
+            "登頂記録を確認してください。";
         } else {
-          statusBox.innerText = "登頂記念証を表示しています。";
+          statusBox.innerText =
+            "登頂記念証を表示しています。";
         }
+      }
+
+      if (certificateArea) {
+        certificateArea.style.display = hasRealData ? "block" : "none";
+      }
+
+      if (certOverlay) {
+        certOverlay.style.display = hasRealData ? "block" : "none";
+      }
+
+      if (noticeBox) {
+        noticeBox.innerText =
+          hasRealData
+            ? "登頂記念証を保存したり、SNSでシェアできます。"
+            : "山頂QRから登頂受付をすると、登頂記念証が表示されます。";
       }
 
       if (climbTitle) {
@@ -735,13 +750,28 @@
             : "参加人数 取得中";
       }
 
-      setCertificateImageForDisplay(data.imageUrl);
+      setActionButtonsEnabled(hasShareData || hasRealData);
+
+      if (hasRealData) {
+        setCertificateImageForDisplay(data.imageUrl);
+      }
+    }
+
+    function setActionButtonsEnabled(enabled) {
+      const ids = ["saveBtn", "facebookBtn", "lineBtn", "xBtn", "copyBtn"];
+
+      ids.forEach(function (id) {
+        const btn = document.getElementById(id);
+
+        if (btn) {
+          btn.disabled = !enabled;
+        }
+      });
     }
 
     async function setCertificateImageForDisplay(imageUrl) {
       const token = ++imageLoadToken;
       const img = document.getElementById("certificateImage");
-      const err = document.getElementById("imageError");
 
       if (!img) {
         return;
@@ -772,10 +802,6 @@
           img.style.display = "block";
           img.src = url;
 
-          if (err) {
-            err.style.display = "none";
-          }
-
           return;
         }
       }
@@ -785,7 +811,6 @@
 
     function handleImageError() {
       const img = document.getElementById("certificateImage");
-      const err = document.getElementById("imageError");
 
       if (img) {
         img.onerror = function () {
@@ -794,11 +819,7 @@
         };
 
         img.style.display = "block";
-        img.src = FALLBACK_LOGO;
-      }
-
-      if (err) {
-        err.style.display = "none";
+        img.src = FALLBACK_OGP;
       }
     }
 
@@ -861,6 +882,12 @@
 
       try {
         const data = certGetCurrentData();
+
+        if (!hasRealCertificateData(data)) {
+          alert("登頂記念証は山頂QRから登頂受付後に保存できます。");
+          return;
+        }
+
         const urls = certMakeImageUrlList(data.imageUrl);
 
         const imgEl = document.getElementById("certificateImage");
@@ -1004,6 +1031,13 @@
     }
 
     async function postFacebook() {
+      const data = certGetCurrentData();
+
+      if (!hasRealCertificateData(data)) {
+        alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
+        return;
+      }
+
       const shareUrl = buildCertificateShareUrl();
 
       await copyText(makeCertificateShareText());
@@ -1018,6 +1052,13 @@
     }
 
     function sendLine() {
+      const data = certGetCurrentData();
+
+      if (!hasRealCertificateData(data)) {
+        alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
+        return;
+      }
+
       const url =
         "https://line.me/R/msg/text/?" +
         encodeURIComponent(makeCertificateShareText());
@@ -1027,6 +1068,11 @@
 
     function postX() {
       const data = certGetCurrentData();
+
+      if (!hasRealCertificateData(data)) {
+        alert("登頂記念証は山頂QRから登頂受付後にシェアできます。");
+        return;
+      }
 
       let text = "田子山富士 登頂記念証";
 
@@ -1052,6 +1098,13 @@
     }
 
     async function copyShareLink() {
+      const data = certGetCurrentData();
+
+      if (!hasRealCertificateData(data)) {
+        alert("登頂記念証は山頂QRから登頂受付後にコピーできます。");
+        return;
+      }
+
       await copyText(makeCertificateShareText());
       alert("登頂記念証の投稿文をコピーしました。");
     }
