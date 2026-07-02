@@ -10,7 +10,7 @@
 
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 開運おみくじ">
-  <meta property="og:description" content="田子山富士168の縁プロジェクトで開運おみくじを引きました。">
+  <meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html">
   <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
@@ -23,7 +23,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 開運おみくじ">
-  <meta name="twitter:description" content="田子山富士168の縁プロジェクトで開運おみくじを引きました。">
+  <meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
   <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp">
 
   <style>
@@ -111,10 +111,10 @@
       border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
-      border: 2px solid rgba(255, 220, 95, 0.58);
+      border: 3px solid rgba(255, 220, 95, 0.72);
       box-shadow:
         0 0 0 1px rgba(255, 230, 150, 0.10) inset,
-        0 12px 28px rgba(0, 0, 0, 0.42);
+        0 12px 28px rgba(0, 0, 0, 0.45);
     }
 
     .cardTitle {
@@ -131,6 +131,7 @@
 
     .resultImageBox {
       width: 100%;
+      aspect-ratio: 9 / 16;
       margin: 18px auto 0;
       border-radius: 26px;
       overflow: hidden;
@@ -144,23 +145,25 @@
     .resultImageBox img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       background: #000000;
     }
 
-    .text {
-      margin: 18px 0 0;
+    .resultText {
+      margin: 22px 0 0;
       font-size: clamp(22px, 6vw, 36px);
       font-weight: 900;
       line-height: 1.6;
       text-align: center;
       color: #fff3c4;
+      white-space: pre-wrap;
     }
 
     .btnArea {
       display: grid;
       gap: 12px;
-      margin-top: 18px;
+      margin-top: 22px;
     }
 
     .linkBtn {
@@ -191,30 +194,8 @@
         0 8px 14px rgba(0, 0, 0, 0.32);
     }
 
-    .goldBtn {
-      color: #271400;
-      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
-    }
-
-    .greenBtn {
-      background: linear-gradient(180deg, #38e988 0%, #09b957 100%);
-    }
-
     .blackBtn {
       background: linear-gradient(180deg, #323232 0%, #050505 100%);
-    }
-
-    .notice {
-      margin: 18px 0 0;
-      padding: 18px 14px;
-      border-radius: 20px;
-      background: rgba(0, 0, 0, 0.42);
-      border: 1px solid rgba(255, 220, 140, 0.30);
-      color: #d9c886;
-      font-size: clamp(16px, 4.4vw, 24px);
-      font-weight: 800;
-      line-height: 1.65;
-      text-align: center;
     }
 
     .footer {
@@ -223,6 +204,7 @@
       color: #c9b56b;
       font-weight: 800;
       line-height: 1.6;
+      font-size: clamp(15px, 4vw, 22px);
     }
 
     @media (max-width: 420px) {
@@ -250,9 +232,9 @@
     <header class="hero">
       <div class="logoBox">
         <img
-          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+          src="logo.png"
           alt="田子山富士"
-          onerror="this.style.display='none';"
+          onerror="this.onerror=null; this.src='https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png';"
         >
       </div>
 
@@ -264,30 +246,21 @@
       <h2 class="cardTitle">おみくじ結果</h2>
 
       <div class="resultImageBox" id="resultImageBox">
-        <img id="resultImage" src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp" alt="おみくじ画像">
+        <img
+          id="resultImage"
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp"
+          alt="おみくじ画像"
+        >
       </div>
 
-      <p class="text" id="resultText">
-        田子山富士168の縁プロジェクトで<br>
-        開運おみくじを引きました。
+      <p class="resultText" id="resultText">
+田子山富士のご縁を、みなさんにもおすそ分けします。
       </p>
 
       <div class="btnArea">
-        <a class="linkBtn goldBtn" id="openResultBtn" href="omikuji.html">
-          おみくじ結果を開く
-        </a>
-
-        <a class="linkBtn greenBtn" id="drawBtn" href="omikuji.html">
-          おみくじを引く
-        </a>
-
         <a class="linkBtn blackBtn" href="index.html">
           トップへ戻る
         </a>
-      </div>
-
-      <div class="notice">
-        画像が表示されない場合は、もう一度開いてください。
       </div>
     </section>
 
@@ -298,9 +271,6 @@
   </div>
 
   <script>
-    const OMIKUJI_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
-
     const DEFAULT_IMAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260702-atari-ogp";
 
@@ -310,27 +280,21 @@
       const data = readShareParams();
 
       renderSharePage(data);
-      updateOpenLinks(data);
     }
 
     function readShareParams() {
       const p = new URLSearchParams(location.search);
 
       const imgid = getString(p.get("imgid"));
-      const n = getString(p.get("n"));
-      const r = getString(p.get("r"));
-      const u = getString(p.get("u"));
+      const result = getString(p.get("r")) || getString(p.get("result")) || "開運おみくじ";
 
       const imageUrl = imgid
-        ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imgid) + "&sz=w1200"
+        ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(imgid) + "&sz=w1600"
         : DEFAULT_IMAGE;
 
       return {
-        userId: u,
-        imageNo: n,
-        result: r || "開運おみくじ",
-        imageUrl: imageUrl,
-        imgid: imgid
+        result: result,
+        imageUrl: imageUrl
       };
     }
 
@@ -339,8 +303,8 @@
       const text = document.getElementById("resultText");
 
       if (img) {
-        img.onload = function () {};
         img.onerror = function () {
+          img.onerror = null;
           img.src = DEFAULT_IMAGE;
         };
 
@@ -349,54 +313,10 @@
 
       if (text) {
         text.innerText =
-          "田子山富士168の縁プロジェクトで\n" +
-          data.result +
-          "を引きました。";
+          "田子山富士 開運おみくじ\n" +
+          "結果：" + data.result + "\n" +
+          "田子山富士のご縁を、みなさんにもおすそ分けします。";
       }
-    }
-
-    function updateOpenLinks(data) {
-      const openResultBtn = document.getElementById("openResultBtn");
-      const drawBtn = document.getElementById("drawBtn");
-
-      const url = buildOmikujiResultUrl(data);
-
-      if (openResultBtn) {
-        openResultBtn.href = url;
-      }
-
-      if (drawBtn) {
-        drawBtn.href =
-          data.userId
-            ? OMIKUJI_PAGE + "?userId=" + encodeURIComponent(data.userId)
-            : OMIKUJI_PAGE;
-      }
-    }
-
-    function buildOmikujiResultUrl(data) {
-      const p = new URLSearchParams();
-
-      p.set("shared", "1");
-
-      if (data.userId) {
-        p.set("userId", data.userId);
-      }
-
-      if (data.imageNo) {
-        p.set("imageNo", data.imageNo);
-      }
-
-      if (data.result) {
-        p.set("result", data.result);
-      }
-
-      if (data.imgid) {
-        p.set("imgid", data.imgid);
-      }
-
-      p.set("v", String(Date.now()));
-
-      return OMIKUJI_PAGE + "?" + p.toString();
     }
 
     function getString(value) {
