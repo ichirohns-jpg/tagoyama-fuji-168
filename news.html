@@ -124,6 +124,18 @@ body{
   background:#111;
 }
 
+.newsLink{
+  display:inline-block;
+  margin-top:14px;
+  color:#111;
+  background:#d4af37;
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:14px;
+  font-weight:900;
+  text-decoration:none;
+}
+
 .empty{
   background:#111;
   border:1px solid rgba(212,175,55,.45);
@@ -202,23 +214,12 @@ document.getElementById("status");
 const newsListEl =
 document.getElementById("newsList");
 
-function textValue(value){
+function safeText(value){
   if(value === null || value === undefined){
     return "";
   }
 
   return String(value).trim();
-}
-
-function normalizeDate(value){
-  const text =
-  textValue(value);
-
-  if(!text){
-    return "";
-  }
-
-  return text;
 }
 
 function pickRows(data){
@@ -250,15 +251,16 @@ function pickRows(data){
   return [];
 }
 
-function normalizeNewsItem(row){
+function normalizeItem(row){
 
   if(Array.isArray(row)){
 
     return {
-      date: normalizeDate(row[0]),
-      title: textValue(row[1]),
-      body: textValue(row[2]),
-      imageUrl: textValue(row[3])
+      date:safeText(row[0]),
+      title:safeText(row[1]),
+      body:safeText(row[2]),
+      image:safeText(row[3]),
+      url:safeText(row[4])
     };
 
   }
@@ -267,43 +269,50 @@ function normalizeNewsItem(row){
 
     return {
       date:
-        normalizeDate(
+        safeText(
+          row.date ||
+          row.Date ||
           row["日付"] ||
-          row["A"] ||
-          row["date"] ||
-          row["Date"] ||
-          row[0]
+          row["A"]
         ),
 
       title:
-        textValue(
+        safeText(
+          row.title ||
+          row.Title ||
           row["タイトル"] ||
-          row["B"] ||
-          row["title"] ||
-          row["Title"] ||
-          row[1]
+          row["B"]
         ),
 
       body:
-        textValue(
+        safeText(
+          row.body ||
+          row.Body ||
+          row.text ||
+          row.Text ||
           row["本文"] ||
-          row["C"] ||
-          row["body"] ||
-          row["Body"] ||
-          row["text"] ||
-          row["Text"] ||
-          row[2]
+          row["C"]
         ),
 
-      imageUrl:
-        textValue(
+      image:
+        safeText(
+          row.image ||
+          row.imageUrl ||
+          row.imageURL ||
+          row.Image ||
           row["画像URL"] ||
-          row["D"] ||
-          row["imageUrl"] ||
-          row["imageURL"] ||
-          row["image"] ||
-          row["Image"] ||
-          row[3]
+          row["画像 URL"] ||
+          row["D"]
+        ),
+
+      url:
+        safeText(
+          row.url ||
+          row.URL ||
+          row.link ||
+          row.Link ||
+          row["リンク"] ||
+          row["E"]
         )
     };
 
@@ -313,11 +322,16 @@ function normalizeNewsItem(row){
     date:"",
     title:"",
     body:"",
-    imageUrl:""
+    image:"",
+    url:""
   };
 }
 
-function createTextElement(tagName,className,text){
+function addText(parent,tagName,className,text){
+
+  if(!text){
+    return;
+  }
 
   const el =
   document.createElement(tagName);
@@ -328,22 +342,23 @@ function createTextElement(tagName,className,text){
   el.textContent =
   text;
 
-  return el;
+  parent.appendChild(el);
+
 }
 
-function renderNews(items){
+function renderNews(rows){
 
   newsListEl.innerHTML =
   "";
 
-  const newsItems =
-  items
-  .map(normalizeNewsItem)
+  const items =
+  rows
+  .map(normalizeItem)
   .filter(function(item){
-    return item.date || item.title || item.body || item.imageUrl;
+    return item.date || item.title || item.body || item.image || item.url;
   });
 
-  if(newsItems.length === 0){
+  if(items.length === 0){
 
     statusEl.style.display =
     "none";
@@ -360,12 +375,13 @@ function renderNews(items){
     newsListEl.appendChild(empty);
 
     return;
+
   }
 
   statusEl.style.display =
   "none";
 
-  newsItems.forEach(function(item){
+  items.forEach(function(item){
 
     const card =
     document.createElement("article");
@@ -373,46 +389,28 @@ function renderNews(items){
     card.className =
     "newsCard";
 
-    if(item.date){
+    addText(
+      card,
+      "div",
+      "newsDate",
+      item.date
+    );
 
-      const dateEl =
-      createTextElement(
-        "div",
-        "newsDate",
-        item.date
-      );
+    addText(
+      card,
+      "h2",
+      "newsTitle",
+      item.title
+    );
 
-      card.appendChild(dateEl);
+    addText(
+      card,
+      "div",
+      "newsBody",
+      item.body
+    );
 
-    }
-
-    if(item.title){
-
-      const titleEl =
-      createTextElement(
-        "h2",
-        "newsTitle",
-        item.title
-      );
-
-      card.appendChild(titleEl);
-
-    }
-
-    if(item.body){
-
-      const bodyEl =
-      createTextElement(
-        "div",
-        "newsBody",
-        item.body
-      );
-
-      card.appendChild(bodyEl);
-
-    }
-
-    if(item.imageUrl){
+    if(item.image){
 
       const img =
       document.createElement("img");
@@ -421,7 +419,7 @@ function renderNews(items){
       "newsImage";
 
       img.src =
-      item.imageUrl;
+      item.image;
 
       img.alt =
       item.title || "お知らせ画像";
@@ -430,6 +428,30 @@ function renderNews(items){
       "lazy";
 
       card.appendChild(img);
+
+    }
+
+    if(item.url){
+
+      const link =
+      document.createElement("a");
+
+      link.className =
+      "newsLink";
+
+      link.href =
+      item.url;
+
+      link.target =
+      "_blank";
+
+      link.rel =
+      "noopener noreferrer";
+
+      link.textContent =
+      "詳しく見る";
+
+      card.appendChild(link);
 
     }
 
@@ -453,7 +475,7 @@ async function loadNews(){
     );
 
     if(!response.ok){
-      throw new Error("news fetch error");
+      throw new Error("お知らせ取得エラー");
     }
 
     const data =
@@ -467,9 +489,6 @@ async function loadNews(){
   }catch(error){
 
     console.error(error);
-
-    statusEl.className =
-    "status";
 
     statusEl.textContent =
     "お知らせを読み込めませんでした。時間をおいて再度ご確認ください。";
