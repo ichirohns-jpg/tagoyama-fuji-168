@@ -524,6 +524,15 @@ function renderGoen(list){
 
 function normalizeGoenItem(row){
   if(Array.isArray(row)){
+    if(row.length >= 5){
+      return {
+        date:formatDateText(row[1]),
+        area:getString(row[2]),
+        name:getString(row[3]) || "匿名",
+        message:getString(row[4])
+      };
+    }
+
     return {
       date:formatDateText(row[0]),
       area:getString(row[1]),
@@ -616,9 +625,11 @@ function removeHeaderRows(list){
         row.join("");
 
       if(
+        joined.indexOf("timestamp") >= 0 ||
         joined.indexOf("日付") >= 0 ||
         joined.indexOf("日時") >= 0 ||
         joined.indexOf("地域") >= 0 ||
+        joined.indexOf("名前") >= 0 ||
         joined.indexOf("メッセージ") >= 0 ||
         joined.indexOf("本文") >= 0
       ){
