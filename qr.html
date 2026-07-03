@@ -1,534 +1,441 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>田子山富士 登頂受付</title>
 
-<meta charset="UTF-8">
+  <meta name="description" content="田子山富士168の縁プロジェクト 登頂受付ページです。山頂QRから登頂記録を行い、登頂記念証を受け取れます。">
+  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+  <meta property="og:title" content="田子山富士 登頂受付">
+  <meta property="og:description" content="田子山富士へご登頂おめでとうございます。山頂QRから登頂記録を行い、登頂記念証を受け取れます。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/qr.html">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-qr">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-qr">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="田子山富士 登頂受付">
+  <meta property="og:locale" content="ja_JP">
 
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="田子山富士 登頂受付">
+  <meta name="twitter:description" content="田子山富士へご登頂おめでとうございます。山頂QRから登頂記録を行い、登頂記念証を受け取れます。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-qr">
 
-<title>
-田子山富士 登頂受付
-</title>
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/qr.html">
+  <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-<style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 36%),
+        linear-gradient(180deg, #221600 0%, #070707 48%, #000000 100%);
+      color: #fff7ca;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
 
-body{
-background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-color:#fff;
-}
+    body {
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
 
-.hero img{
-width:100%;
-display:block;
-}
+    .page {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 12px 48px;
+    }
 
-.wrap{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
+    .hero {
+      text-align: center;
+      margin: 0 0 16px;
+    }
 
-.card{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:28px;
-padding:28px;
-text-align:center;
-}
+    .logoBox {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 220, 95, 0.80);
+      background: #000000;
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.50),
+        0 0 18px rgba(255, 210, 80, 0.22);
+    }
 
-.logo{
-width:180px;
-max-width:80%;
-margin:auto;
-display:block;
-margin-bottom:20px;
-border-radius:20px;
-}
+    .logoBox img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
-.title{
-font-size:42px;
-font-weight:900;
-margin-bottom:10px;
-}
+    .siteTitle {
+      margin: 0;
+      font-size: clamp(36px, 10vw, 70px);
+      line-height: 1.16;
+      font-weight: 900;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.92),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
 
-.sub{
-font-size:22px;
-color:#d4af37;
-font-weight:800;
-margin-bottom:30px;
-}
+    .siteSub {
+      margin: 10px 0 0;
+      font-size: clamp(20px, 5.5vw, 34px);
+      line-height: 1.45;
+      font-weight: 900;
+      color: #fff3c4;
+      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.88);
+    }
 
-.message{
-font-size:22px;
-line-height:1.8;
-margin-bottom:30px;
-}
+    .card {
+      margin: 16px 0;
+      padding: 20px 14px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
+        linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
+      border: 2px solid rgba(255, 220, 95, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
+        0 12px 28px rgba(0, 0, 0, 0.42);
+    }
 
-.startBtn{
-width:100%;
-border:none;
-border-radius:22px;
-padding:24px;
-font-size:28px;
-font-weight:900;
-background:#d4af37;
-color:#000;
-cursor:pointer;
-}
+    .cardTitle {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 8.4vw, 54px);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.90),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
 
-.note{
-margin-top:20px;
-font-size:16px;
-color:#bbb;
-line-height:1.7;
-}
+    .lead {
+      margin: 0 0 16px;
+      color: #fff1bd;
+      text-align: center;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
 
-.dialog{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.75);
-z-index:9999;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
+    .statusBox {
+      margin: 18px 0 0;
+      padding: 18px 14px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 220, 140, 0.34);
+      font-size: clamp(18px, 4.8vw, 28px);
+      font-weight: 900;
+      line-height: 1.65;
+      color: #fff3c4;
+      text-align: center;
+      white-space: pre-wrap;
+    }
 
-.dialogBox{
-background:#fff;
-color:#000;
-border-radius:20px;
-padding:24px;
-max-width:520px;
-width:100%;
-text-align:center;
-}
+    .btnArea {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
 
-.dialogTitle{
-font-size:26px;
-font-weight:900;
-margin-bottom:16px;
-}
+    .btn,
+    .linkBtn {
+      width: 100%;
+      min-height: 70px;
+      border: none;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: center;
+      box-shadow:
+        0 7px 0 rgba(0, 0, 0, 0.32),
+        0 13px 22px rgba(0, 0, 0, 0.34);
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+    }
 
-.dialogMessage{
-font-size:20px;
-line-height:1.8;
-margin-bottom:24px;
-}
+    .btn:active,
+    .linkBtn:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.32),
+        0 8px 14px rgba(0, 0, 0, 0.32);
+    }
 
-.dialogBtn{
-width:100%;
-padding:18px;
-font-size:22px;
-font-weight:900;
-border:none;
-border-radius:16px;
-background:#d4af37;
-cursor:pointer;
-}
+    .goldBtn {
+      color: #271400;
+      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
+    }
 
-</style>
+    .blueBtn {
+      background: linear-gradient(180deg, #2e83ff 0%, #0b4fc4 100%);
+    }
 
+    .blackBtn {
+      background: linear-gradient(180deg, #323232 0%, #050505 100%);
+    }
+
+    .note {
+      margin: 16px 0 0;
+      color: #d9c886;
+      font-size: clamp(15px, 4.2vw, 24px);
+      font-weight: 800;
+      line-height: 1.7;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin: 28px 0 0;
+      text-align: center;
+      color: #c9b56b;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        border-radius: 26px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .btn,
+      .linkBtn {
+        min-height: 66px;
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="hero">
-<img src="top.jpg">
-</div>
-
-<div class="wrap">
-
-<div class="card">
-
-<img
-src="logo.png"
-class="logo">
-
-<div class="title">
-田子山富士
-</div>
-
-<div class="sub">
-168の縁プロジェクト
-</div>
-
-<div class="message">
-
-田子山富士へご登頂
-おめでとうございます。
-
-山頂でQRコードを
-読み込まれた方は
-
-下のボタンを押してください。
-
-</div>
-
-<button
-id="startBtn"
-class="startBtn">
-
-⛩️ 登頂を記録する
-
-</button>
-
-<div class="note">
-
-※山頂QRからアクセスした方のみ
-登頂記録できます。
-
-同日の重複登録はできません。
-
-</div>
-
-</div>
-
-</div>
-
-<div
-id="alreadyDialog"
-class="dialog">
-
-<div
-class="dialogBox">
-
-<div
-class="dialogTitle">
-
-😊 本日は既に登頂されています
-
-</div>
-
-<div
-class="dialogMessage">
-
-本日の登頂記録は完了しています。
-
-登頂記念証は
-何度でも表示できます。
-
-</div>
-
-<button
-id="showCertificateBtn"
-class="dialogBtn">
-
-📜 登頂記念証を見る
-
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbwqbCjVLj-O5zkQizJfOInFdY5JqAz32q3i8T_RuSmOqvVDB98bwIESsPZCJrbBGdaeOg/exec";
-
-let userId =
-localStorage.getItem(
-"tagoyamaUserId"
-);
-
-if(!userId){
-
-userId =
-"TGF-" +
-Math.random()
-.toString(36)
-.substring(2,10)
-.toUpperCase();
-
-localStorage.setItem(
-"tagoyamaUserId",
-userId
-);
-
-}
-
-document.getElementById(
-"startBtn"
-).onclick =
-async function(){
-
-this.disabled = true;
-
-this.innerText =
-"登頂記録中...";
-
-try{
-
-const response =
-await fetch(
-GAS_URL +
-"?userId=" +
-encodeURIComponent(
-userId
-),
-{
-method:"GET",
-mode:"cors",
-cache:"no-store",
-credentials:"omit",
-redirect:"follow"
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"GAS HTTP " +
-response.status
-);
-
-}
-
-const data =
-await response.json();
-
-if(!data.success){
-
-alert(
-data.message ||
-"登頂できませんでした"
-);
-
-this.disabled =
-false;
-
-this.innerText =
-"⛩️ 登頂を記録する";
-
-return;
-
-}
-
-if(data.alreadyClimbed){
-
-sessionStorage.setItem(
-"qrVerified",
-"true"
-);
-
-localStorage.setItem(
-"qrVerified",
-"true"
-);
-
-sessionStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-sessionStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-sessionStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-localStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-document.getElementById(
-"alreadyDialog"
-).style.display =
-"flex";
-
-document.getElementById(
-"showCertificateBtn"
-).onclick =
-function(){
-
-location.href =
-"certificate.html"
-+
-"?serial="
-+
-encodeURIComponent(
-data.serial || ""
-)
-+
-"&imageUrl="
-+
-encodeURIComponent(
-data.imageUrl || ""
-)
-+
-"&climbDate="
-+
-encodeURIComponent(
-data.climbDate || ""
-);
-
-};
-
-return;
-
-}
-
-/* 初回登頂 */
-
-sessionStorage.setItem(
-"qrVerified",
-"true"
-);
-
-localStorage.setItem(
-"qrVerified",
-"true"
-);
-
-sessionStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-localStorage.setItem(
-"latestSerial",
-data.serial || ""
-);
-
-sessionStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-localStorage.setItem(
-"latestImageUrl",
-data.imageUrl || ""
-);
-
-sessionStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-localStorage.setItem(
-"latestImageName",
-data.imageName || ""
-);
-
-sessionStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-localStorage.setItem(
-"latestClimbDate",
-data.climbDate || ""
-);
-
-location.href =
-"certificate.html"
-+
-"?serial="
-+
-encodeURIComponent(
-data.serial || ""
-)
-+
-"&imageUrl="
-+
-encodeURIComponent(
-data.imageUrl || ""
-)
-+
-"&climbDate="
-+
-encodeURIComponent(
-data.climbDate || ""
-);
-
-}catch(error){
-
-console.error(
-error
-);
-
-alert(
-
-"通信エラー\n\n"
-
-+
-
-(
-
-error.message
-
-||
-
-String(error)
-
-)
-
-);
-
-document.getElementById(
-"alreadyDialog"
-).style.display =
-"none";
-
-document.getElementById(
-"startBtn"
-).disabled =
-false;
-
-document.getElementById(
-"startBtn"
-).innerText =
-"⛩️ 登頂を記録する";
-
-}
-
-};
-
-</script>
-
+  <main class="page">
+
+    <header class="hero">
+      <div class="logoBox">
+        <img
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+          alt="田子山富士"
+          onerror="this.style.display='none'"
+        >
+      </div>
+
+      <h1 class="siteTitle">田子山富士</h1>
+      <p class="siteSub">登頂受付</p>
+    </header>
+
+    <section class="card">
+      <h2 class="cardTitle">ご登頂おめでとうございます</h2>
+
+      <p class="lead">
+        山頂でQRコードを読み込まれた方は、下のボタンを押してください。
+        登頂記録を行い、登頂記念証を受け取れます。
+      </p>
+
+      <div class="statusBox" id="statusBox">
+        登頂受付の準備ができました。
+      </div>
+
+      <div class="btnArea">
+        <button class="btn goldBtn" type="button" id="recordBtn" onclick="startClimb()">
+          ⛩️ 登頂を記録する
+        </button>
+
+        <a class="linkBtn blueBtn" id="certificateLink" href="certificate.html">
+          登頂記念証を見る
+        </a>
+
+        <a class="linkBtn blackBtn" id="topLink" href="index.html">
+          トップへ戻る
+        </a>
+      </div>
+
+      <p class="note">
+        ※山頂QRからアクセスした方のみ登頂記録できます。
+        同日の重複登録は、システム側の設定に従います。
+      </p>
+    </section>
+
+    <footer class="footer">
+      田子山富士 168の縁プロジェクト<br>
+      山頂QR 登頂受付
+    </footer>
+  </main>
+
+  <script>
+    const HOME_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
+
+    const INDEX_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/index.html";
+
+    const CERTIFICATE_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
+
+    let currentUserId = "";
+
+    document.addEventListener("DOMContentLoaded", function() {
+      initQrPage();
+    });
+
+    function initQrPage() {
+      currentUserId = getOrCreateUserId();
+
+      saveUserId(currentUserId);
+      updateLinks(currentUserId);
+
+      setStatus("登頂受付の準備ができました。\nボタンを押すと登頂記録へ進みます。");
+    }
+
+    function getOrCreateUserId() {
+      const params = new URLSearchParams(window.location.search);
+
+      const fromUrl =
+        getString(
+          params.get("userId") ||
+          params.get("userid") ||
+          params.get("uid") ||
+          params.get("id") ||
+          ""
+        );
+
+      if (fromUrl) {
+        return fromUrl;
+      }
+
+      const saved =
+        getString(
+          localStorage.getItem("tagoyamaUserId") ||
+          localStorage.getItem("tagoyamaFujiUserId") ||
+          ""
+        );
+
+      if (saved) {
+        return saved;
+      }
+
+      return createUserId();
+    }
+
+    function createUserId() {
+      const now = Date.now();
+      const rand = Math.random().toString(36).slice(2, 10);
+
+      return "tagoyama-" + now + "-" + rand;
+    }
+
+    function saveUserId(userId) {
+      if (!userId) {
+        return;
+      }
+
+      try {
+        localStorage.setItem("tagoyamaUserId", userId);
+        localStorage.setItem("tagoyamaFujiUserId", userId);
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+
+    function updateLinks(userId) {
+      const certificateLink = document.getElementById("certificateLink");
+      const topLink = document.getElementById("topLink");
+
+      if (certificateLink) {
+        certificateLink.href =
+          CERTIFICATE_PAGE +
+          "?userId=" +
+          encodeURIComponent(userId) +
+          "&from=qr" +
+          "&v=20260703";
+      }
+
+      if (topLink) {
+        topLink.href =
+          INDEX_PAGE +
+          "?userId=" +
+          encodeURIComponent(userId) +
+          "&from=qr" +
+          "&v=20260703";
+      }
+    }
+
+    function startClimb() {
+      const btn = document.getElementById("recordBtn");
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "登頂記録へ進みます...";
+      }
+
+      setStatus("登頂記録へ進みます。\nそのままお待ちください。");
+
+      const url =
+        INDEX_PAGE +
+        "?userId=" +
+        encodeURIComponent(currentUserId) +
+        "&from=qr" +
+        "&v=20260703";
+
+      window.location.href = url;
+    }
+
+    function setStatus(text) {
+      const el = document.getElementById("statusBox");
+
+      if (el) {
+        el.innerText = text;
+      }
+    }
+
+    function getString(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value).trim();
+    }
+
+    window.startClimb = startClimb;
+  </script>
 </body>
-
 </html>
