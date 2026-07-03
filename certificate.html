@@ -140,9 +140,9 @@ body{
 
 .overlayBottom{
   position:absolute;
-  left:7%;
-  right:7%;
-  bottom:8%;
+  left:9%;
+  right:9%;
+  bottom:5.2%;
   padding:0;
   text-align:center;
   pointer-events:none;
@@ -151,41 +151,40 @@ body{
 }
 
 .climbTitle{
-  margin:0 0 4px;
+  margin:0 0 3px;
   font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
-  font-size:clamp(18px,4.9vw,34px);
+  font-size:clamp(16px,4.4vw,30px);
   font-weight:900;
   color:#ffdf72;
-  line-height:1.22;
-  letter-spacing:.04em;
+  line-height:1.18;
+  letter-spacing:.06em;
   text-shadow:
-    0 2px 3px rgba(0,0,0,.92),
-    0 0 8px rgba(0,0,0,.82),
-    0 0 12px rgba(255,210,80,.30);
+    0 2px 3px rgba(0,0,0,.88),
+    0 0 7px rgba(0,0,0,.80);
 }
 
 .serialNo{
-  margin:0 0 4px;
-  font-size:clamp(21px,5.8vw,40px);
+  margin:0 0 3px;
+  font-size:clamp(18px,5vw,36px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.08;
-  letter-spacing:.035em;
+  letter-spacing:.04em;
   text-shadow:
-    0 2px 3px rgba(0,0,0,.92),
-    0 0 8px rgba(0,0,0,.82);
+    0 2px 3px rgba(0,0,0,.90),
+    0 0 7px rgba(0,0,0,.82);
 }
 
 .dateText{
   margin:0;
-  font-size:clamp(17px,4.6vw,30px);
+  font-size:clamp(15px,4.1vw,28px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.15;
-  letter-spacing:.04em;
+  letter-spacing:.05em;
   text-shadow:
-    0 2px 3px rgba(0,0,0,.92),
-    0 0 8px rgba(0,0,0,.82);
+    0 2px 3px rgba(0,0,0,.90),
+    0 0 7px rgba(0,0,0,.82);
 }
 
 .noImageBox{
@@ -899,7 +898,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=20260704success";
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704textfix";
 }
 
 function makeShareText(){
