@@ -12,8 +12,8 @@
 <meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/news.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="お知らせ">
 <meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -127,16 +127,6 @@ body{
   color:#fff7ca;
 }
 
-.newsImage{
-  display:block;
-  width:100%;
-  height:auto;
-  margin:0 0 14px;
-  border-radius:18px;
-  border:1px solid rgba(255,220,95,.42);
-  background:#000;
-}
-
 .newsTitle{
   margin:0 0 8px;
   color:#ffdf72;
@@ -163,20 +153,6 @@ body{
   font-weight:900;
   line-height:1.65;
   white-space:pre-wrap;
-}
-
-.newsLink{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:58px;
-  margin-top:14px;
-  border-radius:18px;
-  background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
-  color:#271400;
-  text-decoration:none;
-  font-size:clamp(17px,4.8vw,28px);
-  font-weight:900;
 }
 
 .btnArea{
@@ -426,7 +402,7 @@ function renderNews(list){
   list.forEach(function(raw){
     const item = normalizeNewsItem(raw);
 
-    if(!item.title && !item.text && !item.date && !item.imageUrl){
+    if(!item.title && !item.text && !item.date){
       return;
     }
 
@@ -434,17 +410,6 @@ function renderNews(list){
 
     const div = document.createElement("div");
     div.className = "newsItem";
-
-    if(item.imageUrl){
-      const img = document.createElement("img");
-      img.className = "newsImage";
-      img.src = item.imageUrl;
-      img.alt = item.title || "お知らせ";
-      img.onerror = function(){
-        this.style.display = "none";
-      };
-      div.appendChild(img);
-    }
 
     const title = document.createElement("p");
     title.className = "newsTitle";
@@ -466,17 +431,6 @@ function renderNews(list){
       "田子山富士168の縁プロジェクトからのお知らせです。";
 
     div.appendChild(text);
-
-    if(item.linkUrl){
-      const link = document.createElement("a");
-      link.className = "newsLink";
-      link.href = item.linkUrl;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.innerText = "詳しく見る";
-      div.appendChild(link);
-    }
-
     box.appendChild(div);
   });
 
@@ -495,9 +449,7 @@ function normalizeNewsItem(raw){
       return {
         date:"",
         title:"",
-        text:"",
-        imageUrl:"",
-        linkUrl:""
+        text:""
       };
     }
 
@@ -545,30 +497,6 @@ function normalizeNewsItem(raw){
       raw["説明"],
       raw["詳細"],
       raw["コメント"]
-    ),
-
-    imageUrl: normalizeImageUrl(
-      getFirst(
-        raw.imageUrl,
-        raw.image,
-        raw.imgUrl,
-        raw.img,
-        raw.photo,
-        raw.picture,
-        raw.thumbnail,
-        raw["画像URL"],
-        raw["画像"],
-        raw["写真"]
-      )
-    ),
-
-    linkUrl: getFirst(
-      raw.linkUrl,
-      raw.link,
-      raw.url,
-      raw.href,
-      raw["リンク"],
-      raw["URL"]
     )
   };
 }
@@ -581,9 +509,6 @@ function normalizeArrayRow(row){
   const date =
     findDateCell(cells) ||
     getString(cells[0]);
-
-  const imageUrl = findImageCell(cells);
-  const linkUrl = findLinkCell(cells, imageUrl);
 
   let title = "";
   let text = "";
@@ -601,11 +526,11 @@ function normalizeArrayRow(row){
       return false;
     }
 
-    if(cell === imageUrl){
+    if(isImageText(cell)){
       return false;
     }
 
-    if(cell === linkUrl){
+    if(isUrlText(cell)){
       return false;
     }
 
@@ -625,9 +550,7 @@ function normalizeArrayRow(row){
   return {
     date: formatDateText(date),
     title: title || "お知らせ",
-    text: text,
-    imageUrl: normalizeImageUrl(imageUrl),
-    linkUrl: linkUrl
+    text: text
   };
 }
 
@@ -888,99 +811,33 @@ function isDateText(text){
   );
 }
 
+function isImageText(text){
+  const value = getString(text);
+
+  return (
+    value.indexOf(".jpg") >= 0 ||
+    value.indexOf(".jpeg") >= 0 ||
+    value.indexOf(".png") >= 0 ||
+    value.indexOf(".webp") >= 0 ||
+    value.indexOf("drive.google.com") >= 0 ||
+    value.indexOf("lh3.googleusercontent.com") >= 0
+  );
+}
+
+function isUrlText(text){
+  const value = getString(text);
+
+  return (
+    value.indexOf("http://") === 0 ||
+    value.indexOf("https://") === 0
+  );
+}
+
 function findDateCell(cells){
   for(let i = 0; i < cells.length; i++){
     if(isDateText(cells[i])){
       return cells[i];
     }
-  }
-
-  return "";
-}
-
-function findImageCell(cells){
-  for(let i = 0; i < cells.length; i++){
-    const value = getString(cells[i]);
-
-    if(
-      value.indexOf(".jpg") >= 0 ||
-      value.indexOf(".jpeg") >= 0 ||
-      value.indexOf(".png") >= 0 ||
-      value.indexOf(".webp") >= 0 ||
-      value.indexOf("drive.google.com") >= 0 ||
-      value.indexOf("lh3.googleusercontent.com") >= 0
-    ){
-      return value;
-    }
-  }
-
-  return "";
-}
-
-function findLinkCell(cells, imageUrl){
-  for(let i = 0; i < cells.length; i++){
-    const value = getString(cells[i]);
-
-    if(!value || value === imageUrl){
-      continue;
-    }
-
-    if(
-      value.indexOf("http://") === 0 ||
-      value.indexOf("https://") === 0
-    ){
-      return value;
-    }
-  }
-
-  return "";
-}
-
-function normalizeImageUrl(url){
-  const value = getString(url);
-
-  if(!value){
-    return "";
-  }
-
-  const driveId = getDriveId(value);
-
-  if(driveId){
-    return "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w2000";
-  }
-
-  return value;
-}
-
-function getDriveId(url){
-  const value = getString(url);
-
-  if(!value){
-    return "";
-  }
-
-  let match = value.match(/\/file\/d\/([^/]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match = value.match(/[?&]id=([^&]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  if(/^[a-zA-Z0-9_-]{20,}$/.test(value)){
-    return value;
   }
 
   return "";
