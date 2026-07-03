@@ -390,7 +390,7 @@ function renderNews(list){
     return;
   }
 
-  let count = 0;
+  const displayItems = [];
 
   list.forEach(function(row){
     const item = normalizeNewsItem(row);
@@ -399,8 +399,16 @@ function renderNews(list){
       return;
     }
 
-    count++;
+    item.newsIndex = displayItems.length;
+    displayItems.push(item);
+  });
 
+  if(displayItems.length === 0){
+    setStatus("現在表示できるお知らせはありません。");
+    return;
+  }
+
+  displayItems.forEach(function(item){
     const box = document.createElement("article");
     box.className = "newsItem";
 
@@ -478,11 +486,7 @@ function renderNews(list){
     newsList.appendChild(box);
   });
 
-  if(count === 0){
-    setStatus("現在表示できるお知らせはありません。");
-  }else{
-    setStatus("お知らせを表示しました。");
-  }
+  setStatus("お知らせを表示しました。");
 }
 
 function normalizeNewsItem(row){
@@ -610,11 +614,12 @@ function buildNewsShareUrl(item){
 
   const params = new URLSearchParams();
 
-  params.set("title", item.title || "お知らせ");
-  params.set("date", item.date || "");
-  params.set("text", item.text || "");
-  params.set("imageUrl", item.imageUrl || "");
-  params.set("v", "20260704article");
+  params.set("n", String(item.newsIndex || 0));
+  params.set("v", "20260704shortshare");
+
+  if(currentUserId){
+    params.set("userId", currentUserId);
+  }
 
   return SHARE_NEWS_PAGE + "?" + params.toString();
 }
