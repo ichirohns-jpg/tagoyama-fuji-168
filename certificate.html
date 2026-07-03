@@ -106,6 +106,7 @@ body{
 }
 
 .imageBox{
+  position:relative;
   width:100%;
   margin:0;
   padding:0;
@@ -126,6 +127,86 @@ body{
   border:none;
   border-radius:0;
   box-shadow:none;
+}
+
+.certTopText{
+  position:absolute;
+  top:5%;
+  left:5%;
+  right:5%;
+  text-align:center;
+  pointer-events:none;
+}
+
+.certTopSmall{
+  margin:0 0 4px;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+  font-size:clamp(18px,5vw,34px);
+  font-weight:900;
+  color:#fff7ca;
+  line-height:1.2;
+  text-shadow:
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.78);
+}
+
+.certTopMain{
+  margin:0;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+  font-size:clamp(26px,7vw,50px);
+  font-weight:900;
+  color:#ffdf72;
+  line-height:1.2;
+  text-shadow:
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.78),
+    0 0 14px rgba(255,210,80,.35);
+}
+
+.certBottomText{
+  position:absolute;
+  left:5%;
+  right:5%;
+  bottom:7%;
+  text-align:center;
+  pointer-events:none;
+}
+
+.climbTitle{
+  margin:0 0 8px;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+  font-size:clamp(24px,6.7vw,46px);
+  font-weight:900;
+  color:#ffdf72;
+  line-height:1.2;
+  text-shadow:
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.78),
+    0 0 14px rgba(255,210,80,.35);
+}
+
+.serialNo{
+  margin:0 0 8px;
+  font-size:clamp(32px,9vw,66px);
+  font-weight:900;
+  color:#fff7ca;
+  line-height:1.08;
+  letter-spacing:.01em;
+  text-shadow:
+    0 3px 4px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.78);
+}
+
+.dateText{
+  margin:0;
+  font-size:clamp(24px,6.5vw,46px);
+  font-weight:900;
+  color:#fff7ca;
+  line-height:1.15;
+  letter-spacing:.03em;
+  text-shadow:
+    0 3px 4px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.78);
 }
 
 .btnArea{
@@ -205,6 +286,10 @@ body{
   line-height:1.6;
 }
 
+canvas{
+  display:none;
+}
+
 @media (max-width:420px){
   .page{
     padding-left:12px;
@@ -244,6 +329,17 @@ body{
       alt="田子山富士 登頂記念証"
       onerror="handleImageError()"
     >
+
+    <div class="certTopText">
+      <p class="certTopSmall">田子山富士</p>
+      <p class="certTopMain">登頂記念証</p>
+    </div>
+
+    <div class="certBottomText">
+      <p class="climbTitle" id="climbTitle">第1回 登頂記念</p>
+      <p class="serialNo" id="serialNo">No.1-0001</p>
+      <p class="dateText" id="dateText">2026/07/03</p>
+    </div>
   </div>
 
   <div class="btnArea">
@@ -273,7 +369,7 @@ body{
   </div>
 
   <p class="notice">
-    Facebook投稿時は、投稿文をコピーしてから共有画面を開きます。
+    登頂回数・記念番号・日付を表示します。
   </p>
 </section>
 
@@ -281,6 +377,8 @@ body{
   田子山富士 168の縁プロジェクト<br>
   登頂記念証
 </footer>
+
+<canvas id="saveCanvas"></canvas>
 
 </main>
 
@@ -302,21 +400,35 @@ const FALLBACK_LOGO =
 
 let certificateData = {
   userId:"",
-  climbCount:"",
-  serialNo:"",
-  lastDate:"",
+  climbCount:"1",
+  serialNo:"1-0001",
+  lastDate:todayText(),
   imageUrl:""
 };
 
 window.addEventListener("load", initCertificate);
 
 async function initCertificate(){
-  const fromUrl = getDataFromUrl();
+  const urlData = getDataFromUrl();
+  const localData = getDataFromLocal();
 
-  certificateData = mergeData(certificateData, fromUrl);
+  certificateData = mergeData(certificateData, localData);
+  certificateData = mergeData(certificateData, urlData);
 
   if(certificateData.userId){
     await loadCertificateFromGas(certificateData.userId);
+  }
+
+  if(!certificateData.climbCount){
+    certificateData.climbCount = "1";
+  }
+
+  if(!certificateData.serialNo){
+    certificateData.serialNo = "1-0001";
+  }
+
+  if(!certificateData.lastDate){
+    certificateData.lastDate = todayText();
   }
 
   if(!certificateData.imageUrl){
@@ -359,21 +471,81 @@ function getDataFromUrl(){
       getString(params.get("uid")),
 
     climbCount:
-      getString(params.get("climbCount")) ||
-      getString(params.get("count")) ||
-      getString(params.get("c")),
+      normalizeNumberText(
+        getString(params.get("climbCount")) ||
+        getString(params.get("count")) ||
+        getString(params.get("c"))
+      ),
 
     serialNo:
-      getString(params.get("serialNo")) ||
-      getString(params.get("serial")) ||
-      getString(params.get("s")),
+      cleanSerialNo(
+        getString(params.get("serialNo")) ||
+        getString(params.get("serial")) ||
+        getString(params.get("s"))
+      ),
 
     lastDate:
-      getString(params.get("lastDate")) ||
-      getString(params.get("date")) ||
-      getString(params.get("d")),
+      formatDateText(
+        getString(params.get("lastDate")) ||
+        getString(params.get("date")) ||
+        getString(params.get("d"))
+      ),
 
     imageUrl:imageUrl
+  };
+}
+
+function getDataFromLocal(){
+  let data = {};
+
+  try{
+    const text = localStorage.getItem("tagoyamaClimbData");
+
+    if(text){
+      const parsed = JSON.parse(text);
+
+      if(parsed && typeof parsed === "object"){
+        data = parsed;
+      }
+    }
+  }catch(error){
+    data = {};
+  }
+
+  return {
+    userId:
+      getString(data.userId) ||
+      localStorage.getItem("tagoyamaUserId") ||
+      localStorage.getItem("tagoyamaFujiUserId") ||
+      "",
+
+    climbCount:
+      normalizeNumberText(
+        data.climbCount ||
+        localStorage.getItem("tagoyamaLastClimbCount") ||
+        ""
+      ),
+
+    serialNo:
+      cleanSerialNo(
+        data.serialNo ||
+        localStorage.getItem("tagoyamaLastSerialNo") ||
+        ""
+      ),
+
+    lastDate:
+      formatDateText(
+        data.lastDate ||
+        localStorage.getItem("tagoyamaLastDate") ||
+        ""
+      ),
+
+    imageUrl:
+      getString(
+        data.imageUrl ||
+        localStorage.getItem("tagoyamaLastImageUrl") ||
+        ""
+      )
   };
 }
 
@@ -402,35 +574,44 @@ function normalizeGasData(data, userId){
   return {
     userId:getFirst(source.userId, source.uid, userId),
 
-    climbCount:getFirst(
-      source.climbCount,
-      source.count,
-      source.times,
-      source.climb_count,
-      source.climb,
-      source["登頂回数"],
-      source["個人登頂回数"]
-    ),
+    climbCount:
+      normalizeNumberText(
+        getFirst(
+          source.climbCount,
+          source.count,
+          source.times,
+          source.climb_count,
+          source.climb,
+          source["登頂回数"],
+          source["個人登頂回数"]
+        )
+      ),
 
-    serialNo:getFirst(
-      source.serialNo,
-      source.serial,
-      source.no,
-      source.serial_no,
-      source.number,
-      source["シリアル"],
-      source["記念番号"]
-    ),
+    serialNo:
+      cleanSerialNo(
+        getFirst(
+          source.serialNo,
+          source.serial,
+          source.no,
+          source.serial_no,
+          source.number,
+          source["シリアル"],
+          source["記念番号"]
+        )
+      ),
 
-    lastDate:getFirst(
-      source.lastDate,
-      source.date,
-      source.climbDate,
-      source.last_date,
-      source.createdAt,
-      source["日時"],
-      source["日付"]
-    ),
+    lastDate:
+      formatDateText(
+        getFirst(
+          source.lastDate,
+          source.date,
+          source.climbDate,
+          source.last_date,
+          source.createdAt,
+          source["日時"],
+          source["日付"]
+        )
+      ),
 
     imageUrl:getFirst(
       source.imageUrl,
@@ -445,25 +626,40 @@ function normalizeGasData(data, userId){
   };
 }
 
-function mergeData(base, add){
-  const result = Object.assign({}, base);
-  add = add || {};
-
-  Object.keys(add).forEach(function(key){
-    if(getString(add[key])){
-      result[key] = add[key];
-    }
-  });
-
-  return result;
-}
-
 function renderCertificate(data){
   const image = document.getElementById("memorialImage");
+  const climbTitle = document.getElementById("climbTitle");
+  const serialNo = document.getElementById("serialNo");
+  const dateText = document.getElementById("dateText");
+
+  const count =
+    normalizeNumberText(data.climbCount) || "1";
+
+  const serial =
+    cleanSerialNo(data.serialNo) || "1-0001";
+
+  const date =
+    formatDateText(data.lastDate) || todayText();
 
   if(image){
     image.src = data.imageUrl || FALLBACK_IMAGE;
   }
+
+  if(climbTitle){
+    climbTitle.innerText = "第" + count + "回 登頂記念";
+  }
+
+  if(serialNo){
+    serialNo.innerText = "No." + serial;
+  }
+
+  if(dateText){
+    dateText.innerText = date;
+  }
+
+  certificateData.climbCount = count;
+  certificateData.serialNo = serial;
+  certificateData.lastDate = date;
 }
 
 function updateLinks(){
@@ -526,11 +722,10 @@ async function saveCertificateImage(){
   }
 
   try{
-    const blob = await getImageBlob(certificateData.imageUrl || FALLBACK_IMAGE);
+    const blob = await makeCertificateBlob();
 
     if(!blob){
-      openImageOnly(certificateData.imageUrl || FALLBACK_IMAGE);
-      return;
+      throw new Error("画像を作成できませんでした。");
     }
 
     const filename =
@@ -539,7 +734,7 @@ async function saveCertificateImage(){
       ".png";
 
     const file = new File([blob], filename, {
-      type:blob.type || "image/png"
+      type:"image/png"
     });
 
     if(
@@ -564,7 +759,7 @@ async function saveCertificateImage(){
     }
 
     console.error(error);
-    openImageOnly(certificateData.imageUrl || FALLBACK_IMAGE);
+    alert("画像保存がうまくいかない場合は、表示画像を長押しして保存してください。");
   }finally{
     if(btn){
       btn.disabled = false;
@@ -573,39 +768,125 @@ async function saveCertificateImage(){
   }
 }
 
-async function getImageBlob(url){
-  const urls = makeImageUrlList(url);
+async function makeCertificateBlob(){
+  const imageUrl =
+    certificateData.imageUrl ||
+    FALLBACK_IMAGE;
 
-  for(let i = 0; i < urls.length; i++){
-    const target = getString(urls[i]);
+  const image = await loadImageForCanvas(imageUrl);
 
-    if(!target){
-      continue;
-    }
+  const canvas = document.getElementById("saveCanvas");
+  const ctx = canvas.getContext("2d");
 
-    try{
-      const res = await fetch(target, {
-        method:"GET",
-        cache:"no-store"
-      });
+  const width =
+    image.naturalWidth ||
+    image.width ||
+    1080;
 
-      if(res.ok){
-        return await res.blob();
+  const height =
+    image.naturalHeight ||
+    image.height ||
+    1350;
+
+  canvas.width = width;
+  canvas.height = height;
+
+  ctx.clearRect(0,0,width,height);
+  ctx.drawImage(image,0,0,width,height);
+
+  drawCertificateText(ctx,width,height);
+
+  return await new Promise(function(resolve){
+    canvas.toBlob(function(blob){
+      resolve(blob);
+    }, "image/png", .95);
+  });
+}
+
+function drawCertificateText(ctx,width,height){
+  const count =
+    normalizeNumberText(certificateData.climbCount) || "1";
+
+  const serial =
+    cleanSerialNo(certificateData.serialNo) || "1-0001";
+
+  const date =
+    formatDateText(certificateData.lastDate) || todayText();
+
+  drawText(ctx,"田子山富士",width/2,height*.055,width*.050,"#fff7ca","serif");
+  drawText(ctx,"登頂記念証",width/2,height*.110,width*.070,"#ffdf72","serif");
+
+  drawText(ctx,"第" + count + "回 登頂記念",width/2,height*.730,width*.062,"#ffdf72","serif");
+  drawText(ctx,"No." + serial,width/2,height*.795,width*.082,"#fff7ca","sans");
+  drawText(ctx,date,width/2,height*.875,width*.058,"#fff7ca","sans");
+}
+
+function drawText(ctx,text,x,y,size,color,fontType){
+  ctx.save();
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.lineJoin = "round";
+
+  const font =
+    fontType === "serif"
+      ? "serif"
+      : "sans-serif";
+
+  ctx.font =
+    "900 " +
+    size +
+    "px " +
+    font;
+
+  ctx.shadowColor = "rgba(0,0,0,.85)";
+  ctx.shadowBlur = Math.max(4,size*.13);
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = Math.max(2,size*.05);
+
+  ctx.lineWidth = Math.max(2,size*.055);
+  ctx.strokeStyle = "rgba(0,0,0,.62)";
+  ctx.strokeText(text,x,y);
+
+  ctx.fillStyle = color;
+  ctx.fillText(text,x,y);
+
+  ctx.restore();
+}
+
+function loadImageForCanvas(url){
+  return new Promise(function(resolve,reject){
+    const urls = makeImageUrlList(url);
+    let index = 0;
+
+    function next(){
+      if(index >= urls.length){
+        reject(new Error("画像を読み込めませんでした。"));
+        return;
       }
-    }catch(error){
-      console.warn(error);
+
+      const target = urls[index];
+      index++;
+
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+
+      image.onload = function(){
+        resolve(image);
+      };
+
+      image.onerror = function(){
+        next();
+      };
+
+      image.src = target;
     }
-  }
 
-  return null;
+    next();
+  });
 }
 
-function openImageOnly(url){
-  alert("画像だけを開きます。開いた画像を長押しして保存してください。");
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-function downloadBlob(blob, filename){
+function downloadBlob(blob,filename){
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
 
@@ -618,7 +899,7 @@ function downloadBlob(blob, filename){
 
   setTimeout(function(){
     URL.revokeObjectURL(url);
-  }, 3000);
+  },3000);
 }
 
 async function postFacebook(){
@@ -717,7 +998,7 @@ function handleImageError(){
 async function tryManyJson(urls){
   let lastError = null;
 
-  for(let i = 0; i < urls.length; i++){
+  for(let i=0;i<urls.length;i++){
     try{
       const data = await getJson(urls[i]);
 
@@ -734,7 +1015,7 @@ async function tryManyJson(urls){
 
 async function getJson(url){
   try{
-    const res = await fetch(url, {
+    const res = await fetch(url,{
       method:"GET",
       cache:"no-store"
     });
@@ -745,7 +1026,7 @@ async function getJson(url){
 
     const text = await res.text();
     return parseJsonText(text);
-  }catch(fetchError){
+  }catch(error){
     return await getJsonp(url);
   }
 }
@@ -764,14 +1045,14 @@ function parseJsonText(text){
     const end = value.lastIndexOf("}");
 
     if(start >= 0 && end > start){
-      return JSON.parse(value.substring(start, end + 1));
+      return JSON.parse(value.substring(start,end+1));
     }
 
     const arrayStart = value.indexOf("[");
     const arrayEnd = value.lastIndexOf("]");
 
     if(arrayStart >= 0 && arrayEnd > arrayStart){
-      return JSON.parse(value.substring(arrayStart, arrayEnd + 1));
+      return JSON.parse(value.substring(arrayStart,arrayEnd+1));
     }
 
     throw error;
@@ -779,12 +1060,12 @@ function parseJsonText(text){
 }
 
 function getJsonp(url){
-  return new Promise(function(resolve, reject){
+  return new Promise(function(resolve,reject){
     const callbackName =
       "tagoyamaCertificateCallback_" +
       Date.now() +
       "_" +
-      Math.floor(Math.random() * 1000000);
+      Math.floor(Math.random()*1000000);
 
     const script = document.createElement("script");
     const sep = url.indexOf("?") >= 0 ? "&" : "?";
@@ -792,7 +1073,7 @@ function getJsonp(url){
     const timer = setTimeout(function(){
       cleanup();
       reject(new Error("JSONP timeout"));
-    }, 12000);
+    },12000);
 
     window[callbackName] = function(data){
       cleanup();
@@ -921,7 +1202,54 @@ function flattenObject(data){
       ? data.data
       : {};
 
-  return Object.assign({}, data, nested);
+  return Object.assign({},data,nested);
+}
+
+function normalizeNumberText(value){
+  const text = toHalfWidthNumber(getString(value));
+  const match = text.match(/[0-9]+/);
+
+  if(match && match[0]){
+    return match[0];
+  }
+
+  return "";
+}
+
+function toHalfWidthNumber(value){
+  return getString(value).replace(/[０-９]/g,function(s){
+    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+  });
+}
+
+function cleanSerialNo(value){
+  return toHalfWidthNumber(getString(value))
+    .replace(/^No\./i,"")
+    .replace(/^No/i,"")
+    .replace(/^記念番号/,"")
+    .trim();
+}
+
+function formatDateText(value){
+  const text = getString(value);
+
+  if(!text){
+    return "";
+  }
+
+  return text
+    .replace(/-/g,"/")
+    .replace(/\./g,"/")
+    .replace(/\s.*$/,"");
+}
+
+function todayText(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+
+  return y + "/" + m + "/" + day;
 }
 
 function getString(value){
@@ -933,7 +1261,7 @@ function getString(value){
 }
 
 function getFirst(){
-  for(let i = 0; i < arguments.length; i++){
+  for(let i=0;i<arguments.length;i++){
     const value = getString(arguments[i]);
 
     if(value){
@@ -946,8 +1274,8 @@ function getFirst(){
 
 function cleanFileName(value){
   return getString(value)
-    .replace(/[\\/:*?"<>|]/g, "")
-    .replace(/\s+/g, "-") ||
+    .replace(/[\\/:*?"<>|]/g,"")
+    .replace(/\s+/g,"-") ||
     "certificate";
 }
 
