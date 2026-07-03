@@ -11,8 +11,8 @@
   <meta property="og:description" content="田子山富士168の縁プロジェクトのOGP・シェア確認ページです。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/check.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-main.jpg?v=20260704-check">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-main.jpg?v=20260704-check">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-check">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-check">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 OGP・シェア確認">
   <meta name="twitter:description" content="田子山富士168の縁プロジェクトのOGP・シェア確認ページです。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-main.jpg?v=20260704-check">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-check">
 
   <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
   <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -323,60 +323,70 @@
       {
         title: "トップ",
         url: BASE,
-        image: BASE + "ogp-main.jpg?v=20260704-main"
+        image: BASE + "top.jpg?v=20260703-top"
       },
       {
         title: "登頂記念証",
         url: BASE + "certificate.html",
-        image: BASE + "ogp-certificate.jpg?v=20260704-certificate"
+        image: BASE + "ogp-certificate.jpg?v=20260703-certificate"
       },
       {
         title: "おみくじ",
         url: BASE + "omikuji.html",
-        image: BASE + "ogp-omikuji.jpg?v=20260704-omikuji"
+        image: BASE + "omikuji-atari.jpg?v=20260703-omikuji"
       },
       {
         title: "登頂記念証シェア",
-        url: BASE + "share-certificate.html?c=3&s=3-0001&d=2026/07/04&p=11&v=20260704",
-        image: BASE + "ogp-certificate.jpg?v=20260704-certificate"
+        url: BASE + "share-certificate.html?c=3&s=3-0001&d=2026/07/04&p=11&v=20260703",
+        image: BASE + "ogp-certificate.jpg?v=20260703-certificate"
       },
       {
         title: "おみくじシェア",
-        url: BASE + "share-omikuji.html?r=大吉&t=田子山富士のご縁&m=よいご縁が広がります&v=20260704",
-        image: BASE + "ogp-omikuji.jpg?v=20260704-omikuji"
+        url: BASE + "share-omikuji.html?r=大吉&t=田子山富士のご縁&m=よいご縁が広がります&v=20260703",
+        image: BASE + "omikuji-atari.jpg?v=20260703-omikuji"
       },
       {
         title: "お知らせ",
         url: BASE + "news.html",
-        image: BASE + "ogp.jpg?v=20260704-news"
+        image: BASE + "ogp.jpg?v=20260703-news"
       },
       {
         title: "お知らせシェア",
-        url: BASE + "share-news.html?title=田子山富士のお知らせ&body=田子山富士168の縁プロジェクトからのお知らせです&v=20260704",
-        image: BASE + "ogp.jpg?v=20260704-news"
+        url: BASE + "share-news.html?title=田子山富士のお知らせ&body=田子山富士168の縁プロジェクトからのお知らせです&v=20260703",
+        image: BASE + "ogp.jpg?v=20260703-news"
+      },
+      {
+        title: "旧Facebookシェア整理",
+        url: BASE + "share-facebook.html",
+        image: BASE + "ogp.jpg?v=20260703-share"
+      },
+      {
+        title: "旧登頂記念証シェア整理",
+        url: BASE + "share-facebook-certificate.html",
+        image: BASE + "ogp-certificate.jpg?v=20260703-certificate"
       }
     ];
 
     const images = [
       {
         title: "トップ用 OGP",
-        url: BASE + "ogp-main.jpg?v=20260704-main"
+        url: BASE + "top.jpg?v=20260703-top"
       },
       {
         title: "登頂記念証用 OGP",
-        url: BASE + "ogp-certificate.jpg?v=20260704-certificate"
+        url: BASE + "ogp-certificate.jpg?v=20260703-certificate"
       },
       {
         title: "おみくじ用 OGP",
-        url: BASE + "ogp-omikuji.jpg?v=20260704-omikuji"
+        url: BASE + "omikuji-atari.jpg?v=20260703-omikuji"
       },
       {
         title: "お知らせ用 OGP",
-        url: BASE + "ogp.jpg?v=20260704-news"
+        url: BASE + "ogp.jpg?v=20260703-news"
       },
       {
         title: "ロゴ",
-        url: BASE + "logo.png?v=20260704-logo"
+        url: BASE + "logo.png?v=20260703-logo"
       }
     ];
 
@@ -400,6 +410,22 @@
         const url = document.createElement("p");
         url.className = "itemUrl";
         url.innerText = item.url;
+
+        const imageUrl = document.createElement("p");
+        imageUrl.className = "itemUrl";
+        imageUrl.innerText = "OGP画像:\n" + item.image;
+
+        const img = document.createElement("img");
+        img.className = "preview";
+        img.src = item.image;
+        img.alt = item.title;
+        img.onerror = function() {
+          this.style.display = "none";
+          const err = document.createElement("p");
+          err.className = "itemUrl";
+          err.innerText = "画像が見つかりません。GitHubの画像ファイル名を確認してください。";
+          box.appendChild(err);
+        };
 
         const buttons = document.createElement("div");
         buttons.className = "btnArea";
@@ -461,6 +487,8 @@
 
         box.appendChild(title);
         box.appendChild(url);
+        box.appendChild(imageUrl);
+        box.appendChild(img);
         box.appendChild(buttons);
 
         list.appendChild(box);
@@ -546,7 +574,7 @@
     function copyAllLinks() {
       const text =
         pages.map(function(item) {
-          return item.title + "\n" + item.url;
+          return item.title + "\n" + item.url + "\nOGP画像\n" + item.image;
         }).join("\n\n") +
         "\n\n--- OGP画像 ---\n\n" +
         images.map(function(item) {
@@ -555,6 +583,8 @@
 
       copyText(text);
     }
+
+    window.copyAllLinks = copyAllLinks;
   </script>
 </body>
 </html>
