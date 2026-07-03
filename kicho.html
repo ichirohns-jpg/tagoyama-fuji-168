@@ -1,670 +1,915 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>田子山富士 ご縁帳</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-
-background:
-linear-gradient(
-180deg,
-#f6f0de,
-#efe3c0,
-#faf8f3
-);
-
-color:#3d3123;
-
-}
-
-.wrap{
-
-max-width:920px;
-
-margin:auto;
-
-padding:20px;
-
-}
-
-.card{
-
-background:#fffefb;
-
-border:3px solid #d4af37;
-
-border-radius:30px;
-
-overflow:hidden;
-
-box-shadow:
-0 15px 35px rgba(0,0,0,.15);
-
-}
-
-.header{
-
-background:
-linear-gradient(
-180deg,
-#d8b44c,
-#b88d24
-);
-
-padding:28px 20px;
-
-text-align:center;
-
-color:#fff;
-
-}
-
-.header h1{
-
-font-size:40px;
-
-letter-spacing:6px;
-
-font-family:
-"Yu Mincho",
-serif;
-
-margin-bottom:10px;
-
-}
-
-.header p{
-
-font-size:20px;
-
-line-height:1.8;
-
-font-weight:bold;
-
-}
-
-.menu{
-
-padding:24px;
-
-}
-
-.menuBtn{
-
-width:100%;
-
-padding:24px;
-
-border:none;
-
-border-radius:22px;
-
-background:
-linear-gradient(
-180deg,
-#e5c15d,
-#c79b28
-);
-
-color:#000;
-
-font-size:30px;
-
-font-weight:900;
-
-cursor:pointer;
-
-box-shadow:
-0 8px 18px rgba(0,0,0,.18);
-
-}
-
-.menuBtn:active{
-
-transform:scale(.98);
-
-}
-
-.formBox{
-
-display:none;
-
-margin-top:24px;
-
-padding:24px;
-
-background:#fffef8;
-
-border:2px solid #ecd8a0;
-
-border-radius:24px;
-
-}
-
-label{
-
-display:block;
-
-margin-top:18px;
-
-margin-bottom:10px;
-
-font-size:20px;
-
-font-weight:900;
-
-color:#7d5426;
-
-}
-
-input,
-select,
-textarea{
-
-width:100%;
-
-padding:18px;
-
-font-size:18px;
-
-border:2px solid #e6d4a3;
-
-border-radius:18px;
-
-background:#fff;
-
-}
-
-textarea{
-
-min-height:180px;
-
-resize:vertical;
-
-line-height:1.9;
-
-}
-
-.saveBtn{
-
-width:100%;
-
-margin-top:24px;
-
-padding:22px;
-
-border:none;
-
-border-radius:20px;
-
-background:#2ebc5a;
-
-color:#fff;
-
-font-size:24px;
-
-font-weight:900;
-
-cursor:pointer;
-
-}
-
-.message{
-
-display:none;
-
-margin-top:18px;
-
-padding:18px;
-
-border-radius:18px;
-
-background:
-linear-gradient(
-180deg,
-#eefbe9,
-#dff5d8
-);
-
-font-size:20px;
-
-text-align:center;
-
-font-weight:900;
-
-line-height:1.8;
-
-color:#2d6b2d;
-
-}
-
-.goenBox{
-
-padding:24px;
-
-background:#fdfaf2;
-
-border-top:3px solid #e5c86c;
-
-}
-
-.goenTitle{
-
-font-family:
-"Yu Mincho",
-serif;
-
-font-size:34px;
-
-font-weight:900;
-
-text-align:center;
-
-color:#8b5a2b;
-
-margin-bottom:10px;
-
-}
-
-.goenCard{
-
-background:#fff;
-
-border-radius:24px;
-
-padding:24px;
-
-margin-bottom:22px;
-
-border-left:10px solid #d4af37;
-
-box-shadow:
-0 8px 18px rgba(0,0,0,.08);
-
-}
-
-.goenArea{
-
-display:inline-block;
-
-background:#d4af37;
-
-color:#000;
-
-padding:6px 14px;
-
-border-radius:999px;
-
-font-size:14px;
-
-font-weight:900;
-
-margin-bottom:14px;
-
-}
-
-.goenName{
-
-font-size:26px;
-
-font-weight:900;
-
-color:#8b5a2b;
-
-margin-bottom:14px;
-
-}
-
-.goenMessage{
-
-font-size:20px;
-
-line-height:2;
-
-color:#444;
-
-padding:16px;
-
-background:#fffdf7;
-
-border-radius:18px;
-
-white-space:pre-wrap;
-
-}
-
-.goenDate{
-
-margin-top:14px;
-
-text-align:right;
-
-font-size:14px;
-
-font-weight:bold;
-
-color:#888;
-
-}
-
-.archiveBtn{
-
-display:block;
-
-width:100%;
-
-margin-top:24px;
-
-padding:20px;
-
-border-radius:20px;
-
-text-decoration:none;
-
-text-align:center;
-
-background:
-linear-gradient(
-180deg,
-#8b5a2b,
-#6f4518
-);
-
-color:#fff;
-
-font-size:22px;
-
-font-weight:900;
-
-}
-
-.homeBtn{
-
-display:block;
-
-width:100%;
-
-margin-top:16px;
-
-padding:20px;
-
-border-radius:20px;
-
-text-decoration:none;
-
-text-align:center;
-
-background:
-linear-gradient(
-180deg,
-#e4c45b,
-#c99b26
-);
-
-color:#000;
-
-font-size:24px;
-
-font-weight:900;
-
-}
-
-.footer{
-
-padding:22px;
-
-text-align:center;
-
-font-size:15px;
-
-color:#8c7b66;
-
-background:#faf6ea;
-
-border-top:1px solid #ead8a3;
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>田子山富士 参拝記帳</title>
+
+  <meta name="description" content="田子山富士168の縁プロジェクト 参拝記帳ページです。田子山富士への想いをご縁帳に残せます。">
+  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+  <meta property="og:title" content="田子山富士 参拝記帳">
+  <meta property="og:description" content="あなたの一言が、次に田子山富士を訪れる人への贈り物になります。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/kicho.html">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-kicho">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-kicho">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="田子山富士 参拝記帳">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="田子山富士 参拝記帳">
+  <meta name="twitter:description" content="あなたの一言が、次に田子山富士を訪れる人への贈り物になります。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-kicho">
+
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/kicho.html">
+  <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 36%),
+        linear-gradient(180deg, #221600 0%, #070707 48%, #000000 100%);
+      color: #fff7ca;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 12px 48px;
+    }
+
+    .hero {
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    .logoBox {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 220, 95, 0.80);
+      background: #000000;
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.50),
+        0 0 18px rgba(255, 210, 80, 0.22);
+    }
+
+    .logoBox img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .siteTitle {
+      margin: 0;
+      font-size: clamp(36px, 10vw, 70px);
+      line-height: 1.16;
+      font-weight: 900;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.92),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
+
+    .siteSub {
+      margin: 10px 0 0;
+      font-size: clamp(20px, 5.5vw, 34px);
+      line-height: 1.45;
+      font-weight: 900;
+      color: #fff3c4;
+      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.88);
+    }
+
+    .card {
+      margin: 16px 0;
+      padding: 20px 14px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
+        linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
+      border: 2px solid rgba(255, 220, 95, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
+        0 12px 28px rgba(0, 0, 0, 0.42);
+    }
+
+    .cardTitle {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 8.4vw, 54px);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.90),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
+
+    .lead {
+      margin: 0 0 16px;
+      color: #fff1bd;
+      text-align: center;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .statusBox {
+      margin: 18px 0 0;
+      padding: 18px 14px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 220, 140, 0.34);
+      font-size: clamp(18px, 4.8vw, 28px);
+      font-weight: 900;
+      line-height: 1.65;
+      color: #fff3c4;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+
+    .formArea {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    label {
+      display: block;
+      color: #fff1bd;
+      font-size: clamp(18px, 5vw, 30px);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    select,
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid rgba(255, 220, 95, 0.55);
+      border-radius: 18px;
+      padding: 14px 12px;
+      background: rgba(0, 0, 0, 0.48);
+      color: #fff7ca;
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: 800;
+      outline: none;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .goenList {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .goenItem {
+      padding: 16px 14px;
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 2px solid rgba(255, 220, 95, 0.42);
+      box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(255, 230, 150, 0.06) inset;
+    }
+
+    .goenTitle {
+      margin: 0 0 8px;
+      color: #ffdf72;
+      font-size: clamp(24px, 6.8vw, 42px);
+      line-height: 1.35;
+      font-weight: 900;
+      text-shadow:
+        0 3px 3px rgba(0, 0, 0, 0.88),
+        0 0 14px rgba(255, 210, 80, 0.18);
+    }
+
+    .goenDate {
+      margin: 0 0 10px;
+      color: #d9c886;
+      font-size: clamp(15px, 4.2vw, 24px);
+      line-height: 1.45;
+      font-weight: 900;
+    }
+
+    .goenBody {
+      margin: 0;
+      color: #fff1bd;
+      font-size: clamp(17px, 4.8vw, 29px);
+      line-height: 1.62;
+      font-weight: 800;
+      white-space: pre-wrap;
+    }
+
+    .btnArea {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn,
+    .linkBtn {
+      width: 100%;
+      min-height: 70px;
+      border: none;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: center;
+      box-shadow:
+        0 7px 0 rgba(0, 0, 0, 0.32),
+        0 13px 22px rgba(0, 0, 0, 0.34);
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+    }
+
+    .btn:active,
+    .linkBtn:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.32),
+        0 8px 14px rgba(0, 0, 0, 0.32);
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      pointer-events: none;
+      transform: none;
+    }
+
+    .goldBtn {
+      color: #271400;
+      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
+    }
+
+    .blueBtn {
+      background: linear-gradient(180deg, #2e83ff 0%, #0b4fc4 100%);
+    }
+
+    .greenBtn {
+      background: linear-gradient(180deg, #38e988 0%, #09b957 100%);
+    }
+
+    .blackBtn {
+      background: linear-gradient(180deg, #323232 0%, #050505 100%);
+    }
+
+    .footer {
+      margin: 28px 0 0;
+      text-align: center;
+      color: #c9b56b;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        border-radius: 26px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .btn,
+      .linkBtn {
+        min-height: 66px;
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="wrap">
-
-<div class="card">
-
-<div class="header">
-
-<h1>
-
-🌸 ご縁帳 🌸
-
-</h1>
-
-<p>
-
-あなたの一言が<br>
-
-次に田子山富士を訪れる人への<br>
-
-贈り物になります。
-
-</p>
-
-</div>
-
-<div class="menu">
-
-<button
-
-class="menuBtn"
-
-onclick="toggleForm()">
-
-🌸 ご縁を記帳する
-
-</button>
-
-<div
-
-id="formBox"
-
-class="formBox">
-
-<label>
-
-お住まいの地域
-
-</label>
-
-<select id="area">
-
-<option value="">
-選択してください
-</option>
-
-<option>志木市</option>
-
-<option>朝霞市</option>
-
-<option>新座市</option>
-
-<option>和光市</option>
-
-<option>その他</option>
-
-</select>
-
-<label>
-
-お名前（匿名可）
-
-</label>
-
-<input
-id="name"
-type="text"
-placeholder="匿名でも投稿できます">
-
-<label>
-
-未来へ届けるひとこと
-
-</label>
-
-<textarea
-id="messageText"
-placeholder="今日感じたこと、ありがとうの気持ち、また来たい気持ちなど、ご自由にお書きください。">
-
-</textarea>
-
-<button
-id="saveBtn"
-class="saveBtn"
-onclick="saveKicho()">
-
-🌸 ご縁を記帳する
-
-</button>
-
-<div
-id="msg"
-class="message">
-
-ありがとうございました🌸<br><br>
-
-あなたの言葉を<br>
-
-ご縁帳へ大切に刻みました。
-
-</div>
-
-</div>
-
-</div>
-
-<div class="goenBox">
-
-<div class="goenTitle">
-
-🌸 最近のご縁 🌸
-
-</div>
-
-<div
-id="goenList"></div>
-
-<a
-href="goen-archive.html"
-class="archiveBtn">
-
-📖 すべてのご縁帳を見る
-
-</a>
-
-<a
-href="index.html"
-class="homeBtn">
-
-🏠 田子山富士へ戻る
-
-</a>
-
-<div class="footer">
-
-田子山富士保存会<br>
-
-168の縁プロジェクト
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
-
-let userId =
-localStorage.getItem(
-"tagoyamaUserId"
-);
-
-if(!userId){
-
-userId=
-"TGF-"+
-Math.random()
-.toString(36)
-.substring(2,10)
-.toUpperCase();
-
-localStorage.setItem(
-"tagoyamaUserId",
-userId
-);
-
-}
-
-function toggleForm(){
-
-const box=
-document.getElementById(
-"formBox"
-);
-
-box.style.display=
-box.style.display==="block"
-?
-"none"
-:
-"block";
-
-}
-
-function saveKicho(){
-
-/* 現在動作している
-saveKicho() をそのまま使用 */
-
-}
-
-function loadGoen(){
-
-/* 現在動作している
-loadGoen() をそのまま使用 */
-
-}
-
-loadGoen();
-
-</script>
-
+  <main class="page">
+
+    <header class="hero">
+      <div class="logoBox">
+        <img
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+          alt="田子山富士"
+          onerror="this.style.display='none'"
+        >
+      </div>
+
+      <h1 class="siteTitle">参拝記帳</h1>
+      <p class="siteSub">田子山富士 168の縁プロジェクト</p>
+    </header>
+
+    <section class="card">
+      <h2 class="cardTitle">ご縁を記帳する</h2>
+
+      <p class="lead">
+        あなたの一言が、<br>
+        次に田子山富士を訪れる人への<br>
+        贈り物になります。
+      </p>
+
+      <div class="statusBox" id="statusBox">
+        記帳の準備ができました。
+      </div>
+
+      <div class="formArea">
+        <label for="fromArea">お住まいの地域</label>
+        <select id="fromArea">
+          <option value="">選択してください</option>
+          <option value="志木市">志木市</option>
+          <option value="朝霞市">朝霞市</option>
+          <option value="新座市">新座市</option>
+          <option value="和光市">和光市</option>
+          <option value="富士見市">富士見市</option>
+          <option value="ふじみ野市">ふじみ野市</option>
+          <option value="さいたま市">さいたま市</option>
+          <option value="東京都">東京都</option>
+          <option value="埼玉県内">埼玉県内</option>
+          <option value="その他">その他</option>
+        </select>
+
+        <label for="visitorName">お名前</label>
+        <input id="visitorName" type="text" placeholder="匿名でも大丈夫です">
+
+        <label for="visitorMessage">未来へ届けるひとこと</label>
+        <textarea id="visitorMessage" placeholder="田子山富士への想いを書いてください"></textarea>
+      </div>
+
+      <div class="btnArea">
+        <button class="btn goldBtn" id="saveBtn" type="button" onclick="saveKicho()">
+          ご縁を記帳する
+        </button>
+
+        <a class="linkBtn blackBtn" id="topLink" href="index.html">
+          田子山富士へ戻る
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="cardTitle">最近のご縁</h2>
+
+      <div class="statusBox" id="goenStatus">
+        最近のご縁を読み込んでいます。
+      </div>
+
+      <div class="goenList" id="goenList"></div>
+
+      <div class="btnArea">
+        <a class="linkBtn blueBtn" id="goenLink" href="goen.html">
+          すべてのご縁帳を見る
+        </a>
+
+        <a class="linkBtn greenBtn" id="omikujiLink" href="omikuji.html">
+          開運おみくじへ
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      田子山富士保存会<br>
+      168の縁プロジェクト
+    </footer>
+  </main>
+
+  <script>
+    const GAS_URL =
+      "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+
+    const HOME_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
+
+    const GOEN_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/goen.html";
+
+    const OMIKUJI_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
+
+    let currentUserId = "";
+
+    document.addEventListener("DOMContentLoaded", function() {
+      initKichoPage();
+    });
+
+    async function initKichoPage() {
+      currentUserId = getUserId();
+
+      if (currentUserId) {
+        localStorage.setItem("tagoyamaUserId", currentUserId);
+        localStorage.setItem("tagoyamaFujiUserId", currentUserId);
+      }
+
+      setLinks();
+      await loadRecentGoen();
+    }
+
+    function getUserId() {
+      const params = new URLSearchParams(window.location.search);
+
+      return getString(
+        params.get("userId") ||
+        params.get("userid") ||
+        params.get("uid") ||
+        params.get("id") ||
+        localStorage.getItem("tagoyamaUserId") ||
+        localStorage.getItem("tagoyamaFujiUserId") ||
+        ""
+      );
+    }
+
+    function setLinks() {
+      const topLink = document.getElementById("topLink");
+      const goenLink = document.getElementById("goenLink");
+      const omikujiLink = document.getElementById("omikujiLink");
+
+      if (topLink) {
+        topLink.href =
+          currentUserId
+            ? HOME_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : HOME_PAGE;
+      }
+
+      if (goenLink) {
+        goenLink.href =
+          currentUserId
+            ? GOEN_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : GOEN_PAGE;
+      }
+
+      if (omikujiLink) {
+        omikujiLink.href =
+          currentUserId
+            ? OMIKUJI_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : OMIKUJI_PAGE;
+      }
+    }
+
+    async function saveKicho() {
+      const btn = document.getElementById("saveBtn");
+      const oldText = btn ? btn.innerText : "";
+
+      const area = getString(document.getElementById("fromArea").value);
+      const name = getString(document.getElementById("visitorName").value);
+      const message = getString(document.getElementById("visitorMessage").value);
+
+      if (!area) {
+        alert("お住まいの地域を選んでください。");
+        return;
+      }
+
+      if (!message) {
+        alert("ひとことを入力してください。");
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "記帳中...";
+      }
+
+      setStatus("ご縁帳へ記帳しています。");
+
+      try {
+        const params = new URLSearchParams();
+        params.set("area", area);
+        params.set("from", area);
+        params.set("name", name || "匿名");
+        params.set("message", message);
+        params.set("userId", currentUserId || "");
+        params.set("t", String(Date.now()));
+
+        await tryManyJson([
+          GAS_URL + "?saveKicho=1&" + params.toString(),
+          GAS_URL + "?mode=saveKicho&" + params.toString(),
+          GAS_URL + "?action=saveKicho&" + params.toString(),
+          GAS_URL + "?kicho=1&" + params.toString(),
+          GAS_URL + "?mode=kicho&" + params.toString()
+        ]);
+
+        setStatus(
+          "ありがとうございました。\nあなたの言葉をご縁帳へ大切に刻みました。"
+        );
+
+        alert("ご縁帳に記帳しました。");
+
+        document.getElementById("visitorName").value = "";
+        document.getElementById("visitorMessage").value = "";
+
+        await loadRecentGoen();
+      } catch (error) {
+        console.error(error);
+        setStatus("記帳できませんでした。通信状況を確認してもう一度お試しください。");
+        alert("記帳できませんでした。通信状況を確認してもう一度お試しください。");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = oldText || "ご縁を記帳する";
+        }
+      }
+    }
+
+    async function loadRecentGoen() {
+      const status = document.getElementById("goenStatus");
+      const listBox = document.getElementById("goenList");
+
+      if (status) {
+        status.innerText = "最近のご縁を読み込んでいます。";
+      }
+
+      if (listBox) {
+        listBox.innerHTML = "";
+      }
+
+      try {
+        const data = await tryManyJson([
+          GAS_URL + "?goen=1&t=" + Date.now(),
+          GAS_URL + "?mode=goen&t=" + Date.now(),
+          GAS_URL + "?action=goen&t=" + Date.now(),
+          GAS_URL + "?type=goen&t=" + Date.now()
+        ]);
+
+        const list = extractList(data).slice(0, 5);
+
+        if (!list || !list.length) {
+          renderEmptyGoen();
+          return;
+        }
+
+        renderGoenList(list);
+
+        if (status) {
+          status.innerText = "最近のご縁を表示しました。";
+        }
+      } catch (error) {
+        console.warn(error);
+        renderErrorGoen();
+      }
+    }
+
+    function renderGoenList(list) {
+      const listBox = document.getElementById("goenList");
+
+      if (!listBox) {
+        return;
+      }
+
+      listBox.innerHTML = "";
+
+      let count = 0;
+
+      list.forEach(function(item) {
+        const goen = normalizeGoenItem(item);
+
+        if (!goen.message && !goen.name && !goen.area) {
+          return;
+        }
+
+        count++;
+
+        const card = document.createElement("article");
+        card.className = "goenItem";
+
+        const title = document.createElement("h2");
+        title.className = "goenTitle";
+        title.innerText = goen.area || "ご縁";
+        card.appendChild(title);
+
+        const date = document.createElement("p");
+        date.className = "goenDate";
+        date.innerText =
+          (goen.date ? goen.date : "") +
+          (goen.name ? "　" + goen.name : "");
+        card.appendChild(date);
+
+        const body = document.createElement("p");
+        body.className = "goenBody";
+        body.innerText =
+          goen.message ||
+          "田子山富士へご縁をいただきました。";
+        card.appendChild(body);
+
+        listBox.appendChild(card);
+      });
+
+      if (!count) {
+        renderEmptyGoen();
+      }
+    }
+
+    function renderEmptyGoen() {
+      const status = document.getElementById("goenStatus");
+      const listBox = document.getElementById("goenList");
+
+      if (status) {
+        status.innerText = "現在表示できるご縁はありません。";
+      }
+
+      if (listBox) {
+        listBox.innerHTML =
+          '<article class="goenItem">' +
+          '<h2 class="goenTitle">最近のご縁</h2>' +
+          '<p class="goenBody">現在表示できるご縁はありません。</p>' +
+          '</article>';
+      }
+    }
+
+    function renderErrorGoen() {
+      const status = document.getElementById("goenStatus");
+      const listBox = document.getElementById("goenList");
+
+      if (status) {
+        status.innerText = "最近のご縁を読み込めませんでした。";
+      }
+
+      if (listBox) {
+        listBox.innerHTML =
+          '<article class="goenItem">' +
+          '<h2 class="goenTitle">読み込みエラー</h2>' +
+          '<p class="goenBody">通信状況を確認して、もう一度お試しください。</p>' +
+          '</article>';
+      }
+    }
+
+    function normalizeGoenItem(item) {
+      item = item || {};
+
+      const area =
+        getFirst(
+          item.area,
+          item.from,
+          item.place,
+          item.地域,
+          item.住所,
+          item.どこから
+        );
+
+      const name =
+        getFirst(
+          item.name,
+          item.visitorName,
+          item.nickname,
+          item.名前,
+          item.お名前,
+          "匿名"
+        );
+
+      const message =
+        getFirst(
+          item.message,
+          item.text,
+          item.body,
+          item.comment,
+          item.メッセージ,
+          item.本文,
+          item.内容
+        );
+
+      const date =
+        formatDateText(
+          getFirst(
+            item.date,
+            item.createdAt,
+            item.time,
+            item.日時,
+            item.日付
+          )
+        );
+
+      return {
+        area: area,
+        name: name,
+        message: message,
+        date: date
+      };
+    }
+
+    function setStatus(text) {
+      const el = document.getElementById("statusBox");
+
+      if (el) {
+        el.innerText = text;
+      }
+    }
+
+    async function tryManyJson(urls) {
+      let lastError = null;
+
+      for (let i = 0; i < urls.length; i++) {
+        try {
+          const data = await getJson(urls[i]);
+
+          if (data !== null && data !== undefined) {
+            return data;
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("通信に失敗しました。");
+    }
+
+    async function getJson(url) {
+      try {
+        const res = await fetch(url, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+
+        const text = await res.text();
+        return parseJsonText(text);
+      } catch (fetchError) {
+        return await getJsonp(url);
+      }
+    }
+
+    function parseJsonText(text) {
+      const value = String(text || "").trim();
+
+      if (!value) {
+        throw new Error("empty response");
+      }
+
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        const start = value.indexOf("{");
+        const end = value.lastIndexOf("}");
+
+        if (start >= 0 && end > start) {
+          return JSON.parse(value.substring(start, end + 1));
+        }
+
+        throw error;
+      }
+    }
+
+    function getJsonp(url) {
+      return new Promise(function(resolve, reject) {
+        const callbackName =
+          "tagoyamaKichoCallback_" +
+          Date.now() +
+          "_" +
+          Math.floor(Math.random() * 1000000);
+
+        const script = document.createElement("script");
+        const sep = url.indexOf("?") >= 0 ? "&" : "?";
+
+        const timer = setTimeout(function() {
+          cleanup();
+          reject(new Error("JSONP timeout"));
+        }, 12000);
+
+        window[callbackName] = function(data) {
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = function() {
+          cleanup();
+          reject(new Error("JSONP error"));
+        };
+
+        script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+        document.body.appendChild(script);
+
+        function cleanup() {
+          clearTimeout(timer);
+
+          try {
+            delete window[callbackName];
+          } catch (error) {
+            window[callbackName] = undefined;
+          }
+
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        }
+      });
+    }
+
+    function extractList(data) {
+      if (!data) {
+        return [];
+      }
+
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      if (Array.isArray(data.list)) {
+        return data.list;
+      }
+
+      if (Array.isArray(data.rows)) {
+        return data.rows;
+      }
+
+      if (Array.isArray(data.items)) {
+        return data.items;
+      }
+
+      if (Array.isArray(data.data)) {
+        return data.data;
+      }
+
+      if (data.data && Array.isArray(data.data.list)) {
+        return data.data.list;
+      }
+
+      if (data.data && Array.isArray(data.data.rows)) {
+        return data.data.rows;
+      }
+
+      if (data.data && Array.isArray(data.data.items)) {
+        return data.data.items;
+      }
+
+      return [];
+    }
+
+    function formatDateText(value) {
+      const text = getString(value);
+
+      if (!text) {
+        return "";
+      }
+
+      return text
+        .replace(/-/g, "/")
+        .replace(/\./g, "/")
+        .replace(/\s.*$/, "");
+    }
+
+    function getString(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value).trim();
+    }
+
+    function getFirst() {
+      for (let i = 0; i < arguments.length; i++) {
+        const value = getString(arguments[i]);
+
+        if (value) {
+          return value;
+        }
+      }
+
+      return "";
+    }
+
+    window.saveKicho = saveKicho;
+  </script>
 </body>
-
 </html>
-
