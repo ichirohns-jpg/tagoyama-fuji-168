@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>田子山富士 テストデータ削除</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#000;
+  color:#fff7ca;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+}
+
+.page{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:24px 16px 48px;
+}
+
+.card{
+  margin:16px 0;
+  padding:24px 16px;
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(44,28,0,.95),rgba(10,10,10,.96));
+  border:2px solid rgba(255,220,95,.58);
+}
+
+h1{
+  margin:0 0 18px;
+  color:#ffdf72;
+  font-size:clamp(32px,9vw,60px);
+  text-align:center;
+}
+
+.text{
+  margin:0 0 20px;
+  font-size:clamp(18px,5vw,30px);
+  font-weight:900;
+  line-height:1.6;
+  text-align:center;
+}
+
+.btn{
+  width:100%;
+  min-height:70px;
+  border:none;
+  border-radius:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:clamp(20px,5.5vw,34px);
+  font-weight:900;
+  color:#271400;
+  background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
+}
+
+.blackBtn{
+  margin-top:14px;
+  color:#fff;
+  background:linear-gradient(180deg,#323232 0%,#050505 100%);
+}
+</style>
+</head>
+
+<body>
+<main class="page">
+  <section class="card">
+    <h1>テストデータ削除</h1>
+
+    <p class="text" id="message">
+      古い登頂記念証データを削除します。
+    </p>
+
+    <button class="btn" type="button" onclick="clearData()">
+      古いデータを削除する
+    </button>
+
+    <a class="btn blackBtn" href="index.html">
+      トップへ戻る
+    </a>
+  </section>
+</main>
+
+<script>
+function clearData(){
+  const keys = [
+    "tagoyamaClimbData",
+    "tagoyamaLastClimbCount",
+    "tagoyamaLastSerialNo",
+    "tagoyamaLastDate",
+    "tagoyamaLastImageUrl",
+    "tagoyamaLastParticipantNo",
+    "tagoyamaOmikujiResult",
+    "tagoyamaNewsList",
+    "tagoyamaLastNews",
+    "tagoyamaArchiveList",
+    "tagoyamaGoenList",
+    "tagoyamaKichoList",
+    "tagoyamaLastGoen",
+    "tagoyamaLastKicho"
+  ];
+
+  keys.forEach(function(key){
+    localStorage.removeItem(key);
+  });
+
+  document.getElementById("message").innerText =
+    "古いテストデータを削除しました。";
+
+  alert("古いテストデータを削除しました。");
+}
+</script>
+</body>
+</html>
