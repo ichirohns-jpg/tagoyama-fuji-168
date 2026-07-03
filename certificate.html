@@ -656,7 +656,7 @@ function renderCertificate(data){
   const count =
     normalizeNumberText(data.climbCount);
 
-  const serial =
+  let serial =
     cleanSerialNo(data.serialNo);
 
   const date =
@@ -665,10 +665,9 @@ function renderCertificate(data){
   const imageUrl =
     getString(data.imageUrl);
 
-  const hasValidData =
-    imageUrl &&
-    serial &&
-    !isTestSerial(serial);
+  if(isTestSerial(serial)){
+    serial = "";
+  }
 
   if(climbTitle){
     climbTitle.innerText =
@@ -689,7 +688,7 @@ function renderCertificate(data){
       date || "";
   }
 
-  if(hasValidData && image){
+  if(imageUrl && image){
     image.onload = function(){
       if(imageBox){
         imageBox.style.display = "block";
@@ -740,10 +739,7 @@ function renderCertificate(data){
   certificateData.climbCount = count;
   certificateData.serialNo = serial;
   certificateData.lastDate = date;
-  certificateData.imageUrl =
-    hasValidData
-      ? imageUrl
-      : "";
+  certificateData.imageUrl = imageUrl;
 }
 
 function updateLinks(){
@@ -903,7 +899,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=20260704final-clean";
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704success";
 }
 
 function makeShareText(){
@@ -1106,7 +1102,6 @@ function removeTestData(data){
     data.climbCount = "";
     data.serialNo = "";
     data.lastDate = "";
-    data.imageUrl = "";
   }
 
   return data;
@@ -1126,7 +1121,6 @@ function saveDataToLocal(data){
       localStorage.removeItem("tagoyamaLastClimbCount");
       localStorage.removeItem("tagoyamaLastSerialNo");
       localStorage.removeItem("tagoyamaLastDate");
-      localStorage.removeItem("tagoyamaLastImageUrl");
       return;
     }
 
@@ -1151,7 +1145,7 @@ function saveDataToLocal(data){
       localStorage.setItem("tagoyamaLastImageUrl", data.imageUrl);
     }
 
-    if(data.imageUrl && data.serialNo){
+    if(data.imageUrl){
       localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
     }
   }catch(error){
