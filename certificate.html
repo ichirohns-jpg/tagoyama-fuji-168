@@ -344,7 +344,7 @@ canvas {
       </button>
 
       <button class="btn blueBtn" type="button" onclick="copyShareText()">
-        結果をコピー
+        Facebook用リンクをコピー
       </button>
 
       <a class="linkBtn redBtn" id="omikujiLink" href="omikuji.html">
@@ -357,7 +357,7 @@ canvas {
     </div>
 
     <p class="notice">
-      保存画像には黒い文字枠を入れず、画像の上に文字だけを重ねます。
+      Facebookには短い共有専用リンクだけを渡します。
     </p>
   </section>
 
@@ -384,6 +384,9 @@ const SHARE_CERTIFICATE_PAGE =
 
 const OMIKUJI_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
+
+const SHARE_VERSION =
+  "20260703-fixed-certificate";
 
 const FALLBACK_IMAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate";
@@ -836,7 +839,7 @@ async function saveCertificateImage() {
       await navigator.share({
         files: [file],
         title: "田子山富士 登頂記念証",
-        text: makeShareText()
+        text: "田子山富士 登頂記念証"
       });
       return;
     }
@@ -1038,7 +1041,7 @@ function sendLine() {
     "https://social-plugins.line.me/lineit/share?url=" +
     encodeURIComponent(url) +
     "&text=" +
-    encodeURIComponent(makeShareText());
+    encodeURIComponent("田子山富士 登頂記念証");
 
   location.href = shareUrl;
 }
@@ -1048,7 +1051,7 @@ function postX() {
 
   const shareUrl =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(makeShareText()) +
+    encodeURIComponent("田子山富士 登頂記念証") +
     "&url=" +
     encodeURIComponent(url);
 
@@ -1056,14 +1059,11 @@ function postX() {
 }
 
 async function copyShareText() {
-  const text =
-    makeShareText() +
-    "\n" +
-    buildShareUrl();
+  const text = buildShareUrl();
 
   try {
     await navigator.clipboard.writeText(text);
-    alert("登頂記念証の内容をコピーしました。");
+    alert("Facebook用の短いリンクをコピーしました。");
   } catch (error) {
     const area = document.createElement("textarea");
     area.value = text;
@@ -1074,54 +1074,16 @@ async function copyShareText() {
     area.select();
     document.execCommand("copy");
     area.remove();
-    alert("登頂記念証の内容をコピーしました。");
+    alert("Facebook用の短いリンクをコピーしました。");
   }
 }
 
 function buildShareUrl() {
-  const params = new URLSearchParams();
-
-  if (certificateData.climbCount) {
-    params.set("c", normalizeNumberText(certificateData.climbCount));
-  }
-
-  if (certificateData.serialNo) {
-    params.set("s", cleanSerialNo(certificateData.serialNo));
-  }
-
-  if (certificateData.lastDate) {
-    params.set("d", formatDateText(certificateData.lastDate));
-  }
-
-  if (certificateData.participantNo) {
-    params.set("p", normalizeNumberText(certificateData.participantNo));
-  }
-
-  const imgid = getDriveId(certificateData.imageUrl);
-
-  if (imgid) {
-    params.set("imgid", imgid);
-  }
-
-  params.set("v", "20260703");
-
-  return SHARE_CERTIFICATE_PAGE + "?" + params.toString();
+  return SHARE_CERTIFICATE_PAGE + "?v=" + encodeURIComponent(SHARE_VERSION);
 }
 
 function makeShareText() {
-  const climbCount =
-    normalizeNumberText(certificateData.climbCount) || "1";
-
-  const serial =
-    cleanSerialNo(certificateData.serialNo) || "1-0001";
-
-  const date =
-    formatDateText(certificateData.lastDate) || todayText();
-
-  return "田子山富士 登頂記念証\n" +
-    "第" + climbCount + "回 登頂記念\n" +
-    "No." + serial + "\n" +
-    date;
+  return "田子山富士 登頂記念証";
 }
 
 function handleImageError() {
