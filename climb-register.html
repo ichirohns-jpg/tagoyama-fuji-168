@@ -1,158 +1,408 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>田子山富士 登頂登録中</title>
 
-<title>登頂登録中</title>
+  <meta name="description" content="田子山富士168の縁プロジェクト 登頂登録中ページです。">
+  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+  <meta property="og:title" content="田子山富士 登頂登録中">
+  <meta property="og:description" content="田子山富士の登頂記録を準備しています。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/climb-register.html">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-register">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-register">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="田子山富士 登頂登録中">
+  <meta property="og:locale" content="ja_JP">
 
-<style>
-body{
-margin:0;
-background:#0b0b0b;
-color:#fff;
-font-family:"Hiragino Sans","Yu Gothic",sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-text-align:center;
-}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="田子山富士 登頂登録中">
+  <meta name="twitter:description" content="田子山富士の登頂記録を準備しています。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-register">
 
-.box{
-max-width:600px;
-padding:30px;
-}
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/climb-register.html">
+  <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-.title{
-font-size:32px;
-font-weight:900;
-color:#d4af37;
-margin-bottom:20px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.msg{
-font-size:20px;
-line-height:1.8;
-}
-</style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 36%),
+        linear-gradient(180deg, #221600 0%, #070707 48%, #000000 100%);
+      color: #fff7ca;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
 
+    body {
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 12px 48px;
+    }
+
+    .hero {
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    .logoBox {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 220, 95, 0.80);
+      background: #000000;
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.50),
+        0 0 18px rgba(255, 210, 80, 0.22);
+    }
+
+    .logoBox img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .siteTitle {
+      margin: 0;
+      font-size: clamp(36px, 10vw, 70px);
+      line-height: 1.16;
+      font-weight: 900;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.92),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
+
+    .siteSub {
+      margin: 10px 0 0;
+      font-size: clamp(20px, 5.5vw, 34px);
+      line-height: 1.45;
+      font-weight: 900;
+      color: #fff3c4;
+      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.88);
+    }
+
+    .card {
+      margin: 16px 0;
+      padding: 20px 14px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
+        linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
+      border: 2px solid rgba(255, 220, 95, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
+        0 12px 28px rgba(0, 0, 0, 0.42);
+    }
+
+    .cardTitle {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 8.4vw, 54px);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.90),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
+
+    .lead {
+      margin: 0 0 16px;
+      color: #fff1bd;
+      text-align: center;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .statusBox {
+      margin: 18px 0 0;
+      padding: 18px 14px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 220, 140, 0.34);
+      font-size: clamp(18px, 4.8vw, 28px);
+      font-weight: 900;
+      line-height: 1.65;
+      color: #fff3c4;
+      text-align: center;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btnArea {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn,
+    .linkBtn {
+      width: 100%;
+      min-height: 70px;
+      border: none;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: center;
+      box-shadow:
+        0 7px 0 rgba(0, 0, 0, 0.32),
+        0 13px 22px rgba(0, 0, 0, 0.34);
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+    }
+
+    .btn:active,
+    .linkBtn:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.32),
+        0 8px 14px rgba(0, 0, 0, 0.32);
+    }
+
+    .goldBtn {
+      color: #271400;
+      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
+    }
+
+    .blueBtn {
+      background: linear-gradient(180deg, #2e83ff 0%, #0b4fc4 100%);
+    }
+
+    .blackBtn {
+      background: linear-gradient(180deg, #323232 0%, #050505 100%);
+    }
+
+    .footer {
+      margin: 28px 0 0;
+      text-align: center;
+      color: #c9b56b;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        border-radius: 26px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .btn,
+      .linkBtn {
+        min-height: 66px;
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <main class="page">
 
-<div class="box">
+    <header class="hero">
+      <div class="logoBox">
+        <img
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+          alt="田子山富士"
+          onerror="this.style.display='none'"
+        >
+      </div>
 
-<div class="title">
-登頂登録中
-</div>
+      <h1 class="siteTitle">田子山富士</h1>
+      <p class="siteSub">登頂登録中</p>
+    </header>
 
-<div class="msg">
-少々お待ちください
-</div>
+    <section class="card">
+      <h2 class="cardTitle">登頂受付へ進みます</h2>
 
-</div>
+      <p class="lead">
+        登頂情報を準備しています。
+        自動で登頂受付ページへ移動します。
+      </p>
 
-<script>
+      <div class="statusBox" id="statusBox">
+        移動先を確認しています。
+      </div>
 
-const GAS_URL =
-"https://script.google.com/macros/s/AKfycbz3ybiLZLGAAnm994iRgJXQkCxSVULCJe5TxCuaOzEFQRrI4P-GVNdMbkgg_Tte1al9jg/exec";
+      <div class="btnArea">
+        <a class="linkBtn goldBtn" id="mainLink" href="index.html">
+          登頂受付へ進む
+        </a>
 
-let userId =
-localStorage.getItem(
-"tagoyamaUserId"
-);
+        <a class="linkBtn blueBtn" id="certificateLink" href="certificate.html">
+          登頂記念証を見る
+        </a>
 
-if(!userId){
+        <a class="linkBtn blackBtn" href="index.html">
+          トップへ戻る
+        </a>
+      </div>
+    </section>
 
-userId =
-"TGF-" +
-Math.random()
-.toString(36)
-.substring(2,10)
-.toUpperCase();
+    <footer class="footer">
+      田子山富士 168の縁プロジェクト<br>
+      登頂登録中
+    </footer>
+  </main>
 
-localStorage.setItem(
-"tagoyamaUserId",
-userId
-);
+  <script>
+    const INDEX_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/index.html";
 
-}
+    const CERTIFICATE_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
-const today =
-new Date()
-.toISOString()
-.slice(0,10);
+    let targetUrl = INDEX_PAGE;
+    let certificateUrl = CERTIFICATE_PAGE;
 
-const todayKey =
-"tagoyama-climb-" +
-today;
+    document.addEventListener("DOMContentLoaded", function() {
+      initRegisterPage();
+    });
 
-const savedSerial =
-localStorage.getItem(
-todayKey
-);
+    function initRegisterPage() {
+      const userId = getOrCreateUserId();
 
-if(savedSerial){
+      saveUserId(userId);
 
-location.href =
-"index.html?serial=" +
-encodeURIComponent(
-savedSerial
-);
+      targetUrl =
+        INDEX_PAGE +
+        "?userId=" +
+        encodeURIComponent(userId) +
+        "&from=climb-register" +
+        "&v=20260703";
 
-}else{
+      certificateUrl =
+        CERTIFICATE_PAGE +
+        "?userId=" +
+        encodeURIComponent(userId) +
+        "&from=climb-register" +
+        "&v=20260703";
 
-fetch(
-GAS_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-mode:"climb",
-userId:userId
-})
-}
-)
-.then(
-r=>r.json()
-)
-.then(
-data=>{
+      const mainLink = document.getElementById("mainLink");
+      const certificateLink = document.getElementById("certificateLink");
 
-const serial =
-data.serial ||
-"1-0001";
+      if (mainLink) {
+        mainLink.href = targetUrl;
+      }
 
-localStorage.setItem(
-todayKey,
-serial
-);
+      if (certificateLink) {
+        certificateLink.href = certificateUrl;
+      }
 
-location.href =
-"index.html?serial=" +
-encodeURIComponent(
-serial
-);
+      setStatus("登頂受付ページへ移動します。\n\n" + targetUrl);
 
-})
-.catch(
-err=>{
+      setTimeout(function() {
+        window.location.replace(targetUrl);
+      }, 900);
+    }
 
-alert(
-"登頂登録に失敗しました"
-);
+    function getOrCreateUserId() {
+      const params = new URLSearchParams(window.location.search);
 
-console.log(
-err
-);
+      const fromUrl =
+        getString(
+          params.get("userId") ||
+          params.get("userid") ||
+          params.get("uid") ||
+          params.get("id") ||
+          ""
+        );
 
-});
+      if (fromUrl) {
+        return fromUrl;
+      }
 
-}
+      const saved =
+        getString(
+          localStorage.getItem("tagoyamaUserId") ||
+          localStorage.getItem("tagoyamaFujiUserId") ||
+          ""
+        );
 
-</script>
+      if (saved) {
+        return saved;
+      }
 
+      return createUserId();
+    }
+
+    function createUserId() {
+      const now = Date.now();
+      const rand = Math.random().toString(36).slice(2, 10);
+
+      return "tagoyama-" + now + "-" + rand;
+    }
+
+    function saveUserId(userId) {
+      if (!userId) {
+        return;
+      }
+
+      try {
+        localStorage.setItem("tagoyamaUserId", userId);
+        localStorage.setItem("tagoyamaFujiUserId", userId);
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+
+    function setStatus(text) {
+      const el = document.getElementById("statusBox");
+
+      if (el) {
+        el.innerText = text;
+      }
+    }
+
+    function getString(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value).trim();
+    }
+  </script>
 </body>
 </html>
