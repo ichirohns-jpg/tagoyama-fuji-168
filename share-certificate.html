@@ -8,11 +8,11 @@
   <meta name="description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 登頂記念証">
-  <meta property="og:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
+  <meta property="og:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,9 +21,10 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 登頂記念証">
-  <meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
+  <meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
 
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html">
   <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
   <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
@@ -91,8 +92,8 @@
 
     .siteTitle {
       margin: 0;
-      font-size: clamp(34px, 9vw, 62px);
-      line-height: 1.18;
+      font-size: clamp(34px, 9vw, 64px);
+      line-height: 1.16;
       font-weight: 900;
       color: #ffdf72;
       text-shadow:
@@ -141,6 +142,7 @@
       font-size: clamp(19px, 5.2vw, 32px);
       font-weight: 900;
       line-height: 1.55;
+      white-space: pre-wrap;
     }
 
     .certificateWrap {
@@ -255,6 +257,7 @@
         0 7px 0 rgba(0, 0, 0, 0.32),
         0 13px 22px rgba(0, 0, 0, 0.34);
       -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
     }
 
     .btn:active,
@@ -344,16 +347,16 @@
         <img
           id="certificateImage"
           class="certificateImage"
-          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate"
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate"
           alt="田子山富士 登頂記念証"
           onerror="handleImageError()"
         >
 
         <div class="certOverlay">
           <h2 class="climbTitle" id="climbTitle">登頂記念</h2>
-          <p class="serialNo" id="serialNo">No.取得中</p>
-          <p class="dateText" id="dateText">日付取得中</p>
-          <p class="participantText" id="participantText">参加人数 取得中</p>
+          <p class="serialNo" id="serialNo">No.田子山富士</p>
+          <p class="dateText" id="dateText">田子山富士</p>
+          <p class="participantText" id="participantText">参加人数 168の縁</p>
         </div>
       </div>
 
@@ -395,9 +398,6 @@
   </div>
 
   <script>
-    const SITE_BASE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
     const SHARE_CERTIFICATE_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
 
@@ -405,13 +405,13 @@
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
     const HOME_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/index.html";
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
     const FALLBACK_LOGO =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
     const FALLBACK_OGP =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate";
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate";
 
     let shareData = {
       userId: "",
@@ -600,7 +600,7 @@
         params.set("imageUrl", data.imageUrl);
       }
 
-      params.set("v", "20260704");
+      params.set("v", "20260703");
 
       return CERTIFICATE_PAGE + "?" + params.toString();
     }
@@ -636,7 +636,7 @@
         params.set("imgid", driveId);
       }
 
-      params.set("v", "20260704");
+      params.set("v", "20260703");
 
       return SHARE_CERTIFICATE_PAGE + "?" + params.toString();
     }
@@ -729,7 +729,9 @@
         return;
       }
 
-      if (image.src !== FALLBACK_LOGO) {
+      if (image.src !== FALLBACK_OGP) {
+        image.src = FALLBACK_OGP;
+      } else if (image.src !== FALLBACK_LOGO) {
         image.src = FALLBACK_LOGO;
       }
     }
