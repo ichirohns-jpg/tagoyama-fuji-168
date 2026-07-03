@@ -70,35 +70,35 @@ body{
 
 .card{
   margin:16px 0;
-  padding:20px 14px;
-  border-radius:28px;
+  padding:22px 14px;
+  border-radius:30px;
   background:
-    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
-    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
-  border:2px solid rgba(255,220,95,.58);
+    radial-gradient(circle at top, rgba(255,224,120,.18), rgba(0,0,0,0) 48%),
+    linear-gradient(180deg, rgba(44,28,0,.94), rgba(8,8,8,.96));
+  border:2px solid rgba(255,220,95,.62);
   box-shadow:
     0 0 0 1px rgba(255,230,150,.10) inset,
-    0 12px 28px rgba(0,0,0,.42);
+    0 14px 30px rgba(0,0,0,.46);
 }
 
 .pageTitle{
   margin:0 0 18px;
   color:#ffdf72;
-  font-size:clamp(36px,10vw,68px);
+  font-size:clamp(38px,10.5vw,72px);
   font-weight:900;
   text-align:center;
-  line-height:1.18;
+  line-height:1.14;
   text-shadow:
     0 4px 4px rgba(0,0,0,.92),
-    0 0 18px rgba(255,210,80,.28);
+    0 0 18px rgba(255,210,80,.30);
 }
 
 .statusBox{
   margin:0 0 18px;
   padding:18px 14px;
   border-radius:22px;
-  background:rgba(0,0,0,.28);
-  border:1px solid rgba(255,220,140,.30);
+  background:rgba(0,0,0,.30);
+  border:1px solid rgba(255,220,140,.34);
   font-size:clamp(18px,4.8vw,28px);
   font-weight:900;
   line-height:1.6;
@@ -110,17 +110,22 @@ body{
 .certificateWrap{
   width:100%;
   background:#000;
+  border-radius:22px;
+  overflow:hidden;
 }
 
 .imageBox{
+  display:none;
   position:relative;
   width:100%;
   margin:0;
   padding:0;
   background:#000;
   overflow:hidden;
-  border-radius:18px;
-  border:1px solid rgba(255,220,95,.42);
+  border-radius:22px;
+  border:1px solid rgba(255,220,95,.46);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.42);
 }
 
 .memorialImage{
@@ -135,65 +140,97 @@ body{
 
 .overlayBottom{
   position:absolute;
-  left:5%;
-  right:5%;
-  bottom:7%;
+  left:4.5%;
+  right:4.5%;
+  bottom:6.5%;
+  padding:10px 6px 12px;
   text-align:center;
   pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.30));
+  border-radius:22px;
 }
 
 .climbTitle{
   margin:0 0 8px;
   font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
-  font-size:clamp(24px,6.7vw,46px);
+  font-size:clamp(23px,6.4vw,46px);
   font-weight:900;
   color:#ffdf72;
-  line-height:1.2;
+  line-height:1.22;
   text-shadow:
     0 2px 4px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.85),
-    0 0 16px rgba(255,210,80,.35);
+    0 0 10px rgba(0,0,0,.88),
+    0 0 16px rgba(255,210,80,.38);
 }
 
 .serialNo{
   margin:0 0 8px;
-  font-size:clamp(32px,9vw,66px);
+  font-size:clamp(31px,8.6vw,64px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.08;
   letter-spacing:.01em;
   text-shadow:
     0 3px 5px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.85);
+    0 0 10px rgba(0,0,0,.88);
 }
 
 .dateText{
   margin:0;
-  font-size:clamp(24px,6.5vw,46px);
+  font-size:clamp(24px,6.4vw,46px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.15;
   letter-spacing:.03em;
   text-shadow:
     0 3px 5px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.85);
+    0 0 10px rgba(0,0,0,.88);
 }
 
 .noImageBox{
-  display:none;
+  display:flex;
   width:100%;
-  min-height:420px;
+  min-height:430px;
   align-items:center;
   justify-content:center;
-  padding:30px 18px;
-  background:#050505;
-  border:1px solid rgba(255,220,95,.35);
-  border-radius:18px;
+  flex-direction:column;
+  gap:14px;
+  padding:34px 18px;
+  background:
+    radial-gradient(circle at top, rgba(255,220,95,.12), rgba(0,0,0,0) 44%),
+    linear-gradient(180deg,#0b0b0b,#000);
+  border:1px solid rgba(255,220,95,.42);
+  border-radius:22px;
   color:#fff3c4;
+  text-align:center;
+}
+
+.noImageTitle{
+  margin:0;
+  color:#ffdf72;
+  font-size:clamp(28px,7.8vw,52px);
+  font-weight:900;
+  line-height:1.25;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.90),
+    0 0 18px rgba(255,210,80,.28);
+}
+
+.noImageText{
+  margin:0;
+  color:#fff1bd;
   font-size:clamp(18px,5vw,30px);
   font-weight:900;
-  line-height:1.7;
-  text-align:center;
+  line-height:1.65;
+}
+
+.noImageMini{
+  margin:0;
+  color:#d9c886;
+  font-size:clamp(14px,4vw,22px);
+  font-weight:800;
+  line-height:1.55;
 }
 
 .btnArea{
@@ -290,6 +327,10 @@ body{
     min-height:66px;
     border-radius:22px;
   }
+
+  .noImageBox{
+    min-height:380px;
+  }
 }
 </style>
 </head>
@@ -301,7 +342,7 @@ body{
   <h1 class="pageTitle">登頂記念証</h1>
 
   <div class="statusBox" id="statusBox">
-    登頂記録を読み込んでいます。
+    登頂記録を確認しています。
   </div>
 
   <div class="certificateWrap" id="certificateWrap">
@@ -320,8 +361,15 @@ body{
     </div>
 
     <div class="noImageBox" id="noImageBox">
-      記念画像を読み込めませんでした。<br>
-      登頂記録を確認してください。
+      <p class="noImageTitle">登頂記念証</p>
+      <p class="noImageText">
+        記念画像を読み込めませんでした。<br>
+        トップから登頂記念証を受け取ってください。
+      </p>
+      <p class="noImageMini">
+        登頂回数・記念番号・日付は、<br>
+        登頂記録から自動で表示されます。
+      </p>
     </div>
   </div>
 
@@ -664,11 +712,11 @@ function renderCertificate(data){
     image.src = imageUrl;
   }else{
     if(imageBox){
-      imageBox.style.display = "block";
+      imageBox.style.display = "none";
     }
 
     if(noImageBox){
-      noImageBox.style.display = "none";
+      noImageBox.style.display = "flex";
     }
 
     if(image){
@@ -831,7 +879,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=20260704newgas";
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704finalfix";
 }
 
 function makeShareText(){
@@ -928,13 +976,19 @@ function getJsonp(url){
       "_" +
       Math.floor(Math.random() * 1000000);
 
-    const script = document.createElement("script");
-    const sep = url.indexOf("?") >= 0 ? "&" : "?";
+    const script =
+      document.createElement("script");
 
-    const timer = setTimeout(function(){
-      cleanup();
-      reject(new Error("JSONP timeout"));
-    },12000);
+    const sep =
+      url.indexOf("?") >= 0
+        ? "&"
+        : "?";
+
+    const timer =
+      setTimeout(function(){
+        cleanup();
+        reject(new Error("JSONP timeout"));
+      },12000);
 
     window[callbackName] = function(data){
       cleanup();
@@ -946,7 +1000,12 @@ function getJsonp(url){
       reject(new Error("JSONP error"));
     };
 
-    script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+    script.src =
+      url +
+      sep +
+      "callback=" +
+      encodeURIComponent(callbackName);
+
     document.body.appendChild(script);
 
     function cleanup(){
