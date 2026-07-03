@@ -225,8 +225,10 @@ body{
 }
 
 .btn:disabled{
-  opacity:.55;
+  opacity:.50;
   pointer-events:none;
+  transform:none;
+  filter:grayscale(.2);
 }
 
 .goldBtn{
@@ -331,7 +333,7 @@ body{
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" id="certificateBtn" type="button" onclick="openCertificate()">
+    <button class="btn goldBtn" id="certificateBtn" type="button" onclick="openCertificate()" disabled>
       登頂記念証を受け取る
     </button>
   </div>
@@ -380,6 +382,8 @@ let climbData = null;
 window.addEventListener("load", initPage);
 
 async function initPage(){
+  setCertificateButton(false);
+
   currentUserId = getUserIdFromUrl();
 
   if(currentUserId){
@@ -397,7 +401,8 @@ async function initPage(){
   if(currentUserId){
     await saveClimbByUserId(currentUserId);
   }else{
-    setStatus("メニューから各ページへお進みください。");
+    setStatus("QRコードから入ると登頂記念証を受け取れます。");
+    setCertificateButton(false);
   }
 }
 
@@ -457,6 +462,7 @@ async function loadStats(){
 }
 
 async function saveClimbByUserId(userId){
+  setCertificateButton(false);
   setStatus("登頂記録を確認しています。");
 
   try{
@@ -499,9 +505,12 @@ async function saveClimbByUserId(userId){
       setStatus("登頂記録を受け付けました。記念証をお受け取りください。");
     }
 
+    setCertificateButton(true);
+
   }catch(error){
     console.warn(error);
     setStatus("登頂記録を確認できませんでした。時間をおいて再度お試しください。");
+    setCertificateButton(false);
   }
 }
 
@@ -566,8 +575,7 @@ function normalizeClimbData(data,userId){
         data.participantCount,
         data.participants,
         data.totalParticipants,
-        data.total,
-        data.count
+        data.total
       ),
 
     participantCount:
@@ -626,48 +634,56 @@ function saveClimbDataToLocal(data){
   }
 }
 
-function openCertificate(){
-  const data =
+async function openCertificate(){
+  let data =
     climbData ||
     getSavedClimbData();
 
+  if(!data && currentUserId){
+    await saveClimbByUserId(currentUserId);
+    data =
+      climbData ||
+      getSavedClimbData();
+  }
+
+  if(!data || !data.imageUrl || !data.serialNo){
+    alert("登頂記念証の準備がまだ完了していません。少し待ってからもう一度押してください。");
+    return;
+  }
+
   const params = new URLSearchParams();
 
-  if(currentUserId){
+  if(data.userId){
+    params.set("userId", data.userId);
+  }else if(currentUserId){
     params.set("userId", currentUserId);
   }
 
-  if(data){
-    if(data.userId){
-      params.set("userId", data.userId);
-    }
-
-    if(data.climbCount){
-      params.set("climbCount", data.climbCount);
-    }
-
-    if(data.serialNo){
-      params.set("serialNo", data.serialNo);
-    }
-
-    if(data.lastDate){
-      params.set("lastDate", data.lastDate);
-    }
-
-    if(data.imageNo){
-      params.set("imageNo", data.imageNo);
-    }
-
-    if(data.imageName){
-      params.set("imageName", data.imageName);
-    }
-
-    if(data.imageUrl){
-      params.set("imageUrl", data.imageUrl);
-    }
+  if(data.climbCount){
+    params.set("climbCount", data.climbCount);
   }
 
-  params.set("v","20260704newgas");
+  if(data.serialNo){
+    params.set("serialNo", data.serialNo);
+  }
+
+  if(data.lastDate){
+    params.set("lastDate", data.lastDate);
+  }
+
+  if(data.imageNo){
+    params.set("imageNo", data.imageNo);
+  }
+
+  if(data.imageName){
+    params.set("imageName", data.imageName);
+  }
+
+  if(data.imageUrl){
+    params.set("imageUrl", data.imageUrl);
+  }
+
+  params.set("v","20260704indexfix");
 
   location.href =
     "certificate.html?" +
@@ -798,6 +814,15 @@ function setParticipantCount(value){
 
   if(el){
     el.innerText = getString(value) || "--";
+  }
+}
+
+function setCertificateButton(enabled){
+  const btn =
+    document.getElementById("certificateBtn");
+
+  if(btn){
+    btn.disabled = !enabled;
   }
 }
 
