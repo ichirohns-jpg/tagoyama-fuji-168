@@ -268,7 +268,7 @@ body{
     </button>
 
     <button class="btn blueBtn" type="button" onclick="copyShareText()">
-      リンクをコピー
+      投稿文をコピー
     </button>
 
     <a class="linkBtn redBtn" id="omikujiLink" href="omikuji.html">
@@ -281,7 +281,7 @@ body{
   </div>
 
   <p class="notice">
-    登頂記念画像をそのまま表示します。
+    Facebook投稿時は、投稿文をコピーしてから共有画面を開きます。
   </p>
 </section>
 
@@ -634,7 +634,18 @@ function downloadBlob(blob, filename){
   }, 3000);
 }
 
-function postFacebook(){
+async function postFacebook(){
+  const text =
+    makeShareText() +
+    "\n" +
+    buildShareUrl();
+
+  await copyTextForShare(text);
+
+  alert(
+    "投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。"
+  );
+
   const url =
     "https://www.facebook.com/sharer/sharer.php?u=" +
     encodeURIComponent(buildShareUrl());
@@ -668,21 +679,9 @@ async function copyShareText(){
     "\n" +
     buildShareUrl();
 
-  try{
-    await navigator.clipboard.writeText(text);
-    alert("登頂記念証の共有文をコピーしました。");
-  }catch(error){
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.style.position = "fixed";
-    area.style.left = "-9999px";
-    document.body.appendChild(area);
-    area.focus();
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-    alert("登頂記念証の共有文をコピーしました。");
-  }
+  await copyTextForShare(text);
+
+  alert("登頂記念証の投稿文をコピーしました。");
 }
 
 function buildShareUrl(){
@@ -693,6 +692,22 @@ function makeShareText(){
   return "田子山富士 登頂記念証\n" +
     "田子山富士に登頂したご縁を、記念証として残します。\n\n" +
     "#田子山富士 #敷島神社 #志木市";
+}
+
+async function copyTextForShare(text){
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(error){
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
 }
 
 function handleImageError(){
