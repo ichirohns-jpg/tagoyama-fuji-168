@@ -8,11 +8,11 @@
   <meta name="description" content="田子山富士168の縁プロジェクト 登頂記念証">
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 登頂記念証">
-  <meta property="og:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
+  <meta property="og:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,8 +21,12 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 登頂記念証">
-  <meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。次はぜひ、あなたも田子山富士へ。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate">
+  <meta name="twitter:description" content="田子山富士に登ってきました。山頂でいただいたご縁を、みなさんにもおすそ分けします。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate">
+
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html">
+  <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
   <style>
     * {
@@ -114,6 +118,7 @@
       padding: 20px 14px;
       border-radius: 28px;
       background:
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
         linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
       border: 2px solid rgba(255, 220, 95, 0.58);
       box-shadow:
@@ -259,6 +264,7 @@
         0 7px 0 rgba(0, 0, 0, 0.32),
         0 13px 22px rgba(0, 0, 0, 0.34);
       -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
     }
 
     .btn:active,
@@ -291,6 +297,10 @@
 
     .blackBtn {
       background: linear-gradient(180deg, #323232 0%, #050505 100%);
+    }
+
+    .redBtn {
+      background: linear-gradient(180deg, #ff7b6e 0%, #d71920 100%);
     }
 
     .footer {
@@ -353,7 +363,7 @@
         <img
           id="certificateImage"
           class="certificateImage"
-          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate"
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate"
           alt="田子山富士 登頂記念証"
           onerror="handleImageError()"
         >
@@ -391,11 +401,11 @@
           結果をコピー
         </button>
 
-        <a class="linkBtn goldBtn" id="omikujiBtn" href="omikuji.html">
+        <a class="linkBtn redBtn" id="omikujiBtn" href="omikuji.html">
           おみくじへ
         </a>
 
-        <a class="linkBtn blueBtn" id="topBtn" href="index.html">
+        <a class="linkBtn blackBtn" id="topBtn" href="index.html">
           トップへ戻る
         </a>
       </div>
@@ -416,14 +426,23 @@
     const SITE_BASE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
+    const CERTIFICATE_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
+
+    const SHARE_CERTIFICATE_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+
+    const OMIKUJI_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
+
+    const HOME_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
+
     const FALLBACK_LOGO =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
     const FALLBACK_OGP =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260704-certificate";
-
-    const SHARE_CERTIFICATE_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-certificate.jpg?v=20260703-certificate";
 
     let currentData = {
       userId: "",
@@ -468,14 +487,20 @@
         localStorage.setItem("tagoyamaFujiUserId", userId);
       }
 
-      if (paramData.climbCount || paramData.serialNo || paramData.lastDate || paramData.imageUrl || paramData.participantNo) {
+      if (
+        paramData.climbCount ||
+        paramData.serialNo ||
+        paramData.lastDate ||
+        paramData.imageUrl ||
+        paramData.participantNo
+      ) {
         currentData = mergeData(currentData, paramData);
         saveLocalData(currentData);
         renderCertificate(currentData);
         setStatus("登頂記録を表示しました。");
       }
 
-      setOmikujiLink(userId);
+      setLinks(userId);
 
       if (!userId) {
         if (!paramData.climbCount && !paramData.serialNo) {
@@ -527,11 +552,11 @@
       const encodedUserId = encodeURIComponent(userId);
 
       const urls = [
-        GAS_URL + "?climbHistory&userId=" + encodedUserId,
-        GAS_URL + "?climbHistory=1&userId=" + encodedUserId,
-        GAS_URL + "?action=climbHistory&userId=" + encodedUserId,
-        GAS_URL + "?mode=climbHistory&userId=" + encodedUserId,
-        GAS_URL + "?userId=" + encodedUserId
+        GAS_URL + "?climbHistory&userId=" + encodedUserId + "&t=" + Date.now(),
+        GAS_URL + "?climbHistory=1&userId=" + encodedUserId + "&t=" + Date.now(),
+        GAS_URL + "?action=climbHistory&userId=" + encodedUserId + "&t=" + Date.now(),
+        GAS_URL + "?mode=climbHistory&userId=" + encodedUserId + "&t=" + Date.now(),
+        GAS_URL + "?userId=" + encodedUserId + "&t=" + Date.now()
       ];
 
       let lastError = null;
@@ -694,7 +719,8 @@
             source.participant_no,
             source.people,
             source.total,
-            source.totalCount
+            source.totalCount,
+            source.participantCount
           )
         )
       };
@@ -810,17 +836,22 @@
       }
     }
 
-    function setOmikujiLink(userId) {
-      const link = document.getElementById("omikujiBtn");
+    function setLinks(userId) {
+      const omikujiBtn = document.getElementById("omikujiBtn");
+      const topBtn = document.getElementById("topBtn");
 
-      if (!link) {
-        return;
+      if (omikujiBtn) {
+        omikujiBtn.href =
+          userId
+            ? OMIKUJI_PAGE + "?userId=" + encodeURIComponent(userId)
+            : OMIKUJI_PAGE;
       }
 
-      if (userId) {
-        link.href = "omikuji.html?userId=" + encodeURIComponent(userId);
-      } else {
-        link.href = "omikuji.html";
+      if (topBtn) {
+        topBtn.href =
+          userId
+            ? HOME_PAGE + "?userId=" + encodeURIComponent(userId)
+            : HOME_PAGE;
       }
     }
 
@@ -831,7 +862,9 @@
         return;
       }
 
-      if (img.src !== FALLBACK_LOGO) {
+      if (img.src !== FALLBACK_OGP) {
+        img.src = FALLBACK_OGP;
+      } else if (img.src !== FALLBACK_LOGO) {
         img.src = FALLBACK_LOGO;
       }
     }
@@ -892,6 +925,10 @@
 
         downloadBlob(blob, fileName);
       } catch (error) {
+        if (error && error.name === "AbortError") {
+          return;
+        }
+
         console.error(error);
         alert("登頂記念証の画像保存に失敗しました。もう一度押してください。");
       } finally {
@@ -1114,7 +1151,17 @@
       return value;
     }
 
-    function certCreateCertificateBlob(baseImage, data) {
+    async function certCreateCertificateBlob(baseImage, data) {
+      const blob = await certTryCreateBlob(baseImage, data);
+
+      if (blob) {
+        return blob;
+      }
+
+      return await certTryCreateBlob(null, data);
+    }
+
+    function certTryCreateBlob(baseImage, data) {
       return new Promise(function(resolve) {
         const canvas = document.getElementById("saveCanvas") || document.createElement("canvas");
         const ctx = canvas.getContext("2d");
@@ -1125,9 +1172,9 @@
         canvas.width = width;
         canvas.height = height;
 
-        certDrawCertificateCanvas(ctx, width, height, baseImage, data);
-
         try {
+          certDrawCertificateCanvas(ctx, width, height, baseImage, data);
+
           canvas.toBlob(function(blob) {
             resolve(blob || null);
           }, "image/png");
@@ -1400,7 +1447,7 @@
         p.set("imgid", imgid);
       }
 
-      p.set("v", "20260704");
+      p.set("v", "20260703");
 
       return SHARE_CERTIFICATE_PAGE + "?" + p.toString();
     }
