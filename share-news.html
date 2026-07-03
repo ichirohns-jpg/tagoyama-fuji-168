@@ -4,26 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-<title>田子山富士 お知らせ</title>
+<title>田子山富士からのお知らせ</title>
 
 <meta name="description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
-<meta property="og:title" content="田子山富士 お知らせ">
-<meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:title" content="田子山富士からのお知らせ">
+<meta property="og:description" content="保存会・地域からのお知らせを掲載しています。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html?v=20260703-toponly">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-toponly">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-toponly">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="田子山富士 お知らせ">
+<meta property="og:image:alt" content="田子山富士からのお知らせ">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="田子山富士 お知らせ">
-<meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-toponly">
+<meta name="twitter:title" content="田子山富士からのお知らせ">
+<meta name="twitter:description" content="保存会・地域からのお知らせを掲載しています。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -39,8 +40,10 @@ body{
   padding:0;
   width:100%;
   min-height:100%;
-  background:#000;
-  color:#fff;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
+    linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
+  color:#fff7ca;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -60,41 +63,120 @@ body{
   width:100%;
   max-width:760px;
   margin:0 auto;
-  padding:0 0 36px;
+  padding:16px 12px 48px;
+}
+
+.hero{
+  text-align:center;
+  margin:0 0 16px;
+}
+
+.logoFrame{
+  width:120px;
+  height:120px;
+  margin:0 auto 14px;
+  border-radius:28px;
+  overflow:hidden;
   background:#000;
+  border:3px solid rgba(255,220,95,.80);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.50),
+    0 0 18px rgba(255,210,80,.22);
 }
 
-.imageOnly{
-  margin:0;
-  padding:0;
-  width:100%;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  box-shadow:none;
-}
-
-.shareImage{
+.logoFrame img{
   display:block;
   width:100%;
-  height:auto;
+  height:100%;
+  object-fit:cover;
+}
+
+.mainTitle{
   margin:0;
-  padding:0;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  box-shadow:none;
+  font-size:clamp(38px,10.5vw,72px);
+  line-height:1.16;
+  font-weight:900;
+  color:#ffdf72;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.92),
+    0 0 18px rgba(255,210,80,.28);
+}
+
+.mainSubTitle{
+  margin:10px 0 0;
+  font-size:clamp(19px,5.2vw,32px);
+  line-height:1.45;
+  font-weight:900;
+  color:#fff3c4;
+  text-shadow:0 3px 3px rgba(0,0,0,.88);
+}
+
+.card{
+  margin:16px 0;
+  padding:22px 14px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
+    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
+  border:2px solid rgba(255,220,95,.58);
+  box-shadow:
+    0 0 0 1px rgba(255,230,150,.10) inset,
+    0 12px 28px rgba(0,0,0,.42);
+}
+
+.newsImage{
+  display:none;
+  width:100%;
+  height:auto;
+  margin:0 0 16px;
+  border-radius:18px;
+  background:#000;
+  border:1px solid rgba(255,220,95,.42);
+}
+
+.newsTitle{
+  margin:0 0 12px;
+  color:#ffdf72;
+  font-size:clamp(28px,7.6vw,52px);
+  font-weight:900;
+  line-height:1.35;
+  text-align:center;
+  text-shadow:
+    0 3px 4px rgba(0,0,0,.90),
+    0 0 14px rgba(255,210,80,.22);
+}
+
+.newsDate{
+  margin:0 0 16px;
+  color:#fff1bd;
+  font-size:clamp(17px,4.8vw,28px);
+  font-weight:900;
+  line-height:1.45;
+  text-align:center;
+}
+
+.newsText{
+  margin:0;
+  color:#fff7ca;
+  font-size:clamp(19px,5.1vw,32px);
+  font-weight:900;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+
+.emptyText{
+  margin:0;
+  color:#fff3c4;
+  font-size:clamp(19px,5.1vw,32px);
+  font-weight:900;
+  line-height:1.7;
+  text-align:center;
 }
 
 .btnArea{
   display:grid;
-  gap:14px;
-  margin:18px 12px 0;
-  padding:0;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  box-shadow:none;
+  gap:12px;
+  margin-top:18px;
 }
 
 .linkBtn{
@@ -130,10 +212,38 @@ body{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
+.blueBtn{
+  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
+}
+
+.footer{
+  margin:28px 0 0;
+  text-align:center;
+  color:#c9b56b;
+  font-weight:800;
+  line-height:1.6;
+}
+
 @media (max-width:420px){
+  .page{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .card{
+    border-radius:26px;
+    padding-left:14px;
+    padding-right:14px;
+  }
+
   .linkBtn{
     min-height:66px;
     border-radius:22px;
+  }
+
+  .logoFrame{
+    width:112px;
+    height:112px;
   }
 }
 </style>
@@ -142,20 +252,236 @@ body{
 <body>
 <main class="page">
 
-  <section class="imageOnly">
+<header class="hero">
+  <div class="logoFrame">
     <img
-      class="shareImage"
-      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-toponly"
-      alt="田子山富士 お知らせ"
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+      alt="田子山富士"
+      onerror="this.style.display='none'"
     >
-  </section>
+  </div>
+
+  <h1 class="mainTitle">お知らせ</h1>
+  <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
+</header>
+
+<section class="card" id="articleCard">
+  <img
+    id="newsImage"
+    class="newsImage"
+    alt="田子山富士からのお知らせ"
+  >
+
+  <h2 class="newsTitle" id="newsTitle">
+    田子山富士からのお知らせ
+  </h2>
+
+  <p class="newsDate" id="newsDate"></p>
+
+  <p class="newsText" id="newsText"></p>
+
+  <p class="emptyText" id="emptyText" style="display:none;">
+    お知らせ本文を表示できませんでした。<br>
+    お知らせ一覧からご確認ください。
+  </p>
 
   <div class="btnArea">
-    <a class="linkBtn blackBtn" href="index.html">
+    <a class="linkBtn blueBtn" id="newsLink" href="news.html">
+      お知らせ一覧へ戻る
+    </a>
+
+    <a class="linkBtn blackBtn" id="topLink" href="index.html">
       トップへ戻る
     </a>
   </div>
+</section>
+
+<footer class="footer">
+  田子山富士 168の縁プロジェクト<br>
+  お知らせ
+</footer>
 
 </main>
+
+<script>
+window.addEventListener("load", initShareNews);
+
+function initShareNews(){
+  const params =
+    new URLSearchParams(location.search);
+
+  const title =
+    getString(params.get("title")) ||
+    "田子山富士からのお知らせ";
+
+  const date =
+    formatDateText(
+      getString(params.get("date"))
+    );
+
+  const text =
+    getString(params.get("text"));
+
+  const imageUrl =
+    getString(params.get("imageUrl"));
+
+  const userId =
+    getString(params.get("userId")) ||
+    getString(params.get("userid")) ||
+    getString(params.get("uid")) ||
+    getString(localStorage.getItem("tagoyamaUserId")) ||
+    getString(localStorage.getItem("tagoyamaFujiUserId"));
+
+  renderArticle({
+    title:title,
+    date:date,
+    text:text,
+    imageUrl:imageUrl
+  });
+
+  updateLinks(userId);
+  updateMeta(title,text,imageUrl);
+}
+
+function renderArticle(item){
+  const image = document.getElementById("newsImage");
+  const title = document.getElementById("newsTitle");
+  const date = document.getElementById("newsDate");
+  const text = document.getElementById("newsText");
+  const empty = document.getElementById("emptyText");
+
+  if(title){
+    title.innerText =
+      item.title ||
+      "田子山富士からのお知らせ";
+  }
+
+  if(date){
+    if(item.date){
+      date.style.display = "block";
+      date.innerText = item.date;
+    }else{
+      date.style.display = "none";
+      date.innerText = "";
+    }
+  }
+
+  if(text){
+    if(item.text){
+      text.style.display = "block";
+      text.innerText = item.text;
+    }else{
+      text.style.display = "none";
+      text.innerText = "";
+    }
+  }
+
+  if(empty){
+    empty.style.display =
+      item.text
+        ? "none"
+        : "block";
+  }
+
+  if(image){
+    if(item.imageUrl){
+      image.style.display = "block";
+      image.src = item.imageUrl;
+      image.onerror = function(){
+        this.style.display = "none";
+      };
+    }else{
+      image.style.display = "none";
+      image.removeAttribute("src");
+    }
+  }
+}
+
+function updateLinks(userId){
+  const query =
+    userId
+      ? "?userId=" + encodeURIComponent(userId)
+      : "";
+
+  const topLink =
+    document.getElementById("topLink");
+
+  const newsLink =
+    document.getElementById("newsLink");
+
+  if(topLink){
+    topLink.href =
+      "index.html" + query;
+  }
+
+  if(newsLink){
+    newsLink.href =
+      "news.html" + query;
+  }
+}
+
+function updateMeta(title,text,imageUrl){
+  document.title =
+    title ||
+    "田子山富士からのお知らせ";
+
+  setMeta("description", text || "田子山富士168の縁プロジェクトからのお知らせです。");
+  setOg("og:title", title || "田子山富士からのお知らせ");
+  setOg("og:description", text || "保存会・地域からのお知らせを掲載しています。");
+
+  if(imageUrl){
+    setOg("og:image", imageUrl);
+    setOg("og:image:secure_url", imageUrl);
+    setMeta("twitter:image", imageUrl);
+  }
+
+  setMeta("twitter:title", title || "田子山富士からのお知らせ");
+  setMeta("twitter:description", text || "保存会・地域からのお知らせを掲載しています。");
+}
+
+function setMeta(name,value){
+  const el =
+    document.querySelector(
+      'meta[name="' + name + '"]'
+    );
+
+  if(el){
+    el.setAttribute("content", value);
+  }
+}
+
+function setOg(property,value){
+  const el =
+    document.querySelector(
+      'meta[property="' + property + '"]'
+    );
+
+  if(el){
+    el.setAttribute("content", value);
+  }
+}
+
+function formatDateText(value){
+  const text =
+    getString(value);
+
+  if(!text){
+    return "";
+  }
+
+  return text
+    .replace(/-/g,"/")
+    .replace(/\./g,"/")
+    .replace(/\s.*$/,"");
+}
+
+function getString(value){
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+}
+</script>
 </body>
 </html>
