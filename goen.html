@@ -195,10 +195,6 @@ body{
   background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
 }
 
-.blueBtn{
-  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
-}
-
 .greenBtn{
   background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
 }
@@ -255,10 +251,6 @@ body{
   <div class="btnArea">
     <a class="linkBtn goldBtn" id="kichoLink" href="kicho.html">
       参拝記帳へ
-    </a>
-
-    <a class="linkBtn blueBtn" id="certificateLink" href="certificate.html">
-      登頂記念証へ
     </a>
 
     <a class="linkBtn greenBtn" id="omikujiLink" href="omikuji.html">
@@ -325,7 +317,6 @@ function updateLinks(){
 
   setHref("topLink", "index.html" + query);
   setHref("kichoLink", "kicho.html" + query);
-  setHref("certificateLink", "certificate.html" + query);
   setHref("omikujiLink", "omikuji.html" + query);
 }
 
