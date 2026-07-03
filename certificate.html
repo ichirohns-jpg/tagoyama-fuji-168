@@ -119,6 +119,8 @@ body{
   padding:0;
   background:#000;
   overflow:hidden;
+  border-radius:18px;
+  border:1px solid rgba(255,220,95,.42);
 }
 
 .memorialImage{
@@ -129,40 +131,6 @@ body{
   padding:0;
   border:none;
   background:#000;
-}
-
-.overlayTop{
-  position:absolute;
-  top:5%;
-  left:5%;
-  right:5%;
-  text-align:center;
-  pointer-events:none;
-}
-
-.overlayTitleSmall{
-  margin:0 0 4px;
-  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
-  font-size:clamp(18px,5vw,34px);
-  font-weight:900;
-  color:#fff7ca;
-  line-height:1.2;
-  text-shadow:
-    0 2px 4px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.85);
-}
-
-.overlayTitleMain{
-  margin:0;
-  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
-  font-size:clamp(28px,7.4vw,54px);
-  font-weight:900;
-  color:#ffdf72;
-  line-height:1.18;
-  text-shadow:
-    0 2px 4px rgba(0,0,0,.95),
-    0 0 12px rgba(0,0,0,.85),
-    0 0 18px rgba(255,210,80,.35);
 }
 
 .overlayBottom{
@@ -220,6 +188,7 @@ body{
   padding:30px 18px;
   background:#050505;
   border:1px solid rgba(255,220,95,.35);
+  border-radius:18px;
   color:#fff3c4;
   font-size:clamp(18px,5vw,30px);
   font-weight:900;
@@ -275,12 +244,12 @@ body{
   background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
 }
 
-.blueBtn{
-  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
-}
-
 .greenBtn{
   background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
+}
+
+.blueBtn{
+  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
 }
 
 .blackBtn{
@@ -343,11 +312,6 @@ body{
         alt="田子山富士 登頂記念証"
       >
 
-      <div class="overlayTop">
-        <p class="overlayTitleSmall">田子山富士</p>
-        <p class="overlayTitleMain">登頂記念証</p>
-      </div>
-
       <div class="overlayBottom">
         <p class="climbTitle" id="climbTitle">第1回 登頂記念</p>
         <p class="serialNo" id="serialNo">No.1-0001</p>
@@ -357,7 +321,7 @@ body{
 
     <div class="noImageBox" id="noImageBox">
       記念画像を読み込めませんでした。<br>
-      画像URLを確認してください。
+      登頂記録を確認してください。
     </div>
   </div>
 
@@ -401,7 +365,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
 const SHARE_CERTIFICATE_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-certificate.html";
@@ -471,11 +435,13 @@ function getDataFromUrl(){
     userId:
       getString(params.get("userId")) ||
       getString(params.get("userid")) ||
-      getString(params.get("uid")),
+      getString(params.get("uid")) ||
+      getString(params.get("id")),
 
     climbCount:
       normalizeNumberText(
         getString(params.get("climbCount")) ||
+        getString(params.get("climbNo")) ||
         getString(params.get("count")) ||
         getString(params.get("c"))
       ),
@@ -524,6 +490,7 @@ function getDataFromLocal(){
     climbCount:
       normalizeNumberText(
         saved.climbCount ||
+        saved.climbNo ||
         saved.count ||
         saved["個人登頂回数"] ||
         localStorage.getItem("tagoyamaLastClimbCount")
@@ -562,9 +529,9 @@ async function loadCertificateFromGas(userId){
 
   try{
     const data = await tryManyJson([
-      GAS_URL + "?mode=getClimb&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
       GAS_URL + "?mode=climbHistory&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
-      GAS_URL + "?mode=receiveCertificate&userId=" + encodeURIComponent(userId) + "&t=" + Date.now()
+      GAS_URL + "?mode=receiveCertificate&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
+      GAS_URL + "?mode=saveClimb&userId=" + encodeURIComponent(userId) + "&t=" + Date.now()
     ]);
 
     const normalized = normalizeGasData(data, userId);
@@ -574,7 +541,7 @@ async function loadCertificateFromGas(userId){
   }
 }
 
-function normalizeGasData(data, userId){
+function normalizeGasData(data,userId){
   const source = flattenObject(data);
 
   return {
@@ -589,11 +556,11 @@ function normalizeGasData(data, userId){
       normalizeNumberText(
         getFirst(
           source.climbCount,
+          source.climbNo,
           source.count,
           source.times,
-          source.climb_count,
-          source.climb,
           source["登頂回数"],
+          source["回数"],
           source["個人登頂回数"]
         )
       ),
@@ -603,11 +570,11 @@ function normalizeGasData(data, userId){
         getFirst(
           source.serialNo,
           source.serial,
-          source.serial_no,
           source.no,
-          source.number,
+          source.certificateNo,
+          source["シリアル番号"],
           source["シリアル"],
-          source["記念番号"]
+          source["No"]
         )
       ),
 
@@ -617,9 +584,9 @@ function normalizeGasData(data, userId){
           source.lastDate,
           source.date,
           source.climbDate,
-          source.createdAt,
           source["日時"],
-          source["日付"]
+          source["日付"],
+          source["登頂日"]
         )
       ),
 
@@ -632,7 +599,8 @@ function normalizeGasData(data, userId){
         source.imgUrl,
         source.img,
         source.url,
-        source["画像URL"]
+        source["画像URL"],
+        source["画像"]
       )
   };
 }
@@ -863,7 +831,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=" + Date.now();
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704newgas";
 }
 
 function makeShareText(){
@@ -997,43 +965,6 @@ function getJsonp(url){
   });
 }
 
-function setStatus(text){
-  const el = document.getElementById("statusBox");
-
-  if(el){
-    el.innerText = text;
-  }
-}
-
-function saveDataToLocal(data){
-  try{
-    if(data.userId){
-      localStorage.setItem("tagoyamaUserId", data.userId);
-      localStorage.setItem("tagoyamaFujiUserId", data.userId);
-    }
-
-    if(data.climbCount){
-      localStorage.setItem("tagoyamaLastClimbCount", data.climbCount);
-    }
-
-    if(data.serialNo){
-      localStorage.setItem("tagoyamaLastSerialNo", data.serialNo);
-    }
-
-    if(data.lastDate){
-      localStorage.setItem("tagoyamaLastDate", data.lastDate);
-    }
-
-    if(data.imageUrl){
-      localStorage.setItem("tagoyamaLastImageUrl", data.imageUrl);
-    }
-
-    localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
-  }catch(error){
-    console.warn(error);
-  }
-}
-
 function flattenObject(data){
   data = data || {};
 
@@ -1080,6 +1011,43 @@ function mergeData(base,add){
   });
 
   return result;
+}
+
+function saveDataToLocal(data){
+  try{
+    if(data.userId){
+      localStorage.setItem("tagoyamaUserId", data.userId);
+      localStorage.setItem("tagoyamaFujiUserId", data.userId);
+    }
+
+    if(data.climbCount){
+      localStorage.setItem("tagoyamaLastClimbCount", data.climbCount);
+    }
+
+    if(data.serialNo){
+      localStorage.setItem("tagoyamaLastSerialNo", data.serialNo);
+    }
+
+    if(data.lastDate){
+      localStorage.setItem("tagoyamaLastDate", data.lastDate);
+    }
+
+    if(data.imageUrl){
+      localStorage.setItem("tagoyamaLastImageUrl", data.imageUrl);
+    }
+
+    localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
+  }catch(error){
+    console.warn(error);
+  }
+}
+
+function setStatus(text){
+  const el = document.getElementById("statusBox");
+
+  if(el){
+    el.innerText = text;
+  }
 }
 
 function normalizeNumberText(value){
