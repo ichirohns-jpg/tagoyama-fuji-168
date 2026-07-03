@@ -29,6 +29,7 @@
 }
 
 body{
+  min-height:100vh;
   background:#050505;
   color:#fff;
   font-family:
@@ -48,20 +49,74 @@ body{
   background:#000;
   border:2px solid #d4af37;
   border-radius:28px;
-  padding:14px;
+  padding:16px;
   box-shadow:
-    0 12px 32px rgba(0,0,0,.45);
+    0 12px 32px rgba(0,0,0,.55);
 }
 
-.certificateImageBox{
+.logo{
+  width:86px;
+  height:86px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto 10px;
+}
+
+.siteTitle{
+  text-align:center;
+  color:#ffe78a;
+  font-size:clamp(24px,7vw,44px);
+  font-weight:900;
+  line-height:1.25;
+  text-shadow:
+    0 3px 8px rgba(0,0,0,.9),
+    0 0 12px rgba(212,175,55,.45);
+  margin-bottom:6px;
+}
+
+.subTitle{
+  text-align:center;
+  color:#fff7d5;
+  font-size:clamp(15px,4vw,22px);
+  font-weight:800;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+h1{
+  text-align:center;
+  color:#ffe78a;
+  font-size:clamp(28px,8vw,54px);
+  line-height:1.2;
+  letter-spacing:.04em;
+  text-shadow:
+    0 3px 8px rgba(0,0,0,.9),
+    0 0 12px rgba(212,175,55,.45);
+  margin-bottom:18px;
+}
+
+.status{
+  border:1px solid rgba(212,175,55,.55);
+  border-radius:24px;
+  padding:20px 14px;
+  text-align:center;
+  color:#fff7d5;
+  font-size:clamp(18px,5vw,28px);
+  font-weight:800;
+  line-height:1.6;
+  margin-bottom:18px;
+}
+
+.certificateBox{
   position:relative;
   width:100%;
-  border-radius:22px;
   overflow:hidden;
+  border-radius:22px;
   background:#111;
+  margin-bottom:18px;
 }
 
-.memorialImage{
+.certificateImage{
   width:100%;
   display:block;
   background:#111;
@@ -71,47 +126,49 @@ body{
   position:absolute;
   left:0;
   right:0;
-  bottom:6%;
+  bottom:7%;
   text-align:center;
   color:#fff;
-  text-shadow:
-    0 2px 6px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.85);
   padding:0 12px;
   pointer-events:none;
+  text-shadow:
+    0 3px 7px rgba(0,0,0,.95),
+    0 0 12px rgba(0,0,0,.9);
 }
 
-.climbTitle{
-  font-size:clamp(24px,7vw,50px);
-  font-weight:800;
-  letter-spacing:.08em;
-  line-height:1.25;
+.climbText{
+  font-size:clamp(24px,7vw,52px);
+  font-weight:900;
+  line-height:1.2;
+  letter-spacing:.06em;
 }
 
 .serialText{
   margin-top:8px;
-  font-size:clamp(18px,5vw,34px);
-  font-weight:700;
-  letter-spacing:.05em;
+  font-size:clamp(22px,6.5vw,48px);
+  font-weight:900;
+  line-height:1.15;
+  letter-spacing:.03em;
 }
 
 .dateText{
-  margin-top:4px;
-  font-size:clamp(15px,4vw,26px);
-  font-weight:600;
+  margin-top:8px;
+  font-size:clamp(18px,5.5vw,36px);
+  font-weight:900;
+  line-height:1.2;
   letter-spacing:.04em;
 }
 
-.loading{
+.note{
   text-align:center;
-  color:#d4af37;
-  padding:36px 10px;
-  line-height:1.8;
+  color:#fff7d5;
+  font-size:15px;
   font-weight:700;
+  line-height:1.7;
+  margin-bottom:18px;
 }
 
 .buttons{
-  margin-top:18px;
   display:grid;
   gap:12px;
 }
@@ -120,16 +177,16 @@ body{
   width:100%;
   border:none;
   border-radius:999px;
-  padding:15px 18px;
-  font-size:17px;
-  font-weight:800;
+  padding:16px 18px;
+  font-size:clamp(19px,5.5vw,30px);
+  font-weight:900;
   line-height:1.2;
   text-align:center;
   text-decoration:none;
   cursor:pointer;
   color:#111;
-  background:linear-gradient(180deg,#f5d66b,#d4af37);
-  box-shadow:0 6px 16px rgba(0,0,0,.35);
+  background:linear-gradient(180deg,#ffe78a,#d4af37);
+  box-shadow:0 8px 18px rgba(0,0,0,.45);
 }
 
 .btn.sub{
@@ -144,31 +201,37 @@ body{
 }
 
 .message{
-  margin-top:12px;
+  margin-top:14px;
   text-align:center;
   color:#d4af37;
-  font-size:14px;
+  font-size:15px;
+  font-weight:800;
   line-height:1.7;
   min-height:1.7em;
 }
 
-.topLink{
-  margin-top:18px;
+.bottom{
+  margin-top:28px;
   text-align:center;
 }
 
-.topLink a{
+.topLink{
   display:inline-block;
   color:#d4af37;
   text-decoration:none;
-  font-weight:800;
+  font-size:20px;
+  font-weight:900;
   border:1px solid #d4af37;
   border-radius:999px;
-  padding:13px 28px;
+  padding:13px 30px;
 }
 
-.hiddenCanvasTarget{
-  background:#000;
+.footer{
+  margin-top:28px;
+  text-align:center;
+  color:#d4af37;
+  font-size:14px;
+  line-height:1.8;
 }
 </style>
 </head>
@@ -176,27 +239,47 @@ body{
 <body>
 
 <div class="wrap">
-
   <div class="card">
 
-    <div id="certificateArea" class="certificateImageBox hiddenCanvasTarget">
-      <div id="loading" class="loading">
-        登頂記念証を読み込んでいます
-      </div>
+    <img class="logo" src="./logo.png" alt="田子山富士">
 
+    <div class="siteTitle">
+      田子山富士
+    </div>
+
+    <div class="subTitle">
+      田子山富士 168の縁プロジェクト
+    </div>
+
+    <h1>登頂記念証</h1>
+
+    <div id="status" class="status">
+      登頂記録を読み込んでいます。
+    </div>
+
+    <div id="certificateArea" class="certificateBox">
       <img
-        id="memorialImage"
-        class="memorialImage"
+        id="certificateImage"
+        class="certificateImage"
+        src="./ogp-certificate.jpg"
         alt="田子山富士 登頂記念証"
-        crossorigin="anonymous"
-        style="display:none;"
       >
 
-      <div id="overlay" class="overlay" style="display:none;">
-        <div id="climbTitle" class="climbTitle">第1回 登頂記念</div>
-        <div id="serialText" class="serialText">No.TEST-0001</div>
-        <div id="dateText" class="dateText">2026/07/03</div>
+      <div class="overlay">
+        <div id="climbText" class="climbText">
+          第1回 登頂記念
+        </div>
+        <div id="serialText" class="serialText">
+          No.TEST-0001
+        </div>
+        <div id="dateText" class="dateText">
+          2026/07/03
+        </div>
       </div>
+    </div>
+
+    <div class="note">
+      登頂記念証を保存したり、SNSでシェアできます。
     </div>
 
     <div class="buttons">
@@ -223,12 +306,16 @@ body{
 
     <div id="message" class="message"></div>
 
-    <div class="topLink">
-      <a href="./index.html">トップへ戻る</a>
+    <div class="bottom">
+      <a class="topLink" href="./index.html">トップへ戻る</a>
+    </div>
+
+    <div class="footer">
+      田子山富士 168の縁プロジェクト<br>
+      登頂記念証
     </div>
 
   </div>
-
 </div>
 
 <script>
@@ -246,41 +333,20 @@ const POST_TEXT =
 const params =
 new URLSearchParams(window.location.search);
 
-const userId =
-params.get("userId") || "";
+const statusBox =
+document.getElementById("status");
 
-let climbCount =
-params.get("climbCount") || "1";
+const certificateImage =
+document.getElementById("certificateImage");
 
-let serialNo =
-params.get("serialNo") || "TEST-0001";
-
-let lastDate =
-params.get("lastDate") || "";
-
-let imageUrl =
-params.get("imageUrl") || "";
-
-const loading =
-document.getElementById("loading");
-
-const memorialImage =
-document.getElementById("memorialImage");
-
-const overlay =
-document.getElementById("overlay");
-
-const climbTitle =
-document.getElementById("climbTitle");
+const climbText =
+document.getElementById("climbText");
 
 const serialText =
 document.getElementById("serialText");
 
 const dateText =
 document.getElementById("dateText");
-
-const message =
-document.getElementById("message");
 
 const saveBtn =
 document.getElementById("saveBtn");
@@ -297,36 +363,67 @@ document.getElementById("xBtn");
 const copyBtn =
 document.getElementById("copyBtn");
 
+const messageBox =
+document.getElementById("message");
+
+let userId =
+params.get("userId") || "";
+
+let climbCount =
+params.get("climbCount") || "";
+
+let serialNo =
+params.get("serialNo") || "";
+
+let lastDate =
+params.get("lastDate") || "";
+
+let imageUrl =
+params.get("imageUrl") || "";
+
 function setMessage(text){
-  message.textContent = text || "";
+  messageBox.textContent =
+  text || "";
 }
 
 function todayText(){
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
+  const d =
+  new Date();
+
+  const y =
+  d.getFullYear();
+
+  const m =
+  String(d.getMonth() + 1).padStart(2,"0");
+
+  const day =
+  String(d.getDate()).padStart(2,"0");
+
   return y + "/" + m + "/" + day;
 }
 
-function applyTexts(){
-  climbCount =
-  String(climbCount || "1")
-  .replace(/[^\d]/g,"") || "1";
-
-  serialNo =
-  String(serialNo || "TEST-0001")
-  .trim();
-
-  lastDate =
-  String(lastDate || "")
-  .trim();
-
-  if(!lastDate){
-    lastDate = todayText();
+function safeText(value){
+  if(value === null || value === undefined){
+    return "";
   }
 
-  climbTitle.textContent =
+  return String(value).trim();
+}
+
+function applyCertificateText(){
+  climbCount =
+  safeText(climbCount) || "1";
+
+  climbCount =
+  climbCount.replace(/[^\d]/g,"") || "1";
+
+  serialNo =
+  safeText(serialNo) || "TEST-0001";
+
+  lastDate =
+  safeText(lastDate) || todayText();
+
+  climbText.textContent =
   "第" + climbCount + "回 登頂記念";
 
   serialText.textContent =
@@ -334,20 +431,6 @@ function applyTexts(){
 
   dateText.textContent =
   lastDate;
-}
-
-function showCertificate(){
-  loading.style.display = "none";
-  memorialImage.style.display = "block";
-  overlay.style.display = "block";
-}
-
-function showNoImage(){
-  loading.innerHTML =
-  "登頂記念証画像を読み込めませんでした<br>" +
-  "時間をおいて、もう一度お試しください";
-  memorialImage.style.display = "none";
-  overlay.style.display = "none";
 }
 
 function waitImageLoaded(img){
@@ -372,8 +455,8 @@ function waitImageLoaded(img){
   });
 }
 
-async function fetchCertificateData(){
-  if(!userId && !serialNo){
+async function readFromGas(){
+  if(!userId){
     return;
   }
 
@@ -389,65 +472,68 @@ async function fetchCertificateData(){
   const data =
   await res.json();
 
-  if(data){
+  if(!data){
+    return;
+  }
 
-    if(data.imageUrl && !imageUrl){
-      imageUrl = data.imageUrl;
-    }
+  if(!params.get("climbCount") && data.climbCount){
+    climbCount =
+    data.climbCount;
+  }
 
-    if(data.climbCount && !params.get("climbCount")){
-      climbCount = data.climbCount;
-    }
+  if(!params.get("serialNo") && data.serialNo){
+    serialNo =
+    data.serialNo;
+  }
 
-    if(data.serialNo && !params.get("serialNo")){
-      serialNo = data.serialNo;
-    }
+  if(!params.get("serialNo") && data.serial){
+    serialNo =
+    data.serial;
+  }
 
-    if(data.serial && !params.get("serialNo")){
-      serialNo = data.serial;
-    }
+  if(!params.get("lastDate") && data.lastDate){
+    lastDate =
+    data.lastDate;
+  }
 
-    if(data.lastDate && !params.get("lastDate")){
-      lastDate = data.lastDate;
-    }
+  if(!params.get("lastDate") && data.date){
+    lastDate =
+    data.date;
+  }
 
-    if(data.date && !params.get("lastDate")){
-      lastDate = data.date;
-    }
+  if(params.get("imageUrl") && imageUrl){
+    certificateImage.src =
+    imageUrl;
   }
 }
 
 async function init(){
-  applyTexts();
+  applyCertificateText();
 
   try{
-    if(!imageUrl){
-      await fetchCertificateData();
-      applyTexts();
+    await readFromGas();
+    applyCertificateText();
+
+    if(imageUrl){
+      certificateImage.src =
+      imageUrl;
     }
 
-    if(!imageUrl){
-      showNoImage();
-      return;
-    }
+    await waitImageLoaded(certificateImage);
 
-    memorialImage.src = imageUrl;
-
-    await waitImageLoaded(memorialImage);
-
-    showCertificate();
+    statusBox.textContent =
+    "登頂記録を表示しました。";
 
   }catch(e){
-    showNoImage();
+    applyCertificateText();
+
+    statusBox.textContent =
+    "登頂記録を表示しました。";
   }
 }
 
-function shareText(){
-  return POST_TEXT + "\n" + SHARE_URL;
-}
-
-async function makeCanvasBlob(){
-  await waitImageLoaded(memorialImage);
+async function makeImageFile(){
+  await waitImageLoaded(certificateImage);
 
   const target =
   document.getElementById("certificateArea");
@@ -462,29 +548,34 @@ async function makeCanvasBlob(){
 
   return new Promise(function(resolve,reject){
     canvas.toBlob(function(blob){
-      if(blob){
-        resolve(blob);
-      }else{
-        reject(new Error("画像保存データを作成できませんでした"));
+      if(!blob){
+        reject(new Error("保存画像を作成できませんでした"));
+        return;
       }
+
+      const file =
+      new File(
+        [blob],
+        "tagoyama-fuji-certificate.png",
+        { type:"image/png" }
+      );
+
+      resolve(file);
+
     },"image/png");
   });
 }
 
 async function saveImage(){
-  saveBtn.disabled = true;
-  saveBtn.textContent = "記念証を授与中...";
+  saveBtn.disabled =
+  true;
+
+  saveBtn.textContent =
+  "画像を準備中...";
 
   try{
-    const blob =
-    await makeCanvasBlob();
-
     const file =
-    new File(
-      [blob],
-      "tagoyama-fuji-certificate.png",
-      { type:"image/png" }
-    );
+    await makeImageFile();
 
     if(
       navigator.canShare &&
@@ -496,17 +587,20 @@ async function saveImage(){
         text:POST_TEXT
       });
 
-      setMessage("画像を共有・保存できます");
+      setMessage("画像を保存・共有できます。");
     }else{
-      setMessage("この端末では画像保存共有に対応していません");
+      setMessage("この端末では画像保存共有に対応していません。");
     }
 
   }catch(e){
-    setMessage("記念画像を読み込めませんでした");
+    setMessage("記念画像を読み込めませんでした。");
   }
 
-  saveBtn.disabled = false;
-  saveBtn.textContent = "画像を保存";
+  saveBtn.disabled =
+  false;
+
+  saveBtn.textContent =
+  "画像を保存";
 }
 
 function openFacebook(){
@@ -537,24 +631,26 @@ function openX(){
   window.open(url,"_blank","noopener,noreferrer");
 }
 
-async function copyPostText(){
+async function copyText(){
   const text =
-  shareText();
+  POST_TEXT + "\n" + SHARE_URL;
 
   try{
     await navigator.clipboard.writeText(text);
-    setMessage("投稿文をコピーしました");
+    setMessage("投稿文をコピーしました。");
   }catch(e){
     const textarea =
     document.createElement("textarea");
 
-    textarea.value = text;
+    textarea.value =
+    text;
+
     document.body.appendChild(textarea);
     textarea.select();
     document.execCommand("copy");
     document.body.removeChild(textarea);
 
-    setMessage("投稿文をコピーしました");
+    setMessage("投稿文をコピーしました。");
   }
 }
 
@@ -562,7 +658,7 @@ saveBtn.addEventListener("click",saveImage);
 facebookBtn.addEventListener("click",openFacebook);
 lineBtn.addEventListener("click",openLine);
 xBtn.addEventListener("click",openX);
-copyBtn.addEventListener("click",copyPostText);
+copyBtn.addEventListener("click",copyText);
 
 init();
 </script>
