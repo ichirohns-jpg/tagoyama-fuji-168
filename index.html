@@ -5,22 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>田子山富士 168の縁プロジェクト</title>
 
-  <meta name="description" content="田子山富士168の縁プロジェクト。登頂記念証、開運おみくじ、お知らせ、参拝記帳、ご縁帳をお楽しみください。">
-
+  <meta name="description" content="田子山富士168の縁プロジェクト。登頂記念証・開運おみくじ・お知らせ・参拝記帳・ご縁帳をお楽しみください。">
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 168の縁プロジェクト">
-  <meta property="og:description" content="田子山富士のご縁を、登頂記念証・開運おみくじ・お知らせ・ご縁帳で楽しめる地域参加型プロジェクトです。">
+  <meta property="og:description" content="田子山富士168の縁プロジェクト。登頂記念証・開運おみくじ・お知らせ・参拝記帳・ご縁帳をお楽しみください。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/">
-  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=20260704-index">
-  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=20260704-index">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-top">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-top">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="田子山富士 168の縁プロジェクト">
   <meta property="og:locale" content="ja_JP">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="田子山富士 168の縁プロジェクト">
-  <meta name="twitter:description" content="田子山富士のご縁を、登頂記念証・開運おみくじ・お知らせ・ご縁帳で楽しめる地域参加型プロジェクトです。">
-  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png?v=20260704-index">
+  <meta name="twitter:description" content="田子山富士168の縁プロジェクト。登頂記念証・開運おみくじ・お知らせ・参拝記帳・ご縁帳をお楽しみください。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-top">
 
   <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
   <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -62,6 +64,10 @@
       padding: 16px 12px 48px;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     .hero {
       text-align: center;
       margin: 0 0 16px;
@@ -88,7 +94,7 @@
 
     .siteTitle {
       margin: 0;
-      font-size: clamp(36px, 10vw, 68px);
+      font-size: clamp(36px, 10vw, 70px);
       line-height: 1.16;
       font-weight: 900;
       color: #ffdf72;
@@ -138,35 +144,42 @@
       font-size: clamp(19px, 5.2vw, 32px);
       font-weight: 900;
       line-height: 1.55;
-      white-space: pre-wrap;
     }
 
     .countBox {
-      margin: 16px 0 0;
-      padding: 18px 14px;
+      margin: 18px 0;
+      padding: 20px 14px;
       border-radius: 24px;
-      background: rgba(0, 0, 0, 0.36);
-      border: 2px solid rgba(255, 220, 95, 0.46);
+      background: rgba(0, 0, 0, 0.44);
+      border: 2px solid rgba(255, 220, 95, 0.48);
       text-align: center;
     }
 
     .countLabel {
       margin: 0;
-      font-size: clamp(20px, 5.6vw, 34px);
+      color: #fff1bd;
+      font-size: clamp(22px, 6vw, 38px);
       font-weight: 900;
-      color: #fff3c4;
       line-height: 1.4;
     }
 
     .countNumber {
-      margin: 6px 0 0;
-      font-size: clamp(54px, 16vw, 96px);
-      font-weight: 900;
+      margin: 6px 0 4px;
       color: #ffdf72;
+      font-size: clamp(52px, 16vw, 104px);
+      font-weight: 900;
       line-height: 1;
       text-shadow:
-        0 4px 4px rgba(0, 0, 0, 0.92),
-        0 0 18px rgba(255, 210, 80, 0.28);
+        0 5px 5px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(255, 210, 80, 0.26);
+    }
+
+    .countNote {
+      margin: 0;
+      color: #d9c886;
+      font-size: clamp(15px, 4.2vw, 24px);
+      font-weight: 800;
+      line-height: 1.5;
     }
 
     .statusBox {
@@ -185,13 +198,6 @@
 
     .btnArea {
       display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .grid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 18px;
     }
@@ -216,13 +222,6 @@
         0 7px 0 rgba(0, 0, 0, 0.32),
         0 13px 22px rgba(0, 0, 0, 0.34);
       -webkit-tap-highlight-color: transparent;
-    }
-
-    .grid2 .btn,
-    .grid2 .linkBtn {
-      min-height: 74px;
-      font-size: clamp(18px, 4.8vw, 30px);
-      padding: 8px;
     }
 
     .btn:active,
@@ -262,75 +261,23 @@
     }
 
     .brownBtn {
-      background: linear-gradient(180deg, #b58932 0%, #5f3510 100%);
+      background: linear-gradient(180deg, #a46b25 0%, #59310d 100%);
     }
 
-    .item {
-      margin: 14px 0;
-      padding: 16px 14px;
-      border-radius: 22px;
-      background: rgba(0, 0, 0, 0.34);
-      border: 1px solid rgba(255, 220, 140, 0.34);
-    }
-
-    .itemTitle {
-      margin: 0 0 8px;
-      color: #ffdf72;
-      font-size: clamp(22px, 6vw, 36px);
-      line-height: 1.35;
-      font-weight: 900;
-    }
-
-    .itemDate {
-      margin: 0 0 8px;
-      color: #d9c886;
-      font-size: clamp(15px, 4.2vw, 22px);
-      font-weight: 900;
-    }
-
-    .itemBody {
-      margin: 0;
-      color: #fff1bd;
-      font-size: clamp(17px, 4.8vw, 28px);
-      line-height: 1.55;
-      font-weight: 800;
-      white-space: pre-wrap;
-    }
-
-    .formArea {
+    .menuGrid {
       display: grid;
       gap: 12px;
-      margin-top: 16px;
-    }
-
-    .input,
-    .select,
-    .textarea {
-      width: 100%;
-      border: 2px solid rgba(255, 220, 95, 0.58);
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.56);
-      color: #fff7ca;
-      padding: 14px 14px;
-      font-size: clamp(18px, 5vw, 28px);
-      font-weight: 800;
-      outline: none;
-    }
-
-    .textarea {
-      min-height: 130px;
-      resize: vertical;
-      line-height: 1.55;
     }
 
     .modal {
-      display: none;
       position: fixed;
       inset: 0;
-      z-index: 50;
-      background: rgba(0, 0, 0, 0.82);
-      padding: 18px 12px;
+      z-index: 1000;
+      display: none;
+      background: rgba(0, 0, 0, 0.78);
+      padding: 14px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .modal.show {
@@ -340,26 +287,98 @@
     .modalInner {
       width: 100%;
       max-width: 760px;
-      margin: 0 auto 40px;
-      padding: 18px 14px 22px;
+      margin: 20px auto 48px;
+      padding: 20px 14px;
       border-radius: 28px;
       background:
-        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
-        linear-gradient(180deg, rgba(44, 28, 0, 0.98), rgba(8, 8, 8, 0.98));
-      border: 2px solid rgba(255, 220, 95, 0.72);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.14), rgba(0, 0, 0, 0) 46%),
+        linear-gradient(180deg, rgba(44, 28, 0, 0.98), rgba(10, 10, 10, 0.98));
+      border: 2px solid rgba(255, 220, 95, 0.62);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.58);
     }
 
-    .closeBtn {
-      margin-top: 16px;
-      width: 100%;
-      min-height: 64px;
-      border: none;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #323232 0%, #050505 100%);
-      color: #ffffff;
-      font-size: clamp(20px, 5.5vw, 32px);
+    .modalTitle {
+      margin: 0 0 16px;
+      color: #ffdf72;
+      font-size: clamp(30px, 8vw, 52px);
       font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .modalText {
+      color: #fff1bd;
+      font-size: clamp(18px, 5vw, 30px);
+      line-height: 1.7;
+      font-weight: 900;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+
+    .listBox {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .listItem {
+      padding: 16px 14px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 220, 140, 0.34);
+      color: #fff7ca;
+    }
+
+    .listItemTitle {
+      margin: 0 0 8px;
+      color: #ffdf72;
+      font-size: clamp(20px, 5.6vw, 34px);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .listItemText {
+      margin: 0;
+      color: #fff1bd;
+      font-size: clamp(16px, 4.6vw, 28px);
+      font-weight: 800;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .formArea {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    label {
+      display: block;
+      color: #fff1bd;
+      font-size: clamp(18px, 5vw, 30px);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    select,
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid rgba(255, 220, 95, 0.55);
+      border-radius: 18px;
+      padding: 14px 12px;
+      background: rgba(0, 0, 0, 0.48);
+      color: #fff7ca;
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: 800;
+      outline: none;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.5;
     }
 
     .footer {
@@ -376,7 +395,8 @@
         padding-right: 12px;
       }
 
-      .card {
+      .card,
+      .modalInner {
         border-radius: 26px;
         padding-left: 14px;
         padding-right: 14px;
@@ -386,10 +406,6 @@
       .linkBtn {
         min-height: 66px;
         border-radius: 22px;
-      }
-
-      .grid2 {
-        gap: 10px;
       }
     }
   </style>
@@ -415,8 +431,9 @@
       <h2 class="cardTitle">参加人数</h2>
 
       <div class="countBox">
-        <p class="countLabel">登頂受付された人数を表示しています</p>
+        <p class="countLabel">現在の参加人数</p>
         <div class="countNumber" id="participantCount">--</div>
+        <p class="countNote">登頂受付された人数を表示しています</p>
       </div>
     </section>
 
@@ -448,9 +465,9 @@
         選んでください。
       </p>
 
-      <div class="grid2">
-        <a class="linkBtn goldBtn" id="omikujiBtn" href="omikuji.html">
-          開運<br>おみくじ
+      <div class="menuGrid">
+        <a class="linkBtn goldBtn" id="omikujiLink" href="omikuji.html">
+          開運おみくじ
         </a>
 
         <button class="btn blueBtn" type="button" onclick="openNews()">
@@ -458,20 +475,18 @@
         </button>
 
         <button class="btn brownBtn" type="button" onclick="openKicho()">
-          参拝<br>記帳
+          参拝記帳
         </button>
 
         <button class="btn greenBtn" type="button" onclick="openGoen()">
           ご縁帳
         </button>
-      </div>
 
-      <div class="btnArea">
         <a
           class="linkBtn blackBtn"
           href="https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E5%AD%90%E5%B1%B1%E5%AF%8C%E5%A3%AB"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
           田子山富士への行き方
         </a>
@@ -484,29 +499,33 @@
     </footer>
   </main>
 
-  <div class="modal" id="newsModal">
+  <section class="modal" id="newsModal">
     <div class="modalInner">
-      <h2 class="cardTitle">お知らせ</h2>
-      <div id="newsList">
-        <div class="item">
-          <p class="itemBody">お知らせを読み込み中です。</p>
-        </div>
+      <h2 class="modalTitle">お知らせ</h2>
+      <div id="newsList" class="listBox">
+        <div class="modalText">お知らせを読み込み中です。</div>
       </div>
-      <button class="closeBtn" type="button" onclick="closeModal('newsModal')">閉じる</button>
+      <div class="btnArea">
+        <button class="btn blackBtn" type="button" onclick="closeModal('newsModal')">
+          閉じる
+        </button>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="modal" id="kichoModal">
+  <section class="modal" id="kichoModal">
     <div class="modalInner">
-      <h2 class="cardTitle">参拝記帳</h2>
-      <p class="lead">
+      <h2 class="modalTitle">参拝記帳</h2>
+
+      <p class="modalText">
         田子山富士への想いを<br>
         ご縁帳に残せます。
       </p>
 
       <div class="formArea">
-        <select class="select" id="kichoArea">
-          <option value="">どこから来ましたか</option>
+        <label for="fromArea">どこから来ましたか</label>
+        <select id="fromArea">
+          <option value="">選択してください</option>
           <option value="志木市">志木市</option>
           <option value="朝霞市">朝霞市</option>
           <option value="新座市">新座市</option>
@@ -519,36 +538,45 @@
           <option value="その他">その他</option>
         </select>
 
-        <input class="input" id="kichoName" type="text" placeholder="お名前">
+        <label for="visitorName">お名前</label>
+        <input id="visitorName" type="text" placeholder="未入力でも大丈夫です">
 
-        <textarea class="textarea" id="kichoMessage" placeholder="メッセージ"></textarea>
-
-        <button class="btn goldBtn" type="button" id="kichoSubmitBtn" onclick="submitKicho()">
-          記帳する
-        </button>
+        <label for="visitorMessage">メッセージ</label>
+        <textarea id="visitorMessage" placeholder="田子山富士への想いを書いてください"></textarea>
       </div>
 
-      <button class="closeBtn" type="button" onclick="closeModal('kichoModal')">閉じる</button>
-    </div>
-  </div>
+      <div class="btnArea">
+        <button class="btn goldBtn" id="saveKichoBtn" type="button" onclick="saveKicho()">
+          記帳する
+        </button>
 
-  <div class="modal" id="goenModal">
+        <button class="btn blackBtn" type="button" onclick="closeModal('kichoModal')">
+          閉じる
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="goenModal">
     <div class="modalInner">
-      <h2 class="cardTitle">ご縁帳</h2>
-      <p class="lead">
+      <h2 class="modalTitle">ご縁帳</h2>
+
+      <p class="modalText">
         田子山富士に集まった<br>
         ご縁の記録です。
       </p>
 
-      <div id="goenList">
-        <div class="item">
-          <p class="itemBody">ご縁帳を読み込み中です。</p>
-        </div>
+      <div id="goenList" class="listBox">
+        <div class="modalText">ご縁帳を読み込み中です。</div>
       </div>
 
-      <button class="closeBtn" type="button" onclick="closeModal('goenModal')">閉じる</button>
+      <div class="btnArea">
+        <button class="btn blackBtn" type="button" onclick="closeModal('goenModal')">
+          閉じる
+        </button>
+      </div>
     </div>
-  </div>
+  </section>
 
   <script>
     const GAS_URL =
@@ -564,34 +592,38 @@
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
     let currentUserId = "";
-    let currentClimbData = null;
-    let newsLoaded = false;
-    let goenLoaded = false;
+    let climbData = null;
 
     document.addEventListener("DOMContentLoaded", function() {
-      initPage();
+      initIndexPage();
     });
 
-    async function initPage() {
-      currentUserId = readUserId();
+    async function initIndexPage() {
+      currentUserId = getUserIdFromUrl();
 
       if (currentUserId) {
         localStorage.setItem("tagoyamaUserId", currentUserId);
         localStorage.setItem("tagoyamaFujiUserId", currentUserId);
+      } else {
+        currentUserId =
+          localStorage.getItem("tagoyamaUserId") ||
+          localStorage.getItem("tagoyamaFujiUserId") ||
+          "";
       }
 
       updateMenuLinks();
-      loadParticipantCount();
+
+      await loadParticipantCount();
 
       if (currentUserId) {
-        await checkClimb(currentUserId);
+        await saveClimbAndPrepareCertificate(currentUserId);
       } else {
-        setClimbStatus("山頂QRから開くと、登頂記念証を受け取れます。");
+        setClimbStatus("山頂QRからアクセスすると、登頂記念証を受け取れます。");
         disableCertificateButton();
       }
     }
 
-    function readUserId() {
+    function getUserIdFromUrl() {
       const params = new URLSearchParams(window.location.search);
 
       return getString(
@@ -599,150 +631,118 @@
         params.get("userid") ||
         params.get("uid") ||
         params.get("id") ||
-        localStorage.getItem("tagoyamaUserId") ||
-        localStorage.getItem("tagoyamaFujiUserId") ||
         ""
       );
     }
 
     function updateMenuLinks() {
-      const omikujiBtn = document.getElementById("omikujiBtn");
+      const omikujiLink = document.getElementById("omikujiLink");
 
-      if (omikujiBtn) {
-        omikujiBtn.href =
+      if (omikujiLink) {
+        omikujiLink.href =
           currentUserId
-            ? OMIKUJI_PAGE + "?userId=" + encodeURIComponent(currentUserId)
-            : OMIKUJI_PAGE;
+            ? "omikuji.html?userId=" + encodeURIComponent(currentUserId)
+            : "omikuji.html";
       }
     }
 
     async function loadParticipantCount() {
-      const el = document.getElementById("participantCount");
+      const countEl = document.getElementById("participantCount");
 
       try {
-        const urls = [
-          GAS_URL + "?mode=stats&t=" + Date.now(),
+        const data = await tryManyJson([
           GAS_URL + "?stats=1&t=" + Date.now(),
-          GAS_URL + "?action=stats&t=" + Date.now()
-        ];
+          GAS_URL + "?mode=stats&t=" + Date.now(),
+          GAS_URL + "?action=stats&t=" + Date.now(),
+          GAS_URL + "?participant=1&t=" + Date.now()
+        ]);
 
-        let data = null;
+        const nested =
+          data && data.data && typeof data.data === "object"
+            ? data.data
+            : {};
 
-        for (let i = 0; i < urls.length; i++) {
-          try {
-            data = await getJson(urls[i]);
-            if (data) break;
-          } catch (error) {
-            console.warn(error);
-          }
-        }
+        const source = Object.assign({}, data || {}, nested);
 
-        const count = getParticipantCount(data);
+        const count =
+          normalizeNumberText(
+            getFirst(
+              source.participantNo,
+              source.participantCount,
+              source.participant,
+              source.total,
+              source.totalCount,
+              source.count,
+              source.people,
+              source.参加人数,
+              source.参加者数
+            )
+          );
 
-        if (el) {
-          el.innerText = count || "--";
+        if (countEl) {
+          countEl.innerText = count || "--";
         }
       } catch (error) {
         console.warn(error);
 
-        if (el) {
-          el.innerText = "--";
+        if (countEl) {
+          countEl.innerText = "--";
         }
       }
     }
 
-    function getParticipantCount(data) {
-      data = data || {};
-
-      const nested =
-        data.data && typeof data.data === "object"
-          ? data.data
-          : {};
-
-      const source = Object.assign({}, data, nested);
-
-      return normalizeNumberText(
-        getFirst(
-          source.participantNo,
-          source.participant,
-          source.participantCount,
-          source.total,
-          source.totalCount,
-          source.count,
-          source.people,
-          source.参加人数,
-          source.参加者数
-        )
-      );
-    }
-
-    async function checkClimb(userId) {
+    async function saveClimbAndPrepareCertificate(userId) {
       setClimbStatus("登頂情報を確認しています...");
 
       try {
-        const data = await saveOrLoadClimb(userId);
-        const clean = normalizeClimbData(data, userId);
+        const data = await tryManyJson([
+          GAS_URL + "?userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
+          GAS_URL + "?saveClimb=1&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
+          GAS_URL + "?mode=saveClimb&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
+          GAS_URL + "?action=saveClimb&userId=" + encodeURIComponent(userId) + "&t=" + Date.now()
+        ]);
 
-        currentClimbData = clean;
-        saveClimbLocal(clean);
+        climbData = normalizeClimbData(data, userId);
 
-        if (hasClimbData(clean)) {
-          setClimbStatus(
-            "登頂受付が完了しました。\n登頂記念証を受け取れます。"
-          );
-          enableCertificateButton(clean);
-        } else {
-          setClimbStatus(
-            "登頂情報を確認しました。\n登頂記念証を受け取れます。"
-          );
-          enableCertificateButton(clean);
+        if (!climbData.userId) {
+          climbData.userId = userId;
         }
+
+        saveClimbLocal(climbData);
+        enableCertificateButton(climbData);
+        updateMenuLinks();
+
+        const participant =
+          getFirst(climbData.participantNo, climbData.participantCount);
+
+        if (participant) {
+          const countEl = document.getElementById("participantCount");
+          if (countEl) {
+            countEl.innerText = participant;
+          }
+        }
+
+        setClimbStatus(
+          "登頂受付が完了しました。\n登頂記念証を受け取れます。"
+        );
       } catch (error) {
         console.error(error);
 
-        const localData = loadClimbLocal();
+        const local = loadClimbLocal();
 
-        if (hasClimbData(localData)) {
-          currentClimbData = localData;
+        if (local && local.userId) {
+          climbData = local;
+          enableCertificateButton(climbData);
           setClimbStatus(
-            "前回の登頂記録を表示できます。\n登頂記念証を受け取れます。"
+            "前回の登頂情報を表示しています。\n登頂記念証を受け取れます。"
           );
-          enableCertificateButton(localData);
         } else {
-          setClimbStatus(
-            "登頂情報を確認できませんでした。\n山頂QRからもう一度お試しください。"
-          );
           disableCertificateButton();
+          setClimbStatus(
+            "登頂情報を確認できませんでした。\n通信状況を確認して、山頂QRからもう一度お試しください。"
+          );
         }
       }
-    }
-
-    async function saveOrLoadClimb(userId) {
-      const encodedUserId = encodeURIComponent(userId);
-
-      const urls = [
-        GAS_URL + "?userId=" + encodedUserId + "&t=" + Date.now(),
-        GAS_URL + "?mode=saveClimb&userId=" + encodedUserId + "&t=" + Date.now(),
-        GAS_URL + "?action=saveClimb&userId=" + encodedUserId + "&t=" + Date.now(),
-        GAS_URL + "?climbHistory&userId=" + encodedUserId + "&t=" + Date.now(),
-        GAS_URL + "?mode=climbHistory&userId=" + encodedUserId + "&t=" + Date.now()
-      ];
-
-      let lastError = null;
-
-      for (let i = 0; i < urls.length; i++) {
-        try {
-          const data = await getJson(urls[i]);
-
-          if (data && typeof data === "object") {
-            return data;
-          }
-        } catch (error) {
-          lastError = error;
-        }
-      }
-
-      throw lastError || new Error("登頂情報を取得できませんでした。");
     }
 
     function normalizeClimbData(data, userId) {
@@ -756,7 +756,7 @@
       const source = Object.assign({}, data, nested);
 
       return {
-        userId: getFirst(source.userId, source.uid, source.id, userId),
+        userId: getFirst(source.userId, source.uid, userId),
         climbCount: normalizeNumberText(
           getFirst(
             source.climbCount,
@@ -784,39 +784,27 @@
         ),
         imageNo: getFirst(source.imageNo, source.image_no),
         imageName: getFirst(source.imageName, source.image_name, source.title, source.name),
-        imageUrl: normalizeImageUrl(
-          getFirst(
-            source.imageUrl,
-            source.certificateImageUrl,
-            source.certificateUrl,
-            source.image,
-            source.imgUrl,
-            source.img,
-            source.url
-          )
+        imageUrl: getFirst(
+          source.imageUrl,
+          source.certificateImageUrl,
+          source.certificateUrl,
+          source.image,
+          source.imgUrl,
+          source.img,
+          source.url
         ),
         participantNo: normalizeNumberText(
           getFirst(
             source.participantNo,
             source.participant,
             source.participant_no,
+            source.participantCount,
             source.people,
             source.total,
             source.totalCount
           )
         )
       };
-    }
-
-    function hasClimbData(data) {
-      data = data || {};
-
-      return Boolean(
-        getString(data.userId) ||
-        getString(data.climbCount) ||
-        getString(data.serialNo) ||
-        getString(data.lastDate)
-      );
     }
 
     function enableCertificateButton(data) {
@@ -826,8 +814,8 @@
         return;
       }
 
-      btn.classList.remove("disabled");
       btn.href = buildCertificateUrl(data);
+      btn.classList.remove("disabled");
     }
 
     function disableCertificateButton() {
@@ -837,16 +825,8 @@
         return;
       }
 
-      btn.classList.add("disabled");
       btn.href = "certificate.html";
-    }
-
-    function setClimbStatus(text) {
-      const el = document.getElementById("climbStatus");
-
-      if (el) {
-        el.innerText = text;
-      }
+      btn.classList.add("disabled");
     }
 
     function buildCertificateUrl(data) {
@@ -885,7 +865,7 @@
         params.set("participantNo", data.participantNo);
       }
 
-      params.set("v", "20260704");
+      params.set("v", "20260703");
 
       return CERTIFICATE_PAGE + "?" + params.toString();
     }
@@ -925,28 +905,42 @@
 
     function loadClimbLocal() {
       try {
-        const raw = localStorage.getItem("tagoyamaClimbData");
+        const text = localStorage.getItem("tagoyamaClimbData");
 
-        if (raw) {
-          const data = JSON.parse(raw);
-          if (data) {
+        if (text) {
+          const data = JSON.parse(text);
+          if (data && data.userId) {
             return data;
           }
         }
 
+        const userId =
+          localStorage.getItem("tagoyamaUserId") ||
+          localStorage.getItem("tagoyamaFujiUserId") ||
+          "";
+
+        if (!userId) {
+          return null;
+        }
+
         return {
-          userId: getFirst(
-            localStorage.getItem("tagoyamaUserId"),
-            localStorage.getItem("tagoyamaFujiUserId")
-          ),
-          climbCount: localStorage.getItem("tagoyamaLastClimbCount"),
-          serialNo: localStorage.getItem("tagoyamaLastSerialNo"),
-          lastDate: localStorage.getItem("tagoyamaLastDate"),
-          imageUrl: localStorage.getItem("tagoyamaLastImageUrl"),
-          participantNo: localStorage.getItem("tagoyamaLastParticipantNo")
+          userId: userId,
+          climbCount: localStorage.getItem("tagoyamaLastClimbCount") || "",
+          serialNo: localStorage.getItem("tagoyamaLastSerialNo") || "",
+          lastDate: localStorage.getItem("tagoyamaLastDate") || "",
+          imageUrl: localStorage.getItem("tagoyamaLastImageUrl") || "",
+          participantNo: localStorage.getItem("tagoyamaLastParticipantNo") || ""
         };
       } catch (error) {
-        return {};
+        return null;
+      }
+    }
+
+    function setClimbStatus(text) {
+      const el = document.getElementById("climbStatus");
+
+      if (el) {
+        el.innerText = text;
       }
     }
 
@@ -981,123 +975,103 @@
     }
 
     async function loadNews() {
-      const list = document.getElementById("newsList");
+      const box = document.getElementById("newsList");
 
-      if (!list) {
-        return;
+      if (box) {
+        box.innerHTML = '<div class="modalText">お知らせを読み込み中です。</div>';
       }
-
-      if (newsLoaded) {
-        return;
-      }
-
-      list.innerHTML =
-        '<div class="item"><p class="itemBody">お知らせを読み込み中です。</p></div>';
 
       try {
-        const data = await getJson(GAS_URL + "?mode=news&t=" + Date.now());
-        const rows = getArrayRows(data);
+        const data = await tryManyJson([
+          GAS_URL + "?news=1&t=" + Date.now(),
+          GAS_URL + "?mode=news&t=" + Date.now(),
+          GAS_URL + "?action=news&t=" + Date.now()
+        ]);
 
-        if (!rows || rows.length === 0) {
-          list.innerHTML =
-            '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
-          newsLoaded = true;
-          return;
+        const list = extractList(data);
+
+        renderNews(list);
+      } catch (error) {
+        console.error(error);
+
+        if (box) {
+          box.innerHTML =
+            '<div class="modalText">お知らせを読み込めませんでした。</div>';
         }
+      }
+    }
 
-        let html = "";
+    function renderNews(list) {
+      const box = document.getElementById("newsList");
 
-        rows.forEach(function(item) {
-          const title = getFirst(
+      if (!box) {
+        return;
+      }
+
+      if (!list || !list.length) {
+        box.innerHTML =
+          '<div class="modalText">現在表示できるお知らせはありません。</div>';
+        return;
+      }
+
+      box.innerHTML = "";
+
+      list.forEach(function(item) {
+        const title =
+          getFirst(
             item.title,
             item.タイトル,
             item.name,
             item.件名,
-            item.subject
+            item.subject,
+            item.heading,
+            "お知らせ"
           );
 
-          const date = formatDate(
-            getFirst(
-              item.date,
-              item.datetime,
-              item.createdAt,
-              item.updatedAt,
-              item.日時,
-              item.日付
-            )
-          );
-
-          let body = getFirst(
-            item.body,
-            item.message,
+        const text =
+          getFirst(
             item.text,
-            item.content,
-            item.description,
+            item.message,
+            item.body,
             item.本文,
             item.内容,
-            item.説明,
-            item.メッセージ,
-            item.お知らせ本文
+            item.description,
+            item.content,
+            ""
           );
 
-          if (!body) {
-            body = makeBodyFromItem(item);
-          }
+        const div = document.createElement("div");
+        div.className = "listItem";
 
-          const imageUrl = getNewsImageUrl(item);
+        const h = document.createElement("p");
+        h.className = "listItemTitle";
+        h.innerText = title;
 
-          if (!title && !body && !imageUrl) {
-            return;
-          }
+        const p = document.createElement("p");
+        p.className = "listItemText";
+        p.innerText = text || "田子山富士からのお知らせです。";
 
-          let imageHtml = "";
-
-          if (imageUrl) {
-            imageHtml =
-              '<img src="' + escapeHtml(imageUrl) + '" ' +
-              'alt="' + escapeHtml(title || "田子山富士のお知らせ画像") + '" ' +
-              'loading="lazy" ' +
-              'style="display:block;width:100%;max-height:420px;object-fit:cover;border-radius:16px;margin:0 0 12px;background:#111;" ' +
-              'onerror="this.style.display=\\\'none\\\';">';
-          }
-
-          html +=
-            '<div class="item">' +
-            imageHtml +
-            '<h3 class="itemTitle">' + escapeHtml(title || "お知らせ") + '</h3>' +
-            (date ? '<div class="itemDate">' + escapeHtml(date) + '</div>' : '') +
-            (body ? '<p class="itemBody">' + escapeHtml(body) + '</p>' : '') +
-            '</div>';
-        });
-
-        list.innerHTML =
-          html ||
-          '<div class="item"><p class="itemBody">現在、お知らせはありません。</p></div>';
-
-        newsLoaded = true;
-      } catch (error) {
-        console.error(error);
-
-        list.innerHTML =
-          '<div class="item"><p class="itemBody">お知らせを読み込めませんでした。</p></div>';
-      }
+        div.appendChild(h);
+        div.appendChild(p);
+        box.appendChild(div);
+      });
     }
 
-    async function submitKicho() {
-      const btn = document.getElementById("kichoSubmitBtn");
+    async function saveKicho() {
+      const btn = document.getElementById("saveKichoBtn");
       const oldText = btn ? btn.innerText : "";
 
-      const area = getString(document.getElementById("kichoArea").value);
-      const name = getString(document.getElementById("kichoName").value);
-      const message = getString(document.getElementById("kichoMessage").value);
+      const area = getString(document.getElementById("fromArea").value);
+      const name = getString(document.getElementById("visitorName").value);
+      const message = getString(document.getElementById("visitorMessage").value);
 
       if (!area) {
-        alert("どこから来たかを選んでください。");
+        alert("どこから来たか選んでください。");
         return;
       }
 
       if (!message) {
-        alert("メッセージを入力してください。");
+        alert("メッセージを書いてください。");
         return;
       }
 
@@ -1108,23 +1082,28 @@
 
       try {
         const params = new URLSearchParams();
-        params.set("mode", "kicho");
         params.set("area", area);
+        params.set("from", area);
         params.set("name", name || "匿名");
         params.set("message", message);
+        params.set("userId", currentUserId || "");
         params.set("t", String(Date.now()));
 
-        await getJson(GAS_URL + "?" + params.toString());
+        await tryManyJson([
+          GAS_URL + "?saveKicho=1&" + params.toString(),
+          GAS_URL + "?mode=saveKicho&" + params.toString(),
+          GAS_URL + "?action=saveKicho&" + params.toString()
+        ]);
 
         alert("ご縁帳に記帳しました。");
 
-        document.getElementById("kichoName").value = "";
-        document.getElementById("kichoMessage").value = "";
+        document.getElementById("visitorName").value = "";
+        document.getElementById("visitorMessage").value = "";
 
-        goenLoaded = false;
+        closeModal("kichoModal");
       } catch (error) {
         console.error(error);
-        alert("記帳できませんでした。もう一度お試しください。");
+        alert("記帳できませんでした。通信状況を確認してもう一度お試しください。");
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -1134,62 +1113,163 @@
     }
 
     async function loadGoen() {
-      const list = document.getElementById("goenList");
+      const box = document.getElementById("goenList");
 
-      if (!list) {
-        return;
+      if (box) {
+        box.innerHTML = '<div class="modalText">ご縁帳を読み込み中です。</div>';
       }
-
-      if (goenLoaded) {
-        return;
-      }
-
-      list.innerHTML =
-        '<div class="item"><p class="itemBody">ご縁帳を読み込み中です。</p></div>';
 
       try {
-        const data = await getJson(GAS_URL + "?mode=goen&t=" + Date.now());
-        const rows = getArrayRows(data);
+        const data = await tryManyJson([
+          GAS_URL + "?goen=1&t=" + Date.now(),
+          GAS_URL + "?mode=goen&t=" + Date.now(),
+          GAS_URL + "?action=goen&t=" + Date.now()
+        ]);
 
-        if (!rows || rows.length === 0) {
-          list.innerHTML =
-            '<div class="item"><p class="itemBody">まだ記帳はありません。</p></div>';
-          goenLoaded = true;
-          return;
-        }
+        const list = extractList(data);
 
-        let html = "";
-
-        rows.forEach(function(item) {
-          const area = getFirst(item.area, item.地域, item.住所, item.place);
-          const name = getFirst(item.name, item.名前, item.nickname, item.お名前);
-          const message = getFirst(item.message, item.メッセージ, item.text, item.本文);
-          const date = formatDate(getFirst(item.date, item.日時, item.日付, item.createdAt));
-
-          if (!area && !name && !message) {
-            return;
-          }
-
-          html +=
-            '<div class="item">' +
-            '<h3 class="itemTitle">' + escapeHtml(name || "匿名") + '</h3>' +
-            (date ? '<div class="itemDate">' + escapeHtml(date) + '</div>' : '') +
-            (area ? '<div class="itemDate">' + escapeHtml(area) + '</div>' : '') +
-            (message ? '<p class="itemBody">' + escapeHtml(message) + '</p>' : '') +
-            '</div>';
-        });
-
-        list.innerHTML =
-          html ||
-          '<div class="item"><p class="itemBody">まだ記帳はありません。</p></div>';
-
-        goenLoaded = true;
+        renderGoen(list);
       } catch (error) {
         console.error(error);
 
-        list.innerHTML =
-          '<div class="item"><p class="itemBody">ご縁帳を読み込めませんでした。</p></div>';
+        if (box) {
+          box.innerHTML =
+            '<div class="modalText">ご縁帳を読み込めませんでした。</div>';
+        }
       }
+    }
+
+    function renderGoen(list) {
+      const box = document.getElementById("goenList");
+
+      if (!box) {
+        return;
+      }
+
+      if (!list || !list.length) {
+        box.innerHTML =
+          '<div class="modalText">まだ表示できるご縁帳はありません。</div>';
+        return;
+      }
+
+      box.innerHTML = "";
+
+      list.forEach(function(item) {
+        const title =
+          getFirst(
+            item.area,
+            item.from,
+            item.place,
+            item.地域,
+            item.name,
+            "ご縁"
+          );
+
+        const message =
+          getFirst(
+            item.message,
+            item.text,
+            item.body,
+            item.comment,
+            item.メッセージ,
+            ""
+          );
+
+        const name =
+          getFirst(
+            item.name,
+            item.visitorName,
+            item.nickname,
+            item.名前,
+            "匿名"
+          );
+
+        const date =
+          getFirst(
+            item.date,
+            item.createdAt,
+            item.time,
+            item.日時,
+            ""
+          );
+
+        const div = document.createElement("div");
+        div.className = "listItem";
+
+        const h = document.createElement("p");
+        h.className = "listItemTitle";
+        h.innerText = title;
+
+        const p = document.createElement("p");
+        p.className = "listItemText";
+        p.innerText =
+          message +
+          "\n\n" +
+          name +
+          (date ? " / " + formatDateText(date) : "");
+
+        div.appendChild(h);
+        div.appendChild(p);
+        box.appendChild(div);
+      });
+    }
+
+    function extractList(data) {
+      if (!data) {
+        return [];
+      }
+
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      if (Array.isArray(data.list)) {
+        return data.list;
+      }
+
+      if (Array.isArray(data.rows)) {
+        return data.rows;
+      }
+
+      if (Array.isArray(data.items)) {
+        return data.items;
+      }
+
+      if (Array.isArray(data.data)) {
+        return data.data;
+      }
+
+      if (data.data && Array.isArray(data.data.list)) {
+        return data.data.list;
+      }
+
+      if (data.data && Array.isArray(data.data.rows)) {
+        return data.data.rows;
+      }
+
+      if (data.data && Array.isArray(data.data.items)) {
+        return data.data.items;
+      }
+
+      return [];
+    }
+
+    async function tryManyJson(urls) {
+      let lastError = null;
+
+      for (let i = 0; i < urls.length; i++) {
+        try {
+          const data = await getJson(urls[i]);
+
+          if (data !== null && data !== undefined) {
+            return data;
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("通信に失敗しました。");
     }
 
     async function getJson(url) {
@@ -1276,213 +1356,15 @@
       });
     }
 
-    function getArrayRows(data) {
-      if (!data) {
-        return [];
-      }
+    function normalizeNumberText(value) {
+      const text = toHalfWidthNumber(getString(value));
+      const match = text.match(/[0-9]+/);
 
-      if (Array.isArray(data)) {
-        return data;
-      }
-
-      if (Array.isArray(data.rows)) {
-        return data.rows;
-      }
-
-      if (Array.isArray(data.items)) {
-        return data.items;
-      }
-
-      if (Array.isArray(data.data)) {
-        return data.data;
-      }
-
-      if (data.data && Array.isArray(data.data.rows)) {
-        return data.data.rows;
-      }
-
-      if (data.data && Array.isArray(data.data.items)) {
-        return data.data.items;
-      }
-
-      return [];
-    }
-
-    function getNewsImageUrl(item) {
-      const raw = getFirst(
-        item.imageUrl,
-        item.imageURL,
-        item.image,
-        item.photo,
-        item.picture,
-        item.thumbnail,
-        item.画像URL,
-        item.画像Url,
-        item.画像url,
-        item.画像,
-        item.写真,
-        item.サムネイル,
-        item.お知らせ画像
-      );
-
-      return normalizeNewsImageUrl(raw);
-    }
-
-    function normalizeNewsImageUrl(url) {
-      url = getString(url);
-
-      if (!url) {
-        return "";
-      }
-
-      url = url.replace(/&amp;/g, "&").trim();
-
-      let match = url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
-
-      if (match && match[1]) {
-        return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(match[1]) + "&sz=w1200";
-      }
-
-      match = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
-
-      if (url.indexOf("drive.google.com") >= 0 && match && match[1]) {
-        return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(match[1]) + "&sz=w1200";
-      }
-
-      return url;
-    }
-
-    function normalizeImageUrl(url) {
-      const value = getString(url);
-
-      if (!value) {
-        return "";
-      }
-
-      if (
-        value.indexOf("data:image") === 0 ||
-        value.indexOf("blob:") === 0
-      ) {
-        return value;
-      }
-
-      const driveId = getDriveId(value);
-
-      if (driveId) {
-        return "https://lh3.googleusercontent.com/d/" +
-          encodeURIComponent(driveId) +
-          "=w2000";
-      }
-
-      return value;
-    }
-
-    function getDriveId(url) {
-      const value = getString(url);
-
-      if (!value) {
-        return "";
-      }
-
-      let match = value.match(/\/file\/d\/([^/]+)/);
-
-      if (match && match[1]) {
-        return match[1];
-      }
-
-      match = value.match(/[?&]id=([^&]+)/);
-
-      if (match && match[1]) {
-        return match[1];
-      }
-
-      match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
-
-      if (match && match[1]) {
-        return match[1];
-      }
-
-      if (/^[a-zA-Z0-9_-]{20,}$/.test(value)) {
-        return value;
+      if (match && match[0]) {
+        return match[0];
       }
 
       return "";
-    }
-
-    function makeBodyFromItem(item) {
-      const skipKeys = [
-        "title", "タイトル", "name", "件名", "subject",
-        "date", "datetime", "createdAt", "updatedAt", "日時", "日付",
-        "link", "url", "URL", "リンク",
-        "imageUrl", "imageURL", "image", "photo", "picture", "thumbnail",
-        "画像URL", "画像Url", "画像url", "画像", "写真", "サムネイル", "お知らせ画像"
-      ];
-
-      const parts = [];
-
-      Object.keys(item || {}).forEach(function(key) {
-        if (skipKeys.indexOf(key) >= 0) {
-          return;
-        }
-
-        const lowerKey = String(key).toLowerCase();
-
-        if (lowerKey.indexOf("image") >= 0) {
-          return;
-        }
-
-        if (lowerKey.indexOf("photo") >= 0) {
-          return;
-        }
-
-        if (lowerKey.indexOf("thumbnail") >= 0) {
-          return;
-        }
-
-        if (String(key).indexOf("画像") >= 0) {
-          return;
-        }
-
-        if (String(key).indexOf("写真") >= 0) {
-          return;
-        }
-
-        const value = getString(item[key]);
-
-        if (!value) {
-          return;
-        }
-
-        if (value.indexOf("https://") === 0 || value.indexOf("http://") === 0) {
-          return;
-        }
-
-        parts.push(value);
-      });
-
-      return parts.join("\n");
-    }
-
-    function formatDate(value) {
-      const text = getString(value);
-
-      if (!text) {
-        return "";
-      }
-
-      return text
-        .replace(/-/g, "/")
-        .replace(/\./g, "/")
-        .replace(/\s.*$/, "");
-    }
-
-    function escapeHtml(value) {
-      return getString(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
     }
 
     function cleanSerialNo(value) {
@@ -1493,15 +1375,17 @@
         .trim();
     }
 
-    function normalizeNumberText(value) {
-      const text = toHalfWidthNumber(getString(value));
-      const match = text.match(/[0-9]+/);
+    function formatDateText(value) {
+      const text = getString(value);
 
-      if (match && match[0]) {
-        return match[0];
+      if (!text) {
+        return "";
       }
 
-      return "";
+      return text
+        .replace(/-/g, "/")
+        .replace(/\./g, "/")
+        .replace(/\s.*$/, "");
     }
 
     function toHalfWidthNumber(value) {
@@ -1534,7 +1418,7 @@
     window.openKicho = openKicho;
     window.openGoen = openGoen;
     window.closeModal = closeModal;
-    window.submitKicho = submitKicho;
+    window.saveKicho = saveKicho;
   </script>
 </body>
 </html>
