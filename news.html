@@ -313,7 +313,7 @@ const GAS_URL =
   "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
 const SHARE_NEWS_PAGE =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news-v2.html";
 
 let currentUserId = "";
 
@@ -615,7 +615,7 @@ function buildNewsShareUrl(item){
   const params = new URLSearchParams();
 
   params.set("n", String(item.newsIndex || 0));
-  params.set("v", "20260704fbfix");
+  params.set("v", "20260704v2");
 
   if(currentUserId){
     params.set("userId", currentUserId);
