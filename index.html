@@ -65,10 +65,6 @@ body {
   padding: 16px 12px 48px;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .hero {
   text-align: center;
   margin: 0 0 16px;
@@ -271,126 +267,6 @@ body {
   gap: 12px;
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: none;
-  background: rgba(0,0,0,.78);
-  padding: 14px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal.show {
-  display: block;
-}
-
-.modalInner {
-  width: 100%;
-  max-width: 760px;
-  margin: 20px auto 48px;
-  padding: 20px 14px;
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at top, rgba(255,224,120,.14), rgba(0,0,0,0) 46%),
-    linear-gradient(180deg, rgba(44,28,0,.98), rgba(10,10,10,.98));
-  border: 2px solid rgba(255,220,95,.62);
-  box-shadow: 0 18px 36px rgba(0,0,0,.58);
-}
-
-.modalTitle {
-  margin: 0 0 16px;
-  color: #ffdf72;
-  font-size: clamp(30px,8vw,52px);
-  font-weight: 900;
-  text-align: center;
-  line-height: 1.25;
-}
-
-.modalText {
-  color: #fff1bd;
-  font-size: clamp(18px,5vw,30px);
-  line-height: 1.7;
-  font-weight: 900;
-  text-align: center;
-  white-space: pre-wrap;
-}
-
-.listBox {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.listItem {
-  padding: 16px 14px;
-  border-radius: 20px;
-  background: rgba(0,0,0,.34);
-  border: 1px solid rgba(255,220,140,.34);
-  color: #fff7ca;
-}
-
-.listItemTitle {
-  margin: 0 0 8px;
-  color: #ffdf72;
-  font-size: clamp(20px,5.6vw,34px);
-  font-weight: 900;
-  line-height: 1.35;
-}
-
-.listItemDate {
-  margin: 0 0 8px;
-  color: #d9c886;
-  font-size: clamp(15px,4.2vw,24px);
-  font-weight: 900;
-  line-height: 1.45;
-}
-
-.listItemText {
-  margin: 0;
-  color: #fff1bd;
-  font-size: clamp(16px,4.6vw,28px);
-  font-weight: 800;
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
-.formArea {
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-label {
-  display: block;
-  color: #fff1bd;
-  font-size: clamp(18px,5vw,30px);
-  font-weight: 900;
-  line-height: 1.45;
-}
-
-select,
-input,
-textarea {
-  width: 100%;
-  border: 2px solid rgba(255,220,95,.55);
-  border-radius: 18px;
-  padding: 14px 12px;
-  background: rgba(0,0,0,.48);
-  color: #fff7ca;
-  font-size: clamp(18px,5vw,28px);
-  font-weight: 800;
-  outline: none;
-  font-family: inherit;
-}
-
-textarea {
-  min-height: 130px;
-  resize: vertical;
-  line-height: 1.5;
-}
-
 .footer {
   margin: 28px 0 0;
   text-align: center;
@@ -405,8 +281,7 @@ textarea {
     padding-right: 12px;
   }
 
-  .card,
-  .modalInner {
+  .card {
     border-radius: 26px;
     padding-left: 14px;
     padding-right: 14px;
@@ -418,183 +293,99 @@ textarea {
     border-radius: 22px;
   }
 }
-  </style>
+</style>
 </head>
 
 <body>
 <main class="page">
 
-  <header class="hero">
-    <div class="logoBox">
-      <img
-        src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
-        alt="田子山富士"
-        onerror="this.style.display='none'"
-      >
-    </div>
+<header class="hero">
+  <div class="logoBox">
+    <img
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+      alt="田子山富士"
+      onerror="this.style.display='none'"
+    >
+  </div>
 
-    <h1 class="siteTitle">田子山富士</h1>
-    <p class="siteSub">168の縁プロジェクト</p>
-  </header>
+  <h1 class="siteTitle">田子山富士</h1>
+  <p class="siteSub">168の縁プロジェクト</p>
+</header>
 
-  <section class="card">
-    <h2 class="cardTitle">参加人数</h2>
+<section class="card">
+  <h2 class="cardTitle">参加人数</h2>
 
-    <div class="countBox">
-      <p class="countLabel">現在の参加人数</p>
-      <div class="countNumber" id="participantCount">--</div>
-      <p class="countNote">登頂受付された人数を表示しています</p>
-    </div>
-  </section>
+  <div class="countBox">
+    <p class="countLabel">現在の参加人数</p>
+    <div class="countNumber" id="participantCount">--</div>
+    <p class="countNote">登頂受付された人数を表示しています</p>
+  </div>
+</section>
 
-  <section class="card">
-    <h2 class="cardTitle">⛩️ 登頂受付</h2>
+<section class="card">
+  <h2 class="cardTitle">⛩️ 登頂受付</h2>
 
-    <p class="lead">
-      登頂受付は<br>
-      山頂に設置されたQRコード<br>
-      からご利用ください。
-    </p>
+  <p class="lead">
+    登頂受付は<br>
+    山頂に設置されたQRコード<br>
+    からご利用ください。
+  </p>
 
-    <div class="statusBox" id="climbStatus">
-      登頂情報を確認しています...
-    </div>
+  <div class="statusBox" id="climbStatus">
+    登頂情報を確認しています...
+  </div>
 
-    <div class="btnArea">
-      <a class="linkBtn goldBtn disabled" id="certificateBtn" href="certificate.html">
-        登頂記念証を受け取る
-      </a>
-    </div>
-  </section>
+  <div class="btnArea">
+    <a class="linkBtn goldBtn disabled" id="certificateBtn" href="certificate.html">
+      登頂記念証を受け取る
+    </a>
+  </div>
+</section>
 
-  <section class="card">
-    <h2 class="cardTitle">メニュー</h2>
+<section class="card">
+  <h2 class="cardTitle">メニュー</h2>
 
-    <p class="lead">
-      使いたい項目を<br>
-      選んでください。
-    </p>
+  <p class="lead">
+    使いたい項目を<br>
+    選んでください。
+  </p>
 
-    <div class="menuGrid">
-      <a class="linkBtn goldBtn" id="omikujiLink" href="omikuji.html">
-        開運おみくじ
-      </a>
+  <div class="menuGrid">
+    <a class="linkBtn goldBtn" id="omikujiLink" href="omikuji.html">
+      開運おみくじ
+    </a>
 
-      <button class="btn blueBtn" type="button" onclick="openNews()">
-        お知らせ
-      </button>
+    <a class="linkBtn blueBtn" id="newsLink" href="news.html">
+      お知らせ
+    </a>
 
-      <button class="btn brownBtn" type="button" onclick="openKicho()">
-        参拝記帳
-      </button>
+    <a class="linkBtn brownBtn" id="kichoLink" href="kicho.html">
+      参拝記帳
+    </a>
 
-      <button class="btn greenBtn" type="button" onclick="openGoen()">
-        ご縁帳
-      </button>
+    <a class="linkBtn greenBtn" id="goenLink" href="goen.html">
+      ご縁帳
+    </a>
 
-      <a class="linkBtn blackBtn" href="access.html">
-        田子山富士への行き方
-      </a>
-    </div>
-  </section>
+    <a class="linkBtn blackBtn" href="access.html">
+      田子山富士への行き方
+    </a>
+  </div>
+</section>
 
-  <footer class="footer">
-    田子山富士 168の縁プロジェクト<br>
-    登頂記念・ご縁帳・おみくじ
-  </footer>
+<footer class="footer">
+  田子山富士 168の縁プロジェクト<br>
+  登頂記念・ご縁帳・おみくじ
+</footer>
+
 </main>
-
-<section class="modal" id="newsModal">
-  <div class="modalInner">
-    <h2 class="modalTitle">お知らせ</h2>
-    <div id="newsList" class="listBox">
-      <div class="modalText">お知らせを読み込み中です。</div>
-    </div>
-    <div class="btnArea">
-      <button class="btn blackBtn" type="button" onclick="closeModal('newsModal')">
-        閉じる
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="modal" id="kichoModal">
-  <div class="modalInner">
-    <h2 class="modalTitle">参拝記帳</h2>
-
-    <p class="modalText">
-      田子山富士への想いを<br>
-      ご縁帳に残せます。
-    </p>
-
-    <div class="formArea">
-      <label for="fromArea">どこから来ましたか</label>
-      <select id="fromArea">
-        <option value="">選択してください</option>
-        <option value="志木市">志木市</option>
-        <option value="朝霞市">朝霞市</option>
-        <option value="新座市">新座市</option>
-        <option value="和光市">和光市</option>
-        <option value="富士見市">富士見市</option>
-        <option value="ふじみ野市">ふじみ野市</option>
-        <option value="さいたま市">さいたま市</option>
-        <option value="東京都">東京都</option>
-        <option value="埼玉県内">埼玉県内</option>
-        <option value="その他">その他</option>
-      </select>
-
-      <label for="visitorName">お名前</label>
-      <input id="visitorName" type="text" placeholder="未入力でも大丈夫です">
-
-      <label for="visitorMessage">メッセージ</label>
-      <textarea id="visitorMessage" placeholder="田子山富士への想いを書いてください"></textarea>
-    </div>
-
-    <div class="btnArea">
-      <button class="btn goldBtn" id="saveKichoBtn" type="button" onclick="saveKicho()">
-        記帳する
-      </button>
-
-      <button class="btn blackBtn" type="button" onclick="closeModal('kichoModal')">
-        閉じる
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="modal" id="goenModal">
-  <div class="modalInner">
-    <h2 class="modalTitle">ご縁帳</h2>
-
-    <p class="modalText">
-      田子山富士に集まった<br>
-      ご縁の記録です。
-    </p>
-
-    <div id="goenList" class="listBox">
-      <div class="modalText">ご縁帳を読み込み中です。</div>
-    </div>
-
-    <div class="btnArea">
-      <button class="btn blackBtn" type="button" onclick="closeModal('goenModal')">
-        閉じる
-      </button>
-    </div>
-  </div>
-</section>
 
 <script>
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
-const HOME_PAGE =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
 const CERTIFICATE_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
-
-const OMIKUJI_PAGE =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
 let currentUserId = "";
 let climbData = null;
@@ -641,12 +432,29 @@ function getUserIdFromUrl() {
 
 function updateMenuLinks() {
   const omikujiLink = document.getElementById("omikujiLink");
+  const newsLink = document.getElementById("newsLink");
+  const kichoLink = document.getElementById("kichoLink");
+  const goenLink = document.getElementById("goenLink");
+
+  const query =
+    currentUserId
+      ? "?userId=" + encodeURIComponent(currentUserId)
+      : "";
 
   if (omikujiLink) {
-    omikujiLink.href =
-      currentUserId
-        ? "omikuji.html?userId=" + encodeURIComponent(currentUserId)
-        : "omikuji.html";
+    omikujiLink.href = "omikuji.html" + query;
+  }
+
+  if (newsLink) {
+    newsLink.href = "news.html" + query;
+  }
+
+  if (kichoLink) {
+    kichoLink.href = "kicho.html" + query;
+  }
+
+  if (goenLink) {
+    goenLink.href = "goen.html" + query;
   }
 }
 
@@ -749,53 +557,76 @@ function normalizeClimbData(data, userId) {
 
   return {
     userId: getFirst(source.userId, source.uid, userId),
-    climbCount: normalizeNumberText(
+
+    climbCount:
+      normalizeNumberText(
+        getFirst(
+          source.climbCount,
+          source.count,
+          source.times,
+          source.climb_count,
+          source.climb,
+          source["登頂回数"],
+          source["個人登頂回数"]
+        )
+      ),
+
+    serialNo:
+      cleanSerialNo(
+        getFirst(
+          source.serialNo,
+          source.serial,
+          source.no,
+          source.serial_no,
+          source.number,
+          source["シリアル"],
+          source["記念番号"]
+        )
+      ),
+
+    lastDate:
       getFirst(
-        source.climbCount,
-        source.count,
-        source.times,
-        source.climb_count,
-        source.climb
-      )
-    ),
-    serialNo: cleanSerialNo(
+        source.lastDate,
+        source.date,
+        source.climbDate,
+        source.last_date,
+        source.createdAt,
+        source["日時"],
+        source["日付"]
+      ),
+
+    imageNo:
+      getFirst(source.imageNo, source.image_no, source["画像番号"]),
+
+    imageName:
+      getFirst(source.imageName, source.image_name, source.title, source.name, source["画像名"]),
+
+    imageUrl:
       getFirst(
-        source.serialNo,
-        source.serial,
-        source.no,
-        source.serial_no,
-        source.number
+        source.imageUrl,
+        source.certificateImageUrl,
+        source.certificateUrl,
+        source.image,
+        source.imgUrl,
+        source.img,
+        source.url,
+        source["画像URL"]
+      ),
+
+    participantNo:
+      normalizeNumberText(
+        getFirst(
+          source.participantNo,
+          source.participant,
+          source.participant_no,
+          source.participantCount,
+          source.people,
+          source.total,
+          source.totalCount,
+          source["参加人数"],
+          source["参加者数"]
+        )
       )
-    ),
-    lastDate: getFirst(
-      source.lastDate,
-      source.date,
-      source.climbDate,
-      source.last_date,
-      source.createdAt
-    ),
-    imageNo: getFirst(source.imageNo, source.image_no),
-    imageName: getFirst(source.imageName, source.image_name, source.title, source.name),
-    imageUrl: getFirst(
-      source.imageUrl,
-      source.certificateImageUrl,
-      source.certificateUrl,
-      source.image,
-      source.imgUrl,
-      source.img,
-      source.url
-    ),
-    participantNo: normalizeNumberText(
-      getFirst(
-        source.participantNo,
-        source.participant,
-        source.participant_no,
-        source.participantCount,
-        source.people,
-        source.total,
-        source.totalCount
-      )
-    )
   };
 }
 
@@ -901,6 +732,7 @@ function loadClimbLocal() {
 
     if (text) {
       const data = JSON.parse(text);
+
       if (data && data.userId) {
         return data;
       }
@@ -934,695 +766,6 @@ function setClimbStatus(text) {
   if (el) {
     el.innerText = text;
   }
-}
-
-function openNews() {
-  openModal("newsModal");
-  loadNews();
-}
-
-function openKicho() {
-  openModal("kichoModal");
-}
-
-function openGoen() {
-  openModal("goenModal");
-  loadGoen();
-}
-
-function openModal(id) {
-  const modal = document.getElementById(id);
-
-  if (modal) {
-    modal.classList.add("show");
-  }
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-
-  if (modal) {
-    modal.classList.remove("show");
-  }
-}
-
-async function loadNews() {
-  const box = document.getElementById("newsList");
-
-  if (box) {
-    box.innerHTML = '<div class="modalText">お知らせを読み込み中です。</div>';
-  }
-
-  try {
-    const data = await tryManyJson([
-      GAS_URL + "?news=1&t=" + Date.now(),
-      GAS_URL + "?mode=news&t=" + Date.now(),
-      GAS_URL + "?action=news&t=" + Date.now(),
-      GAS_URL + "?listNews=1&t=" + Date.now(),
-      GAS_URL + "?mode=listNews&t=" + Date.now(),
-      GAS_URL + "?action=listNews&t=" + Date.now(),
-      GAS_URL + "?getNews=1&t=" + Date.now(),
-      GAS_URL + "?mode=getNews&t=" + Date.now(),
-      GAS_URL + "?action=getNews&t=" + Date.now()
-    ]);
-
-    const list = extractNewsList(data);
-
-    renderNews(list);
-  } catch (error) {
-    console.error(error);
-
-    if (box) {
-      box.innerHTML =
-        '<div class="modalText">お知らせを読み込めませんでした。</div>';
-    }
-  }
-}
-
-function renderNews(list) {
-  const box = document.getElementById("newsList");
-
-  if (!box) {
-    return;
-  }
-
-  if (!Array.isArray(list) || list.length === 0) {
-    box.innerHTML =
-      '<div class="modalText">現在表示できるお知らせはありません。</div>';
-    return;
-  }
-
-  box.innerHTML = "";
-
-  let count = 0;
-
-  list.forEach(function(raw) {
-    const item = normalizeNewsItem(raw);
-
-    if (!item.title && !item.text && !item.date) {
-      return;
-    }
-
-    count++;
-
-    const div = document.createElement("div");
-    div.className = "listItem";
-
-    const h = document.createElement("p");
-    h.className = "listItemTitle";
-    h.innerText = item.title || "お知らせ";
-
-    div.appendChild(h);
-
-    if (item.date) {
-      const d = document.createElement("p");
-      d.className = "listItemDate";
-      d.innerText = item.date;
-      div.appendChild(d);
-    }
-
-    const p = document.createElement("p");
-    p.className = "listItemText";
-    p.innerText = item.text || "田子山富士からのお知らせです。";
-
-    div.appendChild(p);
-    box.appendChild(div);
-  });
-
-  if (!count) {
-    box.innerHTML =
-      '<div class="modalText">現在表示できるお知らせはありません。</div>';
-  }
-}
-
-function normalizeNewsItem(raw) {
-  raw = raw || {};
-
-  if (Array.isArray(raw)) {
-    const joined = raw.join("");
-
-    if (
-      joined.indexOf("日付") >= 0 &&
-      joined.indexOf("タイトル") >= 0
-    ) {
-      return {
-        date: "",
-        title: "",
-        text: ""
-      };
-    }
-
-    return {
-      date: formatDateText(getFirst(raw[0], raw[3])),
-      title: getFirst(raw[1], raw[0], "お知らせ"),
-      text: getFirst(raw[2], raw[3], raw[4])
-    };
-  }
-
-  return {
-    date: formatDateText(
-      getFirst(
-        raw.date,
-        raw.datetime,
-        raw.createdAt,
-        raw.created_at,
-        raw.time,
-        raw["日時"],
-        raw["日付"],
-        raw["タイムスタンプ"]
-      )
-    ),
-
-    title: getFirst(
-      raw.title,
-      raw.name,
-      raw.subject,
-      raw.heading,
-      raw["タイトル"],
-      raw["件名"],
-      raw["見出し"],
-      "お知らせ"
-    ),
-
-    text: getFirst(
-      raw.text,
-      raw.message,
-      raw.body,
-      raw.content,
-      raw.description,
-      raw.detail,
-      raw["本文"],
-      raw["内容"],
-      raw["メッセージ"],
-      raw["説明"],
-      raw["詳細"]
-    )
-  };
-}
-
-function extractNewsList(data) {
-  if (!data) {
-    return [];
-  }
-
-  if (Array.isArray(data)) {
-    return removeHeaderRow(data);
-  }
-
-  if (Array.isArray(data.news)) {
-    return removeHeaderRow(data.news);
-  }
-
-  if (Array.isArray(data.newsList)) {
-    return removeHeaderRow(data.newsList);
-  }
-
-  if (Array.isArray(data.list)) {
-    return removeHeaderRow(data.list);
-  }
-
-  if (Array.isArray(data.rows)) {
-    return removeHeaderRow(data.rows);
-  }
-
-  if (Array.isArray(data.items)) {
-    return removeHeaderRow(data.items);
-  }
-
-  if (Array.isArray(data.values)) {
-    return removeHeaderRow(data.values);
-  }
-
-  if (Array.isArray(data.records)) {
-    return removeHeaderRow(data.records);
-  }
-
-  if (data.data) {
-    if (Array.isArray(data.data)) {
-      return removeHeaderRow(data.data);
-    }
-
-    if (Array.isArray(data.data.news)) {
-      return removeHeaderRow(data.data.news);
-    }
-
-    if (Array.isArray(data.data.newsList)) {
-      return removeHeaderRow(data.data.newsList);
-    }
-
-    if (Array.isArray(data.data.list)) {
-      return removeHeaderRow(data.data.list);
-    }
-
-    if (Array.isArray(data.data.rows)) {
-      return removeHeaderRow(data.data.rows);
-    }
-
-    if (Array.isArray(data.data.items)) {
-      return removeHeaderRow(data.data.items);
-    }
-
-    if (Array.isArray(data.data.values)) {
-      return removeHeaderRow(data.data.values);
-    }
-
-    if (Array.isArray(data.data.records)) {
-      return removeHeaderRow(data.data.records);
-    }
-  }
-
-  return objectValuesAsList(data, [
-    "title",
-    "message",
-    "text",
-    "body",
-    "content",
-    "タイトル",
-    "本文",
-    "内容",
-    "メッセージ"
-  ]);
-}
-
-async function saveKicho() {
-  const btn = document.getElementById("saveKichoBtn");
-  const oldText = btn ? btn.innerText : "";
-
-  const area = getString(document.getElementById("fromArea").value);
-  const name = getString(document.getElementById("visitorName").value);
-  const message = getString(document.getElementById("visitorMessage").value);
-
-  if (!area) {
-    alert("どこから来たか選んでください。");
-    return;
-  }
-
-  if (!message) {
-    alert("メッセージを書いてください。");
-    return;
-  }
-
-  if (btn) {
-    btn.disabled = true;
-    btn.innerText = "記帳中...";
-  }
-
-  try {
-    const params = new URLSearchParams();
-    params.set("area", area);
-    params.set("from", area);
-    params.set("name", name || "匿名");
-    params.set("message", message);
-    params.set("userId", currentUserId || "");
-    params.set("t", String(Date.now()));
-
-    await tryManyJson([
-      GAS_URL + "?saveKicho=1&" + params.toString(),
-      GAS_URL + "?mode=saveKicho&" + params.toString(),
-      GAS_URL + "?action=saveKicho&" + params.toString(),
-      GAS_URL + "?kicho=1&" + params.toString(),
-      GAS_URL + "?mode=kicho&" + params.toString()
-    ]);
-
-    alert("ご縁帳に記帳しました。");
-
-    document.getElementById("visitorName").value = "";
-    document.getElementById("visitorMessage").value = "";
-
-    closeModal("kichoModal");
-  } catch (error) {
-    console.error(error);
-    alert("記帳できませんでした。通信状況を確認してもう一度お試しください。");
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerText = oldText || "記帳する";
-    }
-  }
-}
-
-async function loadGoen() {
-  const box = document.getElementById("goenList");
-
-  if (box) {
-    box.innerHTML = '<div class="modalText">ご縁帳を読み込み中です。</div>';
-  }
-
-  try {
-    const data = await tryManyJson([
-      GAS_URL + "?goen=1&t=" + Date.now(),
-      GAS_URL + "?mode=goen&t=" + Date.now(),
-      GAS_URL + "?action=goen&t=" + Date.now(),
-      GAS_URL + "?listGoen=1&t=" + Date.now(),
-      GAS_URL + "?mode=listGoen&t=" + Date.now(),
-      GAS_URL + "?action=listGoen&t=" + Date.now(),
-      GAS_URL + "?kichoList=1&t=" + Date.now(),
-      GAS_URL + "?mode=kichoList&t=" + Date.now(),
-      GAS_URL + "?action=kichoList&t=" + Date.now()
-    ]);
-
-    const list = extractGoenList(data);
-
-    renderGoen(list);
-  } catch (error) {
-    console.error(error);
-
-    if (box) {
-      box.innerHTML =
-        '<div class="modalText">ご縁帳を読み込めませんでした。</div>';
-    }
-  }
-}
-
-function renderGoen(list) {
-  const box = document.getElementById("goenList");
-
-  if (!box) {
-    return;
-  }
-
-  if (!Array.isArray(list) || list.length === 0) {
-    box.innerHTML =
-      '<div class="modalText">まだ表示できるご縁帳はありません。</div>';
-    return;
-  }
-
-  box.innerHTML = "";
-
-  let count = 0;
-
-  list.forEach(function(raw) {
-    const item = normalizeGoenItem(raw);
-
-    if (!item.message && !item.name && !item.area && !item.date) {
-      return;
-    }
-
-    count++;
-
-    const div = document.createElement("div");
-    div.className = "listItem";
-
-    const title = document.createElement("p");
-    title.className = "listItemTitle";
-    title.innerText = item.name || "匿名";
-
-    div.appendChild(title);
-
-    const date = document.createElement("p");
-    date.className = "listItemDate";
-    date.innerText =
-      (item.date ? item.date : "") +
-      (item.area ? "　" + item.area : "");
-
-    if (date.innerText.trim()) {
-      div.appendChild(date);
-    }
-
-    const body = document.createElement("p");
-    body.className = "listItemText";
-    body.innerText =
-      item.message ||
-      "田子山富士へご縁をいただきました。";
-
-    div.appendChild(body);
-    box.appendChild(div);
-  });
-
-  if (!count) {
-    box.innerHTML =
-      '<div class="modalText">まだ表示できるご縁帳はありません。</div>';
-  }
-}
-
-function normalizeGoenItem(raw) {
-  raw = raw || {};
-
-  if (Array.isArray(raw)) {
-    const joined = raw.join("");
-
-    if (
-      joined.indexOf("日時") >= 0 &&
-      joined.indexOf("名前") >= 0
-    ) {
-      return {
-        date: "",
-        area: "",
-        name: "",
-        message: ""
-      };
-    }
-
-    return {
-      date: formatDateText(getFirst(raw[0], raw[4])),
-      area: getFirst(raw[1], raw[2]),
-      name: getFirst(raw[2], raw[1], "匿名"),
-      message: getFirst(raw[3], raw[4], raw[5])
-    };
-  }
-
-  return {
-    date: formatDateText(
-      getFirst(
-        raw.date,
-        raw.datetime,
-        raw.createdAt,
-        raw.created_at,
-        raw.time,
-        raw["日時"],
-        raw["日付"],
-        raw["タイムスタンプ"]
-      )
-    ),
-
-    area: getFirst(
-      raw.area,
-      raw.from,
-      raw.place,
-      raw.address,
-      raw["地域"],
-      raw["住所"],
-      raw["どこから"],
-      raw["お住まい"]
-    ),
-
-    name: getFirst(
-      raw.name,
-      raw.visitorName,
-      raw.nickname,
-      raw["名前"],
-      raw["お名前"],
-      raw["ニックネーム"],
-      "匿名"
-    ),
-
-    message: getFirst(
-      raw.message,
-      raw.text,
-      raw.body,
-      raw.comment,
-      raw.content,
-      raw["メッセージ"],
-      raw["本文"],
-      raw["内容"],
-      raw["ひとこと"],
-      raw["コメント"]
-    )
-  };
-}
-
-function extractGoenList(data) {
-  if (!data) {
-    return [];
-  }
-
-  if (Array.isArray(data)) {
-    return removeHeaderRow(data);
-  }
-
-  if (Array.isArray(data.goen)) {
-    return removeHeaderRow(data.goen);
-  }
-
-  if (Array.isArray(data.goenList)) {
-    return removeHeaderRow(data.goenList);
-  }
-
-  if (Array.isArray(data.kicho)) {
-    return removeHeaderRow(data.kicho);
-  }
-
-  if (Array.isArray(data.kichoList)) {
-    return removeHeaderRow(data.kichoList);
-  }
-
-  if (Array.isArray(data.list)) {
-    return removeHeaderRow(data.list);
-  }
-
-  if (Array.isArray(data.rows)) {
-    return removeHeaderRow(data.rows);
-  }
-
-  if (Array.isArray(data.items)) {
-    return removeHeaderRow(data.items);
-  }
-
-  if (Array.isArray(data.values)) {
-    return removeHeaderRow(data.values);
-  }
-
-  if (Array.isArray(data.records)) {
-    return removeHeaderRow(data.records);
-  }
-
-  if (data.data) {
-    if (Array.isArray(data.data)) {
-      return removeHeaderRow(data.data);
-    }
-
-    if (Array.isArray(data.data.goen)) {
-      return removeHeaderRow(data.data.goen);
-    }
-
-    if (Array.isArray(data.data.goenList)) {
-      return removeHeaderRow(data.data.goenList);
-    }
-
-    if (Array.isArray(data.data.kicho)) {
-      return removeHeaderRow(data.data.kicho);
-    }
-
-    if (Array.isArray(data.data.kichoList)) {
-      return removeHeaderRow(data.data.kichoList);
-    }
-
-    if (Array.isArray(data.data.list)) {
-      return removeHeaderRow(data.data.list);
-    }
-
-    if (Array.isArray(data.data.rows)) {
-      return removeHeaderRow(data.data.rows);
-    }
-
-    if (Array.isArray(data.data.items)) {
-      return removeHeaderRow(data.data.items);
-    }
-
-    if (Array.isArray(data.data.values)) {
-      return removeHeaderRow(data.data.values);
-    }
-
-    if (Array.isArray(data.data.records)) {
-      return removeHeaderRow(data.data.records);
-    }
-  }
-
-  return objectValuesAsList(data, [
-    "message",
-    "text",
-    "body",
-    "comment",
-    "content",
-    "メッセージ",
-    "本文",
-    "内容",
-    "ひとこと",
-    "コメント"
-  ]);
-}
-
-function removeHeaderRow(list) {
-  if (!Array.isArray(list)) {
-    return [];
-  }
-
-  return list.filter(function(row, index) {
-    if (!row) {
-      return false;
-    }
-
-    if (index === 0 && Array.isArray(row)) {
-      const joined = row.join("");
-
-      if (
-        joined.indexOf("日時") >= 0 ||
-        joined.indexOf("日付") >= 0 ||
-        joined.indexOf("名前") >= 0 ||
-        joined.indexOf("メッセージ") >= 0 ||
-        joined.indexOf("タイトル") >= 0
-      ) {
-        return false;
-      }
-    }
-
-    return true;
-  });
-}
-
-function objectValuesAsList(data, keys) {
-  const values = Object.values(data || {});
-
-  return values.filter(function(value) {
-    if (!value || typeof value !== "object") {
-      return false;
-    }
-
-    return keys.some(function(key) {
-      return value[key];
-    });
-  });
-}
-
-function flattenObject(data) {
-  data = data || {};
-
-  const nested =
-    data.data && typeof data.data === "object" && !Array.isArray(data.data)
-      ? data.data
-      : {};
-
-  return Object.assign({}, data, nested);
-}
-
-function extractList(data) {
-  if (!data) {
-    return [];
-  }
-
-  if (Array.isArray(data)) {
-    return data;
-  }
-
-  if (Array.isArray(data.list)) {
-    return data.list;
-  }
-
-  if (Array.isArray(data.rows)) {
-    return data.rows;
-  }
-
-  if (Array.isArray(data.items)) {
-    return data.items;
-  }
-
-  if (Array.isArray(data.data)) {
-    return data.data;
-  }
-
-  if (data.data && Array.isArray(data.data.list)) {
-    return data.data.list;
-  }
-
-  if (data.data && Array.isArray(data.data.rows)) {
-    return data.data.rows;
-  }
-
-  if (data.data && Array.isArray(data.data.items)) {
-    return data.data.items;
-  }
-
-  return [];
 }
 
 async function tryManyJson(urls) {
@@ -1727,6 +870,19 @@ function getJsonp(url) {
   });
 }
 
+function flattenObject(data) {
+  data = data || {};
+
+  const nested =
+    data.data &&
+    typeof data.data === "object" &&
+    !Array.isArray(data.data)
+      ? data.data
+      : {};
+
+  return Object.assign({}, data, nested);
+}
+
 function normalizeNumberText(value) {
   const text = toHalfWidthNumber(getString(value));
   const match = text.match(/[0-9]+/);
@@ -1744,19 +900,6 @@ function cleanSerialNo(value) {
     .replace(/^No/i, "")
     .replace(/^記念番号/, "")
     .trim();
-}
-
-function formatDateText(value) {
-  const text = getString(value);
-
-  if (!text) {
-    return "";
-  }
-
-  return text
-    .replace(/-/g, "/")
-    .replace(/\./g, "/")
-    .replace(/\s.*$/, "");
 }
 
 function toHalfWidthNumber(value) {
@@ -1784,16 +927,6 @@ function getFirst() {
 
   return "";
 }
-
-window.openNews = openNews;
-window.openKicho = openKicho;
-window.openGoen = openGoen;
-window.closeModal = closeModal;
-window.saveKicho = saveKicho;
-window.loadNews = loadNews;
-window.renderNews = renderNews;
-window.loadGoen = loadGoen;
-window.renderGoen = renderGoen;
 </script>
 </body>
 </html>
