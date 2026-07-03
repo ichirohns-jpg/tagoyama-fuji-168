@@ -124,18 +124,6 @@ body{
   background:#111;
 }
 
-.newsLink{
-  display:inline-block;
-  margin-top:14px;
-  color:#111;
-  background:#d4af37;
-  border-radius:999px;
-  padding:8px 16px;
-  font-size:14px;
-  font-weight:900;
-  text-decoration:none;
-}
-
 .empty{
   background:#111;
   border:1px solid rgba(212,175,55,.45);
@@ -215,11 +203,31 @@ const newsListEl =
 document.getElementById("newsList");
 
 function safeText(value){
+
   if(value === null || value === undefined){
     return "";
   }
 
   return String(value).trim();
+
+}
+
+function displayDate(value){
+
+  const text =
+  safeText(value);
+
+  if(!text){
+    return "";
+  }
+
+  return text
+  .replace("T00:00:00.000Z","")
+  .replace("T00:00:00Z","")
+  .replace(" 00:00:00","")
+  .replace("00:00:00","")
+  .trim();
+
 }
 
 function pickRows(data){
@@ -249,6 +257,7 @@ function pickRows(data){
   }
 
   return [];
+
 }
 
 function normalizeItem(row){
@@ -256,11 +265,10 @@ function normalizeItem(row){
   if(Array.isArray(row)){
 
     return {
-      date:safeText(row[0]),
+      date:displayDate(row[0]),
       title:safeText(row[1]),
       body:safeText(row[2]),
-      image:safeText(row[3]),
-      url:safeText(row[4])
+      image:safeText(row[3])
     };
 
   }
@@ -269,50 +277,44 @@ function normalizeItem(row){
 
     return {
       date:
-        safeText(
+        displayDate(
+          row["日付"] ||
+          row["A"] ||
           row.date ||
           row.Date ||
-          row["日付"] ||
-          row["A"]
+          row[0]
         ),
 
       title:
         safeText(
+          row["タイトル"] ||
+          row["B"] ||
           row.title ||
           row.Title ||
-          row["タイトル"] ||
-          row["B"]
+          row[1]
         ),
 
       body:
         safeText(
+          row["本文"] ||
+          row["C"] ||
           row.body ||
           row.Body ||
           row.text ||
           row.Text ||
-          row["本文"] ||
-          row["C"]
+          row[2]
         ),
 
       image:
         safeText(
+          row["画像URL"] ||
+          row["画像 URL"] ||
+          row["D"] ||
           row.image ||
           row.imageUrl ||
           row.imageURL ||
           row.Image ||
-          row["画像URL"] ||
-          row["画像 URL"] ||
-          row["D"]
-        ),
-
-      url:
-        safeText(
-          row.url ||
-          row.URL ||
-          row.link ||
-          row.Link ||
-          row["リンク"] ||
-          row["E"]
+          row[3]
         )
     };
 
@@ -322,9 +324,9 @@ function normalizeItem(row){
     date:"",
     title:"",
     body:"",
-    image:"",
-    url:""
+    image:""
   };
+
 }
 
 function addText(parent,tagName,className,text){
@@ -355,7 +357,7 @@ function renderNews(rows){
   rows
   .map(normalizeItem)
   .filter(function(item){
-    return item.date || item.title || item.body || item.image || item.url;
+    return item.date || item.title || item.body || item.image;
   });
 
   if(items.length === 0){
@@ -428,30 +430,6 @@ function renderNews(rows){
       "lazy";
 
       card.appendChild(img);
-
-    }
-
-    if(item.url){
-
-      const link =
-      document.createElement("a");
-
-      link.className =
-      "newsLink";
-
-      link.href =
-      item.url;
-
-      link.target =
-      "_blank";
-
-      link.rel =
-      "noopener noreferrer";
-
-      link.textContent =
-      "詳しく見る";
-
-      card.appendChild(link);
 
     }
 
