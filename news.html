@@ -49,8 +49,7 @@ body{
   border:2px solid #d4af37;
   border-radius:28px;
   padding:18px;
-  box-shadow:
-    0 12px 32px rgba(0,0,0,.5);
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
 }
 
 h1{
@@ -117,7 +116,7 @@ h1{
   font-size:clamp(18px,5vw,28px);
   font-weight:900;
   line-height:1.4;
-  margin-bottom:22px;
+  margin-bottom:18px;
 }
 
 .newsBody{
@@ -324,22 +323,14 @@ function normalizeRow(row){
     pickObjectValue(row,[
       "日付",
       "date",
-      "Date",
-      "day",
-      "Day",
-      "createdAt",
-      "timestamp"
+      "Date"
     ]);
 
     title =
     pickObjectValue(row,[
       "タイトル",
       "title",
-      "Title",
-      "件名",
-      "見出し",
-      "name",
-      "Name"
+      "Title"
     ]);
 
     body =
@@ -350,11 +341,7 @@ function normalizeRow(row){
       "text",
       "Text",
       "content",
-      "Content",
-      "description",
-      "Description",
-      "message",
-      "Message"
+      "Content"
     ]);
 
     imageUrl =
@@ -365,11 +352,7 @@ function normalizeRow(row){
       "imageURL",
       "ImageURL",
       "image",
-      "Image",
-      "img",
-      "Img",
-      "photo",
-      "Photo"
+      "Image"
     ]);
   }
 
@@ -410,38 +393,11 @@ function extractRows(data){
 }
 
 function isHeader(item){
-  const d =
-  item.date;
-
-  const t =
-  item.title;
-
-  const b =
-  item.body;
-
-  const img =
-  item.imageUrl;
-
-  if(
-    d === "日付" &&
-    t === "タイトル"
-  ){
+  if(item.date === "日付" && item.title === "タイトル"){
     return true;
   }
 
-  if(
-    t === "title" ||
-    t === "Title"
-  ){
-    return true;
-  }
-
-  if(
-    d === "date" &&
-    t === "title" &&
-    b === "body" &&
-    img === "imageUrl"
-  ){
+  if(item.date === "date" && item.title === "title"){
     return true;
   }
 
@@ -464,6 +420,7 @@ function buildPostText(item){
     if(text){
       text += "\n";
     }
+
     text += item.date;
   }
 
@@ -471,6 +428,7 @@ function buildPostText(item){
     if(text){
       text += "\n\n";
     }
+
     text += item.body;
   }
 
@@ -632,7 +590,6 @@ function renderNews(items){
   }
 
   items.forEach(function(item,index){
-
     const article =
     document.createElement("article");
 
