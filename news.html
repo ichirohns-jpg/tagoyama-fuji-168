@@ -2,497 +2,812 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-<title>お知らせ｜田子山富士168の縁</title>
+<title>田子山富士 お知らせ</title>
+
+<meta name="description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+
+<meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+<meta property="og:title" content="田子山富士 お知らせ">
+<meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="田子山富士 お知らせ">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 お知らせ">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+
+<link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+<link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
 <style>
 *{
-  margin:0;
-  padding:0;
   box-sizing:border-box;
 }
 
 html,
 body{
+  margin:0;
+  padding:0;
   width:100%;
   min-height:100%;
-}
-
-body{
-  background:#050505;
-  color:#fff;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
+    linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
+  color:#fff7ca;
   font-family:
+    -apple-system,
+    BlinkMacSystemFont,
     "Hiragino Sans",
     "Yu Gothic",
     "Meiryo",
     sans-serif;
-  padding:18px;
-  line-height:1.7;
+  -webkit-text-size-adjust:100%;
 }
 
-.wrap{
-  max-width:900px;
+body{
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.page{
+  width:100%;
+  max-width:760px;
   margin:0 auto;
+  padding:16px 12px 48px;
 }
 
-.header{
-  border:2px solid #d4af37;
+.card{
+  margin:16px 0;
+  padding:22px 14px;
   border-radius:28px;
-  padding:24px 18px;
-  text-align:center;
   background:
-    radial-gradient(circle at top,#3b2a08 0%,#090909 42%,#000 100%);
+    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
+    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
+  border:2px solid rgba(255,220,95,.58);
   box-shadow:
-    0 12px 32px rgba(0,0,0,.55),
-    inset 0 0 24px rgba(212,175,55,.14);
-  margin-bottom:18px;
+    0 0 0 1px rgba(255,230,150,.10) inset,
+    0 12px 28px rgba(0,0,0,.42);
 }
 
-.headerLabel{
-  color:#d4af37;
-  font-size:14px;
-  letter-spacing:.16em;
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.headerTitle{
-  font-size:30px;
-  line-height:1.35;
-  color:#fff7d6;
-  text-shadow:0 2px 10px rgba(212,175,55,.25);
-}
-
-.headerText{
-  margin-top:10px;
-  color:#e9ddad;
-  font-size:15px;
-}
-
-.status{
-  background:#111;
-  border:1px solid rgba(212,175,55,.45);
-  border-radius:20px;
-  padding:16px;
-  color:#e9ddad;
-  margin-bottom:16px;
+.pageTitle{
+  margin:0 0 18px;
+  color:#ffdf72;
+  font-size:clamp(36px,10vw,68px);
+  font-weight:900;
   text-align:center;
+  line-height:1.18;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.92),
+    0 0 18px rgba(255,210,80,.28);
+}
+
+.lead{
+  margin:0 0 18px;
+  color:#fff1bd;
+  text-align:center;
+  font-size:clamp(18px,5vw,30px);
+  font-weight:900;
+  line-height:1.65;
+}
+
+.statusBox{
+  margin:16px 0;
+  padding:16px 14px;
+  border-radius:20px;
+  background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,220,140,.34);
+  font-size:clamp(17px,4.6vw,26px);
+  font-weight:900;
+  line-height:1.65;
+  color:#fff3c4;
+  text-align:center;
+  white-space:pre-wrap;
 }
 
 .newsList{
-  display:flex;
-  flex-direction:column;
+  display:grid;
   gap:16px;
+  margin:18px 0 0;
 }
 
-.newsCard{
-  background:#0b0b0b;
-  border:1px solid rgba(212,175,55,.55);
-  border-radius:24px;
-  padding:18px;
-  box-shadow:0 10px 28px rgba(0,0,0,.38);
-  overflow:hidden;
-}
-
-.newsDate{
-  display:inline-block;
-  color:#111;
-  background:#d4af37;
-  border-radius:999px;
-  padding:4px 12px;
-  font-size:13px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
-.newsTitle{
-  color:#fff7d6;
-  font-size:23px;
-  line-height:1.4;
-  font-weight:900;
-  margin-bottom:10px;
-  word-break:break-word;
-}
-
-.newsBody{
-  color:#f4f4f4;
-  font-size:16px;
-  white-space:pre-wrap;
-  word-break:break-word;
+.newsItem{
+  padding:16px 14px 18px;
+  border-radius:22px;
+  background:rgba(0,0,0,.36);
+  border:2px solid rgba(255,220,95,.38);
 }
 
 .newsImage{
-  width:100%;
   display:block;
+  width:100%;
+  height:auto;
+  margin:0 0 14px;
   border-radius:18px;
-  margin-top:14px;
-  border:1px solid rgba(212,175,55,.35);
-  background:#111;
+  background:#000;
+  border:1px solid rgba(255,220,95,.42);
 }
 
-.empty{
-  background:#111;
-  border:1px solid rgba(212,175,55,.45);
-  border-radius:20px;
-  padding:18px;
-  color:#e9ddad;
+.newsTitle{
+  margin:0 0 8px;
+  color:#ffdf72;
+  font-size:clamp(23px,6.2vw,40px);
+  font-weight:900;
+  line-height:1.35;
+  text-shadow:
+    0 3px 4px rgba(0,0,0,.90),
+    0 0 14px rgba(255,210,80,.22);
+}
+
+.newsDate{
+  margin:0 0 10px;
+  color:#d9c886;
+  font-size:clamp(15px,4.2vw,24px);
+  font-weight:900;
+  line-height:1.45;
+}
+
+.newsText{
+  margin:0;
+  color:#fff1bd;
+  font-size:clamp(18px,4.8vw,30px);
+  font-weight:900;
+  line-height:1.65;
+  white-space:pre-wrap;
+}
+
+.shareBtnArea{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.smallBtn{
+  width:100%;
+  min-height:58px;
+  border:none;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:clamp(17px,4.8vw,28px);
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
   text-align:center;
+  font-family:inherit;
+  box-shadow:
+    0 5px 0 rgba(0,0,0,.28),
+    0 9px 18px rgba(0,0,0,.30);
+}
+
+.smallBtn:active{
+  transform:translateY(2px);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,.28),
+    0 6px 12px rgba(0,0,0,.30);
+}
+
+.btnArea{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+
+.linkBtn{
+  width:100%;
+  min-height:70px;
+  border:none;
+  border-radius:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:clamp(20px,5.5vw,34px);
+  font-weight:900;
+  letter-spacing:.02em;
+  color:#fff;
+  cursor:pointer;
+  text-align:center;
+  box-shadow:
+    0 7px 0 rgba(0,0,0,.32),
+    0 13px 22px rgba(0,0,0,.34);
+  -webkit-tap-highlight-color:transparent;
+  font-family:inherit;
+}
+
+.linkBtn:active{
+  transform:translateY(3px);
+  box-shadow:
+    0 4px 0 rgba(0,0,0,.32),
+    0 8px 14px rgba(0,0,0,.32);
+}
+
+.blueBtn{
+  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
+}
+
+.greenBtn{
+  background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
+}
+
+.blackBtn{
+  background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
 .footer{
-  margin-top:22px;
+  margin:28px 0 0;
   text-align:center;
-  color:#b9aa72;
-  font-size:13px;
+  color:#c9b56b;
+  font-weight:800;
+  line-height:1.6;
 }
 
-@media(max-width:520px){
-  body{
-    padding:14px;
+@media (max-width:420px){
+  .page{
+    padding-left:12px;
+    padding-right:12px;
   }
 
-  .header{
-    padding:22px 14px;
-    border-radius:24px;
+  .card{
+    border-radius:26px;
+    padding-left:14px;
+    padding-right:14px;
   }
 
-  .headerTitle{
-    font-size:26px;
-  }
-
-  .newsCard{
-    padding:16px;
+  .linkBtn{
+    min-height:66px;
     border-radius:22px;
   }
 
-  .newsTitle{
-    font-size:21px;
-  }
-
-  .newsBody{
-    font-size:15px;
+  .smallBtn{
+    min-height:56px;
   }
 }
 </style>
 </head>
 
 <body>
+<main class="page">
 
-<div class="wrap">
+<section class="card">
+  <h1 class="pageTitle">お知らせ</h1>
 
-  <header class="header">
-    <div class="headerLabel">TAGOYAMA FUJI 168</div>
-    <h1 class="headerTitle">田子山富士からのお知らせ</h1>
-    <p class="headerText">保存会・地域からのお知らせを掲載しています。</p>
-  </header>
+  <p class="lead">
+    田子山富士168の縁プロジェクトからの<br>
+    お知らせです。
+  </p>
 
-  <div id="status" class="status">
+  <div class="statusBox" id="statusBox">
     お知らせを読み込んでいます。
   </div>
 
-  <main id="newsList" class="newsList"></main>
+  <div class="newsList" id="newsList"></div>
 
-  <div class="footer">
-    田子山富士168の縁
+  <div class="btnArea">
+    <a class="linkBtn blackBtn" id="topLink" href="index.html">
+      トップへ戻る
+    </a>
   </div>
+</section>
 
-</div>
+<footer class="footer">
+  田子山富士 168の縁プロジェクト<br>
+  お知らせ
+</footer>
+
+</main>
 
 <script>
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+  "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
-const statusEl =
-document.getElementById("status");
+const SHARE_NEWS_PAGE =
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
 
-const newsListEl =
-document.getElementById("newsList");
+let currentUserId = "";
 
-function safeText(value){
+window.addEventListener("load", initNews);
 
+async function initNews(){
+  currentUserId = getUserId();
+  updateLinks();
+  await loadNews();
+}
+
+function getUserId(){
+  const params = new URLSearchParams(location.search);
+
+  const value =
+    getString(params.get("userId")) ||
+    getString(params.get("userid")) ||
+    getString(params.get("uid")) ||
+    getString(localStorage.getItem("tagoyamaUserId")) ||
+    getString(localStorage.getItem("tagoyamaFujiUserId"));
+
+  if(value){
+    localStorage.setItem("tagoyamaUserId", value);
+    localStorage.setItem("tagoyamaFujiUserId", value);
+  }
+
+  return value;
+}
+
+function updateLinks(){
+  const topLink = document.getElementById("topLink");
+
+  const query =
+    currentUserId
+      ? "?userId=" + encodeURIComponent(currentUserId)
+      : "";
+
+  if(topLink){
+    topLink.href = "index.html" + query;
+  }
+}
+
+async function loadNews(){
+  setStatus("お知らせを読み込んでいます。");
+
+  try{
+    const data = await tryManyJson([
+      GAS_URL + "?mode=news&t=" + Date.now(),
+      GAS_URL + "?mode=listNews&t=" + Date.now(),
+      GAS_URL + "?news=1&t=" + Date.now(),
+      GAS_URL + "?listNews=1&t=" + Date.now()
+    ]);
+
+    const list = extractNewsList(data);
+
+    renderNews(list);
+  }catch(error){
+    console.warn(error);
+    setStatus("現在表示できるお知らせはありません。");
+  }
+}
+
+function renderNews(list){
+  const newsList = document.getElementById("newsList");
+
+  if(!newsList){
+    return;
+  }
+
+  newsList.innerHTML = "";
+
+  if(!Array.isArray(list) || list.length === 0){
+    setStatus("現在表示できるお知らせはありません。");
+    return;
+  }
+
+  let count = 0;
+
+  list.forEach(function(row){
+    const item = normalizeNewsItem(row);
+
+    if(!item.date && !item.title && !item.text && !item.imageUrl){
+      return;
+    }
+
+    count++;
+
+    const box = document.createElement("article");
+    box.className = "newsItem";
+
+    if(item.imageUrl){
+      const img = document.createElement("img");
+      img.className = "newsImage";
+      img.alt = item.title || "お知らせ";
+      img.src = item.imageUrl;
+      img.onerror = function(){
+        this.remove();
+      };
+      box.appendChild(img);
+    }
+
+    const title = document.createElement("h2");
+    title.className = "newsTitle";
+    title.innerText = item.title || "お知らせ";
+    box.appendChild(title);
+
+    if(item.date){
+      const date = document.createElement("p");
+      date.className = "newsDate";
+      date.innerText = item.date;
+      box.appendChild(date);
+    }
+
+    if(item.text){
+      const text = document.createElement("p");
+      text.className = "newsText";
+      text.innerText = item.text;
+      box.appendChild(text);
+    }
+
+    const share = document.createElement("div");
+    share.className = "shareBtnArea";
+
+    const fb = document.createElement("button");
+    fb.className = "smallBtn blueBtn";
+    fb.type = "button";
+    fb.innerText = "Facebookに投稿";
+    fb.onclick = function(){
+      postFacebookNews(item);
+    };
+
+    const line = document.createElement("button");
+    line.className = "smallBtn greenBtn";
+    line.type = "button";
+    line.innerText = "LINEで送る";
+    line.onclick = function(){
+      sendLineNews(item);
+    };
+
+    const x = document.createElement("button");
+    x.className = "smallBtn blackBtn";
+    x.type = "button";
+    x.innerText = "Xで投稿";
+    x.onclick = function(){
+      postXNews(item);
+    };
+
+    const copy = document.createElement("button");
+    copy.className = "smallBtn blueBtn";
+    copy.type = "button";
+    copy.innerText = "リンクをコピー";
+    copy.onclick = function(){
+      copyNews(item);
+    };
+
+    share.appendChild(fb);
+    share.appendChild(line);
+    share.appendChild(x);
+    share.appendChild(copy);
+
+    box.appendChild(share);
+    newsList.appendChild(box);
+  });
+
+  if(count === 0){
+    setStatus("現在表示できるお知らせはありません。");
+  }else{
+    setStatus("お知らせを表示しました。");
+  }
+}
+
+function normalizeNewsItem(row){
+  if(Array.isArray(row)){
+    return {
+      date:formatDateText(row[0]),
+      title:getString(row[1]),
+      text:getString(row[2]),
+      imageUrl:getString(row[3])
+    };
+  }
+
+  row = row || {};
+
+  return {
+    date:formatDateText(
+      row.date ||
+      row["日付"] ||
+      row["日時"] ||
+      ""
+    ),
+
+    title:getString(
+      row.title ||
+      row["タイトル"] ||
+      row.name ||
+      ""
+    ),
+
+    text:getString(
+      row.text ||
+      row["本文"] ||
+      row.body ||
+      row.message ||
+      row["内容"] ||
+      ""
+    ),
+
+    imageUrl:getString(
+      row.imageUrl ||
+      row["画像URL"] ||
+      row.image ||
+      row.img ||
+      row["画像"] ||
+      ""
+    )
+  };
+}
+
+function extractNewsList(data){
+  if(!data){
+    return [];
+  }
+
+  let list = [];
+
+  if(Array.isArray(data)){
+    list = data;
+  }else if(Array.isArray(data.news)){
+    list = data.news;
+  }else if(Array.isArray(data.newsList)){
+    list = data.newsList;
+  }else if(Array.isArray(data.list)){
+    list = data.list;
+  }else if(Array.isArray(data.rows)){
+    list = data.rows;
+  }else if(Array.isArray(data.values)){
+    list = data.values;
+  }else if(Array.isArray(data.data)){
+    list = data.data;
+  }else if(data.data && Array.isArray(data.data.news)){
+    list = data.data.news;
+  }else if(data.data && Array.isArray(data.data.list)){
+    list = data.data.list;
+  }
+
+  return removeHeaderRows(list);
+}
+
+function removeHeaderRows(list){
+  return list.filter(function(row){
+    if(!row){
+      return false;
+    }
+
+    if(Array.isArray(row)){
+      const a = getString(row[0]);
+      const b = getString(row[1]);
+      const c = getString(row[2]);
+      const d = getString(row[3]);
+
+      if(
+        a === "日付" ||
+        a === "日時" ||
+        b === "タイトル" ||
+        c === "本文" ||
+        d === "画像URL"
+      ){
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+function makeNewsShareText(item){
+  return "田子山富士168の縁プロジェクト お知らせ\n" +
+    (item.title || "お知らせ") + "\n" +
+    (item.text || "") + "\n\n" +
+    "#田子山富士 #敷島神社 #志木市";
+}
+
+function buildNewsShareUrl(){
+  return SHARE_NEWS_PAGE + "?v=" + Date.now();
+}
+
+async function postFacebookNews(item){
+  const text =
+    makeNewsShareText(item) +
+    "\n" +
+    buildNewsShareUrl();
+
+  await copyText(text);
+
+  alert(
+    "投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。"
+  );
+
+  const url =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(buildNewsShareUrl());
+
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function sendLineNews(item){
+  const url =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(buildNewsShareUrl()) +
+    "&text=" +
+    encodeURIComponent(makeNewsShareText(item));
+
+  location.href = url;
+}
+
+function postXNews(item){
+  const url =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(makeNewsShareText(item)) +
+    "&url=" +
+    encodeURIComponent(buildNewsShareUrl());
+
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+async function copyNews(item){
+  const text =
+    makeNewsShareText(item) +
+    "\n" +
+    buildNewsShareUrl();
+
+  await copyText(text);
+
+  alert("お知らせの投稿文をコピーしました。");
+}
+
+async function tryManyJson(urls){
+  let lastError = null;
+
+  for(let i = 0; i < urls.length; i++){
+    try{
+      const data = await getJson(urls[i]);
+
+      if(data !== null && data !== undefined){
+        return data;
+      }
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("通信に失敗しました。");
+}
+
+async function getJson(url){
+  try{
+    const res = await fetch(url,{
+      method:"GET",
+      cache:"no-store"
+    });
+
+    if(!res.ok){
+      throw new Error("HTTP " + res.status);
+    }
+
+    const text = await res.text();
+    return parseJsonText(text);
+  }catch(error){
+    return await getJsonp(url);
+  }
+}
+
+function parseJsonText(text){
+  const value = String(text || "").trim();
+
+  if(!value){
+    throw new Error("empty response");
+  }
+
+  try{
+    return JSON.parse(value);
+  }catch(error){
+    const objectStart = value.indexOf("{");
+    const objectEnd = value.lastIndexOf("}");
+
+    if(objectStart >= 0 && objectEnd > objectStart){
+      return JSON.parse(value.substring(objectStart, objectEnd + 1));
+    }
+
+    const arrayStart = value.indexOf("[");
+    const arrayEnd = value.lastIndexOf("]");
+
+    if(arrayStart >= 0 && arrayEnd > arrayStart){
+      return JSON.parse(value.substring(arrayStart, arrayEnd + 1));
+    }
+
+    throw error;
+  }
+}
+
+function getJsonp(url){
+  return new Promise(function(resolve,reject){
+    const callbackName =
+      "tagoyamaNewsCallback_" +
+      Date.now() +
+      "_" +
+      Math.floor(Math.random() * 1000000);
+
+    const script = document.createElement("script");
+    const sep = url.indexOf("?") >= 0 ? "&" : "?";
+
+    const timer = setTimeout(function(){
+      cleanup();
+      reject(new Error("JSONP timeout"));
+    },12000);
+
+    window[callbackName] = function(data){
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = function(){
+      cleanup();
+      reject(new Error("JSONP error"));
+    };
+
+    script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+    document.body.appendChild(script);
+
+    function cleanup(){
+      clearTimeout(timer);
+
+      try{
+        delete window[callbackName];
+      }catch(error){
+        window[callbackName] = undefined;
+      }
+
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
+      }
+    }
+  });
+}
+
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(error){
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+  }
+}
+
+function setStatus(text){
+  const el = document.getElementById("statusBox");
+
+  if(el){
+    el.innerText = text;
+  }
+}
+
+function formatDateText(value){
+  const text = getString(value);
+
+  if(!text){
+    return "";
+  }
+
+  return text
+    .replace(/-/g,"/")
+    .replace(/\./g,"/")
+    .replace(/\s.*$/,"");
+}
+
+function getString(value){
   if(value === null || value === undefined){
     return "";
   }
 
   return String(value).trim();
-
 }
 
-function cleanDate(value){
-
-  let text =
-  safeText(value);
-
-  if(!text){
-    return "";
-  }
-
-  text =
-  text
-  .replace("T00:00:00.000Z","")
-  .replace("T00:00:00Z","")
-  .replace(" 00:00:00","")
-  .replace(" 00:00","")
-  .trim();
-
-  return text;
-
-}
-
-function pickRows(data){
-
-  if(Array.isArray(data)){
-    return data;
-  }
-
-  if(data && Array.isArray(data.news)){
-    return data.news;
-  }
-
-  if(data && Array.isArray(data.items)){
-    return data.items;
-  }
-
-  if(data && Array.isArray(data.data)){
-    return data.data;
-  }
-
-  if(data && Array.isArray(data.values)){
-    return data.values;
-  }
-
-  if(data && Array.isArray(data.rows)){
-    return data.rows;
-  }
-
-  return [];
-
-}
-
-function normalizeNews(row){
-
-  if(Array.isArray(row)){
-
-    return {
-      date:cleanDate(row[0]),
-      title:safeText(row[1]),
-      body:safeText(row[2]),
-      image:safeText(row[3])
-    };
-
-  }
-
-  if(row && typeof row === "object"){
-
-    return {
-      date:
-        cleanDate(
-          row["日付"] ||
-          row["A"] ||
-          row.date ||
-          row.Date ||
-          row[0]
-        ),
-
-      title:
-        safeText(
-          row["タイトル"] ||
-          row["B"] ||
-          row.title ||
-          row.Title ||
-          row[1]
-        ),
-
-      body:
-        safeText(
-          row["本文"] ||
-          row["C"] ||
-          row.body ||
-          row.Body ||
-          row.text ||
-          row.Text ||
-          row[2]
-        ),
-
-      image:
-        safeText(
-          row["画像URL"] ||
-          row["画像 URL"] ||
-          row["D"] ||
-          row.image ||
-          row.imageUrl ||
-          row.imageURL ||
-          row.Image ||
-          row[3]
-        )
-    };
-
-  }
-
-  return {
-    date:"",
-    title:"",
-    body:"",
-    image:""
-  };
-
-}
-
-function addText(parent,tagName,className,text){
-
-  if(!text){
-    return;
-  }
-
-  const el =
-  document.createElement(tagName);
-
-  el.className =
-  className;
-
-  el.textContent =
-  text;
-
-  parent.appendChild(el);
-
-}
-
-function renderNews(rows){
-
-  newsListEl.innerHTML =
-  "";
-
-  const items =
-  rows
-  .map(normalizeNews)
-  .filter(function(item){
-
-    const title =
-    safeText(item.title);
-
-    if(title === "タイトル"){
-      return false;
-    }
-
-    return item.date || item.title || item.body || item.image;
-
-  });
-
-  statusEl.style.display =
-  "none";
-
-  if(items.length === 0){
-
-    const empty =
-    document.createElement("div");
-
-    empty.className =
-    "empty";
-
-    empty.textContent =
-    "現在、表示できるお知らせはありません。";
-
-    newsListEl.appendChild(empty);
-
-    return;
-
-  }
-
-  items.forEach(function(item){
-
-    const card =
-    document.createElement("article");
-
-    card.className =
-    "newsCard";
-
-    addText(
-      card,
-      "div",
-      "newsDate",
-      item.date
-    );
-
-    addText(
-      card,
-      "h2",
-      "newsTitle",
-      item.title
-    );
-
-    addText(
-      card,
-      "div",
-      "newsBody",
-      item.body
-    );
-
-    if(item.image){
-
-      const img =
-      document.createElement("img");
-
-      img.className =
-      "newsImage";
-
-      img.src =
-      item.image;
-
-      img.alt =
-      item.title || "お知らせ画像";
-
-      img.loading =
-      "lazy";
-
-      card.appendChild(img);
-
-    }
-
-    newsListEl.appendChild(card);
-
-  });
-
-}
-
-async function loadNews(){
-
-  try{
-
-    const response =
-    await fetch(
-      GAS_URL + "?mode=news",
-      {
-        method:"GET",
-        cache:"no-store"
-      }
-    );
-
-    if(!response.ok){
-      throw new Error("news fetch error");
-    }
-
-    const data =
-    await response.json();
-
-    const rows =
-    pickRows(data);
-
-    renderNews(rows);
-
-  }catch(error){
-
-    console.error(error);
-
-    statusEl.textContent =
-    "お知らせを読み込めませんでした。時間をおいて再度ご確認ください。";
-
-  }
-
-}
-
-loadNews();
+window.postFacebookNews = postFacebookNews;
+window.sendLineNews = sendLineNews;
+window.postXNews = postXNews;
+window.copyNews = copyNews;
 </script>
-
 </body>
 </html>
