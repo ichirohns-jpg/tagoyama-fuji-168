@@ -188,10 +188,6 @@ body{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
-.redBtn{
-  background:linear-gradient(180deg,#ff7b6e 0%,#d71920 100%);
-}
-
 .notice{
   margin:14px 0 0;
   color:#d9c886;
@@ -270,10 +266,6 @@ body{
     <button class="btn blueBtn" type="button" onclick="copyShareText()">
       投稿文をコピー
     </button>
-
-    <a class="linkBtn redBtn" id="omikujiLink" href="omikuji.html">
-      開運おみくじへ
-    </a>
 
     <a class="linkBtn blackBtn" id="topLink" href="index.html">
       トップへ戻る
@@ -476,7 +468,6 @@ function renderCertificate(data){
 
 function updateLinks(){
   const topLink = document.getElementById("topLink");
-  const omikujiLink = document.getElementById("omikujiLink");
 
   const query =
     certificateData.userId
@@ -485,10 +476,6 @@ function updateLinks(){
 
   if(topLink){
     topLink.href = "index.html" + query;
-  }
-
-  if(omikujiLink){
-    omikujiLink.href = "omikuji.html" + query;
   }
 }
 
