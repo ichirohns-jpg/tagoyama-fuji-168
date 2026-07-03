@@ -140,52 +140,52 @@ body{
 
 .overlayBottom{
   position:absolute;
-  left:4.5%;
-  right:4.5%;
-  bottom:6.5%;
-  padding:10px 6px 12px;
+  left:7%;
+  right:7%;
+  bottom:8%;
+  padding:0;
   text-align:center;
   pointer-events:none;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.30));
-  border-radius:22px;
+  background:none;
+  border:none;
 }
 
 .climbTitle{
-  margin:0 0 8px;
+  margin:0 0 4px;
   font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
-  font-size:clamp(23px,6.4vw,46px);
+  font-size:clamp(18px,4.9vw,34px);
   font-weight:900;
   color:#ffdf72;
   line-height:1.22;
+  letter-spacing:.04em;
   text-shadow:
-    0 2px 4px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.88),
-    0 0 16px rgba(255,210,80,.38);
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.82),
+    0 0 12px rgba(255,210,80,.30);
 }
 
 .serialNo{
-  margin:0 0 8px;
-  font-size:clamp(31px,8.6vw,64px);
+  margin:0 0 4px;
+  font-size:clamp(21px,5.8vw,40px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.08;
-  letter-spacing:.01em;
+  letter-spacing:.035em;
   text-shadow:
-    0 3px 5px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.88);
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.82);
 }
 
 .dateText{
   margin:0;
-  font-size:clamp(24px,6.4vw,46px);
+  font-size:clamp(17px,4.6vw,30px);
   font-weight:900;
   color:#fff7ca;
   line-height:1.15;
-  letter-spacing:.03em;
+  letter-spacing:.04em;
   text-shadow:
-    0 3px 5px rgba(0,0,0,.95),
-    0 0 10px rgba(0,0,0,.88);
+    0 2px 3px rgba(0,0,0,.92),
+    0 0 8px rgba(0,0,0,.82);
 }
 
 .noImageBox{
@@ -354,9 +354,9 @@ body{
       >
 
       <div class="overlayBottom">
-        <p class="climbTitle" id="climbTitle">第1回 登頂記念</p>
-        <p class="serialNo" id="serialNo">No.1-0001</p>
-        <p class="dateText" id="dateText">2026/07/04</p>
+        <p class="climbTitle" id="climbTitle"></p>
+        <p class="serialNo" id="serialNo"></p>
+        <p class="dateText" id="dateText"></p>
       </div>
     </div>
 
@@ -435,21 +435,12 @@ async function initCertificate(){
   certificateData = mergeData(certificateData, localData);
   certificateData = mergeData(certificateData, urlData);
 
+  certificateData = removeTestData(certificateData);
+
   if(certificateData.userId){
     await loadCertificateFromGas(certificateData.userId);
     certificateData = mergeData(certificateData, urlData);
-  }
-
-  if(!certificateData.climbCount){
-    certificateData.climbCount = "1";
-  }
-
-  if(!certificateData.serialNo){
-    certificateData.serialNo = "1-0001";
-  }
-
-  if(!certificateData.lastDate){
-    certificateData.lastDate = todayText();
+    certificateData = removeTestData(certificateData);
   }
 
   saveDataToLocal(certificateData);
@@ -660,35 +651,45 @@ function renderCertificate(data){
   const climbTitle = document.getElementById("climbTitle");
   const serialNo = document.getElementById("serialNo");
   const dateText = document.getElementById("dateText");
+  const saveBtn = document.getElementById("saveBtn");
 
   const count =
-    normalizeNumberText(data.climbCount) || "1";
+    normalizeNumberText(data.climbCount);
 
   const serial =
-    cleanSerialNo(data.serialNo) || "1-0001";
+    cleanSerialNo(data.serialNo);
 
   const date =
-    formatDateText(data.lastDate) || todayText();
+    formatDateText(data.lastDate);
 
   const imageUrl =
     getString(data.imageUrl);
 
+  const hasValidData =
+    imageUrl &&
+    serial &&
+    !isTestSerial(serial);
+
   if(climbTitle){
     climbTitle.innerText =
-      "第" + count + "回 登頂記念";
+      count
+        ? "第" + count + "回 登頂記念"
+        : "登頂記念";
   }
 
   if(serialNo){
     serialNo.innerText =
-      "No." + serial;
+      serial
+        ? "No." + serial
+        : "";
   }
 
   if(dateText){
     dateText.innerText =
-      date;
+      date || "";
   }
 
-  if(imageUrl && image){
+  if(hasValidData && image){
     image.onload = function(){
       if(imageBox){
         imageBox.style.display = "block";
@@ -696,6 +697,10 @@ function renderCertificate(data){
 
       if(noImageBox){
         noImageBox.style.display = "none";
+      }
+
+      if(saveBtn){
+        saveBtn.disabled = false;
       }
     };
 
@@ -706,6 +711,10 @@ function renderCertificate(data){
 
       if(noImageBox){
         noImageBox.style.display = "flex";
+      }
+
+      if(saveBtn){
+        saveBtn.disabled = true;
       }
     };
 
@@ -722,12 +731,19 @@ function renderCertificate(data){
     if(image){
       image.removeAttribute("src");
     }
+
+    if(saveBtn){
+      saveBtn.disabled = true;
+    }
   }
 
   certificateData.climbCount = count;
   certificateData.serialNo = serial;
   certificateData.lastDate = date;
-  certificateData.imageUrl = imageUrl;
+  certificateData.imageUrl =
+    hasValidData
+      ? imageUrl
+      : "";
 }
 
 function updateLinks(){
@@ -744,6 +760,14 @@ function updateLinks(){
 }
 
 async function saveCertificateImage(){
+  const imageBox =
+    document.getElementById("imageBox");
+
+  if(!imageBox || imageBox.style.display === "none"){
+    alert("保存できる登頂記念証がありません。トップから登頂記念証を受け取ってください。");
+    return;
+  }
+
   const btn = document.getElementById("saveBtn");
   const oldText = btn ? btn.innerText : "";
 
@@ -879,7 +903,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=20260704finalfix";
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704final-clean";
 }
 
 function makeShareText(){
@@ -961,7 +985,7 @@ function parseJsonText(text){
     const arrayEnd = value.lastIndexOf("]");
 
     if(arrayStart >= 0 && arrayEnd > arrayStart){
-      return JSON.parse(value.substring(arrayStart, arrayEnd + 1));
+      return JSON.parse(value.substring(arrayStart,arrayEnd + 1));
     }
 
     throw error;
@@ -1072,8 +1096,40 @@ function mergeData(base,add){
   return result;
 }
 
+function removeTestData(data){
+  data = data || {};
+
+  const serial =
+    String(data.serialNo || "");
+
+  if(isTestSerial(serial)){
+    data.climbCount = "";
+    data.serialNo = "";
+    data.lastDate = "";
+    data.imageUrl = "";
+  }
+
+  return data;
+}
+
+function isTestSerial(value){
+  const text =
+    String(value || "").toUpperCase();
+
+  return text.indexOf("TEST") >= 0;
+}
+
 function saveDataToLocal(data){
   try{
+    if(isTestSerial(data.serialNo)){
+      localStorage.removeItem("tagoyamaClimbData");
+      localStorage.removeItem("tagoyamaLastClimbCount");
+      localStorage.removeItem("tagoyamaLastSerialNo");
+      localStorage.removeItem("tagoyamaLastDate");
+      localStorage.removeItem("tagoyamaLastImageUrl");
+      return;
+    }
+
     if(data.userId){
       localStorage.setItem("tagoyamaUserId", data.userId);
       localStorage.setItem("tagoyamaFujiUserId", data.userId);
@@ -1095,7 +1151,9 @@ function saveDataToLocal(data){
       localStorage.setItem("tagoyamaLastImageUrl", data.imageUrl);
     }
 
-    localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
+    if(data.imageUrl && data.serialNo){
+      localStorage.setItem("tagoyamaClimbData", JSON.stringify(data));
+    }
   }catch(error){
     console.warn(error);
   }
