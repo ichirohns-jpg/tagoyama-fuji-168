@@ -12,8 +12,8 @@
 <meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/news.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-sns">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-sns">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="お知らせ">
 <meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-clean">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-sns">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -127,6 +127,16 @@ body{
   color:#fff7ca;
 }
 
+.newsImage{
+  display:block;
+  width:100%;
+  height:auto;
+  margin:0 0 14px;
+  border-radius:18px;
+  border:1px solid rgba(255,220,95,.42);
+  background:#000;
+}
+
 .newsTitle{
   margin:0 0 8px;
   color:#ffdf72;
@@ -153,6 +163,39 @@ body{
   font-weight:900;
   line-height:1.65;
   white-space:pre-wrap;
+}
+
+.shareBtnArea{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.smallBtn{
+  width:100%;
+  min-height:58px;
+  border:none;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:clamp(17px,4.8vw,28px);
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
+  text-align:center;
+  font-family:inherit;
+  box-shadow:
+    0 5px 0 rgba(0,0,0,.28),
+    0 9px 18px rgba(0,0,0,.30);
+}
+
+.smallBtn:active{
+  transform:translateY(2px);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,.28),
+    0 6px 12px rgba(0,0,0,.30);
 }
 
 .btnArea{
@@ -231,6 +274,10 @@ body{
     min-height:66px;
     border-radius:22px;
   }
+
+  .smallBtn{
+    min-height:56px;
+  }
 }
 </style>
 </head>
@@ -281,6 +328,9 @@ body{
 <script>
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+
+const SHARE_NEWS_URL =
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html?v=20260703-toponly";
 
 let currentUserId = "";
 
@@ -399,10 +449,10 @@ function renderNews(list){
 
   let count = 0;
 
-  list.forEach(function(raw){
+  list.forEach(function(raw, index){
     const item = normalizeNewsItem(raw);
 
-    if(!item.title && !item.text && !item.date){
+    if(!item.title && !item.text && !item.date && !item.imageUrl){
       return;
     }
 
@@ -410,6 +460,17 @@ function renderNews(list){
 
     const div = document.createElement("div");
     div.className = "newsItem";
+
+    if(item.imageUrl){
+      const img = document.createElement("img");
+      img.className = "newsImage";
+      img.src = item.imageUrl;
+      img.alt = item.title || "お知らせ";
+      img.onerror = function(){
+        this.style.display = "none";
+      };
+      div.appendChild(img);
+    }
 
     const title = document.createElement("p");
     title.className = "newsTitle";
@@ -431,6 +492,48 @@ function renderNews(list){
       "田子山富士168の縁プロジェクトからのお知らせです。";
 
     div.appendChild(text);
+
+    const share = document.createElement("div");
+    share.className = "shareBtnArea";
+
+    const fb = document.createElement("button");
+    fb.className = "smallBtn blueBtn";
+    fb.type = "button";
+    fb.innerText = "Facebookに投稿";
+    fb.onclick = function(){
+      postFacebookNews(item);
+    };
+
+    const line = document.createElement("button");
+    line.className = "smallBtn greenBtn";
+    line.type = "button";
+    line.innerText = "LINEで送る";
+    line.onclick = function(){
+      sendLineNews(item);
+    };
+
+    const x = document.createElement("button");
+    x.className = "smallBtn blackBtn";
+    x.type = "button";
+    x.innerText = "Xで投稿";
+    x.onclick = function(){
+      postXNews(item);
+    };
+
+    const copy = document.createElement("button");
+    copy.className = "smallBtn blueBtn";
+    copy.type = "button";
+    copy.innerText = "リンクをコピー";
+    copy.onclick = function(){
+      copyNews(item);
+    };
+
+    share.appendChild(fb);
+    share.appendChild(line);
+    share.appendChild(x);
+    share.appendChild(copy);
+
+    div.appendChild(share);
     box.appendChild(div);
   });
 
@@ -449,7 +552,8 @@ function normalizeNewsItem(raw){
       return {
         date:"",
         title:"",
-        text:""
+        text:"",
+        imageUrl:""
       };
     }
 
@@ -497,6 +601,21 @@ function normalizeNewsItem(raw){
       raw["説明"],
       raw["詳細"],
       raw["コメント"]
+    ),
+
+    imageUrl: normalizeImageUrl(
+      getFirst(
+        raw.imageUrl,
+        raw.image,
+        raw.imgUrl,
+        raw.img,
+        raw.photo,
+        raw.picture,
+        raw.thumbnail,
+        raw["画像URL"],
+        raw["画像"],
+        raw["写真"]
+      )
     )
   };
 }
@@ -509,6 +628,8 @@ function normalizeArrayRow(row){
   const date =
     findDateCell(cells) ||
     getString(cells[0]);
+
+  const imageUrl = normalizeImageUrl(findImageCell(cells));
 
   let title = "";
   let text = "";
@@ -550,8 +671,69 @@ function normalizeArrayRow(row){
   return {
     date: formatDateText(date),
     title: title || "お知らせ",
-    text: text
+    text: text,
+    imageUrl: imageUrl
   };
+}
+
+function makeNewsShareText(item){
+  item = item || {};
+
+  return "田子山富士168の縁プロジェクト お知らせ\n" +
+    (item.title || "お知らせ") + "\n" +
+    (item.text || "田子山富士168の縁プロジェクトからのお知らせです。") + "\n\n" +
+    "#田子山富士 #敷島神社 #志木市";
+}
+
+function postFacebookNews(item){
+  const url =
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(SHARE_NEWS_URL);
+
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function sendLineNews(item){
+  const url =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(SHARE_NEWS_URL) +
+    "&text=" +
+    encodeURIComponent(makeNewsShareText(item));
+
+  location.href = url;
+}
+
+function postXNews(item){
+  const url =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(makeNewsShareText(item)) +
+    "&url=" +
+    encodeURIComponent(SHARE_NEWS_URL);
+
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+async function copyNews(item){
+  const text =
+    makeNewsShareText(item) +
+    "\n" +
+    SHARE_NEWS_URL;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    alert("お知らせの内容をコピーしました。");
+  }catch(error){
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    alert("お知らせの内容をコピーしました。");
+  }
 }
 
 function extractNewsList(data){
@@ -605,10 +787,16 @@ function extractNewsList(data){
       value.text ||
       value.body ||
       value.content ||
+      value.imageUrl ||
+      value.image ||
+      value.imgUrl ||
+      value.img ||
       value["タイトル"] ||
       value["本文"] ||
       value["内容"] ||
-      value["メッセージ"]
+      value["メッセージ"] ||
+      value["画像URL"] ||
+      value["画像"]
     );
   });
 
@@ -838,6 +1026,66 @@ function findDateCell(cells){
     if(isDateText(cells[i])){
       return cells[i];
     }
+  }
+
+  return "";
+}
+
+function findImageCell(cells){
+  for(let i = 0; i < cells.length; i++){
+    if(isImageText(cells[i])){
+      return cells[i];
+    }
+  }
+
+  return "";
+}
+
+function normalizeImageUrl(url){
+  const value = getString(url);
+
+  if(!value){
+    return "";
+  }
+
+  const driveId = getDriveId(value);
+
+  if(driveId){
+    return "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(driveId) +
+      "=w2000";
+  }
+
+  return value;
+}
+
+function getDriveId(url){
+  const value = getString(url);
+
+  if(!value){
+    return "";
+  }
+
+  let match = value.match(/\/file\/d\/([^/]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = value.match(/[?&]id=([^&]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  if(/^[a-zA-Z0-9_-]{20,}$/.test(value)){
+    return value;
   }
 
   return "";
