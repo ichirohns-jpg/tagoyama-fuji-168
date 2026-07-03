@@ -856,14 +856,11 @@ async function postFacebook(){
   await copyTextForShare(text);
 
   alert(
-    "投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。"
+    "投稿文とリンクをコピーしました。\nFacebookが開いたら、投稿欄に貼り付けてください。"
   );
 
-  const url =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(buildShareUrl());
-
-  window.open(url, "_blank", "noopener,noreferrer");
+  location.href =
+    "https://www.facebook.com/";
 }
 
 function sendLine(){
@@ -883,7 +880,7 @@ function postX(){
     "&url=" +
     encodeURIComponent(buildShareUrl());
 
-  window.open(url, "_blank", "noopener,noreferrer");
+  location.href = url;
 }
 
 async function copyShareText(){
@@ -898,7 +895,7 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-  return SHARE_CERTIFICATE_PAGE + "?v=20260704textfix";
+  return SHARE_CERTIFICATE_PAGE + "?v=20260704fbmanual";
 }
 
 function makeShareText(){
