@@ -6,14 +6,14 @@
 
 <title>田子山富士 開運おみくじ</title>
 
-<meta name="description" content="田子山富士 開運おみくじ">
+<meta name="description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 開運おみくじ">
 <meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=20260703-toponly">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=20260703-hitimage">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 開運おみくじ">
 <meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -144,9 +144,11 @@ body{
 
   <section class="imageOnly">
     <img
+      id="shareImage"
       class="shareImage"
-      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly"
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage"
       alt="田子山富士 開運おみくじ"
+      onerror="useFallbackImage()"
     >
   </section>
 
@@ -157,5 +159,114 @@ body{
   </div>
 
 </main>
+
+<script>
+const FALLBACK_IMAGE =
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage";
+
+window.addEventListener("load", function(){
+  setHitImage();
+});
+
+function setHitImage(){
+  const params = new URLSearchParams(location.search);
+
+  const imgid =
+    getString(params.get("imgid")) ||
+    getString(params.get("imageId")) ||
+    getString(params.get("id"));
+
+  const img =
+    getString(params.get("img")) ||
+    getString(params.get("image")) ||
+    getString(params.get("imageUrl")) ||
+    getString(params.get("url"));
+
+  let imageUrl = "";
+
+  if(imgid){
+    imageUrl =
+      "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(imgid) +
+      "=w2000";
+  }else if(img){
+    imageUrl = normalizeImageUrl(img);
+  }
+
+  if(imageUrl){
+    const image = document.getElementById("shareImage");
+
+    if(image){
+      image.src = imageUrl;
+    }
+  }
+}
+
+function normalizeImageUrl(url){
+  const value = getString(url);
+
+  if(!value){
+    return "";
+  }
+
+  const driveId = getDriveId(value);
+
+  if(driveId){
+    return "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(driveId) +
+      "=w2000";
+  }
+
+  return value;
+}
+
+function getDriveId(url){
+  const value = getString(url);
+
+  if(!value){
+    return "";
+  }
+
+  let match = value.match(/\/file\/d\/([^/]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = value.match(/[?&]id=([^&]+)/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+
+  if(match && match[1]){
+    return match[1];
+  }
+
+  if(/^[a-zA-Z0-9_-]{20,}$/.test(value)){
+    return value;
+  }
+
+  return "";
+}
+
+function useFallbackImage(){
+  const image = document.getElementById("shareImage");
+
+  if(image && image.src !== FALLBACK_IMAGE){
+    image.src = FALLBACK_IMAGE;
+  }
+}
+
+function getString(value){
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value).trim();
+}
+</script>
 </body>
 </html>
