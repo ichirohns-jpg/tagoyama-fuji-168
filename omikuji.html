@@ -477,14 +477,8 @@ body{
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
-const SITE_ROOT =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
 const SHARE_OMIKUJI_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
-
-const FALLBACK_LOGO =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png";
 
 const FALLBACK_OGP =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji";
@@ -501,6 +495,21 @@ function init(){
     getUserIdFromUrl();
 
   if(!urlUserId){
+
+    showQrOnlyBlock();
+    return;
+
+  }
+
+  const pass =
+    getOmikujiPass();
+
+  if(
+    !pass ||
+    pass.userId !== urlUserId ||
+    !pass.expiresAt ||
+    Date.now() > Number(pass.expiresAt)
+  ){
 
     showQrOnlyBlock();
     return;
@@ -535,6 +544,38 @@ function init(){
       drawOmikuji();
 
     },400);
+
+  }
+
+}
+
+function getOmikujiPass(){
+
+  try{
+
+    const text =
+      localStorage.getItem("tagoyamaOmikujiPass");
+
+    if(!text){
+
+      return null;
+
+    }
+
+    const pass =
+      JSON.parse(text);
+
+    if(!pass || typeof pass !== "object"){
+
+      return null;
+
+    }
+
+    return pass;
+
+  }catch(error){
+
+    return null;
 
   }
 
@@ -597,9 +638,41 @@ function updateLinks(){
 
 }
 
+function hasValidPassNow(){
+
+  const urlUserId =
+    getUserIdFromUrl();
+
+  if(!urlUserId){
+    return false;
+  }
+
+  const pass =
+    getOmikujiPass();
+
+  if(!pass){
+    return false;
+  }
+
+  if(pass.userId !== urlUserId){
+    return false;
+  }
+
+  if(!pass.expiresAt){
+    return false;
+  }
+
+  if(Date.now() > Number(pass.expiresAt)){
+    return false;
+  }
+
+  return true;
+
+}
+
 async function drawOmikuji(){
 
-  if(!currentUserId){
+  if(!currentUserId || !hasValidPassNow()){
 
     showQrOnlyBlock();
     return;
@@ -1279,7 +1352,7 @@ function buildShareUrl(){
   const params =
     new URLSearchParams();
 
-  params.set("v","20260704qrlock");
+  params.set("v","20260704omikujipass");
 
   if(currentUserId){
 
