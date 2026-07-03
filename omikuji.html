@@ -6,12 +6,13 @@
 
 <title>田子山富士 開運おみくじ</title>
 
-<meta name="description" content="田子山富士168の縁プロジェクト 開運おみくじ">
+<meta name="description" content="田子山富士168の縁プロジェクトの開運おみくじです。">
+
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 開運おみくじ">
-<meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
+<meta property="og:description" content="田子山富士のご縁に願いを込めて、おみくじを引いてください。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji">
 <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji">
 <meta property="og:image:type" content="image/jpeg">
@@ -22,11 +23,13 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 開運おみくじ">
-<meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
+<meta name="twitter:description" content="田子山富士のご縁に願いを込めて、おみくじを引いてください。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 *{
@@ -71,8 +74,8 @@ body{
 }
 
 .logoFrame{
-  width:132px;
-  height:132px;
+  width:124px;
+  height:124px;
   margin:0 auto 14px;
   border-radius:30px;
   overflow:hidden;
@@ -92,67 +95,71 @@ body{
 
 .mainTitle{
   margin:0;
-  font-size:clamp(36px,10vw,68px);
-  line-height:1.16;
-  font-weight:900;
   color:#ffdf72;
+  font-size:clamp(42px,12vw,82px);
+  font-weight:900;
+  line-height:1.1;
   text-shadow:
     0 4px 4px rgba(0,0,0,.92),
-    0 0 18px rgba(255,210,80,.28);
+    0 0 18px rgba(255,210,80,.30);
+}
+
+.mainTitle span{
+  display:block;
 }
 
 .mainSubTitle{
-  margin:10px 0 0;
-  font-size:clamp(20px,5.5vw,34px);
-  line-height:1.45;
-  font-weight:900;
+  margin:12px 0 0;
   color:#fff3c4;
+  font-size:clamp(19px,5.2vw,32px);
+  font-weight:900;
+  line-height:1.45;
   text-shadow:0 3px 3px rgba(0,0,0,.88);
 }
 
 .card{
   margin:16px 0;
-  padding:20px 14px;
-  border-radius:28px;
+  padding:22px 14px;
+  border-radius:30px;
   background:
-    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
-    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
-  border:2px solid rgba(255,220,95,.58);
+    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 48%),
+    linear-gradient(180deg, rgba(44,28,0,.94), rgba(8,8,8,.96));
+  border:2px solid rgba(255,220,95,.62);
   box-shadow:
     0 0 0 1px rgba(255,230,150,.10) inset,
-    0 12px 28px rgba(0,0,0,.42);
+    0 14px 30px rgba(0,0,0,.46);
 }
 
 .cardTitle{
-  margin:0 0 14px;
-  font-size:clamp(30px,8.4vw,54px);
-  font-weight:900;
-  text-align:center;
-  line-height:1.25;
+  margin:0 0 16px;
   color:#ffdf72;
+  font-size:clamp(28px,7.6vw,52px);
+  font-weight:900;
+  line-height:1.25;
+  text-align:center;
   text-shadow:
     0 4px 4px rgba(0,0,0,.90),
-    0 0 18px rgba(255,210,80,.28);
+    0 0 18px rgba(255,210,80,.26);
 }
 
-.cardText{
-  margin:0 0 16px;
-  color:#fff1bd;
-  text-align:center;
-  font-size:clamp(20px,5.5vw,34px);
+.leadText{
+  margin:0 0 18px;
+  color:#fff3c4;
+  font-size:clamp(19px,5.2vw,32px);
   font-weight:900;
-  line-height:1.55;
+  line-height:1.65;
+  text-align:center;
 }
 
 .statusBox{
-  margin:18px 0 0;
+  margin:16px 0 18px;
   padding:18px 14px;
-  border-radius:20px;
-  background:rgba(0,0,0,.34);
+  border-radius:22px;
+  background:rgba(0,0,0,.30);
   border:1px solid rgba(255,220,140,.34);
   font-size:clamp(18px,4.8vw,28px);
   font-weight:900;
-  line-height:1.65;
+  line-height:1.6;
   color:#fff3c4;
   text-align:center;
   white-space:pre-wrap;
@@ -206,10 +213,6 @@ body{
   background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
 }
 
-.redBtn{
-  background:linear-gradient(180deg,#ff7b6e 0%,#d71920 100%);
-}
-
 .greenBtn{
   background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
 }
@@ -226,38 +229,107 @@ body{
   display:none;
 }
 
-.resultSection.show{
-  display:block;
-}
-
 .omikujiImageBox{
   width:100%;
-  margin:0;
-  padding:0;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  overflow:visible;
-  box-shadow:none;
+  background:#000;
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(255,220,95,.46);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.42);
 }
 
 .resultImage{
   display:block;
   width:100%;
   height:auto;
+  margin:0;
+  padding:0;
   border:none;
-  border-radius:0;
-  background:transparent;
-  box-shadow:none;
+  background:#000;
 }
 
-.noticeSmall{
+.resultInfo{
+  margin:16px 0 0;
+  padding:16px 14px;
+  border-radius:22px;
+  background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,220,140,.34);
+  color:#fff7ca;
+}
+
+.resultName{
+  margin:0 0 10px;
+  color:#ffdf72;
+  font-size:clamp(28px,7.6vw,52px);
+  font-weight:900;
+  line-height:1.25;
+  text-align:center;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.90),
+    0 0 18px rgba(255,210,80,.26);
+}
+
+.resultMessage{
+  margin:0;
+  color:#fff3c4;
+  font-size:clamp(18px,5vw,30px);
+  font-weight:900;
+  line-height:1.65;
+  text-align:center;
+  white-space:pre-wrap;
+}
+
+.qrOnlyPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
+    linear-gradient(180deg,#221600,#000);
+  color:#fff7ca;
+  text-align:center;
+}
+
+.qrOnlyBox{
+  width:100%;
+  max-width:720px;
+  padding:30px 18px;
+  border:2px solid rgba(255,220,95,.65);
+  border-radius:30px;
+  background:
+    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 48%),
+    rgba(0,0,0,.48);
+  box-shadow:0 12px 28px rgba(0,0,0,.45);
+}
+
+.qrOnlyTitle{
+  margin:0 0 18px;
+  color:#ffdf72;
+  font-size:clamp(32px,9vw,62px);
+  line-height:1.2;
+  font-weight:900;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.90),
+    0 0 18px rgba(255,210,80,.26);
+}
+
+.qrOnlyText{
+  margin:0 0 22px;
+  font-size:clamp(19px,5.2vw,32px);
+  font-weight:900;
+  line-height:1.65;
+}
+
+.notice{
   margin:14px 0 0;
   color:#d9c886;
   font-size:clamp(14px,4vw,22px);
   font-weight:800;
-  text-align:center;
   line-height:1.6;
+  text-align:center;
 }
 
 .footer{
@@ -266,10 +338,6 @@ body{
   color:#c9b56b;
   font-weight:800;
   line-height:1.6;
-}
-
-canvas{
-  display:none;
 }
 
 @media (max-width:420px){
@@ -291,15 +359,15 @@ canvas{
   }
 
   .logoFrame{
-    width:122px;
-    height:122px;
+    width:112px;
+    height:112px;
   }
 }
 </style>
 </head>
 
 <body>
-<main class="page">
+<main class="page" id="page">
 
 <header class="hero">
   <div class="logoFrame">
@@ -310,14 +378,20 @@ canvas{
     >
   </div>
 
-  <h1 class="mainTitle">開運<br>おみくじ</h1>
-  <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
+  <h1 class="mainTitle">
+    <span>開運</span>
+    <span>おみくじ</span>
+  </h1>
+
+  <p class="mainSubTitle">
+    田子山富士 168の縁プロジェクト
+  </p>
 </header>
 
-<section class="card" id="drawSection">
+<section class="card">
   <h2 class="cardTitle">⛩️ 今日のご縁</h2>
 
-  <p class="cardText">
+  <p class="leadText">
     田子山富士のご縁に願いを込めて、<br>
     おみくじを引いてください。
   </p>
@@ -336,41 +410,60 @@ canvas{
 <section class="card resultSection" id="resultSection">
   <h2 class="cardTitle">結果</h2>
 
-  <div class="omikujiImageBox">
+  <div class="omikujiImageBox" id="captureArea">
     <img
       id="resultImage"
       class="resultImage"
       src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji"
       alt="田子山富士 開運おみくじ"
-      onerror="handleResultImageError()"
+      crossorigin="anonymous"
     >
   </div>
 
+  <div class="resultInfo">
+    <p class="resultName" id="resultName">開運</p>
+    <p class="resultMessage" id="resultMessage">
+      田子山富士のご縁がありますように。
+    </p>
+  </div>
+
   <div class="btnArea">
-    <button class="btn goldBtn" id="saveBtn" type="button" onclick="saveOmikujiImage()">
+    <button class="btn goldBtn" type="button" onclick="saveResultImage()">
       画像を保存
     </button>
 
-    <button class="btn blueBtn" id="facebookBtn" type="button" onclick="postFacebook()">
+    <button class="btn blueBtn" type="button" onclick="postFacebook()">
       Facebookに投稿
     </button>
 
-    <button class="btn greenBtn" id="lineBtn" type="button" onclick="sendLine()">
+    <button class="btn greenBtn" type="button" onclick="sendLine()">
       LINEで送る
     </button>
 
-    <button class="btn blackBtn" id="xBtn" type="button" onclick="postX()">
+    <button class="btn blackBtn" type="button" onclick="postX()">
       Xで投稿
     </button>
 
-    <button class="btn blueBtn" id="copyBtn" type="button" onclick="copyResult()">
+    <button class="btn blueBtn" type="button" onclick="copyResultText()">
       結果をコピー
     </button>
 
+    <a class="linkBtn blackBtn" id="topLink2" href="index.html">
+      トップへ戻る
+    </a>
+  </div>
+</section>
+
+<section class="card">
+  <div class="btnArea">
     <a class="linkBtn blackBtn" id="topLink" href="index.html">
       トップへ戻る
     </a>
   </div>
+
+  <p class="notice">
+    おみくじは、田子山富士のQRコードから入った方だけ引けます。
+  </p>
 </section>
 
 <footer class="footer">
@@ -378,19 +471,14 @@ canvas{
   開運おみくじ
 </footer>
 
-<canvas id="saveCanvas"></canvas>
-
 </main>
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
-const HOME_PAGE =
+const SITE_ROOT =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
-const CERTIFICATE_PAGE =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
 const SHARE_OMIKUJI_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
@@ -408,32 +496,67 @@ let drawFinished = false;
 window.addEventListener("load", init);
 
 function init(){
-  currentUserId = getUserIdFromUrl();
 
-  if(currentUserId){
-    localStorage.setItem("tagoyamaUserId", currentUserId);
-    localStorage.setItem("tagoyamaFujiUserId", currentUserId);
-  }else{
-    currentUserId =
-      localStorage.getItem("tagoyamaUserId") ||
-      localStorage.getItem("tagoyamaFujiUserId") ||
-      "";
+  const urlUserId =
+    getUserIdFromUrl();
+
+  if(!urlUserId){
+
+    showQrOnlyBlock();
+    return;
+
   }
+
+  currentUserId =
+    urlUserId;
+
+  localStorage.setItem(
+    "tagoyamaUserId",
+    currentUserId
+  );
+
+  localStorage.setItem(
+    "tagoyamaFujiUserId",
+    currentUserId
+  );
 
   updateLinks();
 
-  const params = new URLSearchParams(location.search);
-  const auto = getString(params.get("auto"));
+  const params =
+    new URLSearchParams(location.search);
+
+  const auto =
+    getString(params.get("auto"));
 
   if(auto === "1" || auto === "true"){
+
     setTimeout(function(){
+
       drawOmikuji();
-    }, 400);
+
+    },400);
+
   }
+
+}
+
+function showQrOnlyBlock(){
+
+  document.body.innerHTML =
+    '<main class="qrOnlyPage">' +
+      '<section class="qrOnlyBox">' +
+        '<h1 class="qrOnlyTitle">QRコードから<br>お入りください</h1>' +
+        '<p class="qrOnlyText">おみくじは、田子山富士のQRコードから入った方だけ引けます。</p>' +
+        '<a class="linkBtn goldBtn" href="index.html">トップへ戻る</a>' +
+      '</section>' +
+    '</main>';
+
 }
 
 function getUserIdFromUrl(){
-  const params = new URLSearchParams(location.search);
+
+  const params =
+    new URLSearchParams(location.search);
 
   return getString(
     params.get("userId") ||
@@ -442,128 +565,97 @@ function getUserIdFromUrl(){
     params.get("id") ||
     ""
   );
+
 }
 
 function updateLinks(){
-  const topLink = document.getElementById("topLink");
-  const topLink2 = document.getElementById("topLink2");
-  const certificateLink = document.getElementById("certificateLink");
+
+  const topLink =
+    document.getElementById("topLink");
+
+  const topLink2 =
+    document.getElementById("topLink2");
+
+  const query =
+    currentUserId
+      ? "?userId=" + encodeURIComponent(currentUserId)
+      : "";
 
   if(topLink){
+
     topLink.href =
-      currentUserId
-        ? "index.html?userId=" + encodeURIComponent(currentUserId)
-        : "index.html";
+      "index.html" + query;
+
   }
 
   if(topLink2){
+
     topLink2.href =
-      currentUserId
-        ? "index.html?userId=" + encodeURIComponent(currentUserId)
-        : "index.html";
+      "index.html" + query;
+
   }
 
-  if(certificateLink){
-    const savedData = getSavedClimbData();
-
-    if(savedData && savedData.userId && savedData.climbCount && savedData.serialNo){
-      certificateLink.href = buildCertificateUrl(savedData);
-    }else{
-      certificateLink.href =
-        currentUserId
-          ? "certificate.html?userId=" + encodeURIComponent(currentUserId)
-          : "certificate.html";
-    }
-  }
-}
-
-function getSavedClimbData(){
-  try{
-    const text = localStorage.getItem("tagoyamaClimbData");
-
-    if(!text){
-      return null;
-    }
-
-    const data = JSON.parse(text);
-
-    if(!data || !data.userId){
-      return null;
-    }
-
-    return data;
-  }catch(error){
-    return null;
-  }
-}
-
-function buildCertificateUrl(data){
-  const params = new URLSearchParams();
-
-  params.set("userId", getString(data.userId));
-
-  if(data.climbCount){
-    params.set("climbCount", getString(data.climbCount));
-  }
-
-  if(data.serialNo){
-    params.set("serialNo", getString(data.serialNo));
-  }
-
-  if(data.lastDate){
-    params.set("lastDate", getString(data.lastDate));
-  }
-
-  if(data.imageNo){
-    params.set("imageNo", getString(data.imageNo));
-  }
-
-  if(data.imageName){
-    params.set("imageName", getString(data.imageName));
-  }
-
-  if(data.imageUrl){
-    params.set("imageUrl", getString(data.imageUrl));
-  }
-
-  params.set("v", "20260703");
-
-  return CERTIFICATE_PAGE + "?" + params.toString();
 }
 
 async function drawOmikuji(){
-  if(drawFinished){
-    scrollToResult();
+
+  if(!currentUserId){
+
+    showQrOnlyBlock();
     return;
+
   }
 
-  const btn = document.getElementById("drawBtn");
-  const statusBox = document.getElementById("statusBox");
+  if(drawFinished){
+
+    scrollToResult();
+    return;
+
+  }
+
+  const btn =
+    document.getElementById("drawBtn");
+
+  const statusBox =
+    document.getElementById("statusBox");
 
   if(btn){
+
     btn.disabled = true;
     btn.innerText = "引いています...";
+
   }
 
   if(statusBox){
-    statusBox.innerText = "おみくじを引いています。";
+
+    statusBox.innerText =
+      "おみくじを引いています。";
+
   }
 
   try{
-    const data = await loadOmikujiFromGas();
+
+    const data =
+      await loadOmikujiFromGas();
 
     if(!data || data.success === false){
+
       throw new Error(
         data && data.message
           ? data.message
           : "おみくじを取得できませんでした。"
       );
+
     }
 
-    currentResult = normalizeOmikujiData(data);
+    currentResult =
+      normalizeOmikujiData(data);
 
     if(!currentResult.imageUrl){
-      throw new Error("おみくじ画像を取得できませんでした。");
+
+      currentResult.imageUrl =
+        FALLBACK_OGP;
+
     }
 
     saveCurrentResult(currentResult);
@@ -572,34 +664,48 @@ async function drawOmikuji(){
     drawFinished = true;
 
     if(statusBox){
-      statusBox.innerText = "おみくじを引きました。";
+
+      statusBox.innerText =
+        "おみくじを引きました。";
+
     }
 
     if(btn){
+
       btn.disabled = true;
       btn.innerText = "おみくじを引きました";
       btn.style.display = "none";
+
     }
 
     scrollToResult();
+
   }catch(error){
+
     console.error(error);
 
     if(statusBox){
+
       statusBox.innerText =
         error && error.message
           ? error.message
           : "おみくじを取得できませんでした。";
+
     }
 
     if(btn){
+
       btn.disabled = false;
       btn.innerText = "おみくじを引く";
+
     }
+
   }
+
 }
 
 async function loadOmikujiFromGas(){
+
   const urls = [];
   const t = Date.now();
 
@@ -608,138 +714,215 @@ async function loadOmikujiFromGas(){
       ? "&userId=" + encodeURIComponent(currentUserId)
       : "";
 
-  urls.push(GAS_URL + "?mode=omikuji" + userQuery + "&t=" + t);
-  urls.push(GAS_URL + "?action=omikuji" + userQuery + "&t=" + t);
-  urls.push(GAS_URL + "?omikuji=1" + userQuery + "&t=" + t);
+  urls.push(
+    GAS_URL + "?mode=omikuji" + userQuery + "&t=" + t
+  );
+
+  urls.push(
+    GAS_URL + "?action=omikuji" + userQuery + "&t=" + t
+  );
+
+  urls.push(
+    GAS_URL + "?omikuji=1" + userQuery + "&t=" + t
+  );
 
   let lastError = null;
 
   for(let i = 0; i < urls.length; i++){
+
     try{
-      const data = await getJson(urls[i]);
+
+      const data =
+        await getJson(urls[i]);
 
       if(data && typeof data === "object"){
+
         return data;
+
       }
+
     }catch(error){
+
       lastError = error;
+
     }
+
   }
 
   throw lastError || new Error("おみくじを取得できませんでした。");
+
 }
 
 async function getJson(url){
+
   try{
-    const res = await fetch(url, {
-      method:"GET",
-      cache:"no-store"
-    });
+
+    const res =
+      await fetch(url,{
+        method:"GET",
+        cache:"no-store"
+      });
 
     if(!res.ok){
+
       throw new Error("HTTP " + res.status);
+
     }
 
-    const text = await res.text();
+    const text =
+      await res.text();
+
     return parseJsonText(text);
-  }catch(fetchError){
+
+  }catch(error){
+
     return await getJsonp(url);
+
   }
+
 }
 
 function parseJsonText(text){
-  const value = String(text || "").trim();
+
+  const value =
+    String(text || "").trim();
 
   if(!value){
+
     throw new Error("empty response");
+
   }
 
   try{
-    return JSON.parse(value);
-  }catch(error){
-    const start = value.indexOf("{");
-    const end = value.lastIndexOf("}");
 
-    if(start >= 0 && end > start){
-      return JSON.parse(value.substring(start, end + 1));
+    return JSON.parse(value);
+
+  }catch(error){
+
+    const objectStart =
+      value.indexOf("{");
+
+    const objectEnd =
+      value.lastIndexOf("}");
+
+    if(objectStart >= 0 && objectEnd > objectStart){
+
+      return JSON.parse(
+        value.substring(objectStart, objectEnd + 1)
+      );
+
+    }
+
+    const arrayStart =
+      value.indexOf("[");
+
+    const arrayEnd =
+      value.lastIndexOf("]");
+
+    if(arrayStart >= 0 && arrayEnd > arrayStart){
+
+      return JSON.parse(
+        value.substring(arrayStart, arrayEnd + 1)
+      );
+
     }
 
     throw error;
+
   }
+
 }
 
 function getJsonp(url){
-  return new Promise(function(resolve, reject){
+
+  return new Promise(function(resolve,reject){
+
     const callbackName =
       "tagoyamaOmikujiCallback_" +
       Date.now() +
       "_" +
       Math.floor(Math.random() * 1000000);
 
-    const script = document.createElement("script");
-    const sep = url.indexOf("?") >= 0 ? "&" : "?";
+    const script =
+      document.createElement("script");
 
-    const timer = setTimeout(function(){
-      cleanup();
-      reject(new Error("JSONP timeout"));
-    }, 12000);
+    const sep =
+      url.indexOf("?") >= 0
+        ? "&"
+        : "?";
+
+    const timer =
+      setTimeout(function(){
+
+        cleanup();
+        reject(new Error("JSONP timeout"));
+
+      },12000);
 
     window[callbackName] = function(data){
+
       cleanup();
       resolve(data);
+
     };
 
     script.onerror = function(){
+
       cleanup();
       reject(new Error("JSONP error"));
+
     };
 
-    script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+    script.src =
+      url +
+      sep +
+      "callback=" +
+      encodeURIComponent(callbackName);
+
     document.body.appendChild(script);
 
     function cleanup(){
+
       clearTimeout(timer);
 
       try{
+
         delete window[callbackName];
+
       }catch(error){
+
         window[callbackName] = undefined;
+
       }
 
       if(script.parentNode){
+
         script.parentNode.removeChild(script);
+
       }
+
     }
+
   });
+
 }
 
 function normalizeOmikujiData(data){
-  data = data || {};
 
-  const nested =
-    data.data && typeof data.data === "object"
-      ? data.data
-      : {};
+  const source =
+    flattenObject(data);
 
-  const source = Object.assign({}, data, nested);
-
-  const result =
+  const resultName =
     getFirst(
       source.result,
-      source.fortune,
-      source.unsei,
-      source.omikuji,
-      source.rank
-    );
-
-  const title =
-    getFirst(
-      source.title,
-      source.imageName,
-      source.image_name,
       source.name,
-      source.subtitle,
-      source.heading
+      source.title,
+      source.luck,
+      source.omikuji,
+      source["結果"],
+      source["おみくじ"],
+      source["運勢"],
+      "開運"
     );
 
   const message =
@@ -748,136 +931,231 @@ function normalizeOmikujiData(data){
       source.text,
       source.body,
       source.comment,
-      source.advice,
-      source.description,
-      source.detail
+      source.content,
+      source["本文"],
+      source["メッセージ"],
+      source["言葉"],
+      "田子山富士のご縁がありますように。"
     );
 
   const imageUrl =
-    normalizeImageUrl(
-      getFirst(
-        source.imageUrl,
-        source.imgUrl,
-        source.image,
-        source.url,
-        source.photo,
-        source.picture,
-        source.thumbnail
-      )
-    );
-
-  const imageNo =
     getFirst(
-      source.imageNo,
-      source.image_no,
-      source.no,
-      source.id
-    );
-
-  const imageName =
-    getFirst(
-      source.imageName,
-      source.image_name,
-      source.name,
-      source.title
+      source.imageUrl,
+      source.imageURL,
+      source.imgUrl,
+      source.img,
+      source.image,
+      source.url,
+      source["画像URL"],
+      source["画像url"],
+      source["画像"],
+      FALLBACK_OGP
     );
 
   return {
     userId:currentUserId,
-    result:result || "おみくじ",
-    title:title || imageName || "今日の運勢",
-    message:message || "今日のご縁を大切にお過ごしください。",
-    imageUrl:imageUrl || FALLBACK_OGP,
-    imageNo:imageNo,
-    imageName:imageName
+    result:resultName,
+    message:message,
+    imageUrl:imageUrl,
+    date:todayText()
   };
+
 }
 
-function saveCurrentResult(result){
-  try{
-    localStorage.setItem("tagoyamaOmikujiResult", JSON.stringify(result));
-  }catch(error){
-    console.warn(error);
+function flattenObject(data){
+
+  data = data || {};
+
+  let base = {};
+
+  if(Array.isArray(data)){
+
+    if(data.length > 0 && typeof data[data.length - 1] === "object"){
+
+      base = data[data.length - 1];
+
+    }
+
+  }else if(typeof data === "object"){
+
+    base = data;
+
   }
+
+  const nested =
+    base.data &&
+    typeof base.data === "object" &&
+    !Array.isArray(base.data)
+      ? base.data
+      : {};
+
+  const latest =
+    base.latest &&
+    typeof base.latest === "object"
+      ? base.latest
+      : {};
+
+  const record =
+    base.record &&
+    typeof base.record === "object"
+      ? base.record
+      : {};
+
+  return Object.assign({},base,nested,latest,record);
+
 }
 
 function renderResult(result){
+
   result = result || {};
 
-  const section = document.getElementById("resultSection");
-  const image = document.getElementById("resultImage");
+  const resultSection =
+    document.getElementById("resultSection");
 
-  if(section){
-    section.classList.add("show");
+  const resultImage =
+    document.getElementById("resultImage");
+
+  const resultName =
+    document.getElementById("resultName");
+
+  const resultMessage =
+    document.getElementById("resultMessage");
+
+  if(resultImage){
+
+    resultImage.src =
+      result.imageUrl || FALLBACK_OGP;
+
   }
 
-  if(image){
-    image.src = result.imageUrl || FALLBACK_OGP;
+  if(resultName){
+
+    resultName.innerText =
+      result.result || "開運";
+
   }
 
-  updateLinks();
+  if(resultMessage){
+
+    resultMessage.innerText =
+      result.message || "田子山富士のご縁がありますように。";
+
+  }
+
+  if(resultSection){
+
+    resultSection.style.display = "block";
+
+  }
+
 }
 
-function scrollToResult(){
-  const section = document.getElementById("resultSection");
+function saveCurrentResult(result){
 
-  if(section){
-    section.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+  try{
+
+    localStorage.setItem(
+      "tagoyamaOmikujiResult",
+      JSON.stringify(result)
+    );
+
+  }catch(error){
+
+    console.warn(error);
+
   }
+
 }
 
-function handleResultImageError(){
-  const image = document.getElementById("resultImage");
+function getCurrentResult(){
 
-  if(!image){
-    return;
-  }
+  if(currentResult){
 
-  if(image.src !== FALLBACK_OGP){
-    image.src = FALLBACK_OGP;
-  }else if(image.src !== FALLBACK_LOGO){
-    image.src = FALLBACK_LOGO;
-  }
-}
+    return currentResult;
 
-async function saveOmikujiImage(){
-  const btn = document.getElementById("saveBtn");
-  const oldText = btn ? btn.innerText : "";
-
-  if(!currentResult || !currentResult.imageUrl){
-    alert("先におみくじを引いてください。");
-    return;
-  }
-
-  if(btn){
-    btn.disabled = true;
-    btn.innerText = "画像を準備中...";
   }
 
   try{
-    const blob = await getImageBlob(currentResult.imageUrl);
 
-    if(!blob){
-      openImageOnly(currentResult.imageUrl);
-      return;
+    const text =
+      localStorage.getItem("tagoyamaOmikujiResult");
+
+    if(text){
+
+      const data =
+        JSON.parse(text);
+
+      if(data && typeof data === "object"){
+
+        currentResult = data;
+        return currentResult;
+
+      }
+
     }
 
-    const safeName =
-      currentResult.result
-        ? currentResult.result.replace(/[\\/:*?"<>|]/g, "")
-        : "omikuji";
+  }catch(error){
 
-    const fileName =
-      "tagoyama-omikuji-" +
-      safeName +
-      ".png";
+    console.warn(error);
 
-    const file = new File([blob], fileName, {
-      type:blob.type || "image/png"
-    });
+  }
+
+  return {
+    userId:currentUserId,
+    result:"開運",
+    message:"田子山富士のご縁がありますように。",
+    imageUrl:FALLBACK_OGP,
+    date:todayText()
+  };
+
+}
+
+async function saveResultImage(){
+
+  const target =
+    document.getElementById("captureArea");
+
+  if(!target){
+
+    alert("保存できる画像がありません。");
+    return;
+
+  }
+
+  try{
+
+    const canvas =
+      await html2canvas(target,{
+        backgroundColor:"#000000",
+        useCORS:true,
+        allowTaint:true,
+        scale:2
+      });
+
+    const blob =
+      await new Promise(function(resolve){
+
+        canvas.toBlob(function(result){
+
+          resolve(result);
+
+        },"image/png",.95);
+
+      });
+
+    if(!blob){
+
+      throw new Error("画像を作成できませんでした。");
+
+    }
+
+    const filename =
+      "tagoyama-omikuji.png";
+
+    const file =
+      new File([blob], filename, {
+        type:"image/png"
+      });
 
     if(
       navigator.canShare &&
@@ -886,294 +1164,264 @@ async function saveOmikujiImage(){
         files:[file]
       })
     ){
+
       await navigator.share({
         files:[file],
         title:"田子山富士 開運おみくじ",
         text:makeShareText()
       });
+
       return;
+
     }
 
-    downloadBlob(blob, fileName);
+    downloadBlob(blob,filename);
+
   }catch(error){
+
     if(error && error.name === "AbortError"){
+
       return;
+
     }
 
     console.error(error);
-    openImageOnly(currentResult.imageUrl);
-  }finally{
-    if(btn){
-      btn.disabled = false;
-      btn.innerText = oldText || "画像を保存";
-    }
-  }
-}
+    alert("画像保存がうまくいかない場合は、画面をスクリーンショットで保存してください。");
 
-async function getImageBlob(url){
-  const urls = makeImageUrlList(url);
-
-  for(let i = 0; i < urls.length; i++){
-    const target = getString(urls[i]);
-
-    if(!target){
-      continue;
-    }
-
-    try{
-      const res = await fetch(target, {
-        method:"GET",
-        cache:"no-store"
-      });
-
-      if(res.ok){
-        return await res.blob();
-      }
-    }catch(error){
-      console.warn(error);
-    }
   }
 
-  return null;
 }
 
-function openImageOnly(url){
-  alert("画像だけを開きます。開いた画像を長押しして保存してください。");
-  window.open(url, "_blank", "noopener,noreferrer");
-}
+function downloadBlob(blob,filename){
 
-function downloadBlob(blob, filename){
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
 
   a.href = url;
   a.download = filename;
   a.rel = "noopener";
+
   document.body.appendChild(a);
   a.click();
   a.remove();
 
   setTimeout(function(){
+
     URL.revokeObjectURL(url);
-  }, 3000);
+
+  },3000);
+
 }
 
-function postFacebook(){
-  if(!currentResult){
-    alert("先におみくじを引いてください。");
-    return;
-  }
-
-  const url = buildShareUrl();
-
-  const shareUrl =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(url);
-
-  window.open(shareUrl, "_blank", "noopener,noreferrer");
-}
-
-function sendLine(){
-  if(!currentResult){
-    alert("先におみくじを引いてください。");
-    return;
-  }
-
-  const url = buildShareUrl();
-
-  const shareUrl =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(url) +
-    "&text=" +
-    encodeURIComponent(makeShareText());
-
-  location.href = shareUrl;
-}
-
-function postX(){
-  if(!currentResult){
-    alert("先におみくじを引いてください。");
-    return;
-  }
-
-  const url = buildShareUrl();
-
-  const shareUrl =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(makeShareText()) +
-    "&url=" +
-    encodeURIComponent(url);
-
-  window.open(shareUrl, "_blank", "noopener,noreferrer");
-}
-
-async function copyResult(){
-  if(!currentResult){
-    alert("先におみくじを引いてください。");
-    return;
-  }
+async function postFacebook(){
 
   const text =
     makeShareText() +
     "\n" +
     buildShareUrl();
 
-  try{
-    await navigator.clipboard.writeText(text);
-    alert("おみくじの結果をコピーしました。");
-  }catch(error){
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.style.position = "fixed";
-    area.style.left = "-9999px";
-    document.body.appendChild(area);
-    area.focus();
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-    alert("おみくじの結果をコピーしました。");
-  }
+  await copyText(text);
+
+  alert(
+    "投稿文とリンクをコピーしました。\nFacebookが開いたら、投稿欄に貼り付けてください。"
+  );
+
+  location.href =
+    "https://www.facebook.com/";
+
+}
+
+function sendLine(){
+
+  const url =
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(buildShareUrl()) +
+    "&text=" +
+    encodeURIComponent(makeShareText());
+
+  location.href = url;
+
+}
+
+function postX(){
+
+  const url =
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(makeShareText()) +
+    "&url=" +
+    encodeURIComponent(buildShareUrl());
+
+  location.href = url;
+
+}
+
+async function copyResultText(){
+
+  const text =
+    makeShareText() +
+    "\n" +
+    buildShareUrl();
+
+  await copyText(text);
+
+  alert("おみくじの結果をコピーしました。");
+
 }
 
 function buildShareUrl(){
-  const result = currentResult || {};
-  const params = new URLSearchParams();
 
-  const imgid = getDriveId(result.imageUrl);
+  const result =
+    getCurrentResult();
 
-  if(imgid){
-    params.set("imgid", imgid);
+  const params =
+    new URLSearchParams();
+
+  params.set("v","20260704qrlock");
+
+  if(currentUserId){
+
+    params.set("userId",currentUserId);
+
   }
 
-  params.set("v", "20260703-hitimage");
+  if(result.result){
+
+    params.set("result",result.result);
+
+  }
+
+  if(result.message){
+
+    params.set("message",result.message);
+
+  }
+
+  if(result.imageUrl){
+
+    params.set("imageUrl",result.imageUrl);
+
+  }
 
   return SHARE_OMIKUJI_PAGE + "?" + params.toString();
+
 }
 
 function makeShareText(){
-  const result = currentResult || {};
+
+  const result =
+    getCurrentResult();
 
   return "田子山富士 開運おみくじ\n" +
-    (result.title || result.result || "今日の運勢") + "\n" +
-    (result.message || "今日のご縁を大切にお過ごしください。") + "\n\n" +
+    "今日のご縁：" +
+    (result.result || "開運") +
+    "\n" +
+    (result.message || "田子山富士のご縁がありますように。") +
+    "\n\n" +
     "#田子山富士 #敷島神社 #志木市";
+
 }
 
-function makeImageUrlList(url){
-  const urls = [];
-  const value = getString(url);
-  const driveId = getDriveId(value);
+async function copyText(text){
 
-  function add(u){
-    u = getString(u);
+  try{
 
-    if(u && urls.indexOf(u) === -1){
-      urls.push(u);
-    }
+    await navigator.clipboard.writeText(text);
+
+  }catch(error){
+
+    const area =
+      document.createElement("textarea");
+
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+
+    document.execCommand("copy");
+
+    area.remove();
+
   }
 
-  if(driveId){
-    add(
-      "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w2000"
-    );
-
-    add(
-      "https://drive.google.com/thumbnail?id=" +
-      encodeURIComponent(driveId) +
-      "&sz=w2000"
-    );
-
-    add(
-      "https://drive.google.com/uc?export=view&id=" +
-      encodeURIComponent(driveId)
-    );
-  }
-
-  add(value);
-  add(FALLBACK_OGP);
-
-  return urls;
 }
 
-function getDriveId(url){
-  const value = getString(url);
+function scrollToResult(){
 
-  if(!value){
-    return "";
+  const resultSection =
+    document.getElementById("resultSection");
+
+  if(resultSection){
+
+    resultSection.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
   }
 
-  let match = value.match(/\/file\/d\/([^/]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match = value.match(/[?&]id=([^&]+)/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
-
-  if(match && match[1]){
-    return match[1];
-  }
-
-  if(/^[a-zA-Z0-9_-]{20,}$/.test(value)){
-    return value;
-  }
-
-  return "";
 }
 
-function normalizeImageUrl(url){
-  const value = getString(url);
+function todayText(){
 
-  if(!value){
-    return "";
-  }
+  const d =
+    new Date();
 
-  const driveId = getDriveId(value);
+  const y =
+    d.getFullYear();
 
-  if(driveId){
-    return "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w2000";
-  }
+  const m =
+    String(d.getMonth() + 1).padStart(2,"0");
 
-  return value;
+  const day =
+    String(d.getDate()).padStart(2,"0");
+
+  return y + "/" + m + "/" + day;
+
 }
 
 function getString(value){
+
   if(value === null || value === undefined){
+
     return "";
+
   }
 
   return String(value).trim();
+
 }
 
 function getFirst(){
+
   for(let i = 0; i < arguments.length; i++){
-    const value = getString(arguments[i]);
+
+    const value =
+      getString(arguments[i]);
 
     if(value){
+
       return value;
+
     }
+
   }
 
   return "";
+
 }
 
 window.drawOmikuji = drawOmikuji;
-window.saveOmikujiImage = saveOmikujiImage;
+window.saveResultImage = saveResultImage;
 window.postFacebook = postFacebook;
 window.sendLine = sendLine;
 window.postX = postX;
-window.copyResult = copyResult;
-window.handleResultImageError = handleResultImageError;
+window.copyResultText = copyResultText;
 </script>
 </body>
 </html>
