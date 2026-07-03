@@ -4,26 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-<title>みんなのご縁帳</title>
+<title>田子山富士 ご縁帳</title>
 
-<meta name="description" content="敷島神社・田子山富士へ寄せられた皆さまの記帳です。">
+<meta name="description" content="田子山富士168の縁プロジェクト ご縁帳">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
-<meta property="og:title" content="みんなのご縁帳">
-<meta property="og:description" content="敷島神社・田子山富士へ寄せられた皆さまの記帳です。">
+<meta property="og:title" content="田子山富士 ご縁帳">
+<meta property="og:description" content="田子山富士に参拝したみなさんのご縁を掲載しています。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/goen.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="みんなのご縁帳">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="みんなのご縁帳">
-<meta name="twitter:description" content="敷島神社・田子山富士へ寄せられた皆さまの記帳です。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
+<meta name="twitter:title" content="田子山富士 ご縁帳">
+<meta name="twitter:description" content="田子山富士に参拝したみなさんのご縁を掲載しています。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -65,6 +64,51 @@ body{
   padding:16px 12px 48px;
 }
 
+.hero{
+  text-align:center;
+  margin:0 0 16px;
+}
+
+.logoFrame{
+  width:126px;
+  height:126px;
+  margin:0 auto 14px;
+  border-radius:30px;
+  overflow:hidden;
+  background:#000;
+  border:3px solid rgba(255,220,95,.80);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.50),
+    0 0 18px rgba(255,210,80,.22);
+}
+
+.logoFrame img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.mainTitle{
+  margin:0;
+  font-size:clamp(38px,10.5vw,72px);
+  line-height:1.16;
+  font-weight:900;
+  color:#ffdf72;
+  text-shadow:
+    0 4px 4px rgba(0,0,0,.92),
+    0 0 18px rgba(255,210,80,.28);
+}
+
+.mainSubTitle{
+  margin:10px 0 0;
+  font-size:clamp(19px,5.2vw,32px);
+  line-height:1.45;
+  font-weight:900;
+  color:#fff3c4;
+  text-shadow:0 3px 3px rgba(0,0,0,.88);
+}
+
 .card{
   margin:16px 0;
   padding:22px 14px;
@@ -78,29 +122,29 @@ body{
     0 12px 28px rgba(0,0,0,.42);
 }
 
-.pageTitle{
-  margin:0 0 18px;
-  color:#ffdf72;
-  font-size:clamp(36px,10vw,68px);
+.cardTitle{
+  margin:0 0 14px;
+  font-size:clamp(30px,8.4vw,54px);
   font-weight:900;
   text-align:center;
-  line-height:1.18;
+  line-height:1.25;
+  color:#ffdf72;
   text-shadow:
-    0 4px 4px rgba(0,0,0,.92),
+    0 4px 4px rgba(0,0,0,.90),
     0 0 18px rgba(255,210,80,.28);
 }
 
-.lead{
-  margin:0 0 20px;
+.cardText{
+  margin:0 0 16px;
   color:#fff1bd;
   text-align:center;
-  font-size:clamp(20px,5.5vw,34px);
+  font-size:clamp(19px,5.2vw,32px);
   font-weight:900;
-  line-height:1.65;
+  line-height:1.6;
 }
 
 .statusBox{
-  margin:18px 0;
+  margin:18px 0 0;
   padding:18px 14px;
   border-radius:20px;
   background:rgba(0,0,0,.34);
@@ -113,7 +157,7 @@ body{
   white-space:pre-wrap;
 }
 
-.listBox{
+.goenList{
   display:grid;
   gap:14px;
   margin:18px 0 0;
@@ -122,20 +166,10 @@ body{
 .goenItem{
   padding:18px 14px;
   border-radius:22px;
-  background:rgba(0,0,0,.34);
+  background:rgba(0,0,0,.36);
   border:2px solid rgba(255,220,95,.38);
-  color:#fff7ca;
-}
-
-.goenName{
-  margin:0 0 8px;
-  color:#ffdf72;
-  font-size:clamp(22px,6vw,38px);
-  font-weight:900;
-  line-height:1.35;
-  text-shadow:
-    0 3px 4px rgba(0,0,0,.90),
-    0 0 14px rgba(255,210,80,.22);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.32);
 }
 
 .goenMeta{
@@ -146,12 +180,23 @@ body{
   line-height:1.45;
 }
 
+.goenName{
+  margin:0 0 10px;
+  color:#ffdf72;
+  font-size:clamp(22px,6vw,38px);
+  font-weight:900;
+  line-height:1.35;
+  text-shadow:
+    0 3px 4px rgba(0,0,0,.90),
+    0 0 14px rgba(255,210,80,.22);
+}
+
 .goenMessage{
   margin:0;
-  color:#fff1bd;
-  font-size:clamp(18px,4.8vw,30px);
+  color:#fff7ca;
+  font-size:clamp(18px,4.9vw,30px);
   font-weight:900;
-  line-height:1.65;
+  line-height:1.7;
   white-space:pre-wrap;
 }
 
@@ -195,10 +240,6 @@ body{
   background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
 }
 
-.greenBtn{
-  background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
-}
-
 .blackBtn{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
@@ -227,6 +268,11 @@ body{
     min-height:66px;
     border-radius:22px;
   }
+
+  .logoFrame{
+    width:116px;
+    height:116px;
+  }
 }
 </style>
 </head>
@@ -234,27 +280,36 @@ body{
 <body>
 <main class="page">
 
-<section class="card">
-  <h1 class="pageTitle">みんなのご縁帳</h1>
+<header class="hero">
+  <div class="logoFrame">
+    <img
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+      alt="田子山富士"
+      onerror="this.style.display='none'"
+    >
+  </div>
 
-  <p class="lead">
-    敷島神社・田子山富士へ寄せられた<br>
-    皆さまの記帳です。
+  <h1 class="mainTitle">ご縁帳</h1>
+  <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
+</header>
+
+<section class="card">
+  <h2 class="cardTitle">みなさんのご縁</h2>
+
+  <p class="cardText">
+    田子山富士に参拝された方の<br>
+    ご縁の記録です。
   </p>
 
   <div class="statusBox" id="statusBox">
     ご縁帳を読み込んでいます。
   </div>
 
-  <div class="listBox" id="goenList"></div>
+  <div class="goenList" id="goenList"></div>
 
   <div class="btnArea">
     <a class="linkBtn goldBtn" id="kichoLink" href="kicho.html">
       参拝記帳へ
-    </a>
-
-    <a class="linkBtn greenBtn" id="omikujiLink" href="omikuji.html">
-      開運おみくじへ
     </a>
 
     <a class="linkBtn blackBtn" id="topLink" href="index.html">
@@ -265,48 +320,41 @@ body{
 
 <footer class="footer">
   田子山富士 168の縁プロジェクト<br>
-  みんなのご縁帳
+  ご縁帳
 </footer>
 
 </main>
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
 let currentUserId = "";
 
-document.addEventListener("DOMContentLoaded", function(){
-  initPage();
-});
+window.addEventListener("load", initGoen);
 
-async function initPage(){
-  currentUserId = getUserIdFromUrl();
-
-  if(currentUserId){
-    localStorage.setItem("tagoyamaUserId", currentUserId);
-    localStorage.setItem("tagoyamaFujiUserId", currentUserId);
-  }else{
-    currentUserId =
-      localStorage.getItem("tagoyamaUserId") ||
-      localStorage.getItem("tagoyamaFujiUserId") ||
-      "";
-  }
-
+async function initGoen(){
+  currentUserId = getUserId();
   updateLinks();
   await loadGoen();
 }
 
-function getUserIdFromUrl(){
+function getUserId(){
   const params = new URLSearchParams(location.search);
 
-  return getString(
-    params.get("userId") ||
-    params.get("userid") ||
-    params.get("uid") ||
-    params.get("id") ||
-    ""
-  );
+  const value =
+    getString(params.get("userId")) ||
+    getString(params.get("userid")) ||
+    getString(params.get("uid")) ||
+    getString(localStorage.getItem("tagoyamaUserId")) ||
+    getString(localStorage.getItem("tagoyamaFujiUserId"));
+
+  if(value){
+    localStorage.setItem("tagoyamaUserId", value);
+    localStorage.setItem("tagoyamaFujiUserId", value);
+  }
+
+  return value;
 }
 
 function updateLinks(){
@@ -315,65 +363,48 @@ function updateLinks(){
       ? "?userId=" + encodeURIComponent(currentUserId)
       : "";
 
-  setHref("topLink", "index.html" + query);
-  setHref("kichoLink", "kicho.html" + query);
-  setHref("omikujiLink", "omikuji.html" + query);
-}
+  const topLink =
+    document.getElementById("topLink");
 
-function setHref(id, href){
-  const el = document.getElementById(id);
+  const kichoLink =
+    document.getElementById("kichoLink");
 
-  if(el){
-    el.href = href;
+  if(topLink){
+    topLink.href =
+      "index.html" + query;
+  }
+
+  if(kichoLink){
+    kichoLink.href =
+      "kicho.html" + query;
   }
 }
 
 async function loadGoen(){
-  const box = document.getElementById("goenList");
   setStatus("ご縁帳を読み込んでいます。");
 
-  if(box){
-    box.innerHTML = "";
-  }
-
   try{
-    const data = await tryManyJson([
-      GAS_URL + "?mode=goen&t=" + Date.now(),
-      GAS_URL + "?goen=1&t=" + Date.now(),
-      GAS_URL + "?action=goen&t=" + Date.now(),
+    const data =
+      await tryManyJson([
+        GAS_URL + "?mode=goen&t=" + Date.now(),
+        GAS_URL + "?mode=listGoen&t=" + Date.now(),
+        GAS_URL + "?goen=1&t=" + Date.now(),
+        GAS_URL + "?listGoen=1&t=" + Date.now()
+      ]);
 
-      GAS_URL + "?mode=listGoen&t=" + Date.now(),
-      GAS_URL + "?listGoen=1&t=" + Date.now(),
-      GAS_URL + "?action=listGoen&t=" + Date.now(),
-
-      GAS_URL + "?mode=kichoList&t=" + Date.now(),
-      GAS_URL + "?kichoList=1&t=" + Date.now(),
-      GAS_URL + "?action=kichoList&t=" + Date.now(),
-
-      GAS_URL + "?mode=listKicho&t=" + Date.now(),
-      GAS_URL + "?listKicho=1&t=" + Date.now(),
-      GAS_URL + "?action=listKicho&t=" + Date.now()
-    ]);
-
-    const list = extractGoenList(data);
+    const list =
+      extractGoenList(data);
 
     renderGoen(list);
   }catch(error){
     console.warn(error);
-
-    const localList = loadLocalGoen();
-
-    if(localList.length){
-      renderGoen(localList);
-      return;
-    }
-
-    renderGoen([]);
+    setStatus("現在表示できるご縁帳はありません。");
   }
 }
 
 function renderGoen(list){
-  const box = document.getElementById("goenList");
+  const box =
+    document.getElementById("goenList");
 
   if(!box){
     return;
@@ -382,210 +413,140 @@ function renderGoen(list){
   box.innerHTML = "";
 
   if(!Array.isArray(list) || list.length === 0){
-    setStatus("まだ記帳はありません。");
+    setStatus("現在表示できるご縁帳はありません。");
     return;
   }
 
-  setStatus("ご縁帳を表示しました。");
-
   let count = 0;
 
-  list.forEach(function(raw){
-    const item = normalizeGoenItem(raw);
+  list.forEach(function(row){
+    const item =
+      normalizeGoenItem(row);
 
-    if(!item.message && !item.name && !item.area && !item.date){
+    if(!item.area && !item.name && !item.message){
       return;
     }
 
     count++;
 
-    const div = document.createElement("div");
-    div.className = "goenItem";
+    const article =
+      document.createElement("article");
 
-    const name = document.createElement("p");
-    name.className = "goenName";
-    name.innerText = item.name || "匿名";
+    article.className =
+      "goenItem";
 
-    const meta = document.createElement("p");
-    meta.className = "goenMeta";
+    const meta =
+      document.createElement("p");
 
-    const metaParts = [];
+    meta.className =
+      "goenMeta";
 
-    if(item.date){
-      metaParts.push(item.date);
-    }
+    meta.innerText =
+      makeMetaText(item);
 
-    if(item.area){
-      metaParts.push(item.area);
-    }
+    article.appendChild(meta);
 
-    meta.innerText = metaParts.join("　");
+    const name =
+      document.createElement("h2");
 
-    const message = document.createElement("p");
-    message.className = "goenMessage";
+    name.className =
+      "goenName";
+
+    name.innerText =
+      item.name || "匿名";
+
+    article.appendChild(name);
+
+    const message =
+      document.createElement("p");
+
+    message.className =
+      "goenMessage";
+
     message.innerText =
-      item.message ||
-      "田子山富士へご縁をいただきました。";
+      item.message || "";
 
-    div.appendChild(name);
+    article.appendChild(message);
 
-    if(meta.innerText){
-      div.appendChild(meta);
-    }
-
-    div.appendChild(message);
-    box.appendChild(div);
+    box.appendChild(article);
   });
 
   if(count === 0){
-    setStatus("まだ記帳はありません。");
+    setStatus("現在表示できるご縁帳はありません。");
+  }else{
+    setStatus("ご縁帳を表示しました。");
   }
 }
 
-function normalizeGoenItem(raw){
-  raw = raw || {};
-
-  if(Array.isArray(raw)){
-    const joined = raw.join("");
-
-    if(isHeaderText(joined)){
-      return {
-        date:"",
-        area:"",
-        name:"",
-        message:""
-      };
-    }
-
-    return normalizeArrayRow(raw);
+function normalizeGoenItem(row){
+  if(Array.isArray(row)){
+    return {
+      date:formatDateText(row[0]),
+      area:getString(row[1]),
+      name:getString(row[2]) || "匿名",
+      message:getString(row[3])
+    };
   }
 
+  row = row || {};
+
   return {
-    date: formatDateText(
-      getFirst(
-        raw.date,
-        raw.datetime,
-        raw.createdAt,
-        raw.created_at,
-        raw.time,
-        raw["日時"],
-        raw["日付"],
-        raw["タイムスタンプ"]
-      )
+    date:formatDateText(
+      row.date ||
+      row.datetime ||
+      row.timestamp ||
+      row.createdAt ||
+      row["日付"] ||
+      row["日時"] ||
+      ""
     ),
 
-    area: getFirst(
-      raw.area,
-      raw.from,
-      raw.place,
-      raw.address,
-      raw.region,
-      raw["地域"],
-      raw["住所"],
-      raw["どこから"],
-      raw["お住まい"],
-      raw["場所"]
+    area:getString(
+      row.area ||
+      row.place ||
+      row.from ||
+      row["地域"] ||
+      row["場所"] ||
+      row["どこから来ましたか"] ||
+      ""
     ),
 
-    name: getFirst(
-      raw.name,
-      raw.visitorName,
-      raw.nickname,
-      raw.userName,
-      raw["名前"],
-      raw["お名前"],
-      raw["ニックネーム"],
+    name:getString(
+      row.name ||
+      row.nickname ||
+      row["名前"] ||
+      row["お名前"] ||
+      row["ニックネーム"] ||
       "匿名"
     ),
 
-    message: getFirst(
-      raw.message,
-      raw.text,
-      raw.body,
-      raw.comment,
-      raw.content,
-      raw.note,
-      raw["メッセージ"],
-      raw["本文"],
-      raw["内容"],
-      raw["ひとこと"],
-      raw["コメント"],
-      raw["記帳"]
+    message:getString(
+      row.message ||
+      row.body ||
+      row.text ||
+      row.content ||
+      row["メッセージ"] ||
+      row["本文"] ||
+      row["内容"] ||
+      ""
     )
   };
 }
 
-function normalizeArrayRow(row){
-  const cells = row.map(function(value){
-    return getString(value);
-  });
+function makeMetaText(item){
+  const parts = [];
 
-  const date =
-    findDateCell(cells) ||
-    getString(cells[0]);
-
-  let message = "";
-  let messageIndex = -1;
-
-  cells.forEach(function(cell, index){
-    if(!cell){
-      return;
-    }
-
-    if(isHeaderText(cell)){
-      return;
-    }
-
-    if(isDateText(cell)){
-      return;
-    }
-
-    if(isUserIdText(cell)){
-      return;
-    }
-
-    if(cell.length > message.length){
-      message = cell;
-      messageIndex = index;
-    }
-  });
-
-  let name = "";
-  let area = "";
-
-  cells.forEach(function(cell, index){
-    if(!cell){
-      return;
-    }
-
-    if(index === messageIndex){
-      return;
-    }
-
-    if(isHeaderText(cell) || isDateText(cell) || isUserIdText(cell)){
-      return;
-    }
-
-    if(!area && isAreaLike(cell)){
-      area = cell;
-      return;
-    }
-
-    if(!name){
-      name = cell;
-    }
-  });
-
-  if(!name){
-    name = "匿名";
+  if(item.date){
+    parts.push(item.date);
   }
 
-  return {
-    date: formatDateText(date),
-    area: area,
-    name: name,
-    message: message
-  };
+  if(item.area){
+    parts.push(item.area);
+  }
+
+  return parts.length
+    ? parts.join("　")
+    : "田子山富士";
 }
 
 function extractGoenList(data){
@@ -593,115 +554,52 @@ function extractGoenList(data){
     return [];
   }
 
+  let list = [];
+
   if(Array.isArray(data)){
-    return cleanList(data);
+    list = data;
+  }else if(Array.isArray(data.goen)){
+    list = data.goen;
+  }else if(Array.isArray(data.rows)){
+    list = data.rows;
+  }else if(Array.isArray(data.list)){
+    list = data.list;
+  }else if(Array.isArray(data.items)){
+    list = data.items;
+  }else if(Array.isArray(data.data)){
+    list = data.data;
+  }else if(data.data && Array.isArray(data.data.goen)){
+    list = data.data.goen;
+  }else if(data.data && Array.isArray(data.data.list)){
+    list = data.data.list;
   }
 
-  const directKeys = [
-    "goen",
-    "goenList",
-    "kicho",
-    "kichoList",
-    "list",
-    "rows",
-    "items",
-    "values",
-    "records",
-    "data"
-  ];
-
-  for(let i = 0; i < directKeys.length; i++){
-    const key = directKeys[i];
-
-    if(Array.isArray(data[key])){
-      return cleanList(data[key]);
-    }
-  }
-
-  if(data.data && typeof data.data === "object"){
-    for(let i = 0; i < directKeys.length; i++){
-      const key = directKeys[i];
-
-      if(Array.isArray(data.data[key])){
-        return cleanList(data.data[key]);
-      }
-    }
-  }
-
-  const values = Object.values(data).filter(function(value){
-    if(!value || typeof value !== "object"){
-      return false;
-    }
-
-    return Boolean(
-      value.message ||
-      value.text ||
-      value.body ||
-      value.comment ||
-      value.content ||
-      value["メッセージ"] ||
-      value["本文"] ||
-      value["内容"] ||
-      value["コメント"]
-    );
-  });
-
-  return cleanList(values);
+  return removeHeaderRows(list);
 }
 
-function cleanList(list){
-  if(!Array.isArray(list)){
-    return [];
-  }
-
+function removeHeaderRows(list){
   return list.filter(function(row){
     if(!row){
       return false;
     }
 
     if(Array.isArray(row)){
-      const joined = row.join("");
-      return !isHeaderText(joined);
+      const joined =
+        row.join("");
+
+      if(
+        joined.indexOf("日付") >= 0 ||
+        joined.indexOf("日時") >= 0 ||
+        joined.indexOf("地域") >= 0 ||
+        joined.indexOf("メッセージ") >= 0 ||
+        joined.indexOf("本文") >= 0
+      ){
+        return false;
+      }
     }
 
-    if(typeof row === "object"){
-      const joined = Object.values(row).join("");
-      return !isHeaderText(joined);
-    }
-
-    return false;
-  }).reverse();
-}
-
-function loadLocalGoen(){
-  const keys = [
-    "tagoyamaGoenList",
-    "tagoyamaKichoList",
-    "tagoyamaLastGoen",
-    "tagoyamaLastKicho"
-  ];
-
-  for(let i = 0; i < keys.length; i++){
-    try{
-      const text = localStorage.getItem(keys[i]);
-
-      if(!text){
-        continue;
-      }
-
-      const data = JSON.parse(text);
-
-      if(Array.isArray(data)){
-        return data;
-      }
-
-      if(data && typeof data === "object"){
-        return [data];
-      }
-    }catch(error){}
-  }
-
-  return [];
+    return true;
+  });
 }
 
 async function tryManyJson(urls){
@@ -709,7 +607,8 @@ async function tryManyJson(urls){
 
   for(let i = 0; i < urls.length; i++){
     try{
-      const data = await getJson(urls[i]);
+      const data =
+        await getJson(urls[i]);
 
       if(data !== null && data !== undefined){
         return data;
@@ -724,24 +623,28 @@ async function tryManyJson(urls){
 
 async function getJson(url){
   try{
-    const res = await fetch(url, {
-      method:"GET",
-      cache:"no-store"
-    });
+    const res =
+      await fetch(url,{
+        method:"GET",
+        cache:"no-store"
+      });
 
     if(!res.ok){
       throw new Error("HTTP " + res.status);
     }
 
-    const text = await res.text();
+    const text =
+      await res.text();
+
     return parseJsonText(text);
-  }catch(fetchError){
+  }catch(error){
     return await getJsonp(url);
   }
 }
 
 function parseJsonText(text){
-  const value = String(text || "").trim();
+  const value =
+    String(text || "").trim();
 
   if(!value){
     throw new Error("empty response");
@@ -750,18 +653,28 @@ function parseJsonText(text){
   try{
     return JSON.parse(value);
   }catch(error){
-    const objectStart = value.indexOf("{");
-    const objectEnd = value.lastIndexOf("}");
+    const objectStart =
+      value.indexOf("{");
+
+    const objectEnd =
+      value.lastIndexOf("}");
 
     if(objectStart >= 0 && objectEnd > objectStart){
-      return JSON.parse(value.substring(objectStart, objectEnd + 1));
+      return JSON.parse(
+        value.substring(objectStart,objectEnd + 1)
+      );
     }
 
-    const arrayStart = value.indexOf("[");
-    const arrayEnd = value.lastIndexOf("]");
+    const arrayStart =
+      value.indexOf("[");
+
+    const arrayEnd =
+      value.lastIndexOf("]");
 
     if(arrayStart >= 0 && arrayEnd > arrayStart){
-      return JSON.parse(value.substring(arrayStart, arrayEnd + 1));
+      return JSON.parse(
+        value.substring(arrayStart,arrayEnd + 1)
+      );
     }
 
     throw error;
@@ -769,20 +682,26 @@ function parseJsonText(text){
 }
 
 function getJsonp(url){
-  return new Promise(function(resolve, reject){
+  return new Promise(function(resolve,reject){
     const callbackName =
       "tagoyamaGoenCallback_" +
       Date.now() +
       "_" +
       Math.floor(Math.random() * 1000000);
 
-    const script = document.createElement("script");
-    const sep = url.indexOf("?") >= 0 ? "&" : "?";
+    const script =
+      document.createElement("script");
 
-    const timer = setTimeout(function(){
-      cleanup();
-      reject(new Error("JSONP timeout"));
-    }, 12000);
+    const sep =
+      url.indexOf("?") >= 0
+        ? "&"
+        : "?";
+
+    const timer =
+      setTimeout(function(){
+        cleanup();
+        reject(new Error("JSONP timeout"));
+      },12000);
 
     window[callbackName] = function(data){
       cleanup();
@@ -794,7 +713,12 @@ function getJsonp(url){
       reject(new Error("JSONP error"));
     };
 
-    script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+    script.src =
+      url +
+      sep +
+      "callback=" +
+      encodeURIComponent(callbackName);
+
     document.body.appendChild(script);
 
     function cleanup(){
@@ -814,83 +738,26 @@ function getJsonp(url){
 }
 
 function setStatus(text){
-  const el = document.getElementById("statusBox");
+  const el =
+    document.getElementById("statusBox");
 
   if(el){
     el.innerText = text;
   }
 }
 
-function isHeaderText(text){
-  const value = getString(text);
-
-  return (
-    value.indexOf("日時") >= 0 ||
-    value.indexOf("日付") >= 0 ||
-    value.indexOf("名前") >= 0 ||
-    value.indexOf("メッセージ") >= 0 ||
-    value.indexOf("本文") >= 0 ||
-    value.indexOf("内容") >= 0
-  );
-}
-
-function isDateText(text){
-  const value = getString(text);
-
-  return (
-    /^[0-9]{4}[\/\-.][0-9]{1,2}[\/\-.][0-9]{1,2}/.test(value) ||
-    /^[0-9]{1,2}[\/\-.][0-9]{1,2}/.test(value) ||
-    value.indexOf("GMT") >= 0 ||
-    value.indexOf("JST") >= 0
-  );
-}
-
-function findDateCell(cells){
-  for(let i = 0; i < cells.length; i++){
-    if(isDateText(cells[i])){
-      return cells[i];
-    }
-  }
-
-  return "";
-}
-
-function isUserIdText(text){
-  const value = getString(text);
-
-  return (
-    value.indexOf("tagoyama") >= 0 ||
-    value.indexOf("user") >= 0 ||
-    value.indexOf("uid") >= 0 ||
-    value.length > 28
-  );
-}
-
-function isAreaLike(text){
-  const value = getString(text);
-
-  return (
-    value.indexOf("市") >= 0 ||
-    value.indexOf("区") >= 0 ||
-    value.indexOf("町") >= 0 ||
-    value.indexOf("村") >= 0 ||
-    value.indexOf("県") >= 0 ||
-    value.indexOf("東京") >= 0 ||
-    value.indexOf("埼玉") >= 0
-  );
-}
-
 function formatDateText(value){
-  const text = getString(value);
+  const text =
+    getString(value);
 
   if(!text){
     return "";
   }
 
   return text
-    .replace(/-/g, "/")
-    .replace(/\./g, "/")
-    .replace(/\s.*$/, "");
+    .replace(/-/g,"/")
+    .replace(/\./g,"/")
+    .replace(/\s.*$/,"");
 }
 
 function getString(value){
@@ -899,18 +766,6 @@ function getString(value){
   }
 
   return String(value).trim();
-}
-
-function getFirst(){
-  for(let i = 0; i < arguments.length; i++){
-    const value = getString(arguments[i]);
-
-    if(value){
-      return value;
-    }
-  }
-
-  return "";
 }
 </script>
 </body>
