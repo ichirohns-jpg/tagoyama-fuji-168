@@ -4,26 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-<title>田子山富士 お知らせ</title>
+<title>田子山富士からのお知らせ</title>
 
 <meta name="description" content="田子山富士168の縁プロジェクトからのお知らせです。">
-
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
-<meta property="og:title" content="田子山富士 お知らせ">
-<meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:title" content="田子山富士からのお知らせ">
+<meta property="og:description" content="保存会・地域からのお知らせを掲載しています。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/news.html">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="田子山富士 お知らせ">
 <meta property="og:locale" content="ja_JP">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="田子山富士 お知らせ">
-<meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta name="twitter:title" content="田子山富士からのお知らせ">
+<meta name="twitter:description" content="保存会・地域からのお知らせを掲載しています。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -82,10 +80,10 @@ body{
 .pageTitle{
   margin:0 0 18px;
   color:#ffdf72;
-  font-size:clamp(36px,10vw,68px);
+  font-size:clamp(40px,11vw,72px);
   font-weight:900;
   text-align:center;
-  line-height:1.18;
+  line-height:1.12;
   text-shadow:
     0 4px 4px rgba(0,0,0,.92),
     0 0 18px rgba(255,210,80,.28);
@@ -95,9 +93,9 @@ body{
   margin:0 0 18px;
   color:#fff1bd;
   text-align:center;
-  font-size:clamp(18px,5vw,30px);
+  font-size:clamp(20px,5.5vw,34px);
   font-weight:900;
-  line-height:1.65;
+  line-height:1.6;
 }
 
 .statusBox{
@@ -106,7 +104,7 @@ body{
   border-radius:20px;
   background:rgba(0,0,0,.34);
   border:1px solid rgba(255,220,140,.34);
-  font-size:clamp(17px,4.6vw,26px);
+  font-size:clamp(18px,4.8vw,28px);
   font-weight:900;
   line-height:1.65;
   color:#fff3c4;
@@ -121,10 +119,12 @@ body{
 }
 
 .newsItem{
-  padding:16px 14px 18px;
-  border-radius:22px;
+  padding:18px 14px;
+  border-radius:24px;
   background:rgba(0,0,0,.36);
-  border:2px solid rgba(255,220,95,.38);
+  border:2px solid rgba(255,220,95,.46);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.34);
 }
 
 .newsImage{
@@ -138,9 +138,9 @@ body{
 }
 
 .newsTitle{
-  margin:0 0 8px;
+  margin:0 0 10px;
   color:#ffdf72;
-  font-size:clamp(23px,6.2vw,40px);
+  font-size:clamp(25px,6.8vw,44px);
   font-weight:900;
   line-height:1.35;
   text-shadow:
@@ -149,19 +149,19 @@ body{
 }
 
 .newsDate{
-  margin:0 0 10px;
-  color:#d9c886;
-  font-size:clamp(15px,4.2vw,24px);
+  margin:0 0 12px;
+  color:#fff1bd;
+  font-size:clamp(17px,4.8vw,28px);
   font-weight:900;
   line-height:1.45;
 }
 
 .newsText{
   margin:0;
-  color:#fff1bd;
-  font-size:clamp(18px,4.8vw,30px);
+  color:#fff7ca;
+  font-size:clamp(18px,4.9vw,30px);
   font-weight:900;
-  line-height:1.65;
+  line-height:1.68;
   white-space:pre-wrap;
 }
 
@@ -310,7 +310,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
 const SHARE_NEWS_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
@@ -423,7 +423,7 @@ function renderNews(list){
     if(item.date){
       const date = document.createElement("p");
       date.className = "newsDate";
-      date.innerText = item.date;
+      date.innerText = formatDateText(item.date);
       box.appendChild(date);
     }
 
@@ -488,7 +488,7 @@ function renderNews(list){
 function normalizeNewsItem(row){
   if(Array.isArray(row)){
     return {
-      date:formatDateText(row[0]),
+      date:getString(row[0]),
       title:getString(row[1]),
       text:getString(row[2]),
       imageUrl:getString(row[3])
@@ -498,7 +498,7 @@ function normalizeNewsItem(row){
   row = row || {};
 
   return {
-    date:formatDateText(
+    date:getString(
       row.date ||
       row["日付"] ||
       row["日時"] ||
@@ -509,24 +509,33 @@ function normalizeNewsItem(row){
       row.title ||
       row["タイトル"] ||
       row.name ||
+      row.subject ||
       ""
     ),
 
     text:getString(
       row.text ||
-      row["本文"] ||
       row.body ||
       row.message ||
+      row.content ||
+      row["本文"] ||
       row["内容"] ||
+      row["メッセージ"] ||
       ""
     ),
 
     imageUrl:getString(
       row.imageUrl ||
-      row["画像URL"] ||
-      row.image ||
+      row.imageURL ||
+      row.imgUrl ||
       row.img ||
+      row.image ||
+      row.link ||
+      row.url ||
+      row["画像URL"] ||
+      row["画像url"] ||
       row["画像"] ||
+      row["リンク"] ||
       ""
     )
   };
@@ -549,8 +558,8 @@ function extractNewsList(data){
     list = data.list;
   }else if(Array.isArray(data.rows)){
     list = data.rows;
-  }else if(Array.isArray(data.values)){
-    list = data.values;
+  }else if(Array.isArray(data.items)){
+    list = data.items;
   }else if(Array.isArray(data.data)){
     list = data.data;
   }else if(data.data && Array.isArray(data.data.news)){
@@ -597,7 +606,7 @@ function makeNewsShareText(item){
 }
 
 function buildNewsShareUrl(){
-  return SHARE_NEWS_PAGE + "?v=" + Date.now();
+  return SHARE_NEWS_PAGE + "?v=20260704newgas";
 }
 
 async function postFacebookNews(item){
