@@ -6,14 +6,14 @@
 
 <title>田子山富士 開運おみくじ</title>
 
-<meta name="description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
+<meta name="description" content="田子山富士 開運おみくじ">
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 開運おみくじ">
 <meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=20260703-omikuji-clean">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji-clean">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji-clean">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=20260703-toponly">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 開運おみくじ">
 <meta name="twitter:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji-clean">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -39,10 +39,8 @@ body{
   padding:0;
   width:100%;
   min-height:100%;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
-    linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
-  color:#fff7ca;
+  background:#000;
+  color:#fff;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -62,12 +60,14 @@ body{
   width:100%;
   max-width:760px;
   margin:0 auto;
-  padding:16px 12px 48px;
+  padding:0 0 36px;
+  background:#000;
 }
 
 .imageOnly{
   margin:0;
   padding:0;
+  width:100%;
   background:transparent;
   border:none;
   border-radius:0;
@@ -78,6 +78,8 @@ body{
   display:block;
   width:100%;
   height:auto;
+  margin:0;
+  padding:0;
   background:transparent;
   border:none;
   border-radius:0;
@@ -86,11 +88,15 @@ body{
 
 .btnArea{
   display:grid;
-  gap:12px;
-  margin-top:18px;
+  gap:14px;
+  margin:18px 12px 0;
+  padding:0;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
 }
 
-.btn,
 .linkBtn{
   width:100%;
   min-height:70px;
@@ -113,7 +119,6 @@ body{
   font-family:inherit;
 }
 
-.btn:active,
 .linkBtn:active{
   transform:translateY(3px);
   box-shadow:
@@ -121,38 +126,11 @@ body{
     0 8px 14px rgba(0,0,0,.32);
 }
 
-.blueBtn{
-  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
-}
-
-.greenBtn{
-  background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
-}
-
 .blackBtn{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
-.goldBtn{
-  color:#271400;
-  background:linear-gradient(180deg,#fff1a4 0%,#ffd84d 48%,#c89217 100%);
-}
-
-.footer{
-  margin:28px 0 0;
-  text-align:center;
-  color:#c9b56b;
-  font-weight:800;
-  line-height:1.6;
-}
-
 @media (max-width:420px){
-  .page{
-    padding-left:12px;
-    padding-right:12px;
-  }
-
-  .btn,
   .linkBtn{
     min-height:66px;
     border-radius:22px;
@@ -167,98 +145,17 @@ body{
   <section class="imageOnly">
     <img
       class="shareImage"
-      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-omikuji-clean"
+      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-toponly"
       alt="田子山富士 開運おみくじ"
     >
   </section>
 
   <div class="btnArea">
-    <button class="btn blueBtn" type="button" onclick="postFacebook()">
-      Facebookに投稿
-    </button>
-
-    <button class="btn greenBtn" type="button" onclick="sendLine()">
-      LINEで送る
-    </button>
-
-    <button class="btn blackBtn" type="button" onclick="postX()">
-      Xで投稿
-    </button>
-
-    <button class="btn blueBtn" type="button" onclick="copyLink()">
-      リンクをコピー
-    </button>
-
-    <a class="linkBtn goldBtn" href="omikuji.html">
-      おみくじを開く
-    </a>
-
     <a class="linkBtn blackBtn" href="index.html">
       トップへ戻る
     </a>
   </div>
 
-  <footer class="footer">
-    田子山富士 168の縁プロジェクト<br>
-    開運おみくじ
-  </footer>
-
 </main>
-
-<script>
-const SHARE_URL =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html?v=20260703-omikuji-clean";
-
-function postFacebook(){
-  const url =
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(SHARE_URL);
-
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-function sendLine(){
-  const url =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(SHARE_URL) +
-    "&text=" +
-    encodeURIComponent("田子山富士 開運おみくじ");
-
-  location.href = url;
-}
-
-function postX(){
-  const url =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent("田子山富士 開運おみくじ") +
-    "&url=" +
-    encodeURIComponent(SHARE_URL);
-
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-async function copyLink(){
-  try{
-    await navigator.clipboard.writeText(SHARE_URL);
-    alert("共有リンクをコピーしました。");
-  }catch(error){
-    const area = document.createElement("textarea");
-    area.value = SHARE_URL;
-    area.style.position = "fixed";
-    area.style.left = "-9999px";
-    document.body.appendChild(area);
-    area.focus();
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-    alert("共有リンクをコピーしました。");
-  }
-}
-
-window.postFacebook = postFacebook;
-window.sendLine = sendLine;
-window.postX = postX;
-window.copyLink = copyLink;
-</script>
 </body>
 </html>
