@@ -12,8 +12,8 @@
 <meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/news.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-real">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-real">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 お知らせ">
 <meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news-real">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-news">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -499,109 +499,50 @@ function normalizeNewsItem(raw){
   raw = raw || {};
 
   if(Array.isArray(raw)){
-    return normalizeArrayRow(raw);
+    return {
+      date: formatDateText(raw[0]),
+      title: getString(raw[1]),
+      text: getString(raw[2]),
+      imageUrl: getString(raw[3])
+    };
   }
 
   return {
     date: formatDateText(
-      getFirst(
-        raw.date,
-        raw.datetime,
-        raw.createdAt,
-        raw.created_at,
-        raw.time,
-        raw["日時"],
-        raw["日付"],
-        raw["タイムスタンプ"]
-      )
+      raw.date ||
+      raw["日付"] ||
+      raw["日時"] ||
+      raw.createdAt ||
+      ""
     ),
 
-    title: getFirst(
-      raw.title,
-      raw.name,
-      raw.subject,
-      raw.heading,
-      raw.caption,
-      raw["タイトル"],
-      raw["件名"],
-      raw["見出し"],
-      raw["題名"],
+    title: getString(
+      raw.title ||
+      raw["タイトル"] ||
+      raw.name ||
+      raw["件名"] ||
       "お知らせ"
     ),
 
-    text: getFirst(
-      raw.text,
-      raw.message,
-      raw.body,
-      raw.content,
-      raw.description,
-      raw.detail,
-      raw.comment,
-      raw["本文"],
-      raw["内容"],
-      raw["メッセージ"],
-      raw["説明"],
-      raw["詳細"],
-      raw["コメント"]
+    text: getString(
+      raw.text ||
+      raw["本文"] ||
+      raw.message ||
+      raw["内容"] ||
+      raw.body ||
+      ""
     ),
 
-    imageUrl: normalizeImageUrl(
-      getFirst(
-        raw.imageUrl,
-        raw.image_url,
-        raw.image,
-        raw.imgUrl,
-        raw.img_url,
-        raw.img,
-        raw.photoUrl,
-        raw.photo_url,
-        raw.photo,
-        raw.pictureUrl,
-        raw.picture_url,
-        raw.picture,
-        raw.thumbnail,
-        raw.thumb,
-        raw.driveId,
-        raw.drive_id,
-        raw.imageId,
-        raw.image_id,
-        raw.imgid,
-        raw.fileId,
-        raw.file_id,
-        raw["画像URL"],
-        raw["画像url"],
-        raw["画像Url"],
-        raw["画像リンク"],
-        raw["画像"],
-        raw["写真URL"],
-        raw["写真url"],
-        raw["写真"],
-        raw["画像ID"],
-        raw["画像Id"],
-        raw["ファイルID"],
-        raw["ファイルId"],
-        raw["DriveID"],
-        raw["Googleドライブ画像"]
-      )
+    imageUrl: getString(
+      raw.imageUrl ||
+      raw["画像URL"] ||
+      raw.image ||
+      raw["画像"] ||
+      raw.img ||
+      raw["写真URL"] ||
+      raw.photo ||
+      ""
     )
-  };
-}
-
-function normalizeArrayRow(row){
-  const cells = row.map(function(value){
-    return getString(value);
-  });
-
-  const date = getString(cells[0]);
-  const title = getString(cells[1]);
-  const text = getString(cells[2]);
-  const imageUrl = normalizeImageUrl(getString(cells[3]));
-
-  return {
-    date: formatDateText(date),
-    title: title,
-    text: text,
-    imageUrl: imageUrl
   };
 }
 
@@ -611,48 +552,49 @@ function extractNewsList(data){
   }
 
   if(Array.isArray(data)){
-    return cleanList(data);
+    return removeHeader(data);
   }
 
-  const keys = [
-    "news",
-    "newsList",
-    "archive",
-    "archiveList",
-    "list",
-    "rows",
-    "items",
-    "values",
-    "records",
-    "data"
-  ];
-
-  for(let i = 0; i < keys.length; i++){
-    const key = keys[i];
-
-    if(Array.isArray(data[key])){
-      return cleanList(data[key]);
-    }
+  if(Array.isArray(data.news)){
+    return removeHeader(data.news);
   }
 
-  if(data.data && typeof data.data === "object"){
-    for(let i = 0; i < keys.length; i++){
-      const key = keys[i];
+  if(Array.isArray(data.newsList)){
+    return removeHeader(data.newsList);
+  }
 
-      if(Array.isArray(data.data[key])){
-        return cleanList(data.data[key]);
-      }
-    }
+  if(Array.isArray(data.list)){
+    return removeHeader(data.list);
+  }
+
+  if(Array.isArray(data.rows)){
+    return removeHeader(data.rows);
+  }
+
+  if(Array.isArray(data.items)){
+    return removeHeader(data.items);
+  }
+
+  if(Array.isArray(data.values)){
+    return removeHeader(data.values);
+  }
+
+  if(Array.isArray(data.data)){
+    return removeHeader(data.data);
+  }
+
+  if(data.data && Array.isArray(data.data.news)){
+    return removeHeader(data.data.news);
+  }
+
+  if(data.data && Array.isArray(data.data.list)){
+    return removeHeader(data.data.list);
   }
 
   return [];
 }
 
-function cleanList(list){
-  if(!Array.isArray(list)){
-    return [];
-  }
-
+function removeHeader(list){
   return list.filter(function(row){
     if(!row){
       return false;
@@ -662,23 +604,17 @@ function cleanList(list){
       const joined = row.join("");
 
       if(
-        joined.indexOf("日時") >= 0 ||
         joined.indexOf("日付") >= 0 ||
+        joined.indexOf("日時") >= 0 ||
         joined.indexOf("タイトル") >= 0 ||
         joined.indexOf("本文") >= 0 ||
         joined.indexOf("画像URL") >= 0
       ){
         return false;
       }
-
-      return true;
     }
 
-    if(typeof row === "object"){
-      return true;
-    }
-
-    return false;
+    return true;
   }).reverse();
 }
 
@@ -859,16 +795,6 @@ function setStatus(text){
   }
 }
 
-function normalizeImageUrl(url){
-  const value = getString(url);
-
-  if(!value){
-    return "";
-  }
-
-  return value;
-}
-
 function formatDateText(value){
   const text = getString(value);
 
@@ -888,18 +814,6 @@ function getString(value){
   }
 
   return String(value).trim();
-}
-
-function getFirst(){
-  for(let i = 0; i < arguments.length; i++){
-    const value = getString(arguments[i]);
-
-    if(value){
-      return value;
-    }
-  }
-
-  return "";
 }
 </script>
 </body>
