@@ -605,15 +605,28 @@ function makeNewsShareText(item){
     "#田子山富士 #敷島神社 #志木市";
 }
 
-function buildNewsShareUrl(){
-  return SHARE_NEWS_PAGE + "?v=20260704newgas";
+function buildNewsShareUrl(item){
+  item = item || {};
+
+  const params = new URLSearchParams();
+
+  params.set("title", item.title || "お知らせ");
+  params.set("date", item.date || "");
+  params.set("text", item.text || "");
+  params.set("imageUrl", item.imageUrl || "");
+  params.set("v", "20260704article");
+
+  return SHARE_NEWS_PAGE + "?" + params.toString();
 }
 
 async function postFacebookNews(item){
+  const shareUrl =
+    buildNewsShareUrl(item);
+
   const text =
     makeNewsShareText(item) +
     "\n" +
-    buildNewsShareUrl();
+    shareUrl;
 
   await copyText(text);
 
@@ -623,15 +636,18 @@ async function postFacebookNews(item){
 
   const url =
     "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(buildNewsShareUrl());
+    encodeURIComponent(shareUrl);
 
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function sendLineNews(item){
+  const shareUrl =
+    buildNewsShareUrl(item);
+
   const url =
     "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(buildNewsShareUrl()) +
+    encodeURIComponent(shareUrl) +
     "&text=" +
     encodeURIComponent(makeNewsShareText(item));
 
@@ -639,20 +655,26 @@ function sendLineNews(item){
 }
 
 function postXNews(item){
+  const shareUrl =
+    buildNewsShareUrl(item);
+
   const url =
     "https://twitter.com/intent/tweet?text=" +
     encodeURIComponent(makeNewsShareText(item)) +
     "&url=" +
-    encodeURIComponent(buildNewsShareUrl());
+    encodeURIComponent(shareUrl);
 
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
 async function copyNews(item){
+  const shareUrl =
+    buildNewsShareUrl(item);
+
   const text =
     makeNewsShareText(item) +
     "\n" +
-    buildNewsShareUrl();
+    shareUrl;
 
   await copyText(text);
 
