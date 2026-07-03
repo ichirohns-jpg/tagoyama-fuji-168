@@ -1,282 +1,769 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>田子山富士 ご縁帳</title>
 
-<title>みんなのご縁帳</title>
+  <meta name="description" content="田子山富士168の縁プロジェクト ご縁帳。敷島神社・田子山富士に寄せられた皆さまの記帳です。">
+  <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+  <meta property="og:title" content="田子山富士 ご縁帳">
+  <meta property="og:description" content="敷島神社・田子山富士に寄せられた皆さまのご縁の記録です。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/goen.html">
+  <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
+  <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="田子山富士 ご縁帳">
+  <meta property="og:locale" content="ja_JP">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
-<link rel="icon" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="田子山富士 ご縁帳">
+  <meta name="twitter:description" content="敷島神社・田子山富士に寄せられた皆さまのご縁の記録です。">
+  <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/top.jpg?v=20260703-goen">
 
-<style>
+  <link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/goen.html">
+  <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
+  <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
-color:#fff;
-}
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 225, 110, 0.18), rgba(0, 0, 0, 0) 36%),
+        linear-gradient(180deg, #221600 0%, #070707 48%, #000000 100%);
+      color: #fff7ca;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
 
-.hero img{
-width:100%;
-display:block;
-}
+    body {
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
 
-.wrap{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
+    .page {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 12px 48px;
+    }
 
-.card{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:28px;
-padding:28px;
-box-shadow:
-0 12px 32px rgba(0,0,0,.45);
-}
+    .hero {
+      text-align: center;
+      margin: 0 0 16px;
+    }
 
-.logo{
-width:140px;
-display:block;
-margin:auto;
-margin-bottom:20px;
-}
+    .logoBox {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 220, 95, 0.80);
+      background: #000000;
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.50),
+        0 0 18px rgba(255, 210, 80, 0.22);
+    }
 
-.title{
-font-size:42px;
-font-weight:900;
-text-align:center;
-margin-bottom:10px;
-}
+    .logoBox img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
-.sub{
-font-size:18px;
-line-height:1.8;
-text-align:center;
-color:#ddd;
-margin-bottom:30px;
-}
+    .siteTitle {
+      margin: 0;
+      font-size: clamp(36px, 10vw, 70px);
+      line-height: 1.16;
+      font-weight: 900;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.92),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
 
-.list{
-margin-top:20px;
-}
+    .siteSub {
+      margin: 10px 0 0;
+      font-size: clamp(20px, 5.5vw, 34px);
+      line-height: 1.45;
+      font-weight: 900;
+      color: #fff3c4;
+      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.88);
+    }
 
-.item{
-padding:20px 0;
-margin-bottom:20px;
-border-bottom:1px solid #333;
-}
+    .card {
+      margin: 16px 0;
+      padding: 20px 14px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(255, 224, 120, 0.16), rgba(0, 0, 0, 0) 46%),
+        linear-gradient(180deg, rgba(44, 28, 0, 0.92), rgba(10, 10, 10, 0.94));
+      border: 2px solid rgba(255, 220, 95, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(255, 230, 150, 0.10) inset,
+        0 12px 28px rgba(0, 0, 0, 0.42);
+    }
 
-.date{
-font-size:14px;
-color:#888;
-margin-top:8px;
-margin-bottom:12px;
-}
+    .cardTitle {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 8.4vw, 54px);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+      color: #ffdf72;
+      text-shadow:
+        0 4px 4px rgba(0, 0, 0, 0.90),
+        0 0 18px rgba(255, 210, 80, 0.28);
+    }
 
-.area{
-font-size:18px;
-font-weight:900;
-color:#d4af37;
-margin-bottom:4px;
-}
+    .lead {
+      margin: 0 0 16px;
+      color: #fff1bd;
+      text-align: center;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
 
-.name{
-font-size:16px;
-color:#ccc;
-margin-bottom:6px;
-}
+    .statusBox {
+      margin: 18px 0 0;
+      padding: 18px 14px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.34);
+      border: 1px solid rgba(255, 220, 140, 0.34);
+      font-size: clamp(18px, 4.8vw, 28px);
+      font-weight: 900;
+      line-height: 1.65;
+      color: #fff3c4;
+      text-align: center;
+      white-space: pre-wrap;
+    }
 
-.message{
-font-size:20px;
-line-height:1.8;
-color:#fff;
-}
+    .goenList {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
 
-.loading{
-text-align:center;
-font-size:24px;
-padding:50px;
-}
+    .goenItem {
+      padding: 16px 14px;
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 2px solid rgba(255, 220, 95, 0.42);
+      box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(255, 230, 150, 0.06) inset;
+    }
 
-</style>
+    .goenTitle {
+      margin: 0 0 8px;
+      color: #ffdf72;
+      font-size: clamp(24px, 6.8vw, 42px);
+      line-height: 1.35;
+      font-weight: 900;
+      text-shadow:
+        0 3px 3px rgba(0, 0, 0, 0.88),
+        0 0 14px rgba(255, 210, 80, 0.18);
+    }
+
+    .goenDate {
+      margin: 0 0 10px;
+      color: #d9c886;
+      font-size: clamp(15px, 4.2vw, 24px);
+      line-height: 1.45;
+      font-weight: 900;
+    }
+
+    .goenBody {
+      margin: 0;
+      color: #fff1bd;
+      font-size: clamp(17px, 4.8vw, 29px);
+      line-height: 1.62;
+      font-weight: 800;
+      white-space: pre-wrap;
+    }
+
+    .btnArea {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .linkBtn {
+      width: 100%;
+      min-height: 70px;
+      border: none;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: clamp(20px, 5.5vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: center;
+      box-shadow:
+        0 7px 0 rgba(0, 0, 0, 0.32),
+        0 13px 22px rgba(0, 0, 0, 0.34);
+      -webkit-tap-highlight-color: transparent;
+      font-family: inherit;
+    }
+
+    .linkBtn:active {
+      transform: translateY(3px);
+      box-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.32),
+        0 8px 14px rgba(0, 0, 0, 0.32);
+    }
+
+    .goldBtn {
+      color: #271400;
+      background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
+    }
+
+    .blueBtn {
+      background: linear-gradient(180deg, #2e83ff 0%, #0b4fc4 100%);
+    }
+
+    .greenBtn {
+      background: linear-gradient(180deg, #38e988 0%, #09b957 100%);
+    }
+
+    .blackBtn {
+      background: linear-gradient(180deg, #323232 0%, #050505 100%);
+    }
+
+    .footer {
+      margin: 28px 0 0;
+      text-align: center;
+      color: #c9b56b;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 420px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        border-radius: 26px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .linkBtn {
+        min-height: 66px;
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <main class="page">
 
-<div class="hero">
-<img src="top.jpg">
-</div>
+    <header class="hero">
+      <div class="logoBox">
+        <img
+          src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
+          alt="田子山富士"
+          onerror="this.style.display='none'"
+        >
+      </div>
 
-<div class="wrap">
+      <h1 class="siteTitle">ご縁帳</h1>
+      <p class="siteSub">田子山富士 168の縁プロジェクト</p>
+    </header>
 
-<div class="card">
+    <section class="card">
+      <h2 class="cardTitle">みんなのご縁帳</h2>
 
-<img
-src="logo.png"
-class="logo">
+      <p class="lead">
+        敷島神社・田子山富士へ寄せられた<br>
+        皆さまの記帳です。
+      </p>
 
-<div class="title">
-みんなのご縁帳
-</div>
+      <div class="statusBox" id="statusBox">
+        ご縁帳を読み込んでいます。
+      </div>
 
-<div class="sub">
+      <div class="goenList" id="goenList"></div>
 
-敷島神社へ寄せられた
-皆さまの記帳です
+      <div class="btnArea">
+        <a class="linkBtn goldBtn" id="topLink" href="index.html">
+          トップへ戻る
+        </a>
 
-</div>
+        <a class="linkBtn blueBtn" id="certificateLink" href="certificate.html">
+          登頂記念証へ
+        </a>
 
-<div
-id="loading"
-class="loading">
+        <a class="linkBtn greenBtn" id="omikujiLink" href="omikuji.html">
+          開運おみくじへ
+        </a>
+      </div>
+    </section>
 
-読込中...
+    <footer class="footer">
+      田子山富士 168の縁プロジェクト<br>
+      ご縁帳
+    </footer>
+  </main>
 
-</div>
+  <script>
+    const GAS_URL =
+      "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
 
-<div
-id="list"
-class="list">
+    const HOME_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
 
-</div>
+    const CERTIFICATE_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/certificate.html";
 
-</div>
+    const OMIKUJI_PAGE =
+      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
 
-</div>
+    let currentUserId = "";
 
-<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      initGoenPage();
+    });
 
-const SHEET_ID =
-"15jtF9F4B6W07ZZq2nyxb_tlxujbGMBGvpbULWzfFWAU";
+    async function initGoenPage() {
+      currentUserId = getUserId();
 
-const SHEET_NAME =
-"参拝記帳";
+      if (currentUserId) {
+        localStorage.setItem("tagoyamaUserId", currentUserId);
+        localStorage.setItem("tagoyamaFujiUserId", currentUserId);
+      }
 
-const url =
-"https://docs.google.com/spreadsheets/d/" +
-SHEET_ID +
-"/gviz/tq?sheet=" +
-encodeURIComponent(
-SHEET_NAME
-) +
-"&tqx=out:json";
+      setLinks();
+      await loadGoen();
+    }
 
-function getVal(cell){
+    function getUserId() {
+      const params = new URLSearchParams(window.location.search);
 
-if(!cell) return "";
+      return getString(
+        params.get("userId") ||
+        params.get("userid") ||
+        params.get("uid") ||
+        params.get("id") ||
+        localStorage.getItem("tagoyamaUserId") ||
+        localStorage.getItem("tagoyamaFujiUserId") ||
+        ""
+      );
+    }
 
-return cell.v || "";
+    function setLinks() {
+      const topLink = document.getElementById("topLink");
+      const certificateLink = document.getElementById("certificateLink");
+      const omikujiLink = document.getElementById("omikujiLink");
 
-}
+      if (topLink) {
+        topLink.href =
+          currentUserId
+            ? HOME_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : HOME_PAGE;
+      }
 
-function loadData(){
+      if (certificateLink) {
+        certificateLink.href =
+          currentUserId
+            ? CERTIFICATE_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : CERTIFICATE_PAGE;
+      }
 
-const script =
-document.createElement(
-"script"
-);
+      if (omikujiLink) {
+        omikujiLink.href =
+          currentUserId
+            ? OMIKUJI_PAGE + "?userId=" + encodeURIComponent(currentUserId)
+            : OMIKUJI_PAGE;
+      }
+    }
 
-script.src =
-url +
-"&callback=handleSheet";
+    async function loadGoen() {
+      const statusBox = document.getElementById("statusBox");
+      const goenList = document.getElementById("goenList");
 
-document.body.appendChild(
-script
-);
+      if (statusBox) {
+        statusBox.innerText = "ご縁帳を読み込んでいます。";
+      }
 
-}
+      if (goenList) {
+        goenList.innerHTML = "";
+      }
 
-function handleSheet(json){
+      try {
+        const data = await tryManyJson([
+          GAS_URL + "?goen=1&t=" + Date.now(),
+          GAS_URL + "?mode=goen&t=" + Date.now(),
+          GAS_URL + "?action=goen&t=" + Date.now(),
+          GAS_URL + "?type=goen&t=" + Date.now()
+        ]);
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
+        const list = extractList(data);
 
-const rows =
-json.table.rows || [];
+        if (!list || !list.length) {
+          renderEmptyGoen();
+          return;
+        }
 
-rows.reverse();
+        renderGoenList(list);
 
-let html = "";
+        if (statusBox) {
+          statusBox.innerText = "ご縁帳を表示しました。";
+        }
+      } catch (error) {
+        console.error(error);
+        renderErrorGoen();
+      }
+    }
 
-for(
-let i=0;
-i<rows.length;
-i++
-){
+    function renderGoenList(list) {
+      const goenList = document.getElementById("goenList");
 
-const row =
-rows[i];
+      if (!goenList) {
+        return;
+      }
 
-const date =
-getVal(row.c[0]);
+      goenList.innerHTML = "";
 
-const area =
-getVal(row.c[3]);
+      let count = 0;
 
-const name =
-getVal(row.c[4]);
+      list.forEach(function(item) {
+        const goen = normalizeGoenItem(item);
 
-const message =
-getVal(row.c[5]);
+        if (!goen.title && !goen.message && !goen.name) {
+          return;
+        }
 
-if(!message) continue;
+        count++;
 
-html += `
-<div class="item">
+        const card = document.createElement("article");
+        card.className = "goenItem";
 
-<div class="area">
-${area}
-</div>
+        const title = document.createElement("h2");
+        title.className = "goenTitle";
+        title.innerText = goen.title || "ご縁";
+        card.appendChild(title);
 
-<div class="name">
-${name ? name : "お名前なし"}
-</div>
+        const date = document.createElement("p");
+        date.className = "goenDate";
+        date.innerText =
+          (goen.date ? goen.date : "") +
+          (goen.area ? "　" + goen.area : "") +
+          (goen.name ? "　" + goen.name : "");
+        card.appendChild(date);
 
-<div class="date">
-${date}
-</div>
+        const body = document.createElement("p");
+        body.className = "goenBody";
+        body.innerText =
+          goen.message ||
+          "田子山富士へご縁をいただきました。";
+        card.appendChild(body);
 
-<div class="message">
-${message}
-</div>
+        goenList.appendChild(card);
+      });
 
-</div>
-`;
+      if (!count) {
+        renderEmptyGoen();
+      }
+    }
 
-}
+    function renderEmptyGoen() {
+      const statusBox = document.getElementById("statusBox");
+      const goenList = document.getElementById("goenList");
 
-document.getElementById(
-"list"
-).innerHTML =
-html;
+      if (statusBox) {
+        statusBox.innerText = "現在表示できるご縁帳はありません。";
+      }
 
-}
+      if (goenList) {
+        goenList.innerHTML =
+          '<article class="goenItem">' +
+          '<h2 class="goenTitle">ご縁帳</h2>' +
+          '<p class="goenBody">現在表示できるご縁帳はありません。</p>' +
+          '</article>';
+      }
+    }
 
-loadData();
+    function renderErrorGoen() {
+      const statusBox = document.getElementById("statusBox");
+      const goenList = document.getElementById("goenList");
 
-</script>
+      if (statusBox) {
+        statusBox.innerText = "ご縁帳を読み込めませんでした。";
+      }
 
+      if (goenList) {
+        goenList.innerHTML =
+          '<article class="goenItem">' +
+          '<h2 class="goenTitle">読み込みエラー</h2>' +
+          '<p class="goenBody">通信状況を確認して、もう一度お試しください。</p>' +
+          '</article>';
+      }
+    }
+
+    function normalizeGoenItem(item) {
+      item = item || {};
+
+      const area =
+        getFirst(
+          item.area,
+          item.from,
+          item.place,
+          item.地域,
+          item.住所,
+          item.どこから
+        );
+
+      const name =
+        getFirst(
+          item.name,
+          item.visitorName,
+          item.nickname,
+          item.名前,
+          item.お名前,
+          "匿名"
+        );
+
+      const message =
+        getFirst(
+          item.message,
+          item.text,
+          item.body,
+          item.comment,
+          item.メッセージ,
+          item.本文,
+          item.内容
+        );
+
+      const date =
+        formatDateText(
+          getFirst(
+            item.date,
+            item.createdAt,
+            item.time,
+            item.日時,
+            item.日付
+          )
+        );
+
+      const title =
+        getFirst(
+          item.title,
+          item.タイトル,
+          area,
+          "ご縁"
+        );
+
+      return {
+        title: title,
+        area: area,
+        name: name,
+        message: message,
+        date: date
+      };
+    }
+
+    async function tryManyJson(urls) {
+      let lastError = null;
+
+      for (let i = 0; i < urls.length; i++) {
+        try {
+          const data = await getJson(urls[i]);
+
+          if (data !== null && data !== undefined) {
+            return data;
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("通信に失敗しました。");
+    }
+
+    async function getJson(url) {
+      try {
+        const res = await fetch(url, {
+          method: "GET",
+          cache: "no-store"
+        });
+
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+
+        const text = await res.text();
+        return parseJsonText(text);
+      } catch (fetchError) {
+        return await getJsonp(url);
+      }
+    }
+
+    function parseJsonText(text) {
+      const value = String(text || "").trim();
+
+      if (!value) {
+        throw new Error("empty response");
+      }
+
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        const start = value.indexOf("{");
+        const end = value.lastIndexOf("}");
+
+        if (start >= 0 && end > start) {
+          return JSON.parse(value.substring(start, end + 1));
+        }
+
+        throw error;
+      }
+    }
+
+    function getJsonp(url) {
+      return new Promise(function(resolve, reject) {
+        const callbackName =
+          "tagoyamaGoenCallback_" +
+          Date.now() +
+          "_" +
+          Math.floor(Math.random() * 1000000);
+
+        const script = document.createElement("script");
+        const sep = url.indexOf("?") >= 0 ? "&" : "?";
+
+        const timer = setTimeout(function() {
+          cleanup();
+          reject(new Error("JSONP timeout"));
+        }, 12000);
+
+        window[callbackName] = function(data) {
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = function() {
+          cleanup();
+          reject(new Error("JSONP error"));
+        };
+
+        script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+        document.body.appendChild(script);
+
+        function cleanup() {
+          clearTimeout(timer);
+
+          try {
+            delete window[callbackName];
+          } catch (error) {
+            window[callbackName] = undefined;
+          }
+
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        }
+      });
+    }
+
+    function extractList(data) {
+      if (!data) {
+        return [];
+      }
+
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      if (Array.isArray(data.list)) {
+        return data.list;
+      }
+
+      if (Array.isArray(data.rows)) {
+        return data.rows;
+      }
+
+      if (Array.isArray(data.items)) {
+        return data.items;
+      }
+
+      if (Array.isArray(data.data)) {
+        return data.data;
+      }
+
+      if (data.data && Array.isArray(data.data.list)) {
+        return data.data.list;
+      }
+
+      if (data.data && Array.isArray(data.data.rows)) {
+        return data.data.rows;
+      }
+
+      if (data.data && Array.isArray(data.data.items)) {
+        return data.data.items;
+      }
+
+      return [];
+    }
+
+    function formatDateText(value) {
+      const text = getString(value);
+
+      if (!text) {
+        return "";
+      }
+
+      return text
+        .replace(/-/g, "/")
+        .replace(/\./g, "/")
+        .replace(/\s.*$/, "");
+    }
+
+    function getString(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value).trim();
+    }
+
+    function getFirst() {
+      for (let i = 0; i < arguments.length; i++) {
+        const value = getString(arguments[i]);
+
+        if (value) {
+          return value;
+        }
+      }
+
+      return "";
+    }
+  </script>
 </body>
 </html>
