@@ -13,8 +13,8 @@
 <meta property="og:description" content="保存会・地域からのお知らせを掲載しています。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士からのお知らせ">
 <meta name="twitter:description" content="保存会・地域からのお知らせを掲載しています。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -122,6 +122,20 @@ body{
   box-shadow:
     0 0 0 1px rgba(255,230,150,.10) inset,
     0 12px 28px rgba(0,0,0,.42);
+}
+
+.statusBox{
+  margin:0 0 18px;
+  padding:18px 14px;
+  border-radius:20px;
+  background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,220,140,.34);
+  font-size:clamp(18px,4.8vw,28px);
+  font-weight:900;
+  line-height:1.65;
+  color:#fff3c4;
+  text-align:center;
+  white-space:pre-wrap;
 }
 
 .newsImage{
@@ -265,7 +279,11 @@ body{
   <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
 </header>
 
-<section class="card" id="articleCard">
+<section class="card">
+  <div class="statusBox" id="statusBox">
+    お知らせを読み込んでいます。
+  </div>
+
   <img
     id="newsImage"
     class="newsImage"
@@ -304,26 +322,17 @@ body{
 </main>
 
 <script>
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+
 window.addEventListener("load", initShareNews);
 
-function initShareNews(){
+async function initShareNews(){
   const params =
     new URLSearchParams(location.search);
 
-  const title =
-    getString(params.get("title")) ||
-    "田子山富士からのお知らせ";
-
-  const date =
-    formatDateText(
-      getString(params.get("date"))
-    );
-
-  const text =
-    getString(params.get("text"));
-
-  const imageUrl =
-    getString(params.get("imageUrl"));
+  const index =
+    Number(params.get("n") || 0);
 
   const userId =
     getString(params.get("userId")) ||
@@ -332,23 +341,54 @@ function initShareNews(){
     getString(localStorage.getItem("tagoyamaUserId")) ||
     getString(localStorage.getItem("tagoyamaFujiUserId"));
 
-  renderArticle({
-    title:title,
-    date:date,
-    text:text,
-    imageUrl:imageUrl
-  });
-
   updateLinks(userId);
-  updateMeta(title,text,imageUrl);
+  await loadArticle(index);
+}
+
+async function loadArticle(index){
+  setStatus("お知らせを読み込んでいます。");
+
+  try{
+    const data =
+      await tryManyJson([
+        GAS_URL + "?mode=news&t=" + Date.now(),
+        GAS_URL + "?mode=listNews&t=" + Date.now(),
+        GAS_URL + "?news=1&t=" + Date.now(),
+        GAS_URL + "?listNews=1&t=" + Date.now()
+      ]);
+
+    const list =
+      extractNewsList(data);
+
+    const item =
+      normalizeNewsItem(list[index] || list[0] || {});
+
+    renderArticle(item);
+    setStatus("お知らせを表示しました。");
+  }catch(error){
+    console.warn(error);
+    setStatus("お知らせを表示できませんでした。");
+    showEmpty();
+  }
 }
 
 function renderArticle(item){
-  const image = document.getElementById("newsImage");
-  const title = document.getElementById("newsTitle");
-  const date = document.getElementById("newsDate");
-  const text = document.getElementById("newsText");
-  const empty = document.getElementById("emptyText");
+  item = item || {};
+
+  const image =
+    document.getElementById("newsImage");
+
+  const title =
+    document.getElementById("newsTitle");
+
+  const date =
+    document.getElementById("newsDate");
+
+  const text =
+    document.getElementById("newsText");
+
+  const empty =
+    document.getElementById("emptyText");
 
   if(title){
     title.innerText =
@@ -359,7 +399,7 @@ function renderArticle(item){
   if(date){
     if(item.date){
       date.style.display = "block";
-      date.innerText = item.date;
+      date.innerText = formatDateText(item.date);
     }else{
       date.style.display = "none";
       date.innerText = "";
@@ -397,6 +437,15 @@ function renderArticle(item){
   }
 }
 
+function showEmpty(){
+  const empty =
+    document.getElementById("emptyText");
+
+  if(empty){
+    empty.style.display = "block";
+  }
+}
+
 function updateLinks(userId){
   const query =
     userId
@@ -420,44 +469,260 @@ function updateLinks(userId){
   }
 }
 
-function updateMeta(title,text,imageUrl){
-  document.title =
-    title ||
-    "田子山富士からのお知らせ";
-
-  setMeta("description", text || "田子山富士168の縁プロジェクトからのお知らせです。");
-  setOg("og:title", title || "田子山富士からのお知らせ");
-  setOg("og:description", text || "保存会・地域からのお知らせを掲載しています。");
-
-  if(imageUrl){
-    setOg("og:image", imageUrl);
-    setOg("og:image:secure_url", imageUrl);
-    setMeta("twitter:image", imageUrl);
+function normalizeNewsItem(row){
+  if(Array.isArray(row)){
+    return {
+      date:getString(row[0]),
+      title:getString(row[1]),
+      text:getString(row[2]),
+      imageUrl:getString(row[3])
+    };
   }
 
-  setMeta("twitter:title", title || "田子山富士からのお知らせ");
-  setMeta("twitter:description", text || "保存会・地域からのお知らせを掲載しています。");
+  row = row || {};
+
+  return {
+    date:getString(
+      row.date ||
+      row["日付"] ||
+      row["日時"] ||
+      ""
+    ),
+
+    title:getString(
+      row.title ||
+      row["タイトル"] ||
+      row.name ||
+      row.subject ||
+      ""
+    ),
+
+    text:getString(
+      row.text ||
+      row.body ||
+      row.message ||
+      row.content ||
+      row["本文"] ||
+      row["内容"] ||
+      row["メッセージ"] ||
+      ""
+    ),
+
+    imageUrl:getString(
+      row.imageUrl ||
+      row.imageURL ||
+      row.imgUrl ||
+      row.img ||
+      row.image ||
+      row.link ||
+      row.url ||
+      row["画像URL"] ||
+      row["画像url"] ||
+      row["画像"] ||
+      row["リンク"] ||
+      ""
+    )
+  };
 }
 
-function setMeta(name,value){
-  const el =
-    document.querySelector(
-      'meta[name="' + name + '"]'
-    );
+function extractNewsList(data){
+  if(!data){
+    return [];
+  }
 
-  if(el){
-    el.setAttribute("content", value);
+  let list = [];
+
+  if(Array.isArray(data)){
+    list = data;
+  }else if(Array.isArray(data.news)){
+    list = data.news;
+  }else if(Array.isArray(data.newsList)){
+    list = data.newsList;
+  }else if(Array.isArray(data.list)){
+    list = data.list;
+  }else if(Array.isArray(data.rows)){
+    list = data.rows;
+  }else if(Array.isArray(data.items)){
+    list = data.items;
+  }else if(Array.isArray(data.data)){
+    list = data.data;
+  }else if(data.data && Array.isArray(data.data.news)){
+    list = data.data.news;
+  }else if(data.data && Array.isArray(data.data.list)){
+    list = data.data.list;
+  }
+
+  return removeHeaderRows(list);
+}
+
+function removeHeaderRows(list){
+  return list.filter(function(row){
+    if(!row){
+      return false;
+    }
+
+    if(Array.isArray(row)){
+      const a = getString(row[0]);
+      const b = getString(row[1]);
+      const c = getString(row[2]);
+      const d = getString(row[3]);
+
+      if(
+        a === "日付" ||
+        a === "日時" ||
+        b === "タイトル" ||
+        c === "本文" ||
+        d === "画像URL"
+      ){
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+async function tryManyJson(urls){
+  let lastError = null;
+
+  for(let i = 0; i < urls.length; i++){
+    try{
+      const data =
+        await getJson(urls[i]);
+
+      if(data !== null && data !== undefined){
+        return data;
+      }
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("通信に失敗しました。");
+}
+
+async function getJson(url){
+  try{
+    const res =
+      await fetch(url,{
+        method:"GET",
+        cache:"no-store"
+      });
+
+    if(!res.ok){
+      throw new Error("HTTP " + res.status);
+    }
+
+    const text =
+      await res.text();
+
+    return parseJsonText(text);
+  }catch(error){
+    return await getJsonp(url);
   }
 }
 
-function setOg(property,value){
+function parseJsonText(text){
+  const value =
+    String(text || "").trim();
+
+  if(!value){
+    throw new Error("empty response");
+  }
+
+  try{
+    return JSON.parse(value);
+  }catch(error){
+    const objectStart =
+      value.indexOf("{");
+
+    const objectEnd =
+      value.lastIndexOf("}");
+
+    if(objectStart >= 0 && objectEnd > objectStart){
+      return JSON.parse(
+        value.substring(objectStart,objectEnd + 1)
+      );
+    }
+
+    const arrayStart =
+      value.indexOf("[");
+
+    const arrayEnd =
+      value.lastIndexOf("]");
+
+    if(arrayStart >= 0 && arrayEnd > arrayStart){
+      return JSON.parse(
+        value.substring(arrayStart,arrayEnd + 1)
+      );
+    }
+
+    throw error;
+  }
+}
+
+function getJsonp(url){
+  return new Promise(function(resolve,reject){
+    const callbackName =
+      "tagoyamaShareNewsCallback_" +
+      Date.now() +
+      "_" +
+      Math.floor(Math.random() * 1000000);
+
+    const script =
+      document.createElement("script");
+
+    const sep =
+      url.indexOf("?") >= 0
+        ? "&"
+        : "?";
+
+    const timer =
+      setTimeout(function(){
+        cleanup();
+        reject(new Error("JSONP timeout"));
+      },12000);
+
+    window[callbackName] = function(data){
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = function(){
+      cleanup();
+      reject(new Error("JSONP error"));
+    };
+
+    script.src =
+      url +
+      sep +
+      "callback=" +
+      encodeURIComponent(callbackName);
+
+    document.body.appendChild(script);
+
+    function cleanup(){
+      clearTimeout(timer);
+
+      try{
+        delete window[callbackName];
+      }catch(error){
+        window[callbackName] = undefined;
+      }
+
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
+      }
+    }
+  });
+}
+
+function setStatus(text){
   const el =
-    document.querySelector(
-      'meta[property="' + property + '"]'
-    );
+    document.getElementById("statusBox");
 
   if(el){
-    el.setAttribute("content", value);
+    el.innerText = text;
   }
 }
 
