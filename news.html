@@ -12,8 +12,8 @@
 <meta property="og:description" content="保存会・地域からのお知らせを掲載しています。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/news.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士からのお知らせ">
 <meta name="twitter:description" content="保存会・地域からのお知らせを掲載しています。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260704news">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -313,7 +313,7 @@ const GAS_URL =
   "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
 
 const SHARE_NEWS_PAGE =
-  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news-v2.html";
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
 
 let currentUserId = "";
 
@@ -392,14 +392,17 @@ function renderNews(list){
 
   const displayItems = [];
 
-  list.forEach(function(row){
+  list.forEach(function(row,index){
     const item = normalizeNewsItem(row);
 
     if(!item.date && !item.title && !item.text && !item.imageUrl){
       return;
     }
 
-    item.newsIndex = displayItems.length;
+    item.newsIndex = index;
+    item.sourceIndex = index;
+    item.dateNumber = getDateNumber(item.date);
+
     displayItems.push(item);
   });
 
@@ -407,6 +410,17 @@ function renderNews(list){
     setStatus("現在表示できるお知らせはありません。");
     return;
   }
+
+  displayItems.sort(function(a,b){
+    const dateA = Number(a.dateNumber || 0);
+    const dateB = Number(b.dateNumber || 0);
+
+    if(dateA !== dateB){
+      return dateB - dateA;
+    }
+
+    return Number(b.sourceIndex || 0) - Number(a.sourceIndex || 0);
+  });
 
   displayItems.forEach(function(item){
     const box = document.createElement("article");
@@ -486,7 +500,7 @@ function renderNews(list){
     newsList.appendChild(box);
   });
 
-  setStatus("お知らせを表示しました。");
+  setStatus("新しいお知らせから順番に表示しています。");
 }
 
 function normalizeNewsItem(row){
@@ -525,6 +539,7 @@ function normalizeNewsItem(row){
       row["本文"] ||
       row["内容"] ||
       row["メッセージ"] ||
+      row["概要"] ||
       ""
     ),
 
@@ -539,6 +554,7 @@ function normalizeNewsItem(row){
       row["画像URL"] ||
       row["画像url"] ||
       row["画像"] ||
+      row["画像1"] ||
       row["リンク"] ||
       ""
     )
@@ -592,7 +608,9 @@ function removeHeaderRows(list){
         a === "日時" ||
         b === "タイトル" ||
         c === "本文" ||
-        d === "画像URL"
+        c === "概要" ||
+        d === "画像URL" ||
+        d === "画像1"
       ){
         return false;
       }
@@ -605,8 +623,7 @@ function removeHeaderRows(list){
 function makeNewsShareText(item){
   return "田子山富士168の縁プロジェクト お知らせ\n" +
     (item.title || "お知らせ") + "\n" +
-    (item.text || "") + "\n\n" +
-    "#田子山富士 #敷島神社 #志木市";
+    (item.text || "");
 }
 
 function buildNewsShareUrl(item){
@@ -615,7 +632,7 @@ function buildNewsShareUrl(item){
   const params = new URLSearchParams();
 
   params.set("n", String(item.newsIndex || 0));
-  params.set("v", "20260704v2");
+  params.set("v", "20260705newfirst");
 
   if(currentUserId){
     params.set("userId", currentUserId);
@@ -812,6 +829,39 @@ function setStatus(text){
   }
 }
 
+function getDateNumber(value){
+  const text =
+    toHalfWidthNumber(getString(value));
+
+  if(!text){
+    return 0;
+  }
+
+  const match =
+    text.match(/([0-9]{4})[^0-9]?([0-9]{1,2})[^0-9]?([0-9]{1,2})/);
+
+  if(match){
+    const y = match[1];
+    const m = String(match[2]).padStart(2,"0");
+    const d = String(match[3]).padStart(2,"0");
+
+    return Number(y + m + d);
+  }
+
+  const shortMatch =
+    text.match(/([0-9]{1,2})[^0-9]?([0-9]{1,2})/);
+
+  if(shortMatch){
+    const y = String(new Date().getFullYear());
+    const m = String(shortMatch[1]).padStart(2,"0");
+    const d = String(shortMatch[2]).padStart(2,"0");
+
+    return Number(y + m + d);
+  }
+
+  return 0;
+}
+
 function formatDateText(value){
   const text = getString(value);
 
@@ -819,10 +869,16 @@ function formatDateText(value){
     return "";
   }
 
-  return text
+  return toHalfWidthNumber(text)
     .replace(/-/g,"/")
     .replace(/\./g,"/")
     .replace(/\s.*$/,"");
+}
+
+function toHalfWidthNumber(value){
+  return getString(value).replace(/[０-９]/g,function(s){
+    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+  });
 }
 
 function getString(value){
