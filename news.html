@@ -165,6 +165,40 @@ body{
   white-space:pre-wrap;
 }
 
+.youtubeBox{
+  margin:16px 0 0;
+  width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  background:#000;
+  border:2px solid rgba(255,220,95,.48);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.36);
+}
+
+.youtubeFrameWrap{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  background:#000;
+}
+
+.youtubeFrame{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.youtubeLinkBtn{
+  margin-top:12px;
+}
+
+.detailBtnArea{
+  margin-top:12px;
+}
+
 .shareBtnArea{
   display:grid;
   gap:10px;
@@ -243,6 +277,10 @@ body{
 
 .blackBtn{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
+}
+
+.redBtn{
+  background:linear-gradient(180deg,#ff4b4b 0%,#b81717 100%);
 }
 
 .footer{
@@ -395,7 +433,14 @@ function renderNews(list){
   list.forEach(function(row,index){
     const item = normalizeNewsItem(row);
 
-    if(!item.date && !item.title && !item.text && !item.imageUrl){
+    if(
+      !item.date &&
+      !item.title &&
+      !item.text &&
+      item.imageUrls.length === 0 &&
+      !item.youtubeUrl &&
+      !item.detailUrl
+    ){
       return;
     }
 
@@ -426,16 +471,16 @@ function renderNews(list){
     const box = document.createElement("article");
     box.className = "newsItem";
 
-    if(item.imageUrl){
+    item.imageUrls.forEach(function(url){
       const img = document.createElement("img");
       img.className = "newsImage";
       img.alt = item.title || "お知らせ";
-      img.src = item.imageUrl;
+      img.src = url;
       img.onerror = function(){
         this.remove();
       };
       box.appendChild(img);
-    }
+    });
 
     const title = document.createElement("h2");
     title.className = "newsTitle";
@@ -454,6 +499,26 @@ function renderNews(list){
       text.className = "newsText";
       text.innerText = item.text;
       box.appendChild(text);
+    }
+
+    if(item.youtubeUrl){
+      const youtube = createYouTubeBlock(item.youtubeUrl);
+      box.appendChild(youtube);
+    }
+
+    if(item.detailUrl){
+      const detailArea = document.createElement("div");
+      detailArea.className = "detailBtnArea";
+
+      const detail = document.createElement("a");
+      detail.className = "smallBtn blueBtn";
+      detail.href = item.detailUrl;
+      detail.target = "_blank";
+      detail.rel = "noopener";
+      detail.innerText = "詳しく見る";
+
+      detailArea.appendChild(detail);
+      box.appendChild(detailArea);
     }
 
     const share = document.createElement("div");
@@ -505,15 +570,48 @@ function renderNews(list){
 
 function normalizeNewsItem(row){
   if(Array.isArray(row)){
+    const imageUrls = [
+      getString(row[3]),
+      getString(row[4]),
+      getString(row[5]),
+      getString(row[6]),
+      getString(row[7])
+    ].filter(function(url){
+      return url;
+    });
+
     return {
       date:getString(row[0]),
       title:getString(row[1]),
       text:getString(row[2]),
-      imageUrl:getString(row[3])
+      imageUrls:imageUrls,
+      imageUrl:imageUrls[0] || "",
+      youtubeUrl:getString(row[8]),
+      detailUrl:getString(row[9])
     };
   }
 
   row = row || {};
+
+  const imageUrls = [
+    row.imageUrl,
+    row.imageURL,
+    row.imgUrl,
+    row.img,
+    row.image,
+    row["画像URL"],
+    row["画像url"],
+    row["画像"],
+    row["画像1"],
+    row["画像2"],
+    row["画像3"],
+    row["画像4"],
+    row["画像5"]
+  ].map(function(value){
+    return getString(value);
+  }).filter(function(url){
+    return url;
+  });
 
   return {
     date:getString(
@@ -543,22 +641,105 @@ function normalizeNewsItem(row){
       ""
     ),
 
-    imageUrl:getString(
-      row.imageUrl ||
-      row.imageURL ||
-      row.imgUrl ||
-      row.img ||
-      row.image ||
-      row.link ||
+    imageUrls:imageUrls,
+    imageUrl:imageUrls[0] || "",
+
+    youtubeUrl:getString(
+      row.youtubeUrl ||
+      row.YouTubeURL ||
+      row.youtube ||
+      row.YouTube ||
+      row["YouTubeURL"] ||
+      row["YouTube URL"] ||
+      row["youtubeURL"] ||
+      row["動画URL"] ||
+      row["動画"] ||
+      ""
+    ),
+
+    detailUrl:getString(
+      row.detailUrl ||
+      row.detail ||
       row.url ||
-      row["画像URL"] ||
-      row["画像url"] ||
-      row["画像"] ||
-      row["画像1"] ||
+      row.link ||
+      row["詳しくは"] ||
+      row["詳細URL"] ||
       row["リンク"] ||
       ""
     )
   };
+}
+
+function createYouTubeBlock(url){
+  const box = document.createElement("div");
+  box.className = "youtubeBox";
+
+  const embedUrl = getYouTubeEmbedUrl(url);
+
+  if(embedUrl){
+    const wrap = document.createElement("div");
+    wrap.className = "youtubeFrameWrap";
+
+    const iframe = document.createElement("iframe");
+    iframe.className = "youtubeFrame";
+    iframe.src = embedUrl;
+    iframe.title = "YouTube動画";
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+
+    wrap.appendChild(iframe);
+    box.appendChild(wrap);
+  }
+
+  const btn = document.createElement("a");
+  btn.className = "smallBtn redBtn youtubeLinkBtn";
+  btn.href = url;
+  btn.target = "_blank";
+  btn.rel = "noopener";
+  btn.innerText = "YouTubeで見る";
+
+  box.appendChild(btn);
+
+  return box;
+}
+
+function getYouTubeEmbedUrl(url){
+  const text = getString(url);
+
+  if(!text){
+    return "";
+  }
+
+  let id = "";
+
+  try{
+    const u = new URL(text);
+
+    if(u.hostname.indexOf("youtu.be") >= 0){
+      id = u.pathname.replace("/","").split("/")[0];
+    }else if(u.hostname.indexOf("youtube.com") >= 0){
+      if(u.pathname.indexOf("/watch") === 0){
+        id = u.searchParams.get("v") || "";
+      }else if(u.pathname.indexOf("/shorts/") === 0){
+        id = u.pathname.split("/shorts/")[1].split("/")[0];
+      }else if(u.pathname.indexOf("/embed/") === 0){
+        id = u.pathname.split("/embed/")[1].split("/")[0];
+      }else if(u.pathname.indexOf("/live/") === 0){
+        id = u.pathname.split("/live/")[1].split("/")[0];
+      }
+    }
+  }catch(error){
+    id = "";
+  }
+
+  id = getString(id);
+
+  if(!id){
+    return "";
+  }
+
+  return "https://www.youtube.com/embed/" + encodeURIComponent(id);
 }
 
 function extractNewsList(data){
@@ -602,6 +783,7 @@ function removeHeaderRows(list){
       const b = getString(row[1]);
       const c = getString(row[2]);
       const d = getString(row[3]);
+      const i = getString(row[8]);
 
       if(
         a === "日付" ||
@@ -610,7 +792,8 @@ function removeHeaderRows(list){
         c === "本文" ||
         c === "概要" ||
         d === "画像URL" ||
-        d === "画像1"
+        d === "画像1" ||
+        i === "YouTubeURL"
       ){
         return false;
       }
@@ -621,9 +804,16 @@ function removeHeaderRows(list){
 }
 
 function makeNewsShareText(item){
-  return "田子山富士168の縁プロジェクト お知らせ\n" +
+  let text =
+    "田子山富士168の縁プロジェクト お知らせ\n" +
     (item.title || "お知らせ") + "\n" +
     (item.text || "");
+
+  if(item.youtubeUrl){
+    text += "\n\n動画はこちら\n" + item.youtubeUrl;
+  }
+
+  return text;
 }
 
 function buildNewsShareUrl(item){
@@ -632,7 +822,7 @@ function buildNewsShareUrl(item){
   const params = new URLSearchParams();
 
   params.set("n", String(item.newsIndex || 0));
-  params.set("v", "20260705newfirst");
+  params.set("v", "20260705youtube");
 
   if(currentUserId){
     params.set("userId", currentUserId);
