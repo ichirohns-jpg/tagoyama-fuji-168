@@ -271,10 +271,6 @@ body{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
-.redBtn{
-  background:linear-gradient(180deg,#ff4b4b 0%,#b81717 100%);
-}
-
 .footer{
   margin:28px 0 0;
   text-align:center;
@@ -656,15 +652,6 @@ function createYouTubeBlock(url){
     box.appendChild(wrap);
   }
 
-  const btn = document.createElement("a");
-  btn.className = "smallBtn redBtn";
-  btn.href = url;
-  btn.target = "_blank";
-  btn.rel = "noopener";
-  btn.innerText = "YouTubeで見る";
-
-  box.appendChild(btn);
-
   return box;
 }
 
@@ -786,7 +773,7 @@ function buildNewsShareUrl(item){
   const params = new URLSearchParams();
 
   params.set("n", String(item.newsIndex || 0));
-  params.set("v", "20260704youtube-success");
+  params.set("v", "20260704youtube-nobutton");
 
   if(currentUserId){
     params.set("userId", currentUserId);
