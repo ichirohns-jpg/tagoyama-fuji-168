@@ -139,7 +139,7 @@ body{
 }
 
 .newsImage{
-  display:none;
+  display:block;
   width:100%;
   height:auto;
   margin:0 0 16px;
@@ -149,24 +149,15 @@ body{
 }
 
 .newsTitle{
-  margin:0 0 12px;
+  margin:0 0 16px;
   color:#ffdf72;
   font-size:clamp(28px,7.6vw,52px);
   font-weight:900;
   line-height:1.35;
-  text-align:center;
+  text-align:left;
   text-shadow:
     0 3px 4px rgba(0,0,0,.90),
     0 0 14px rgba(255,210,80,.22);
-}
-
-.newsDate{
-  margin:0 0 16px;
-  color:#fff1bd;
-  font-size:clamp(17px,4.8vw,28px);
-  font-weight:900;
-  line-height:1.45;
-  text-align:center;
 }
 
 .newsText{
@@ -185,6 +176,32 @@ body{
   font-weight:900;
   line-height:1.7;
   text-align:center;
+}
+
+.youtubeBox{
+  margin:18px 0 0;
+  width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  background:#000;
+  border:2px solid rgba(255,220,95,.48);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.36);
+}
+
+.youtubeFrameWrap{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  background:#000;
+}
+
+.youtubeFrame{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
 }
 
 .btnArea{
@@ -222,12 +239,12 @@ body{
     0 8px 14px rgba(0,0,0,.32);
 }
 
-.blackBtn{
-  background:linear-gradient(180deg,#323232 0%,#050505 100%);
-}
-
 .blueBtn{
   background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
+}
+
+.blackBtn{
+  background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
 .footer{
@@ -284,17 +301,11 @@ body{
     お知らせを読み込んでいます。
   </div>
 
-  <img
-    id="newsImage"
-    class="newsImage"
-    alt="田子山富士からのお知らせ"
-  >
+  <div id="imageArea"></div>
 
   <h2 class="newsTitle" id="newsTitle">
     田子山富士からのお知らせ
   </h2>
-
-  <p class="newsDate" id="newsDate"></p>
 
   <p class="newsText" id="newsText"></p>
 
@@ -302,6 +313,8 @@ body{
     お知らせ本文を表示できませんでした。<br>
     お知らせ一覧からご確認ください。
   </p>
+
+  <div id="youtubeArea"></div>
 
   <div class="btnArea">
     <a class="linkBtn blueBtn" id="newsLink" href="news.html">
@@ -323,7 +336,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbwJpywK1Hky0tVwVRhiB7E6Ln3O2yHVThDPg0atSb4Glkx1FEaywomw-Rwq_OwbbZjekw/exec";
 
 window.addEventListener("load", initShareNews);
 
@@ -351,10 +364,9 @@ async function loadArticle(index){
   try{
     const data =
       await tryManyJson([
+        GAS_URL + "?mode=newsV2&t=" + Date.now(),
         GAS_URL + "?mode=news&t=" + Date.now(),
-        GAS_URL + "?mode=listNews&t=" + Date.now(),
-        GAS_URL + "?news=1&t=" + Date.now(),
-        GAS_URL + "?listNews=1&t=" + Date.now()
+        GAS_URL + "?mode=listNews&t=" + Date.now()
       ]);
 
     const list =
@@ -375,14 +387,11 @@ async function loadArticle(index){
 function renderArticle(item){
   item = item || {};
 
-  const image =
-    document.getElementById("newsImage");
+  const imageArea =
+    document.getElementById("imageArea");
 
   const title =
     document.getElementById("newsTitle");
-
-  const date =
-    document.getElementById("newsDate");
 
   const text =
     document.getElementById("newsText");
@@ -390,20 +399,28 @@ function renderArticle(item){
   const empty =
     document.getElementById("emptyText");
 
+  const youtubeArea =
+    document.getElementById("youtubeArea");
+
+  if(imageArea){
+    imageArea.innerHTML = "";
+
+    item.imageUrls.forEach(function(url){
+      const img = document.createElement("img");
+      img.className = "newsImage";
+      img.alt = item.title || "お知らせ";
+      img.src = url;
+      img.onerror = function(){
+        this.remove();
+      };
+      imageArea.appendChild(img);
+    });
+  }
+
   if(title){
     title.innerText =
       item.title ||
       "田子山富士からのお知らせ";
-  }
-
-  if(date){
-    if(item.date){
-      date.style.display = "block";
-      date.innerText = formatDateText(item.date);
-    }else{
-      date.style.display = "none";
-      date.innerText = "";
-    }
   }
 
   if(text){
@@ -423,16 +440,13 @@ function renderArticle(item){
         : "block";
   }
 
-  if(image){
-    if(item.imageUrl){
-      image.style.display = "block";
-      image.src = item.imageUrl;
-      image.onerror = function(){
-        this.style.display = "none";
-      };
-    }else{
-      image.style.display = "none";
-      image.removeAttribute("src");
+  if(youtubeArea){
+    youtubeArea.innerHTML = "";
+
+    if(item.youtubeUrl){
+      youtubeArea.appendChild(
+        createYouTubeBlock(item.youtubeUrl)
+      );
     }
   }
 }
@@ -471,15 +485,47 @@ function updateLinks(userId){
 
 function normalizeNewsItem(row){
   if(Array.isArray(row)){
+    const imageUrls = [
+      getString(row[3]),
+      getString(row[4]),
+      getString(row[5]),
+      getString(row[6]),
+      getString(row[7])
+    ].filter(function(url){
+      return url;
+    });
+
     return {
       date:getString(row[0]),
       title:getString(row[1]),
       text:getString(row[2]),
-      imageUrl:getString(row[3])
+      imageUrls:imageUrls,
+      imageUrl:imageUrls[0] || "",
+      youtubeUrl:getString(row[8])
     };
   }
 
   row = row || {};
+
+  const imageUrls = [
+    row.imageUrl,
+    row.imageURL,
+    row.imgUrl,
+    row.img,
+    row.image,
+    row["画像URL"],
+    row["画像url"],
+    row["画像"],
+    row["画像1"],
+    row["画像2"],
+    row["画像3"],
+    row["画像4"],
+    row["画像5"]
+  ].map(function(value){
+    return getString(value);
+  }).filter(function(url){
+    return url;
+  });
 
   return {
     date:getString(
@@ -505,24 +551,124 @@ function normalizeNewsItem(row){
       row["本文"] ||
       row["内容"] ||
       row["メッセージ"] ||
+      row["概要"] ||
       ""
     ),
 
-    imageUrl:getString(
-      row.imageUrl ||
-      row.imageURL ||
-      row.imgUrl ||
-      row.img ||
-      row.image ||
-      row.link ||
-      row.url ||
-      row["画像URL"] ||
-      row["画像url"] ||
-      row["画像"] ||
-      row["リンク"] ||
+    imageUrls:imageUrls,
+    imageUrl:imageUrls[0] || "",
+
+    youtubeUrl:getString(
+      row.youtubeUrl ||
+      row.YouTubeURL ||
+      row.youtube ||
+      row.YouTube ||
+      row["YouTubeURL"] ||
+      row["YouTube URL"] ||
+      row["youtubeURL"] ||
+      row["動画URL"] ||
+      row["動画"] ||
       ""
     )
   };
+}
+
+function createYouTubeBlock(url){
+  const box =
+    document.createElement("div");
+
+  box.className =
+    "youtubeBox";
+
+  const embedUrl =
+    getYouTubeEmbedUrl(url);
+
+  if(embedUrl){
+    const wrap =
+      document.createElement("div");
+
+    wrap.className =
+      "youtubeFrameWrap";
+
+    const iframe =
+      document.createElement("iframe");
+
+    iframe.className =
+      "youtubeFrame";
+
+    iframe.src =
+      embedUrl;
+
+    iframe.title =
+      "YouTube動画";
+
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+    iframe.allowFullscreen =
+      true;
+
+    wrap.appendChild(iframe);
+    box.appendChild(wrap);
+  }
+
+  return box;
+}
+
+function getYouTubeEmbedUrl(url){
+  const text =
+    getString(url);
+
+  if(!text){
+    return "";
+  }
+
+  let id =
+    "";
+
+  try{
+    const u =
+      new URL(text);
+
+    if(u.hostname.indexOf("youtu.be") >= 0){
+      id =
+        u.pathname
+          .replace("/","")
+          .split("/")[0];
+    }else if(u.hostname.indexOf("youtube.com") >= 0){
+      if(u.pathname.indexOf("/watch") === 0){
+        id =
+          u.searchParams.get("v") || "";
+      }else if(u.pathname.indexOf("/shorts/") === 0){
+        id =
+          u.pathname
+            .split("/shorts/")[1]
+            .split("/")[0];
+      }else if(u.pathname.indexOf("/embed/") === 0){
+        id =
+          u.pathname
+            .split("/embed/")[1]
+            .split("/")[0];
+      }else if(u.pathname.indexOf("/live/") === 0){
+        id =
+          u.pathname
+            .split("/live/")[1]
+            .split("/")[0];
+      }
+    }
+  }catch(error){
+    id = "";
+  }
+
+  id =
+    getString(id);
+
+  if(!id){
+    return "";
+  }
+
+  return "https://www.youtube.com/embed/" +
+    encodeURIComponent(id);
 }
 
 function extractNewsList(data){
@@ -566,13 +712,17 @@ function removeHeaderRows(list){
       const b = getString(row[1]);
       const c = getString(row[2]);
       const d = getString(row[3]);
+      const i = getString(row[8]);
 
       if(
         a === "日付" ||
         a === "日時" ||
         b === "タイトル" ||
         c === "本文" ||
-        d === "画像URL"
+        c === "概要" ||
+        d === "画像URL" ||
+        d === "画像1" ||
+        i === "YouTubeURL"
       ){
         return false;
       }
@@ -724,20 +874,6 @@ function setStatus(text){
   if(el){
     el.innerText = text;
   }
-}
-
-function formatDateText(value){
-  const text =
-    getString(value);
-
-  if(!text){
-    return "";
-  }
-
-  return text
-    .replace(/-/g,"/")
-    .replace(/\./g,"/")
-    .replace(/\s.*$/,"");
 }
 
 function getString(value){
