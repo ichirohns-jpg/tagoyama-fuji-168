@@ -123,8 +123,7 @@ body{
   border-radius:24px;
   background:rgba(0,0,0,.36);
   border:2px solid rgba(255,220,95,.46);
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.34);
+  box-shadow:0 8px 20px rgba(0,0,0,.34);
 }
 
 .newsImage{
@@ -172,8 +171,7 @@ body{
   overflow:hidden;
   background:#000;
   border:2px solid rgba(255,220,95,.48);
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.36);
+  box-shadow:0 8px 20px rgba(0,0,0,.36);
 }
 
 .youtubeFrameWrap{
@@ -336,7 +334,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbwJpywK1Hky0tVwVRhiB7E6Ln3O2yHVThDPg0atSb4Glkx1FEaywomw-Rwq_OwbbZjekw/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 const SHARE_NEWS_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
@@ -783,11 +781,8 @@ function buildNewsShareUrl(item){
 }
 
 async function postFacebookNews(item){
-  const shareUrl =
-    buildNewsShareUrl(item);
-
-  const text =
-    makeNewsShareText(item);
+  const shareUrl = buildNewsShareUrl(item);
+  const text = makeNewsShareText(item);
 
   await copyText(text);
 
@@ -803,8 +798,7 @@ async function postFacebookNews(item){
 }
 
 function sendLineNews(item){
-  const shareUrl =
-    buildNewsShareUrl(item);
+  const shareUrl = buildNewsShareUrl(item);
 
   const url =
     "https://social-plugins.line.me/lineit/share?url=" +
@@ -816,8 +810,7 @@ function sendLineNews(item){
 }
 
 function postXNews(item){
-  const shareUrl =
-    buildNewsShareUrl(item);
+  const shareUrl = buildNewsShareUrl(item);
 
   const url =
     "https://twitter.com/intent/tweet?text=" +
@@ -829,8 +822,7 @@ function postXNews(item){
 }
 
 async function copyNews(item){
-  const shareUrl =
-    buildNewsShareUrl(item);
+  const shareUrl = buildNewsShareUrl(item);
 
   await copyText(shareUrl);
 
@@ -927,7 +919,12 @@ function getJsonp(url){
       reject(new Error("JSONP error"));
     };
 
-    script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+    script.src =
+      url +
+      sep +
+      "callback=" +
+      encodeURIComponent(callbackName);
+
     document.body.appendChild(script);
 
     function cleanup(){
@@ -971,8 +968,7 @@ function setStatus(text){
 }
 
 function getDateNumber(value){
-  const text =
-    toHalfWidthNumber(getString(value));
+  const text = toHalfWidthNumber(getString(value));
 
   if(!text){
     return 0;
