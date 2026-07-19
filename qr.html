@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
   <title>田子山富士 登頂受付</title>
 
   <meta name="description" content="田子山富士168の縁プロジェクト 登頂受付ページです。山頂QRから登頂記録を行い、登頂記念証を受け取れます。">
+
   <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
   <meta property="og:title" content="田子山富士 登頂受付">
   <meta property="og:description" content="田子山富士へご登頂おめでとうございます。山頂QRから登頂記録を行い、登頂記念証を受け取れます。">
@@ -195,6 +197,11 @@
         0 8px 14px rgba(0, 0, 0, 0.32);
     }
 
+    .btn:disabled {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
     .goldBtn {
       color: #271400;
       background: linear-gradient(180deg, #fff1a4 0%, #ffd84d 48%, #c89217 100%);
@@ -276,15 +283,28 @@
       </div>
 
       <div class="btnArea">
-        <button class="btn goldBtn" type="button" id="recordBtn" onclick="startClimb()">
+        <button
+          class="btn goldBtn"
+          type="button"
+          id="recordBtn"
+          onclick="startClimb()"
+        >
           ⛩️ 登頂を記録する
         </button>
 
-        <a class="linkBtn blueBtn" id="certificateLink" href="certificate.html">
+        <a
+          class="linkBtn blueBtn"
+          id="certificateLink"
+          href="certificate.html"
+        >
           登頂記念証を見る
         </a>
 
-        <a class="linkBtn blackBtn" id="topLink" href="index.html">
+        <a
+          class="linkBtn blackBtn"
+          id="topLink"
+          href="index.html"
+        >
           トップへ戻る
         </a>
       </div>
@@ -299,12 +319,10 @@
       田子山富士 168の縁プロジェクト<br>
       山頂QR 登頂受付
     </footer>
+
   </main>
 
   <script>
-    const HOME_PAGE =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
-
     const INDEX_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/index.html";
 
@@ -313,21 +331,31 @@
 
     let currentUserId = "";
 
-    document.addEventListener("DOMContentLoaded", function() {
-      initQrPage();
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+        initQrPage();
+      }
+    );
 
     function initQrPage() {
-      currentUserId = getOrCreateUserId();
+      currentUserId =
+        getOrCreateUserId();
 
       saveUserId(currentUserId);
       updateLinks(currentUserId);
 
-      setStatus("登頂受付の準備ができました。\nボタンを押すと登頂記録へ進みます。");
+      setStatus(
+        "登頂受付の準備ができました。\n" +
+        "ボタンを押すと登頂記録へ進みます。"
+      );
     }
 
     function getOrCreateUserId() {
-      const params = new URLSearchParams(window.location.search);
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
 
       const fromUrl =
         getString(
@@ -344,8 +372,12 @@
 
       const saved =
         getString(
-          localStorage.getItem("tagoyamaUserId") ||
-          localStorage.getItem("tagoyamaFujiUserId") ||
+          localStorage.getItem(
+            "tagoyamaUserId"
+          ) ||
+          localStorage.getItem(
+            "tagoyamaFujiUserId"
+          ) ||
           ""
         );
 
@@ -358,9 +390,17 @@
 
     function createUserId() {
       const now = Date.now();
-      const rand = Math.random().toString(36).slice(2, 10);
+      const rand =
+        Math.random()
+          .toString(36)
+          .slice(2, 10);
 
-      return "tagoyama-" + now + "-" + rand;
+      return (
+        "tagoyama-" +
+        now +
+        "-" +
+        rand
+      );
     }
 
     function saveUserId(userId) {
@@ -369,16 +409,30 @@
       }
 
       try {
-        localStorage.setItem("tagoyamaUserId", userId);
-        localStorage.setItem("tagoyamaFujiUserId", userId);
+        localStorage.setItem(
+          "tagoyamaUserId",
+          userId
+        );
+
+        localStorage.setItem(
+          "tagoyamaFujiUserId",
+          userId
+        );
       } catch (error) {
         console.warn(error);
       }
     }
 
     function updateLinks(userId) {
-      const certificateLink = document.getElementById("certificateLink");
-      const topLink = document.getElementById("topLink");
+      const certificateLink =
+        document.getElementById(
+          "certificateLink"
+        );
+
+      const topLink =
+        document.getElementById(
+          "topLink"
+        );
 
       if (certificateLink) {
         certificateLink.href =
@@ -386,7 +440,7 @@
           "?userId=" +
           encodeURIComponent(userId) +
           "&from=qr" +
-          "&v=20260703";
+          "&v=20260719";
       }
 
       if (topLink) {
@@ -395,32 +449,44 @@
           "?userId=" +
           encodeURIComponent(userId) +
           "&from=qr" +
-          "&v=20260703";
+          "&v=20260719";
       }
     }
 
     function startClimb() {
-      const btn = document.getElementById("recordBtn");
+      const btn =
+        document.getElementById(
+          "recordBtn"
+        );
 
       if (btn) {
         btn.disabled = true;
-        btn.innerText = "登頂記録へ進みます...";
+        btn.innerText =
+          "登頂記録へ進みます...";
       }
 
-      setStatus("登頂記録へ進みます。\nそのままお待ちください。");
+      setStatus(
+        "登頂記録へ進みます。\n" +
+        "そのままお待ちください。"
+      );
 
       const url =
         INDEX_PAGE +
         "?userId=" +
-        encodeURIComponent(currentUserId) +
+        encodeURIComponent(
+          currentUserId
+        ) +
         "&from=qr" +
-        "&v=20260703";
+        "&v=20260719";
 
       window.location.href = url;
     }
 
     function setStatus(text) {
-      const el = document.getElementById("statusBox");
+      const el =
+        document.getElementById(
+          "statusBox"
+        );
 
       if (el) {
         el.innerText = text;
@@ -428,14 +494,18 @@
     }
 
     function getString(value) {
-      if (value === null || value === undefined) {
+      if (
+        value === null ||
+        value === undefined
+      ) {
         return "";
       }
 
       return String(value).trim();
     }
 
-    window.startClimb = startClimb;
+    window.startClimb =
+      startClimb;
   </script>
 </body>
 </html>
