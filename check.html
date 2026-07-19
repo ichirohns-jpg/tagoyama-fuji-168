@@ -443,7 +443,8 @@
         facebook.innerText = "Facebook確認";
         facebook.onclick = function() {
           window.open(
-            "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(item.url),
+            "https://www.facebook.com/sharer/sharer.php?u=" +
+            encodeURIComponent(item.url),
             "_blank",
             "noopener,noreferrer"
           );
@@ -465,7 +466,8 @@
         x.innerText = "X確認";
         x.onclick = function() {
           window.open(
-            "https://twitter.com/intent/tweet?url=" + encodeURIComponent(item.url),
+            "https://twitter.com/intent/tweet?url=" +
+            encodeURIComponent(item.url),
             "_blank",
             "noopener,noreferrer"
           );
@@ -574,7 +576,9 @@
     function copyAllLinks() {
       const text =
         pages.map(function(item) {
-          return item.title + "\n" + item.url + "\nOGP画像\n" + item.image;
+          return item.title + "\n" +
+            item.url + "\nOGP画像\n" +
+            item.image;
         }).join("\n\n") +
         "\n\n--- OGP画像 ---\n\n" +
         images.map(function(item) {
