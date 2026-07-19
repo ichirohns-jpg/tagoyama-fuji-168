@@ -387,14 +387,77 @@
     function buildCertificateShareUrl(params) {
       const p = new URLSearchParams();
 
-      setParam(p, "u", getFirst(params.get("u"), params.get("userId"), params.get("uid"), params.get("id")));
-      setParam(p, "c", normalizeNumberText(getFirst(params.get("c"), params.get("climbCount"), params.get("count"))));
-      setParam(p, "s", cleanSerialNo(getFirst(params.get("s"), params.get("serialNo"), params.get("serial"))));
-      setParam(p, "d", getFirst(params.get("d"), params.get("date"), params.get("lastDate")));
-      setParam(p, "p", normalizeNumberText(getFirst(params.get("p"), params.get("participantNo"), params.get("participant"))));
+      setParam(
+        p,
+        "u",
+        getFirst(
+          params.get("u"),
+          params.get("userId"),
+          params.get("uid"),
+          params.get("id")
+        )
+      );
 
-      const imgid = getFirst(params.get("imgid"), params.get("imageId"), params.get("driveId"));
-      const img = getFirst(params.get("img"), params.get("image"), params.get("imageUrl"), params.get("url"));
+      setParam(
+        p,
+        "c",
+        normalizeNumberText(
+          getFirst(
+            params.get("c"),
+            params.get("climbCount"),
+            params.get("count")
+          )
+        )
+      );
+
+      setParam(
+        p,
+        "s",
+        cleanSerialNo(
+          getFirst(
+            params.get("s"),
+            params.get("serialNo"),
+            params.get("serial")
+          )
+        )
+      );
+
+      setParam(
+        p,
+        "d",
+        getFirst(
+          params.get("d"),
+          params.get("date"),
+          params.get("lastDate")
+        )
+      );
+
+      setParam(
+        p,
+        "p",
+        normalizeNumberText(
+          getFirst(
+            params.get("p"),
+            params.get("participantNo"),
+            params.get("participant")
+          )
+        )
+      );
+
+      const imgid =
+        getFirst(
+          params.get("imgid"),
+          params.get("imageId"),
+          params.get("driveId")
+        );
+
+      const img =
+        getFirst(
+          params.get("img"),
+          params.get("image"),
+          params.get("imageUrl"),
+          params.get("url")
+        );
 
       if (imgid) {
         setParam(p, "imgid", imgid);
@@ -410,13 +473,64 @@
     function buildOmikujiShareUrl(params) {
       const p = new URLSearchParams();
 
-      setParam(p, "u", getFirst(params.get("u"), params.get("userId"), params.get("uid"), params.get("id")));
-      setParam(p, "r", getFirst(params.get("r"), params.get("result"), params.get("fortune"), params.get("unsei"), params.get("omikuji")));
-      setParam(p, "t", getFirst(params.get("t"), params.get("title"), params.get("name")));
-      setParam(p, "m", getFirst(params.get("m"), params.get("message"), params.get("text"), params.get("body")));
+      setParam(
+        p,
+        "u",
+        getFirst(
+          params.get("u"),
+          params.get("userId"),
+          params.get("uid"),
+          params.get("id")
+        )
+      );
 
-      const imgid = getFirst(params.get("imgid"), params.get("imageId"), params.get("driveId"));
-      const img = getFirst(params.get("img"), params.get("image"), params.get("imageUrl"), params.get("url"));
+      setParam(
+        p,
+        "r",
+        getFirst(
+          params.get("r"),
+          params.get("result"),
+          params.get("fortune"),
+          params.get("unsei"),
+          params.get("omikuji")
+        )
+      );
+
+      setParam(
+        p,
+        "t",
+        getFirst(
+          params.get("t"),
+          params.get("title"),
+          params.get("name")
+        )
+      );
+
+      setParam(
+        p,
+        "m",
+        getFirst(
+          params.get("m"),
+          params.get("message"),
+          params.get("text"),
+          params.get("body")
+        )
+      );
+
+      const imgid =
+        getFirst(
+          params.get("imgid"),
+          params.get("imageId"),
+          params.get("driveId")
+        );
+
+      const img =
+        getFirst(
+          params.get("img"),
+          params.get("image"),
+          params.get("imageUrl"),
+          params.get("url")
+        );
 
       if (imgid) {
         setParam(p, "imgid", imgid);
@@ -432,12 +546,54 @@
     function buildNewsShareUrl(params) {
       const p = new URLSearchParams();
 
-      setParam(p, "u", getFirst(params.get("u"), params.get("userId"), params.get("uid"), params.get("id")));
-      setParam(p, "title", getFirst(params.get("title"), params.get("t"), params.get("name"), params.get("subject")));
-      setParam(p, "body", getFirst(params.get("body"), params.get("text"), params.get("message"), params.get("m"), params.get("description")));
+      setParam(
+        p,
+        "u",
+        getFirst(
+          params.get("u"),
+          params.get("userId"),
+          params.get("uid"),
+          params.get("id")
+        )
+      );
 
-      const imgid = getFirst(params.get("imgid"), params.get("imageId"), params.get("driveId"));
-      const img = getFirst(params.get("img"), params.get("image"), params.get("imageUrl"), params.get("url"));
+      setParam(
+        p,
+        "title",
+        getFirst(
+          params.get("title"),
+          params.get("t"),
+          params.get("name"),
+          params.get("subject")
+        )
+      );
+
+      setParam(
+        p,
+        "body",
+        getFirst(
+          params.get("body"),
+          params.get("text"),
+          params.get("message"),
+          params.get("m"),
+          params.get("description")
+        )
+      );
+
+      const imgid =
+        getFirst(
+          params.get("imgid"),
+          params.get("imageId"),
+          params.get("driveId")
+        );
+
+      const img =
+        getFirst(
+          params.get("img"),
+          params.get("image"),
+          params.get("imageUrl"),
+          params.get("url")
+        );
 
       if (imgid) {
         setParam(p, "imgid", imgid);
@@ -472,14 +628,18 @@
         alert("移動先URLをコピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = targetUrl;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("移動先URLをコピーしました。");
       }
     }
