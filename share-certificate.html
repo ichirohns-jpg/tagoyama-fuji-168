@@ -189,6 +189,7 @@ body{
   font-weight:900;
   line-height:1.55;
   text-align:center;
+  white-space:pre-wrap;
 }
 
 .noImageBox{
@@ -326,7 +327,10 @@ body{
   </div>
 
   <h1 class="mainTitle">登頂記念証</h1>
-  <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
+
+  <p class="mainSubTitle">
+    田子山富士 168の縁プロジェクト
+  </p>
 </header>
 
 <section class="card">
@@ -344,6 +348,7 @@ body{
 
   <div class="noImageBox" id="noImageBox">
     <p class="noImageTitle">登頂記念証</p>
+
     <p class="noImageText">
       記念証画像を読み込んでいます。<br>
       表示されない場合は、トップからもう一度ご確認ください。
@@ -354,21 +359,32 @@ body{
     <p class="infoTitle" id="infoTitle">
       田子山富士 登頂記念証
     </p>
+
     <p class="infoText" id="infoText">
       田子山富士に登頂したご縁を、記念証として残します。
     </p>
   </div>
 
   <div class="btnArea">
-    <a class="linkBtn goldBtn" id="topLink" href="index.html">
+    <a
+      class="linkBtn goldBtn"
+      id="topLink"
+      href="index.html"
+    >
       田子山富士トップへ
     </a>
 
-    <a class="linkBtn blueBtn" href="news.html">
+    <a
+      class="linkBtn blueBtn"
+      href="news.html"
+    >
       お知らせを見る
     </a>
 
-    <a class="linkBtn blackBtn" href="goen.html">
+    <a
+      class="linkBtn blackBtn"
+      href="goen.html"
+    >
       ご縁帳を見る
     </a>
   </div>
@@ -382,12 +398,17 @@ body{
 </main>
 
 <script>
-window.addEventListener("load",initShareCertificate);
+window.addEventListener(
+  "load",
+  initShareCertificate
+);
 
 function initShareCertificate(){
 
   const params =
-    new URLSearchParams(location.search);
+    new URLSearchParams(
+      location.search
+    );
 
   const userId =
     getString(
@@ -426,116 +447,167 @@ function initShareCertificate(){
       ""
     );
 
-  updateTopLink(userId);
-  renderInfo(climbCount,serialNo,lastDate);
-  renderImage(imageUrl);
+  updateTopLink(
+    userId
+  );
 
+  renderInfo(
+    climbCount,
+    serialNo,
+    lastDate
+  );
+
+  renderImage(
+    imageUrl
+  );
 }
 
 function renderImage(imageUrl){
 
   const imageBox =
-    document.getElementById("certificateImageBox");
+    document.getElementById(
+      "certificateImageBox"
+    );
 
   const image =
-    document.getElementById("certificateImage");
+    document.getElementById(
+      "certificateImage"
+    );
 
   const noImageBox =
-    document.getElementById("noImageBox");
+    document.getElementById(
+      "noImageBox"
+    );
 
   const statusBox =
-    document.getElementById("statusBox");
+    document.getElementById(
+      "statusBox"
+    );
 
   if(!imageUrl){
 
     if(statusBox){
+
       statusBox.innerText =
         "記念証画像のURLがありません。";
     }
 
     if(imageBox){
-      imageBox.style.display = "none";
+
+      imageBox.style.display =
+        "none";
     }
 
     if(noImageBox){
-      noImageBox.style.display = "flex";
+
+      noImageBox.style.display =
+        "flex";
     }
 
     return;
-
   }
 
   if(statusBox){
+
     statusBox.innerText =
       "登頂記念証を読み込んでいます。";
   }
 
-  image.onload = function(){
+  image.onload =
+    function(){
 
-    if(imageBox){
-      imageBox.style.display = "block";
-    }
+      if(imageBox){
 
-    if(noImageBox){
-      noImageBox.style.display = "none";
-    }
+        imageBox.style.display =
+          "block";
+      }
 
-    if(statusBox){
-      statusBox.innerText =
-        "登頂記念証を表示しました。";
-    }
+      if(noImageBox){
 
-  };
+        noImageBox.style.display =
+          "none";
+      }
 
-  image.onerror = function(){
+      if(statusBox){
 
-    if(imageBox){
-      imageBox.style.display = "none";
-    }
+        statusBox.innerText =
+          "登頂記念証を表示しました。";
+      }
+    };
 
-    if(noImageBox){
-      noImageBox.style.display = "flex";
-    }
+  image.onerror =
+    function(){
 
-    if(statusBox){
-      statusBox.innerText =
-        "記念証画像を表示できませんでした。";
-    }
+      if(imageBox){
 
-  };
+        imageBox.style.display =
+          "none";
+      }
+
+      if(noImageBox){
+
+        noImageBox.style.display =
+          "flex";
+      }
+
+      if(statusBox){
+
+        statusBox.innerText =
+          "記念証画像を表示できませんでした。";
+      }
+    };
 
   image.src =
     imageUrl;
-
 }
 
-function renderInfo(climbCount,serialNo,lastDate){
+function renderInfo(
+  climbCount,
+  serialNo,
+  lastDate
+){
 
   const infoBox =
-    document.getElementById("infoBox");
+    document.getElementById(
+      "infoBox"
+    );
 
   const infoTitle =
-    document.getElementById("infoTitle");
+    document.getElementById(
+      "infoTitle"
+    );
 
   const infoText =
-    document.getElementById("infoText");
+    document.getElementById(
+      "infoText"
+    );
 
   let title =
     "田子山富士 登頂記念証";
 
   if(climbCount){
+
     title =
-      "第" + climbCount + "回 登頂記念";
+      "第" +
+      climbCount +
+      "回 登頂記念";
   }
 
-  let lines = [];
+  const lines = [];
 
   if(serialNo){
-    lines.push("No." + serialNo);
+
+    lines.push(
+      "No." +
+      serialNo
+    );
   }
 
   if(lastDate){
-    lines.push(lastDate);
+
+    lines.push(
+      lastDate
+    );
   }
 
   lines.push(
@@ -543,99 +615,170 @@ function renderInfo(climbCount,serialNo,lastDate){
   );
 
   if(infoTitle){
-    infoTitle.innerText = title;
+
+    infoTitle.innerText =
+      title;
   }
 
   if(infoText){
-    infoText.innerText = lines.join("\n");
+
+    infoText.innerText =
+      lines.join(
+        "\n"
+      );
   }
 
   if(infoBox){
-    infoBox.style.display = "block";
-  }
 
+    infoBox.style.display =
+      "block";
+  }
 }
 
-function updateTopLink(userId){
+function updateTopLink(
+  userId
+){
 
   const topLink =
-    document.getElementById("topLink");
+    document.getElementById(
+      "topLink"
+    );
 
   if(!topLink){
+
     return;
   }
 
   if(userId){
+
     topLink.href =
       "index.html?userId=" +
-      encodeURIComponent(userId);
+      encodeURIComponent(
+        userId
+      );
+
   }else{
+
     topLink.href =
       "index.html";
   }
-
 }
 
-function normalizeNumberText(value){
+function normalizeNumberText(
+  value
+){
 
   const text =
-    toHalfWidthNumber(getString(value));
+    toHalfWidthNumber(
+      getString(
+        value
+      )
+    );
 
   const match =
-    text.match(/[0-9]+/);
+    text.match(
+      /[0-9]+/
+    );
 
-  if(match && match[0]){
+  if(
+    match &&
+    match[0]
+  ){
+
     return match[0];
   }
 
   return "";
-
 }
 
-function cleanSerialNo(value){
+function cleanSerialNo(
+  value
+){
 
-  return toHalfWidthNumber(getString(value))
-    .replace(/^No\./i,"")
-    .replace(/^No/i,"")
-    .replace(/^記念番号/,"")
+  return toHalfWidthNumber(
+    getString(
+      value
+    )
+  )
+    .replace(
+      /^No\./i,
+      ""
+    )
+    .replace(
+      /^No/i,
+      ""
+    )
+    .replace(
+      /^記念番号/,
+      ""
+    )
     .trim();
-
 }
 
-function formatDateText(value){
+function formatDateText(
+  value
+){
 
   const text =
-    getString(value);
+    getString(
+      value
+    );
 
   if(!text){
+
     return "";
   }
 
-  return toHalfWidthNumber(text)
-    .replace(/-/g,"/")
-    .replace(/\./g,"/")
-    .replace(/\s.*$/,"");
-
+  return toHalfWidthNumber(
+    text
+  )
+    .replace(
+      /-/g,
+      "/"
+    )
+    .replace(
+      /\./g,
+      "/"
+    )
+    .replace(
+      /\s.*$/,
+      ""
+    );
 }
 
-function toHalfWidthNumber(value){
+function toHalfWidthNumber(
+  value
+){
 
-  return getString(value).replace(/[０-９]/g,function(s){
+  return getString(
+    value
+  ).replace(
+    /[０-９]/g,
+    function(s){
 
-    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-
-  });
-
+      return String.fromCharCode(
+        s.charCodeAt(0) -
+        0xFEE0
+      );
+    }
+  );
 }
 
-function getString(value){
+function getString(
+  value
+){
 
-  if(value === null || value === undefined){
+  if(
+    value === null ||
+    value === undefined
+  ){
+
     return "";
   }
 
-  return String(value).trim();
-
+  return String(
+    value
+  ).trim();
 }
 </script>
 </body>
