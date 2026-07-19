@@ -401,7 +401,12 @@ body{
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" id="drawBtn" type="button" onclick="drawOmikuji()">
+    <button
+      class="btn goldBtn"
+      id="drawBtn"
+      type="button"
+      onclick="drawOmikuji()"
+    >
       おみくじを引く
     </button>
   </div>
@@ -422,33 +427,58 @@ body{
 
   <div class="resultInfo">
     <p class="resultName" id="resultName">開運</p>
+
     <p class="resultMessage" id="resultMessage">
       田子山富士のご縁がありますように。
     </p>
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" type="button" onclick="saveResultImage()">
+    <button
+      class="btn goldBtn"
+      type="button"
+      onclick="saveResultImage()"
+    >
       画像を保存
     </button>
 
-    <button class="btn blueBtn" type="button" onclick="postFacebook()">
+    <button
+      class="btn blueBtn"
+      type="button"
+      onclick="postFacebook()"
+    >
       Facebookに投稿
     </button>
 
-    <button class="btn greenBtn" type="button" onclick="sendLine()">
+    <button
+      class="btn greenBtn"
+      type="button"
+      onclick="sendLine()"
+    >
       LINEで送る
     </button>
 
-    <button class="btn blackBtn" type="button" onclick="postX()">
+    <button
+      class="btn blackBtn"
+      type="button"
+      onclick="postX()"
+    >
       Xで投稿
     </button>
 
-    <button class="btn blueBtn" type="button" onclick="copyResultText()">
+    <button
+      class="btn blueBtn"
+      type="button"
+      onclick="copyResultText()"
+    >
       結果をコピー
     </button>
 
-    <a class="linkBtn blackBtn" id="topLink2" href="index.html">
+    <a
+      class="linkBtn blackBtn"
+      id="topLink2"
+      href="index.html"
+    >
       トップへ戻る
     </a>
   </div>
@@ -456,7 +486,11 @@ body{
 
 <section class="card">
   <div class="btnArea">
-    <a class="linkBtn blackBtn" id="topLink" href="index.html">
+    <a
+      class="linkBtn blackBtn"
+      id="topLink"
+      href="index.html"
+    >
       トップへ戻る
     </a>
   </div>
@@ -475,7 +509,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 const SHARE_OMIKUJI_PAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-omikuji.html";
@@ -487,7 +521,10 @@ let currentUserId = "";
 let currentResult = null;
 let drawFinished = false;
 
-window.addEventListener("load", init);
+window.addEventListener(
+  "load",
+  init
+);
 
 function init(){
 
@@ -497,8 +534,8 @@ function init(){
   if(!urlUserId){
 
     showQrOnlyBlock();
-    return;
 
+    return;
   }
 
   const pass =
@@ -512,8 +549,8 @@ function init(){
   ){
 
     showQrOnlyBlock();
-    return;
 
+    return;
   }
 
   currentUserId =
@@ -532,19 +569,28 @@ function init(){
   updateLinks();
 
   const params =
-    new URLSearchParams(location.search);
+    new URLSearchParams(
+      location.search
+    );
 
   const auto =
-    getString(params.get("auto"));
+    getString(
+      params.get("auto")
+    );
 
-  if(auto === "1" || auto === "true"){
+  if(
+    auto === "1" ||
+    auto === "true"
+  ){
 
-    setTimeout(function(){
+    setTimeout(
+      function(){
 
-      drawOmikuji();
+        drawOmikuji();
 
-    },400);
-
+      },
+      400
+    );
   }
 
 }
@@ -554,21 +600,24 @@ function getOmikujiPass(){
   try{
 
     const text =
-      localStorage.getItem("tagoyamaOmikujiPass");
+      localStorage.getItem(
+        "tagoyamaOmikujiPass"
+      );
 
     if(!text){
 
       return null;
-
     }
 
     const pass =
       JSON.parse(text);
 
-    if(!pass || typeof pass !== "object"){
+    if(
+      !pass ||
+      typeof pass !== "object"
+    ){
 
       return null;
-
     }
 
     return pass;
@@ -576,7 +625,6 @@ function getOmikujiPass(){
   }catch(error){
 
     return null;
-
   }
 
 }
@@ -597,7 +645,9 @@ function showQrOnlyBlock(){
 function getUserIdFromUrl(){
 
   const params =
-    new URLSearchParams(location.search);
+    new URLSearchParams(
+      location.search
+    );
 
   return getString(
     params.get("userId") ||
@@ -612,28 +662,35 @@ function getUserIdFromUrl(){
 function updateLinks(){
 
   const topLink =
-    document.getElementById("topLink");
+    document.getElementById(
+      "topLink"
+    );
 
   const topLink2 =
-    document.getElementById("topLink2");
+    document.getElementById(
+      "topLink2"
+    );
 
   const query =
     currentUserId
-      ? "?userId=" + encodeURIComponent(currentUserId)
+      ? "?userId=" +
+        encodeURIComponent(
+          currentUserId
+        )
       : "";
 
   if(topLink){
 
     topLink.href =
-      "index.html" + query;
-
+      "index.html" +
+      query;
   }
 
   if(topLink2){
 
     topLink2.href =
-      "index.html" + query;
-
+      "index.html" +
+      query;
   }
 
 }
@@ -644,6 +701,7 @@ function hasValidPassNow(){
     getUserIdFromUrl();
 
   if(!urlUserId){
+
     return false;
   }
 
@@ -651,59 +709,72 @@ function hasValidPassNow(){
     getOmikujiPass();
 
   if(!pass){
+
     return false;
   }
 
-  if(pass.userId !== urlUserId){
+  if(
+    pass.userId !== urlUserId
+  ){
+
     return false;
   }
 
   if(!pass.expiresAt){
+
     return false;
   }
 
-  if(Date.now() > Number(pass.expiresAt)){
+  if(
+    Date.now() >
+    Number(pass.expiresAt)
+  ){
+
     return false;
   }
 
   return true;
-
 }
 
 async function drawOmikuji(){
 
-  if(!currentUserId || !hasValidPassNow()){
+  if(
+    !currentUserId ||
+    !hasValidPassNow()
+  ){
 
     showQrOnlyBlock();
-    return;
 
+    return;
   }
 
   if(drawFinished){
 
     scrollToResult();
-    return;
 
+    return;
   }
 
   const btn =
-    document.getElementById("drawBtn");
+    document.getElementById(
+      "drawBtn"
+    );
 
   const statusBox =
-    document.getElementById("statusBox");
+    document.getElementById(
+      "statusBox"
+    );
 
   if(btn){
 
     btn.disabled = true;
     btn.innerText = "引いています...";
-
   }
 
   if(statusBox){
 
     statusBox.innerText =
       "おみくじを引いています。";
-
   }
 
   try{
@@ -711,28 +782,38 @@ async function drawOmikuji(){
     const data =
       await loadOmikujiFromGas();
 
-    if(!data || data.success === false){
+    if(
+      !data ||
+      data.success === false
+    ){
 
       throw new Error(
         data && data.message
           ? data.message
           : "おみくじを取得できませんでした。"
       );
-
     }
 
     currentResult =
-      normalizeOmikujiData(data);
+      normalizeOmikujiData(
+        data
+      );
 
-    if(!currentResult.imageUrl){
+    if(
+      !currentResult.imageUrl
+    ){
 
       currentResult.imageUrl =
         FALLBACK_OGP;
-
     }
 
-    saveCurrentResult(currentResult);
-    renderResult(currentResult);
+    saveCurrentResult(
+      currentResult
+    );
+
+    renderResult(
+      currentResult
+    );
 
     drawFinished = true;
 
@@ -740,15 +821,14 @@ async function drawOmikuji(){
 
       statusBox.innerText =
         "おみくじを引きました。";
-
     }
 
     if(btn){
 
       btn.disabled = true;
-      btn.innerText = "おみくじを引きました";
+      btn.innerText =
+        "おみくじを引きました";
       btn.style.display = "none";
-
     }
 
     scrollToResult();
@@ -763,16 +843,14 @@ async function drawOmikuji(){
         error && error.message
           ? error.message
           : "おみくじを取得できませんでした。";
-
     }
 
     if(btn){
 
       btn.disabled = false;
-      btn.innerText = "おみくじを引く";
-
+      btn.innerText =
+        "おみくじを引く";
     }
-
   }
 
 }
@@ -784,46 +862,73 @@ async function loadOmikujiFromGas(){
 
   const userQuery =
     currentUserId
-      ? "&userId=" + encodeURIComponent(currentUserId)
+      ? "&userId=" +
+        encodeURIComponent(
+          currentUserId
+        )
       : "";
 
   urls.push(
-    GAS_URL + "?mode=omikuji" + userQuery + "&t=" + t
+    GAS_URL +
+    "?mode=omikuji" +
+    userQuery +
+    "&t=" +
+    t
   );
 
   urls.push(
-    GAS_URL + "?action=omikuji" + userQuery + "&t=" + t
+    GAS_URL +
+    "?action=omikuji" +
+    userQuery +
+    "&t=" +
+    t
   );
 
   urls.push(
-    GAS_URL + "?omikuji=1" + userQuery + "&t=" + t
+    GAS_URL +
+    "?omikuji=1" +
+    userQuery +
+    "&t=" +
+    t
   );
 
-  let lastError = null;
+  let lastError =
+    null;
 
-  for(let i = 0; i < urls.length; i++){
+  for(
+    let i = 0;
+    i < urls.length;
+    i++
+  ){
 
     try{
 
       const data =
-        await getJson(urls[i]);
+        await getJson(
+          urls[i]
+        );
 
-      if(data && typeof data === "object"){
+      if(
+        data &&
+        typeof data === "object"
+      ){
 
         return data;
-
       }
 
     }catch(error){
 
-      lastError = error;
-
+      lastError =
+        error;
     }
-
   }
 
-  throw lastError || new Error("おみくじを取得できませんでした。");
-
+  throw (
+    lastError ||
+    new Error(
+      "おみくじを取得できませんでした。"
+    )
+  );
 }
 
 async function getJson(url){
@@ -831,26 +936,33 @@ async function getJson(url){
   try{
 
     const res =
-      await fetch(url,{
-        method:"GET",
-        cache:"no-store"
-      });
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
 
     if(!res.ok){
 
-      throw new Error("HTTP " + res.status);
-
+      throw new Error(
+        "HTTP " + res.status
+      );
     }
 
     const text =
       await res.text();
 
-    return parseJsonText(text);
+    return parseJsonText(
+      text
+    );
 
   }catch(error){
 
-    return await getJsonp(url);
-
+    return await getJsonp(
+      url
+    );
   }
 
 }
@@ -858,132 +970,188 @@ async function getJson(url){
 function parseJsonText(text){
 
   const value =
-    String(text || "").trim();
+    String(
+      text ||
+      ""
+    ).trim();
 
   if(!value){
 
-    throw new Error("empty response");
-
+    throw new Error(
+      "empty response"
+    );
   }
 
   try{
 
-    return JSON.parse(value);
+    return JSON.parse(
+      value
+    );
 
   }catch(error){
 
     const objectStart =
-      value.indexOf("{");
-
-    const objectEnd =
-      value.lastIndexOf("}");
-
-    if(objectStart >= 0 && objectEnd > objectStart){
-
-      return JSON.parse(
-        value.substring(objectStart, objectEnd + 1)
+      value.indexOf(
+        "{"
       );
 
+    const objectEnd =
+      value.lastIndexOf(
+        "}"
+      );
+
+    if(
+      objectStart >= 0 &&
+      objectEnd > objectStart
+    ){
+
+      return JSON.parse(
+        value.substring(
+          objectStart,
+          objectEnd + 1
+        )
+      );
     }
 
     const arrayStart =
-      value.indexOf("[");
-
-    const arrayEnd =
-      value.lastIndexOf("]");
-
-    if(arrayStart >= 0 && arrayEnd > arrayStart){
-
-      return JSON.parse(
-        value.substring(arrayStart, arrayEnd + 1)
+      value.indexOf(
+        "["
       );
 
+    const arrayEnd =
+      value.lastIndexOf(
+        "]"
+      );
+
+    if(
+      arrayStart >= 0 &&
+      arrayEnd > arrayStart
+    ){
+
+      return JSON.parse(
+        value.substring(
+          arrayStart,
+          arrayEnd + 1
+        )
+      );
     }
 
     throw error;
-
   }
 
 }
 
 function getJsonp(url){
 
-  return new Promise(function(resolve,reject){
+  return new Promise(
+    function(resolve,reject){
 
-    const callbackName =
-      "tagoyamaOmikujiCallback_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random() * 1000000);
+      const callbackName =
+        "tagoyamaOmikujiCallback_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+          Math.random() * 1000000
+        );
 
-    const script =
-      document.createElement("script");
+      const script =
+        document.createElement(
+          "script"
+        );
 
-    const sep =
-      url.indexOf("?") >= 0
-        ? "&"
-        : "?";
+      const sep =
+        url.indexOf("?") >= 0
+          ? "&"
+          : "?";
 
-    const timer =
-      setTimeout(function(){
+      const timer =
+        setTimeout(
+          function(){
 
-        cleanup();
-        reject(new Error("JSONP timeout"));
+            cleanup();
 
-      },12000);
+            reject(
+              new Error(
+                "JSONP timeout"
+              )
+            );
+          },
+          12000
+        );
 
-    window[callbackName] = function(data){
+      window[callbackName] =
+        function(data){
 
-      cleanup();
-      resolve(data);
+          cleanup();
 
-    };
+          resolve(
+            data
+          );
+        };
 
-    script.onerror = function(){
+      script.onerror =
+        function(){
 
-      cleanup();
-      reject(new Error("JSONP error"));
+          cleanup();
 
-    };
+          reject(
+            new Error(
+              "JSONP error"
+            )
+          );
+        };
 
-    script.src =
-      url +
-      sep +
-      "callback=" +
-      encodeURIComponent(callbackName);
+      script.src =
+        url +
+        sep +
+        "callback=" +
+        encodeURIComponent(
+          callbackName
+        );
 
-    document.body.appendChild(script);
+      document.body.appendChild(
+        script
+      );
 
-    function cleanup(){
+      function cleanup(){
 
-      clearTimeout(timer);
+        clearTimeout(
+          timer
+        );
 
-      try{
+        try{
 
-        delete window[callbackName];
+          delete window[
+            callbackName
+          ];
 
-      }catch(error){
+        }catch(error){
 
-        window[callbackName] = undefined;
+          window[
+            callbackName
+          ] = undefined;
+        }
 
+        if(
+          script.parentNode
+        ){
+
+          script.parentNode.removeChild(
+            script
+          );
+        }
       }
-
-      if(script.parentNode){
-
-        script.parentNode.removeChild(script);
-
-      }
-
     }
-
-  });
+  );
 
 }
 
 function normalizeOmikujiData(data){
 
   const source =
-    flattenObject(data);
+    flattenObject(
+      data
+    );
 
   const resultName =
     getFirst(
@@ -1032,33 +1200,50 @@ function normalizeOmikujiData(data){
     imageUrl:imageUrl,
     date:todayText()
   };
-
 }
 
 function flattenObject(data){
 
-  data = data || {};
+  data =
+    data ||
+    {};
 
-  let base = {};
+  let base =
+    {};
 
-  if(Array.isArray(data)){
+  if(
+    Array.isArray(
+      data
+    )
+  ){
 
-    if(data.length > 0 && typeof data[data.length - 1] === "object"){
+    if(
+      data.length > 0 &&
+      typeof data[
+        data.length - 1
+      ] === "object"
+    ){
 
-      base = data[data.length - 1];
-
+      base =
+        data[
+          data.length - 1
+        ];
     }
 
-  }else if(typeof data === "object"){
+  }else if(
+    typeof data === "object"
+  ){
 
-    base = data;
-
+    base =
+      data;
   }
 
   const nested =
     base.data &&
     typeof base.data === "object" &&
-    !Array.isArray(base.data)
+    !Array.isArray(
+      base.data
+    )
       ? base.data
       : {};
 
@@ -1074,53 +1259,67 @@ function flattenObject(data){
       ? base.record
       : {};
 
-  return Object.assign({},base,nested,latest,record);
-
+  return Object.assign(
+    {},
+    base,
+    nested,
+    latest,
+    record
+  );
 }
 
 function renderResult(result){
 
-  result = result || {};
+  result =
+    result ||
+    {};
 
   const resultSection =
-    document.getElementById("resultSection");
+    document.getElementById(
+      "resultSection"
+    );
 
   const resultImage =
-    document.getElementById("resultImage");
+    document.getElementById(
+      "resultImage"
+    );
 
   const resultName =
-    document.getElementById("resultName");
+    document.getElementById(
+      "resultName"
+    );
 
   const resultMessage =
-    document.getElementById("resultMessage");
+    document.getElementById(
+      "resultMessage"
+    );
 
   if(resultImage){
 
     resultImage.src =
-      result.imageUrl || FALLBACK_OGP;
-
+      result.imageUrl ||
+      FALLBACK_OGP;
   }
 
   if(resultName){
 
     resultName.innerText =
-      result.result || "開運";
-
+      result.result ||
+      "開運";
   }
 
   if(resultMessage){
 
     resultMessage.innerText =
-      result.message || "田子山富士のご縁がありますように。";
-
+      result.message ||
+      "田子山富士のご縁がありますように。";
   }
 
   if(resultSection){
 
-    resultSection.style.display = "block";
-
+    resultSection.style.display =
+      "block";
   }
-
 }
 
 function saveCurrentResult(result){
@@ -1129,15 +1328,15 @@ function saveCurrentResult(result){
 
     localStorage.setItem(
       "tagoyamaOmikujiResult",
-      JSON.stringify(result)
+      JSON.stringify(
+        result
+      )
     );
 
   }catch(error){
 
     console.warn(error);
-
   }
-
 }
 
 function getCurrentResult(){
@@ -1145,32 +1344,37 @@ function getCurrentResult(){
   if(currentResult){
 
     return currentResult;
-
   }
 
   try{
 
     const text =
-      localStorage.getItem("tagoyamaOmikujiResult");
+      localStorage.getItem(
+        "tagoyamaOmikujiResult"
+      );
 
     if(text){
 
       const data =
-        JSON.parse(text);
+        JSON.parse(
+          text
+        );
 
-      if(data && typeof data === "object"){
+      if(
+        data &&
+        typeof data === "object"
+      ){
 
-        currentResult = data;
+        currentResult =
+          data;
+
         return currentResult;
-
       }
-
     }
 
   }catch(error){
 
     console.warn(error);
-
   }
 
   return {
@@ -1180,55 +1384,72 @@ function getCurrentResult(){
     imageUrl:FALLBACK_OGP,
     date:todayText()
   };
-
 }
 
 async function saveResultImage(){
 
   const target =
-    document.getElementById("captureArea");
+    document.getElementById(
+      "captureArea"
+    );
 
   if(!target){
 
-    alert("保存できる画像がありません。");
-    return;
+    alert(
+      "保存できる画像がありません。"
+    );
 
+    return;
   }
 
   try{
 
     const canvas =
-      await html2canvas(target,{
-        backgroundColor:"#000000",
-        useCORS:true,
-        allowTaint:true,
-        scale:2
-      });
+      await html2canvas(
+        target,
+        {
+          backgroundColor:"#000000",
+          useCORS:true,
+          allowTaint:true,
+          scale:2
+        }
+      );
 
     const blob =
-      await new Promise(function(resolve){
+      await new Promise(
+        function(resolve){
 
-        canvas.toBlob(function(result){
+          canvas.toBlob(
+            function(result){
 
-          resolve(result);
-
-        },"image/png",.95);
-
-      });
+              resolve(
+                result
+              );
+            },
+            "image/png",
+            .95
+          );
+        }
+      );
 
     if(!blob){
 
-      throw new Error("画像を作成できませんでした。");
-
+      throw new Error(
+        "画像を作成できませんでした。"
+      );
     }
 
     const filename =
       "tagoyama-omikuji.png";
 
     const file =
-      new File([blob], filename, {
-        type:"image/png"
-      });
+      new File(
+        [blob],
+        filename,
+        {
+          type:"image/png"
+        }
+      );
 
     if(
       navigator.canShare &&
@@ -1238,55 +1459,81 @@ async function saveResultImage(){
       })
     ){
 
-      await navigator.share({
-        files:[file],
-        title:"田子山富士 開運おみくじ",
-        text:makeShareText()
-      });
+      await navigator.share(
+        {
+          files:[file],
+          title:"田子山富士 開運おみくじ",
+          text:makeShareText()
+        }
+      );
 
       return;
-
     }
 
-    downloadBlob(blob,filename);
+    downloadBlob(
+      blob,
+      filename
+    );
 
   }catch(error){
 
-    if(error && error.name === "AbortError"){
+    if(
+      error &&
+      error.name === "AbortError"
+    ){
 
       return;
-
     }
 
     console.error(error);
-    alert("画像保存がうまくいかない場合は、画面をスクリーンショットで保存してください。");
 
+    alert(
+      "画像保存がうまくいかない場合は、画面をスクリーンショットで保存してください。"
+    );
   }
-
 }
 
-function downloadBlob(blob,filename){
+function downloadBlob(
+  blob,
+  filename
+){
 
   const url =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
 
   const a =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
-  a.href = url;
-  a.download = filename;
-  a.rel = "noopener";
+  a.href =
+    url;
 
-  document.body.appendChild(a);
+  a.download =
+    filename;
+
+  a.rel =
+    "noopener";
+
+  document.body.appendChild(
+    a
+  );
+
   a.click();
+
   a.remove();
 
-  setTimeout(function(){
+  setTimeout(
+    function(){
 
-    URL.revokeObjectURL(url);
-
-  },3000);
-
+      URL.revokeObjectURL(
+        url
+      );
+    },
+    3000
+  );
 }
 
 async function postFacebook(){
@@ -1296,7 +1543,9 @@ async function postFacebook(){
     "\n" +
     buildShareUrl();
 
-  await copyText(text);
+  await copyText(
+    text
+  );
 
   alert(
     "投稿文とリンクをコピーしました。\nFacebookが開いたら、投稿欄に貼り付けてください。"
@@ -1304,31 +1553,38 @@ async function postFacebook(){
 
   location.href =
     "https://www.facebook.com/";
-
 }
 
 function sendLine(){
 
   const url =
     "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(buildShareUrl()) +
+    encodeURIComponent(
+      buildShareUrl()
+    ) +
     "&text=" +
-    encodeURIComponent(makeShareText());
+    encodeURIComponent(
+      makeShareText()
+    );
 
-  location.href = url;
-
+  location.href =
+    url;
 }
 
 function postX(){
 
   const url =
     "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(makeShareText()) +
+    encodeURIComponent(
+      makeShareText()
+    ) +
     "&url=" +
-    encodeURIComponent(buildShareUrl());
+    encodeURIComponent(
+      buildShareUrl()
+    );
 
-  location.href = url;
-
+  location.href =
+    url;
 }
 
 async function copyResultText(){
@@ -1338,10 +1594,13 @@ async function copyResultText(){
     "\n" +
     buildShareUrl();
 
-  await copyText(text);
+  await copyText(
+    text
+  );
 
-  alert("おみくじの結果をコピーしました。");
-
+  alert(
+    "おみくじの結果をコピーしました。"
+  );
 }
 
 function buildShareUrl(){
@@ -1352,34 +1611,48 @@ function buildShareUrl(){
   const params =
     new URLSearchParams();
 
-  params.set("v","20260704omikujipass");
+  params.set(
+    "v",
+    "20260704omikujipass"
+  );
 
   if(currentUserId){
 
-    params.set("userId",currentUserId);
-
+    params.set(
+      "userId",
+      currentUserId
+    );
   }
 
   if(result.result){
 
-    params.set("result",result.result);
-
+    params.set(
+      "result",
+      result.result
+    );
   }
 
   if(result.message){
 
-    params.set("message",result.message);
-
+    params.set(
+      "message",
+      result.message
+    );
   }
 
   if(result.imageUrl){
 
-    params.set("imageUrl",result.imageUrl);
-
+    params.set(
+      "imageUrl",
+      result.imageUrl
+    );
   }
 
-  return SHARE_OMIKUJI_PAGE + "?" + params.toString();
-
+  return (
+    SHARE_OMIKUJI_PAGE +
+    "?" +
+    params.toString()
+  );
 }
 
 function makeShareText(){
@@ -1387,57 +1660,78 @@ function makeShareText(){
   const result =
     getCurrentResult();
 
-  return "田子山富士 開運おみくじ\n" +
+  return (
+    "田子山富士 開運おみくじ\n" +
     "今日のご縁：" +
-    (result.result || "開運") +
+    (
+      result.result ||
+      "開運"
+    ) +
     "\n" +
-    (result.message || "田子山富士のご縁がありますように。") +
+    (
+      result.message ||
+      "田子山富士のご縁がありますように。"
+    ) +
     "\n\n" +
-    "#田子山富士 #敷島神社 #志木市";
-
+    "#田子山富士 #敷島神社 #志木市"
+  );
 }
 
 async function copyText(text){
 
   try{
 
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(
+      text
+    );
 
   }catch(error){
 
     const area =
-      document.createElement("textarea");
+      document.createElement(
+        "textarea"
+      );
 
-    area.value = text;
-    area.style.position = "fixed";
-    area.style.left = "-9999px";
+    area.value =
+      text;
 
-    document.body.appendChild(area);
+    area.style.position =
+      "fixed";
+
+    area.style.left =
+      "-9999px";
+
+    document.body.appendChild(
+      area
+    );
+
     area.focus();
     area.select();
 
-    document.execCommand("copy");
+    document.execCommand(
+      "copy"
+    );
 
     area.remove();
-
   }
-
 }
 
 function scrollToResult(){
 
   const resultSection =
-    document.getElementById("resultSection");
+    document.getElementById(
+      "resultSection"
+    );
 
   if(resultSection){
 
-    resultSection.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
+    resultSection.scrollIntoView(
+      {
+        behavior:"smooth",
+        block:"start"
+      }
+    );
   }
-
 }
 
 function todayText(){
@@ -1449,52 +1743,84 @@ function todayText(){
     d.getFullYear();
 
   const m =
-    String(d.getMonth() + 1).padStart(2,"0");
+    String(
+      d.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
 
   const day =
-    String(d.getDate()).padStart(2,"0");
+    String(
+      d.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
 
-  return y + "/" + m + "/" + day;
-
+  return (
+    y +
+    "/" +
+    m +
+    "/" +
+    day
+  );
 }
 
 function getString(value){
 
-  if(value === null || value === undefined){
+  if(
+    value === null ||
+    value === undefined
+  ){
 
     return "";
-
   }
 
-  return String(value).trim();
-
+  return String(
+    value
+  ).trim();
 }
 
 function getFirst(){
 
-  for(let i = 0; i < arguments.length; i++){
+  for(
+    let i = 0;
+    i < arguments.length;
+    i++
+  ){
 
     const value =
-      getString(arguments[i]);
+      getString(
+        arguments[i]
+      );
 
     if(value){
 
       return value;
-
     }
-
   }
 
   return "";
-
 }
 
-window.drawOmikuji = drawOmikuji;
-window.saveResultImage = saveResultImage;
-window.postFacebook = postFacebook;
-window.sendLine = sendLine;
-window.postX = postX;
-window.copyResultText = copyResultText;
+window.drawOmikuji =
+  drawOmikuji;
+
+window.saveResultImage =
+  saveResultImage;
+
+window.postFacebook =
+  postFacebook;
+
+window.sendLine =
+  sendLine;
+
+window.postX =
+  postX;
+
+window.copyResultText =
+  copyResultText;
 </script>
 </body>
 </html>
