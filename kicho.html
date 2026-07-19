@@ -13,8 +13,8 @@
 <meta property="og:description" content="田子山富士に参拝したご縁を記帳できます。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/kicho.html">
-<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
-<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260719-kicho">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260719-kicho">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士 参拝記帳">
 <meta name="twitter:description" content="田子山富士に参拝したご縁を記帳できます。">
-<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260719-kicho">
 
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
@@ -40,7 +40,7 @@ body{
   width:100%;
   min-height:100%;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
+    radial-gradient(circle at 50% 0%,rgba(255,225,110,.18),rgba(0,0,0,0) 36%),
     linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
   color:#fff7ca;
   font-family:
@@ -115,8 +115,8 @@ body{
   padding:22px 14px;
   border-radius:28px;
   background:
-    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
-    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
+    radial-gradient(circle at top,rgba(255,224,120,.16),rgba(0,0,0,0) 46%),
+    linear-gradient(180deg,rgba(44,28,0,.92),rgba(10,10,10,.94));
   border:2px solid rgba(255,220,95,.58);
   box-shadow:
     0 0 0 1px rgba(255,230,150,.10) inset,
@@ -256,7 +256,7 @@ body{
   line-height:1.6;
 }
 
-@media (max-width:420px){
+@media(max-width:420px){
   .page{
     padding-left:12px;
     padding-right:12px;
@@ -680,9 +680,7 @@ function parseJsonText(text){
   }
 }
 
-function setStatus(
-  text
-){
+function setStatus(text){
 
   const el =
     document.getElementById(
@@ -696,9 +694,7 @@ function setStatus(
   }
 }
 
-function getString(
-  value
-){
+function getString(value){
 
   if(
     value === null ||
@@ -716,5 +712,6 @@ function getString(
 window.submitKicho =
   submitKicho;
 </script>
+
 </body>
 </html>
