@@ -7,6 +7,7 @@
 <title>田子山富士 みんなのご縁帳</title>
 
 <meta name="description" content="田子山富士168の縁プロジェクト ご縁帳">
+
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 みんなのご縁帳">
 <meta property="og:description" content="田子山富士に参拝したみなさんのご縁を掲載しています。">
@@ -327,11 +328,19 @@ body{
   <div class="goenList" id="goenList"></div>
 
   <div class="btnArea">
-    <a class="linkBtn goldBtn" id="kichoLink" href="kicho.html">
+    <a
+      class="linkBtn goldBtn"
+      id="kichoLink"
+      href="kicho.html"
+    >
       参拝記帳へ
     </a>
 
-    <a class="linkBtn blackBtn" id="topLink" href="index.html">
+    <a
+      class="linkBtn blackBtn"
+      id="topLink"
+      href="index.html"
+    >
       トップへ戻る
     </a>
   </div>
@@ -346,202 +355,358 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 let currentUserId = "";
 
-window.addEventListener("load", initGoen);
+window.addEventListener(
+  "load",
+  initGoen
+);
 
 async function initGoen(){
-  currentUserId = getUserId();
+
+  currentUserId =
+    getUserId();
+
   updateLinks();
+
   await loadGoen();
 }
 
 function getUserId(){
-  const params = new URLSearchParams(location.search);
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
 
   const value =
-    getString(params.get("userId")) ||
-    getString(params.get("userid")) ||
-    getString(params.get("uid")) ||
-    getString(localStorage.getItem("tagoyamaUserId")) ||
-    getString(localStorage.getItem("tagoyamaFujiUserId"));
+    getString(
+      params.get("userId")
+    ) ||
+    getString(
+      params.get("userid")
+    ) ||
+    getString(
+      params.get("uid")
+    ) ||
+    getString(
+      localStorage.getItem(
+        "tagoyamaUserId"
+      )
+    ) ||
+    getString(
+      localStorage.getItem(
+        "tagoyamaFujiUserId"
+      )
+    );
 
   if(value){
-    localStorage.setItem("tagoyamaUserId", value);
-    localStorage.setItem("tagoyamaFujiUserId", value);
+
+    localStorage.setItem(
+      "tagoyamaUserId",
+      value
+    );
+
+    localStorage.setItem(
+      "tagoyamaFujiUserId",
+      value
+    );
   }
 
   return value;
 }
 
 function updateLinks(){
+
   const query =
     currentUserId
-      ? "?userId=" + encodeURIComponent(currentUserId)
+      ? "?userId=" +
+        encodeURIComponent(
+          currentUserId
+        )
       : "";
 
   const topLink =
-    document.getElementById("topLink");
+    document.getElementById(
+      "topLink"
+    );
 
   const kichoLink =
-    document.getElementById("kichoLink");
+    document.getElementById(
+      "kichoLink"
+    );
 
   if(topLink){
+
     topLink.href =
-      "index.html" + query;
+      "index.html" +
+      query;
   }
 
   if(kichoLink){
+
     kichoLink.href =
-      "kicho.html" + query;
+      "kicho.html" +
+      query;
   }
 }
 
 async function loadGoen(){
-  setStatus("ご縁帳を読み込んでいます。");
+
+  setStatus(
+    "ご縁帳を読み込んでいます。"
+  );
 
   try{
+
     const data =
       await tryManyJson([
-        GAS_URL + "?mode=goen&t=" + Date.now(),
-        GAS_URL + "?mode=listGoen&t=" + Date.now(),
-        GAS_URL + "?goen=1&t=" + Date.now(),
-        GAS_URL + "?listGoen=1&t=" + Date.now()
+        GAS_URL +
+        "?mode=goen&t=" +
+        Date.now(),
+
+        GAS_URL +
+        "?mode=listGoen&t=" +
+        Date.now(),
+
+        GAS_URL +
+        "?goen=1&t=" +
+        Date.now(),
+
+        GAS_URL +
+        "?listGoen=1&t=" +
+        Date.now()
       ]);
 
     const list =
-      extractGoenList(data);
+      extractGoenList(
+        data
+      );
 
-    renderGoen(list);
+    renderGoen(
+      list
+    );
+
   }catch(error){
+
     console.warn(error);
-    setStatus("現在表示できるご縁帳はありません。");
+
+    setStatus(
+      "現在表示できるご縁帳はありません。"
+    );
   }
 }
 
 function renderGoen(list){
+
   const box =
-    document.getElementById("goenList");
+    document.getElementById(
+      "goenList"
+    );
 
   if(!box){
+
     return;
   }
 
-  box.innerHTML = "";
+  box.innerHTML =
+    "";
 
-  if(!Array.isArray(list) || list.length === 0){
-    setStatus("現在表示できるご縁帳はありません。");
+  if(
+    !Array.isArray(list) ||
+    list.length === 0
+  ){
+
+    setStatus(
+      "現在表示できるご縁帳はありません。"
+    );
+
     return;
   }
 
   const displayList =
     list
-      .map(function(row){
-        return normalizeGoenItem(row);
-      })
-      .filter(function(item){
-        return item.area || item.name || item.message;
-      })
+      .map(
+        function(row){
+
+          return normalizeGoenItem(
+            row
+          );
+        }
+      )
+      .filter(
+        function(item){
+
+          return (
+            item.area ||
+            item.name ||
+            item.message
+          );
+        }
+      )
       .reverse();
 
-  if(displayList.length === 0){
-    setStatus("現在表示できるご縁帳はありません。");
+  if(
+    displayList.length === 0
+  ){
+
+    setStatus(
+      "現在表示できるご縁帳はありません。"
+    );
+
     return;
   }
 
-  displayList.forEach(function(item){
-    const article =
-      document.createElement("article");
+  displayList.forEach(
+    function(item){
 
-    article.className =
-      "goenItem";
+      const article =
+        document.createElement(
+          "article"
+        );
 
-    const name =
-      document.createElement("h2");
+      article.className =
+        "goenItem";
 
-    name.className =
-      "goenName";
+      const name =
+        document.createElement(
+          "h2"
+        );
 
-    name.innerText =
-      item.name || "匿名";
+      name.className =
+        "goenName";
 
-    article.appendChild(name);
+      name.innerText =
+        item.name ||
+        "匿名";
 
-    const metaArea =
-      document.createElement("div");
+      article.appendChild(
+        name
+      );
 
-    metaArea.className =
-      "goenMetaArea";
+      const metaArea =
+        document.createElement(
+          "div"
+        );
 
-    if(item.date){
-      const dateChip =
-        document.createElement("span");
+      metaArea.className =
+        "goenMetaArea";
 
-      dateChip.className =
-        "goenChip";
+      if(item.date){
 
-      dateChip.innerText =
-        item.date;
+        const dateChip =
+          document.createElement(
+            "span"
+          );
 
-      metaArea.appendChild(dateChip);
+        dateChip.className =
+          "goenChip";
+
+        dateChip.innerText =
+          item.date;
+
+        metaArea.appendChild(
+          dateChip
+        );
+      }
+
+      if(item.area){
+
+        const areaChip =
+          document.createElement(
+            "span"
+          );
+
+        areaChip.className =
+          "goenChip";
+
+        areaChip.innerText =
+          item.area;
+
+        metaArea.appendChild(
+          areaChip
+        );
+      }
+
+      if(
+        metaArea.children.length > 0
+      ){
+
+        article.appendChild(
+          metaArea
+        );
+      }
+
+      const message =
+        document.createElement(
+          "p"
+        );
+
+      message.className =
+        "goenMessage";
+
+      message.innerText =
+        item.message ||
+        "";
+
+      article.appendChild(
+        message
+      );
+
+      box.appendChild(
+        article
+      );
     }
+  );
 
-    if(item.area){
-      const areaChip =
-        document.createElement("span");
-
-      areaChip.className =
-        "goenChip";
-
-      areaChip.innerText =
-        item.area;
-
-      metaArea.appendChild(areaChip);
-    }
-
-    if(metaArea.children.length > 0){
-      article.appendChild(metaArea);
-    }
-
-    const message =
-      document.createElement("p");
-
-    message.className =
-      "goenMessage";
-
-    message.innerText =
-      item.message || "";
-
-    article.appendChild(message);
-
-    box.appendChild(article);
-  });
-
-  setStatus("ご縁帳を表示しました。");
+  setStatus(
+    "ご縁帳を表示しました。"
+  );
 }
 
 function normalizeGoenItem(row){
+
   if(Array.isArray(row)){
+
     if(row.length >= 5){
+
       return {
-        date:formatDateText(row[1]),
-        area:getString(row[2]),
-        name:getString(row[3]) || "匿名",
-        message:getString(row[4])
+        date:formatDateText(
+          row[1]
+        ),
+        area:getString(
+          row[2]
+        ),
+        name:getString(
+          row[3]
+        ) || "匿名",
+        message:getString(
+          row[4]
+        )
       };
     }
 
     return {
-      date:formatDateText(row[0]),
-      area:getString(row[1]),
-      name:getString(row[2]) || "匿名",
-      message:getString(row[3])
+      date:formatDateText(
+        row[0]
+      ),
+      area:getString(
+        row[1]
+      ),
+      name:getString(
+        row[2]
+      ) || "匿名",
+      message:getString(
+        row[3]
+      )
     };
   }
 
-  row = row || {};
+  row =
+    row ||
+    {};
 
   return {
     date:formatDateText(
@@ -587,132 +752,284 @@ function normalizeGoenItem(row){
 }
 
 function extractGoenList(data){
+
   if(!data){
+
     return [];
   }
 
-  let list = [];
+  let list =
+    [];
 
   if(Array.isArray(data)){
-    list = data;
-  }else if(Array.isArray(data.goen)){
-    list = data.goen;
-  }else if(Array.isArray(data.rows)){
-    list = data.rows;
-  }else if(Array.isArray(data.list)){
-    list = data.list;
-  }else if(Array.isArray(data.items)){
-    list = data.items;
-  }else if(Array.isArray(data.data)){
-    list = data.data;
-  }else if(data.data && Array.isArray(data.data.goen)){
-    list = data.data.goen;
-  }else if(data.data && Array.isArray(data.data.list)){
-    list = data.data.list;
+
+    list =
+      data;
+
+  }else if(
+    Array.isArray(
+      data.goen
+    )
+  ){
+
+    list =
+      data.goen;
+
+  }else if(
+    Array.isArray(
+      data.rows
+    )
+  ){
+
+    list =
+      data.rows;
+
+  }else if(
+    Array.isArray(
+      data.list
+    )
+  ){
+
+    list =
+      data.list;
+
+  }else if(
+    Array.isArray(
+      data.items
+    )
+  ){
+
+    list =
+      data.items;
+
+  }else if(
+    Array.isArray(
+      data.data
+    )
+  ){
+
+    list =
+      data.data;
+
+  }else if(
+    data.data &&
+    Array.isArray(
+      data.data.goen
+    )
+  ){
+
+    list =
+      data.data.goen;
+
+  }else if(
+    data.data &&
+    Array.isArray(
+      data.data.list
+    )
+  ){
+
+    list =
+      data.data.list;
   }
 
-  return removeHeaderRows(list);
+  return removeHeaderRows(
+    list
+  );
 }
 
 function removeHeaderRows(list){
-  return list.filter(function(row){
-    if(!row){
-      return false;
-    }
 
-    if(Array.isArray(row)){
-      const joined =
-        row.join("");
+  return list.filter(
+    function(row){
 
-      if(
-        joined.indexOf("timestamp") >= 0 ||
-        joined.indexOf("日付") >= 0 ||
-        joined.indexOf("日時") >= 0 ||
-        joined.indexOf("地域") >= 0 ||
-        joined.indexOf("名前") >= 0 ||
-        joined.indexOf("メッセージ") >= 0 ||
-        joined.indexOf("本文") >= 0
-      ){
+      if(!row){
+
         return false;
       }
-    }
 
-    return true;
-  });
+      if(Array.isArray(row)){
+
+        const joined =
+          row.join(
+            ""
+          );
+
+        if(
+          joined.indexOf(
+            "timestamp"
+          ) >= 0 ||
+          joined.indexOf(
+            "日付"
+          ) >= 0 ||
+          joined.indexOf(
+            "日時"
+          ) >= 0 ||
+          joined.indexOf(
+            "地域"
+          ) >= 0 ||
+          joined.indexOf(
+            "名前"
+          ) >= 0 ||
+          joined.indexOf(
+            "メッセージ"
+          ) >= 0 ||
+          joined.indexOf(
+            "本文"
+          ) >= 0
+        ){
+
+          return false;
+        }
+      }
+
+      return true;
+    }
+  );
 }
 
 async function tryManyJson(urls){
-  let lastError = null;
 
-  for(let i = 0; i < urls.length; i++){
+  let lastError =
+    null;
+
+  for(
+    let i = 0;
+    i < urls.length;
+    i++
+  ){
+
     try{
-      const data =
-        await getJson(urls[i]);
 
-      if(data !== null && data !== undefined){
+      const data =
+        await getJson(
+          urls[i]
+        );
+
+      if(
+        data !== null &&
+        data !== undefined
+      ){
+
         return data;
       }
+
     }catch(error){
-      lastError = error;
+
+      lastError =
+        error;
     }
   }
 
-  throw lastError || new Error("通信に失敗しました。");
+  throw (
+    lastError ||
+    new Error(
+      "通信に失敗しました。"
+    )
+  );
 }
 
 async function getJson(url){
+
   try{
+
     const res =
-      await fetch(url,{
-        method:"GET",
-        cache:"no-store"
-      });
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
 
     if(!res.ok){
-      throw new Error("HTTP " + res.status);
+
+      throw new Error(
+        "HTTP " +
+        res.status
+      );
     }
 
     const text =
       await res.text();
 
-    return parseJsonText(text);
+    return parseJsonText(
+      text
+    );
+
   }catch(error){
-    return await getJsonp(url);
+
+    return await getJsonp(
+      url
+    );
   }
 }
 
 function parseJsonText(text){
+
   const value =
-    String(text || "").trim();
+    String(
+      text ||
+      ""
+    ).trim();
 
   if(!value){
-    throw new Error("empty response");
+
+    throw new Error(
+      "empty response"
+    );
   }
 
   try{
-    return JSON.parse(value);
+
+    return JSON.parse(
+      value
+    );
+
   }catch(error){
+
     const objectStart =
-      value.indexOf("{");
+      value.indexOf(
+        "{"
+      );
 
     const objectEnd =
-      value.lastIndexOf("}");
+      value.lastIndexOf(
+        "}"
+      );
 
-    if(objectStart >= 0 && objectEnd > objectStart){
+    if(
+      objectStart >= 0 &&
+      objectEnd > objectStart
+    ){
+
       return JSON.parse(
-        value.substring(objectStart,objectEnd + 1)
+        value.substring(
+          objectStart,
+          objectEnd + 1
+        )
       );
     }
 
     const arrayStart =
-      value.indexOf("[");
+      value.indexOf(
+        "["
+      );
 
     const arrayEnd =
-      value.lastIndexOf("]");
+      value.lastIndexOf(
+        "]"
+      );
 
-    if(arrayStart >= 0 && arrayEnd > arrayStart){
+    if(
+      arrayStart >= 0 &&
+      arrayEnd > arrayStart
+    ){
+
       return JSON.parse(
-        value.substring(arrayStart,arrayEnd + 1)
+        value.substring(
+          arrayStart,
+          arrayEnd + 1
+        )
       );
     }
 
@@ -721,90 +1038,167 @@ function parseJsonText(text){
 }
 
 function getJsonp(url){
-  return new Promise(function(resolve,reject){
-    const callbackName =
-      "tagoyamaGoenCallback_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random() * 1000000);
 
-    const script =
-      document.createElement("script");
+  return new Promise(
+    function(resolve,reject){
 
-    const sep =
-      url.indexOf("?") >= 0
-        ? "&"
-        : "?";
+      const callbackName =
+        "tagoyamaGoenCallback_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+          Math.random() *
+          1000000
+        );
 
-    const timer =
-      setTimeout(function(){
-        cleanup();
-        reject(new Error("JSONP timeout"));
-      },12000);
+      const script =
+        document.createElement(
+          "script"
+        );
 
-    window[callbackName] = function(data){
-      cleanup();
-      resolve(data);
-    };
+      const sep =
+        url.indexOf(
+          "?"
+        ) >= 0
+          ? "&"
+          : "?";
 
-    script.onerror = function(){
-      cleanup();
-      reject(new Error("JSONP error"));
-    };
+      const timer =
+        setTimeout(
+          function(){
 
-    script.src =
-      url +
-      sep +
-      "callback=" +
-      encodeURIComponent(callbackName);
+            cleanup();
 
-    document.body.appendChild(script);
+            reject(
+              new Error(
+                "JSONP timeout"
+              )
+            );
+          },
+          12000
+        );
 
-    function cleanup(){
-      clearTimeout(timer);
+      window[callbackName] =
+        function(data){
 
-      try{
-        delete window[callbackName];
-      }catch(error){
-        window[callbackName] = undefined;
-      }
+          cleanup();
 
-      if(script.parentNode){
-        script.parentNode.removeChild(script);
+          resolve(
+            data
+          );
+        };
+
+      script.onerror =
+        function(){
+
+          cleanup();
+
+          reject(
+            new Error(
+              "JSONP error"
+            )
+          );
+        };
+
+      script.src =
+        url +
+        sep +
+        "callback=" +
+        encodeURIComponent(
+          callbackName
+        );
+
+      document.body.appendChild(
+        script
+      );
+
+      function cleanup(){
+
+        clearTimeout(
+          timer
+        );
+
+        try{
+
+          delete window[
+            callbackName
+          ];
+
+        }catch(error){
+
+          window[
+            callbackName
+          ] =
+            undefined;
+        }
+
+        if(
+          script.parentNode
+        ){
+
+          script.parentNode.removeChild(
+            script
+          );
+        }
       }
     }
-  });
+  );
 }
 
 function setStatus(text){
+
   const el =
-    document.getElementById("statusBox");
+    document.getElementById(
+      "statusBox"
+    );
 
   if(el){
-    el.innerText = text;
+
+    el.innerText =
+      text;
   }
 }
 
 function formatDateText(value){
+
   const text =
-    getString(value);
+    getString(
+      value
+    );
 
   if(!text){
+
     return "";
   }
 
   return text
-    .replace(/-/g,"/")
-    .replace(/\./g,"/")
-    .replace(/\s.*$/,"");
+    .replace(
+      /-/g,
+      "/"
+    )
+    .replace(
+      /\./g,
+      "/"
+    )
+    .replace(
+      /\s.*$/,
+      ""
+    );
 }
 
 function getString(value){
-  if(value === null || value === undefined){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+
     return "";
   }
 
-  return String(value).trim();
+  return String(
+    value
+  ).trim();
 }
 </script>
 </body>
