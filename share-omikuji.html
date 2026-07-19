@@ -7,6 +7,7 @@
 <title>田子山富士 開運おみくじ</title>
 
 <meta name="description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
+
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 開運おみくじ">
 <meta property="og:description" content="田子山富士のご縁を、みなさんにもおすそ分けします。">
@@ -164,88 +165,168 @@ body{
 const FALLBACK_IMAGE =
   "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji-atari.jpg?v=20260703-hitimage";
 
-window.addEventListener("load", function(){
-  setHitImage();
-});
+window.addEventListener(
+  "load",
+  function(){
+    setHitImage();
+  }
+);
 
 function setHitImage(){
-  const params = new URLSearchParams(location.search);
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
 
   const imgid =
-    getString(params.get("imgid")) ||
-    getString(params.get("imageId")) ||
-    getString(params.get("id"));
+    getString(
+      params.get("imgid")
+    ) ||
+    getString(
+      params.get("imageId")
+    ) ||
+    getString(
+      params.get("id")
+    );
 
   const img =
-    getString(params.get("img")) ||
-    getString(params.get("image")) ||
-    getString(params.get("imageUrl")) ||
-    getString(params.get("url"));
+    getString(
+      params.get("img")
+    ) ||
+    getString(
+      params.get("image")
+    ) ||
+    getString(
+      params.get("imageUrl")
+    ) ||
+    getString(
+      params.get("url")
+    );
 
-  let imageUrl = "";
+  let imageUrl =
+    "";
 
   if(imgid){
+
     imageUrl =
       "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(imgid) +
+      encodeURIComponent(
+        imgid
+      ) +
       "=w2000";
+
   }else if(img){
-    imageUrl = normalizeImageUrl(img);
+
+    imageUrl =
+      normalizeImageUrl(
+        img
+      );
   }
 
   if(imageUrl){
-    const image = document.getElementById("shareImage");
+
+    const image =
+      document.getElementById(
+        "shareImage"
+      );
 
     if(image){
-      image.src = imageUrl;
+
+      image.src =
+        imageUrl;
     }
   }
 }
 
 function normalizeImageUrl(url){
-  const value = getString(url);
+
+  const value =
+    getString(
+      url
+    );
 
   if(!value){
+
     return "";
   }
 
-  const driveId = getDriveId(value);
+  const driveId =
+    getDriveId(
+      value
+    );
 
   if(driveId){
-    return "https://lh3.googleusercontent.com/d/" +
-      encodeURIComponent(driveId) +
-      "=w2000";
+
+    return (
+      "https://lh3.googleusercontent.com/d/" +
+      encodeURIComponent(
+        driveId
+      ) +
+      "=w2000"
+    );
   }
 
   return value;
 }
 
 function getDriveId(url){
-  const value = getString(url);
+
+  const value =
+    getString(
+      url
+    );
 
   if(!value){
+
     return "";
   }
 
-  let match = value.match(/\/file\/d\/([^/]+)/);
+  let match =
+    value.match(
+      /\/file\/d\/([^/]+)/
+    );
 
-  if(match && match[1]){
+  if(
+    match &&
+    match[1]
+  ){
+
     return match[1];
   }
 
-  match = value.match(/[?&]id=([^&]+)/);
+  match =
+    value.match(
+      /[?&]id=([^&]+)/
+    );
 
-  if(match && match[1]){
+  if(
+    match &&
+    match[1]
+  ){
+
     return match[1];
   }
 
-  match = value.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+  match =
+    value.match(
+      /\/d\/([a-zA-Z0-9_-]{20,})/
+    );
 
-  if(match && match[1]){
+  if(
+    match &&
+    match[1]
+  ){
+
     return match[1];
   }
 
-  if(/^[a-zA-Z0-9_-]{20,}$/.test(value)){
+  if(
+    /^[a-zA-Z0-9_-]{20,}$/.test(
+      value
+    )
+  ){
+
     return value;
   }
 
@@ -253,19 +334,35 @@ function getDriveId(url){
 }
 
 function useFallbackImage(){
-  const image = document.getElementById("shareImage");
 
-  if(image && image.src !== FALLBACK_IMAGE){
-    image.src = FALLBACK_IMAGE;
+  const image =
+    document.getElementById(
+      "shareImage"
+    );
+
+  if(
+    image &&
+    image.src !== FALLBACK_IMAGE
+  ){
+
+    image.src =
+      FALLBACK_IMAGE;
   }
 }
 
 function getString(value){
-  if(value === null || value === undefined){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+
     return "";
   }
 
-  return String(value).trim();
+  return String(
+    value
+  ).trim();
 }
 </script>
 </body>
