@@ -7,6 +7,7 @@
 <title>田子山富士 参拝記帳</title>
 
 <meta name="description" content="田子山富士168の縁プロジェクト 参拝記帳">
+
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士 参拝記帳">
 <meta property="og:description" content="田子山富士に参拝したご縁を記帳できます。">
@@ -308,6 +309,7 @@ body{
   <div class="formBox">
     <label>
       <span class="labelText">どこから来ましたか</span>
+
       <select class="select" id="areaInput">
         <option value="">選んでください</option>
         <option value="志木市">志木市</option>
@@ -325,6 +327,7 @@ body{
 
     <label>
       <span class="labelText">お名前・ニックネーム</span>
+
       <input
         class="input"
         id="nameInput"
@@ -336,6 +339,7 @@ body{
 
     <label>
       <span class="labelText">メッセージ</span>
+
       <textarea
         class="textarea"
         id="messageInput"
@@ -350,11 +354,20 @@ body{
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" id="submitBtn" type="button" onclick="submitKicho()">
+    <button
+      class="btn goldBtn"
+      id="submitBtn"
+      type="button"
+      onclick="submitKicho()"
+    >
       ご縁を記帳する
     </button>
 
-    <a class="linkBtn blackBtn" id="topLink" href="index.html">
+    <a
+      class="linkBtn blackBtn"
+      id="topLink"
+      href="index.html"
+    >
       トップへ戻る
     </a>
   </div>
@@ -369,110 +382,214 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 let currentUserId = "";
 
-window.addEventListener("load", initKicho);
+window.addEventListener(
+  "load",
+  initKicho
+);
 
 function initKicho(){
-  currentUserId = getUserId();
+
+  currentUserId =
+    getUserId();
+
   updateLinks();
 }
 
 function getUserId(){
-  const params = new URLSearchParams(location.search);
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
 
   const value =
-    getString(params.get("userId")) ||
-    getString(params.get("userid")) ||
-    getString(params.get("uid")) ||
-    getString(localStorage.getItem("tagoyamaUserId")) ||
-    getString(localStorage.getItem("tagoyamaFujiUserId"));
+    getString(
+      params.get("userId")
+    ) ||
+    getString(
+      params.get("userid")
+    ) ||
+    getString(
+      params.get("uid")
+    ) ||
+    getString(
+      localStorage.getItem(
+        "tagoyamaUserId"
+      )
+    ) ||
+    getString(
+      localStorage.getItem(
+        "tagoyamaFujiUserId"
+      )
+    );
 
   if(value){
-    localStorage.setItem("tagoyamaUserId", value);
-    localStorage.setItem("tagoyamaFujiUserId", value);
+
+    localStorage.setItem(
+      "tagoyamaUserId",
+      value
+    );
+
+    localStorage.setItem(
+      "tagoyamaFujiUserId",
+      value
+    );
   }
 
   return value;
 }
 
 function updateLinks(){
+
   const topLink =
-    document.getElementById("topLink");
+    document.getElementById(
+      "topLink"
+    );
 
   const query =
     currentUserId
-      ? "?userId=" + encodeURIComponent(currentUserId)
+      ? "?userId=" +
+        encodeURIComponent(
+          currentUserId
+        )
       : "";
 
   if(topLink){
+
     topLink.href =
-      "index.html" + query;
+      "index.html" +
+      query;
   }
 }
 
 async function submitKicho(){
+
   const area =
     getString(
-      document.getElementById("areaInput").value
+      document.getElementById(
+        "areaInput"
+      ).value
     );
 
   const name =
     getString(
-      document.getElementById("nameInput").value
-    ) || "匿名";
+      document.getElementById(
+        "nameInput"
+      ).value
+    ) ||
+    "匿名";
 
   const message =
     getString(
-      document.getElementById("messageInput").value
+      document.getElementById(
+        "messageInput"
+      ).value
     );
 
   if(!area){
-    setStatus("どこから来たかを選んでください。");
+
+    setStatus(
+      "どこから来たかを選んでください。"
+    );
+
     return;
   }
 
   if(!message){
-    setStatus("メッセージを書いてください。");
+
+    setStatus(
+      "メッセージを書いてください。"
+    );
+
     return;
   }
 
   const btn =
-    document.getElementById("submitBtn");
+    document.getElementById(
+      "submitBtn"
+    );
 
   const oldText =
-    btn ? btn.innerText : "";
+    btn
+      ? btn.innerText
+      : "";
 
   if(btn){
-    btn.disabled = true;
-    btn.innerText = "記帳しています...";
+
+    btn.disabled =
+      true;
+
+    btn.innerText =
+      "記帳しています...";
   }
 
-  setStatus("ご縁を記帳しています。");
+  setStatus(
+    "ご縁を記帳しています。"
+  );
 
   try{
-    const params =
+
+    const formData =
       new URLSearchParams();
 
-    params.set("mode","saveKicho");
-    params.set("area",area);
-    params.set("name",name);
-    params.set("message",message);
+    formData.set(
+      "mode",
+      "kicho"
+    );
+
+    formData.set(
+      "area",
+      area
+    );
+
+    formData.set(
+      "name",
+      name
+    );
+
+    formData.set(
+      "message",
+      message
+    );
 
     if(currentUserId){
-      params.set("userId",currentUserId);
+
+      formData.set(
+        "userId",
+        currentUserId
+      );
     }
 
-    params.set("t",Date.now());
-
-    const data =
-      await getJson(
-        GAS_URL + "?" + params.toString()
+    const response =
+      await fetch(
+        GAS_URL,
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body:formData.toString()
+        }
       );
 
-    if(!data || data.success === false){
+    const text =
+      await response.text();
+
+    const data =
+      parseJsonText(
+        text
+      );
+
+    if(
+      !data ||
+      data.success === false
+    ){
+
       throw new Error(
         data && data.message
           ? data.message
@@ -480,66 +597,82 @@ async function submitKicho(){
       );
     }
 
-    setStatus("ご縁を記帳しました。ありがとうございました。");
+    setStatus(
+      "ご縁を記帳しました。ありがとうございました。"
+    );
 
-    document.getElementById("messageInput").value = "";
+    document.getElementById(
+      "messageInput"
+    ).value =
+      "";
 
   }catch(error){
+
     console.warn(error);
+
     setStatus(
       error && error.message
         ? error.message
         : "記帳できませんでした。時間をおいて再度お試しください。"
     );
+
   }finally{
+
     if(btn){
-      btn.disabled = false;
-      btn.innerText = oldText || "ご縁を記帳する";
+
+      btn.disabled =
+        false;
+
+      btn.innerText =
+        oldText ||
+        "ご縁を記帳する";
     }
-  }
-}
-
-async function getJson(url){
-  try{
-    const res =
-      await fetch(url,{
-        method:"GET",
-        cache:"no-store"
-      });
-
-    if(!res.ok){
-      throw new Error("HTTP " + res.status);
-    }
-
-    const text =
-      await res.text();
-
-    return parseJsonText(text);
-  }catch(error){
-    return await getJsonp(url);
   }
 }
 
 function parseJsonText(text){
+
   const value =
-    String(text || "").trim();
+    String(
+      text ||
+      ""
+    ).trim();
 
   if(!value){
-    throw new Error("empty response");
+
+    throw new Error(
+      "空の応答です。"
+    );
   }
 
   try{
-    return JSON.parse(value);
+
+    return JSON.parse(
+      value
+    );
+
   }catch(error){
+
     const objectStart =
-      value.indexOf("{");
+      value.indexOf(
+        "{"
+      );
 
     const objectEnd =
-      value.lastIndexOf("}");
+      value.lastIndexOf(
+        "}"
+      );
 
-    if(objectStart >= 0 && objectEnd > objectStart){
+    if(
+      objectStart >= 0 &&
+      objectEnd > objectStart
+    ){
+
       return JSON.parse(
-        value.substring(objectStart,objectEnd + 1)
+        value.substring(
+          objectStart,
+          objectEnd + 1
+        )
       );
     }
 
@@ -547,80 +680,41 @@ function parseJsonText(text){
   }
 }
 
-function getJsonp(url){
-  return new Promise(function(resolve,reject){
-    const callbackName =
-      "tagoyamaKichoCallback_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random() * 1000000);
+function setStatus(
+  text
+){
 
-    const script =
-      document.createElement("script");
-
-    const sep =
-      url.indexOf("?") >= 0
-        ? "&"
-        : "?";
-
-    const timer =
-      setTimeout(function(){
-        cleanup();
-        reject(new Error("JSONP timeout"));
-      },12000);
-
-    window[callbackName] = function(data){
-      cleanup();
-      resolve(data);
-    };
-
-    script.onerror = function(){
-      cleanup();
-      reject(new Error("JSONP error"));
-    };
-
-    script.src =
-      url +
-      sep +
-      "callback=" +
-      encodeURIComponent(callbackName);
-
-    document.body.appendChild(script);
-
-    function cleanup(){
-      clearTimeout(timer);
-
-      try{
-        delete window[callbackName];
-      }catch(error){
-        window[callbackName] = undefined;
-      }
-
-      if(script.parentNode){
-        script.parentNode.removeChild(script);
-      }
-    }
-  });
-}
-
-function setStatus(text){
   const el =
-    document.getElementById("statusBox");
+    document.getElementById(
+      "statusBox"
+    );
 
   if(el){
-    el.innerText = text;
+
+    el.innerText =
+      text;
   }
 }
 
-function getString(value){
-  if(value === null || value === undefined){
+function getString(
+  value
+){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+
     return "";
   }
 
-  return String(value).trim();
+  return String(
+    value
+  ).trim();
 }
 
-window.submitKicho = submitKicho;
+window.submitKicho =
+  submitKicho;
 </script>
 </body>
 </html>
