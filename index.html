@@ -395,7 +395,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 const ACCESS_URL =
   "access.html";
@@ -571,7 +571,7 @@ async function saveClimbByUserId(userId){
     const data =
       await getJson(
         GAS_URL +
-        "?userId=" +
+        "?mode=saveClimb&userId=" +
         encodeURIComponent(userId) +
         "&t=" +
         Date.now()
@@ -1179,7 +1179,9 @@ function toHalfWidthNumber(value){
 function getString(value){
 
   if(value === null || value === undefined){
+
     return "";
+
   }
 
   return String(value).trim();
@@ -1194,7 +1196,9 @@ function getFirst(){
       getString(arguments[i]);
 
     if(value){
+
       return value;
+
     }
 
   }
