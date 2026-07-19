@@ -373,7 +373,7 @@
 
   <script>
     const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbzU9z9rY2Ii6fF921inOYUjkRZlBxsuw6yPPSPZm7UeX7jtb94699fQLCJJZz3KslG5/exec";
+      "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
     const HOME_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/";
@@ -386,9 +386,6 @@
 
     const OMIKUJI_PAGE =
       "https://ichirohns-jpg.github.io/tagoyama-fuji-168/omikuji.html";
-
-    const FALLBACK_OGP =
-      "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp.jpg?v=20260703-archive";
 
     let currentUserId = "";
 
@@ -463,11 +460,10 @@
 
       try {
         const data = await tryManyJson([
+          GAS_URL + "?mode=news&t=" + Date.now(),
           GAS_URL + "?archive=1&t=" + Date.now(),
           GAS_URL + "?mode=archive&t=" + Date.now(),
-          GAS_URL + "?action=archive&t=" + Date.now(),
-          GAS_URL + "?news=1&t=" + Date.now(),
-          GAS_URL + "?mode=news&t=" + Date.now()
+          GAS_URL + "?action=archive&t=" + Date.now()
         ]);
 
         const list = extractList(data);
@@ -631,12 +627,12 @@
       const title =
         getFirst(
           item.title,
-          item.タイトル,
+          item["タイトル"],
           item.name,
-          item.件名,
+          item["件名"],
           item.subject,
           item.heading,
-          item.見出し,
+          item["見出し"],
           "お知らせ"
         );
 
@@ -644,9 +640,9 @@
         formatDateText(
           getFirst(
             item.date,
-            item.日付,
+            item["日付"],
             item.datetime,
-            item.日時,
+            item["日時"],
             item.createdAt,
             item.created_at,
             item.time
@@ -656,16 +652,16 @@
       let body =
         getFirst(
           item.body,
-          item.本文,
+          item["本文"],
           item.message,
-          item.メッセージ,
+          item["メッセージ"],
           item.text,
-          item.内容,
+          item["内容"],
           item.content,
           item.description,
-          item.説明,
+          item["説明"],
           item.detail,
-          item.詳細
+          item["詳細"]
         );
 
       if (!body) {
@@ -681,12 +677,12 @@
             item.photo,
             item.picture,
             item.thumbnail,
-            item.画像URL,
-            item.画像Url,
-            item.画像url,
-            item.画像,
-            item.写真,
-            item.サムネイル
+            item["画像URL"],
+            item["画像Url"],
+            item["画像url"],
+            item["画像"],
+            item["写真"],
+            item["サムネイル"]
           )
         );
 
@@ -742,7 +738,10 @@
           return;
         }
 
-        if (value.indexOf("http://") === 0 || value.indexOf("https://") === 0) {
+        if (
+          value.indexOf("http://") === 0 ||
+          value.indexOf("https://") === 0
+        ) {
           return;
         }
 
@@ -834,21 +833,28 @@
     }
 
     async function copyShareLink(news) {
-      const text = makeShareText(news) + "\n" + buildShareUrl(news);
+      const text =
+        makeShareText(news) +
+        "\n" +
+        buildShareUrl(news);
 
       try {
         await navigator.clipboard.writeText(text);
         alert("お知らせのリンクをコピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = text;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("お知らせのリンクをコピーしました。");
       }
     }
@@ -936,7 +942,12 @@
           reject(new Error("JSONP error"));
         };
 
-        script.src = url + sep + "callback=" + encodeURIComponent(callbackName);
+        script.src =
+          url +
+          sep +
+          "callback=" +
+          encodeURIComponent(callbackName);
+
         document.body.appendChild(script);
 
         function cleanup() {
