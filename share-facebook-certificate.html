@@ -421,6 +421,7 @@
           params.get("uid"),
           params.get("id")
         ),
+
         climbCount: normalizeNumberText(
           getFirst(
             params.get("c"),
@@ -429,6 +430,7 @@
             params.get("times")
           )
         ),
+
         serialNo: cleanSerialNo(
           getFirst(
             params.get("s"),
@@ -437,12 +439,14 @@
             params.get("no")
           )
         ),
+
         lastDate: getFirst(
           params.get("d"),
           params.get("date"),
           params.get("lastDate"),
           params.get("climbDate")
         ),
+
         participantNo: normalizeNumberText(
           getFirst(
             params.get("p"),
@@ -452,12 +456,14 @@
             params.get("total")
           )
         ),
+
         imageUrl: getFirst(
           params.get("img"),
           params.get("image"),
           params.get("imageUrl"),
           params.get("url")
         ),
+
         imageId: getFirst(
           params.get("imgid"),
           params.get("imageId"),
@@ -555,14 +561,18 @@
         alert("移動先URLをコピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = targetUrl;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("移動先URLをコピーしました。");
       }
     }
