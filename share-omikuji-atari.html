@@ -415,6 +415,7 @@
           params.get("uid"),
           params.get("id")
         ),
+
         result: getFirst(
           params.get("r"),
           params.get("result"),
@@ -422,23 +423,27 @@
           params.get("unsei"),
           params.get("omikuji")
         ),
+
         title: getFirst(
           params.get("t"),
           params.get("title"),
           params.get("name")
         ),
+
         message: getFirst(
           params.get("m"),
           params.get("message"),
           params.get("text"),
           params.get("body")
         ),
+
         imageUrl: getFirst(
           params.get("img"),
           params.get("image"),
           params.get("imageUrl"),
           params.get("url")
         ),
+
         imageId: getFirst(
           params.get("imgid"),
           params.get("imageId"),
@@ -520,14 +525,18 @@
         alert("移動先URLをコピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = targetUrl;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("移動先URLをコピーしました。");
       }
     }
