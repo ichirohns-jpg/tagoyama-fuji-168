@@ -1,552 +1,541 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>過去のご縁帳</title>
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-sans-serif;
-
-background:
-linear-gradient(
-180deg,
-#f8f4e8,
-#efe2bf,
-#fdfbf6
-);
-
-color:#4a3928;
-
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    sans-serif;
+  background:
+    linear-gradient(
+      180deg,
+      #f8f4e8,
+      #efe2bf,
+      #fdfbf6
+    );
+  color:#4a3928;
 }
 
 .wrap{
-
-max-width:920px;
-
-margin:auto;
-
-padding:20px;
-
+  max-width:920px;
+  margin:auto;
+  padding:20px;
 }
 
 .card{
-
-background:#fffefb;
-
-border:3px solid #d4af37;
-
-border-radius:30px;
-
-overflow:hidden;
-
-box-shadow:
-0 15px 35px rgba(0,0,0,.15);
-
+  background:#fffefb;
+  border:3px solid #d4af37;
+  border-radius:30px;
+  overflow:hidden;
+  box-shadow:0 15px 35px rgba(0,0,0,.15);
 }
 
 .header{
-
-padding:28px;
-
-text-align:center;
-
-background:
-
-linear-gradient(
-180deg,
-#fffdf6,
-#f8f0d8
-);
-
-border-bottom:2px solid #ead59b;
-
+  padding:28px;
+  text-align:center;
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf6,
+      #f8f0d8
+    );
+  border-bottom:2px solid #ead59b;
 }
 
 .header h1{
-
-font-family:
-"Yu Mincho",
-serif;
-
-font-size:42px;
-
-font-weight:900;
-
-color:#7d5426;
-
-letter-spacing:4px;
-
+  font-family:"Yu Mincho",serif;
+  font-size:42px;
+  font-weight:900;
+  color:#7d5426;
+  letter-spacing:4px;
 }
 
 .header p{
-
-margin-top:14px;
-
-font-size:20px;
-
-line-height:1.8;
-
-color:#7a6858;
-
+  margin-top:14px;
+  font-size:20px;
+  line-height:1.8;
+  color:#7a6858;
 }
 
 .story{
-
-padding:26px;
-
-background:
-linear-gradient(
-180deg,
-#fffdf6,
-#fff6df
-);
-
-border-bottom:2px solid #ead59b;
-
-text-align:center;
-
+  padding:26px;
+  background:
+    linear-gradient(
+      180deg,
+      #fffdf6,
+      #fff6df
+    );
+  border-bottom:2px solid #ead59b;
+  text-align:center;
 }
 
 .story h2{
-
-font-size:28px;
-
-font-family:
-"Yu Mincho",
-serif;
-
-color:#8b5a2b;
-
-margin-bottom:16px;
-
+  font-size:28px;
+  font-family:"Yu Mincho",serif;
+  color:#8b5a2b;
+  margin-bottom:16px;
 }
 
 .story p{
-
-font-size:20px;
-
-line-height:2;
-
-color:#5d4a37;
-
-font-weight:bold;
-
+  font-size:20px;
+  line-height:2;
+  color:#5d4a37;
+  font-weight:bold;
 }
 
 .listArea{
-
-padding:24px;
-
-background:#faf6eb;
-
+  padding:24px;
+  background:#faf6eb;
 }
 
 .goenCard{
-
-background:#fff;
-
-border-left:10px solid #d4af37;
-
-border-radius:24px;
-
-padding:24px;
-
-margin-bottom:22px;
-
-box-shadow:
-0 8px 18px rgba(0,0,0,.08);
-
+  background:#fff;
+  border-left:10px solid #d4af37;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:22px;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
 }
 
 .goenHead{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:16px;
-
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
 }
 
 .goenArea{
-
-display:inline-block;
-
-background:#d4af37;
-
-color:#000;
-
-padding:6px 16px;
-
-border-radius:999px;
-
-font-size:14px;
-
-font-weight:900;
-
+  display:inline-block;
+  background:#d4af37;
+  color:#000;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
 }
 
 .goenName{
-
-font-size:24px;
-
-font-weight:900;
-
-color:#8b5a2b;
-
+  font-size:24px;
+  font-weight:900;
+  color:#8b5a2b;
+  text-align:right;
+  word-break:break-word;
 }
 
 .goenMessage{
-
-font-size:20px;
-
-line-height:2.2;
-
-color:#444;
-
-background:#fffdf7;
-
-border:1px solid #efe0b0;
-
-border-radius:18px;
-
-padding:20px;
-
-white-space:pre-wrap;
-
-margin-bottom:18px;
-
+  font-size:20px;
+  line-height:2.2;
+  color:#444;
+  background:#fffdf7;
+  border:1px solid #efe0b0;
+  border-radius:18px;
+  padding:20px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin-bottom:18px;
 }
 
 .goenDate{
-
-text-align:right;
-
-font-size:14px;
-
-font-weight:bold;
-
-color:#888;
-
+  text-align:right;
+  font-size:14px;
+  font-weight:bold;
+  color:#888;
 }
 
 .btn{
-
-display:block;
-
-width:100%;
-
-padding:20px;
-
-margin-top:18px;
-
-border-radius:20px;
-
-text-decoration:none;
-
-text-align:center;
-
-font-size:22px;
-
-font-weight:900;
-
+  display:block;
+  width:100%;
+  padding:20px;
+  margin-top:18px;
+  border-radius:20px;
+  text-decoration:none;
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
 }
 
 .backBtn{
-
-background:
-
-linear-gradient(
-180deg,
-#8b5a2b,
-#6f4518
-);
-
-color:#fff;
-
+  background:
+    linear-gradient(
+      180deg,
+      #8b5a2b,
+      #6f4518
+    );
+  color:#fff;
 }
 
 .homeBtn{
-
-background:
-
-linear-gradient(
-180deg,
-#e4c45b,
-#c99b26
-);
-
-color:#000;
-
+  background:
+    linear-gradient(
+      180deg,
+      #e4c45b,
+      #c99b26
+    );
+  color:#000;
 }
 
 .footer{
-
-padding:24px;
-
-text-align:center;
-
-font-size:15px;
-
-color:#8c7b66;
-
-background:#faf6ea;
-
-border-top:1px solid #ead8a3;
-
+  padding:24px;
+  text-align:center;
+  font-size:15px;
+  color:#8c7b66;
+  background:#faf6ea;
+  border-top:1px solid #ead8a3;
 }
 
-</style>
+.loading{
+  text-align:center;
+  padding:36px 12px;
+  font-size:20px;
+  font-weight:bold;
+  color:#806b50;
+}
 
+@media(max-width:600px){
+  .wrap{
+    padding:12px;
+  }
+
+  .header h1{
+    font-size:32px;
+    letter-spacing:2px;
+  }
+
+  .header p{
+    font-size:17px;
+  }
+
+  .story h2{
+    font-size:24px;
+  }
+
+  .story p{
+    font-size:18px;
+  }
+
+  .listArea{
+    padding:14px;
+  }
+
+  .goenCard{
+    padding:18px;
+    border-left-width:7px;
+  }
+
+  .goenHead{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .goenName{
+    width:100%;
+    text-align:left;
+    font-size:21px;
+  }
+
+  .goenMessage{
+    font-size:18px;
+    line-height:1.9;
+    padding:16px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="wrap">
 
-<div class="card">
+  <div class="card">
 
-<div class="header">
+    <div class="header">
+      <h1>📖 過去のご縁帳</h1>
 
-<h1>
+      <p>
+        ここに綴られた一つひとつの言葉は、<br>
+        田子山富士を訪れた方から<br>
+        未来に訪れる方への贈り物です。
+      </p>
+    </div>
 
-📖 過去のご縁帳
+    <div class="story">
+      <h2>ご縁は、人から人へ。</h2>
 
-</h1>
+      <p>
+        誰かが残した一言が、<br>
+        今日ここを訪れた誰かの<br>
+        元気や勇気になることがあります。<br><br>
 
-<p>
+        どうぞ、一つひとつのご縁を<br>
+        ごゆっくりお読みください。
+      </p>
+    </div>
 
-ここに綴られた一つひとつの言葉は、<br>
+    <div class="listArea">
 
-田子山富士を訪れた方から<br>
+      <div id="goenList">
+        <div class="loading">
+          ご縁帳を読み込んでいます。
+        </div>
+      </div>
 
-未来に訪れる方への贈り物です。
+      <a href="kicho.html" class="btn backBtn">
+        🌸 ご縁帳へ戻る
+      </a>
 
-</p>
+      <a href="index.html" class="btn homeBtn">
+        🏠 田子山富士へ戻る
+      </a>
 
-</div>
+    </div>
 
-<div class="story">
+    <div class="footer">
+      田子山富士保存会<br>
+      168の縁プロジェクト
+    </div>
 
-<h2>
-
-ご縁は、人から人へ。
-
-</h2>
-
-<p>
-
-誰かが残した一言が、<br>
-
-今日ここを訪れた誰かの<br>
-
-元気や勇気になることがあります。<br><br>
-
-どうぞ、一つひとつのご縁を<br>
-
-ごゆっくりお読みください。
-
-</p>
-
-</div>
-
-<div class="listArea">
-
-<div
-id="goenList">
-
-</div>
-
-<a
-href="kicho.html"
-class="btn backBtn">
-
-🌸 ご縁帳へ戻る
-
-</a>
-
-<a
-href="index.html"
-class="btn homeBtn">
-
-🏠 田子山富士へ戻る
-
-</a>
-
-</div>
-
-<div class="footer">
-
-田子山富士保存会<br>
-
-168の縁プロジェクト
-
-</div>
-
-</div>
+  </div>
 
 </div>
 
 <script>
-
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
+
+document.addEventListener("DOMContentLoaded", function(){
+  loadArchive();
+});
+
+async function loadArchive(){
+
+  const list =
+    document.getElementById("goenList");
+
+  try{
+
+    const url =
+      GAS_URL +
+      "?mode=goen&ts=" +
+      Date.now();
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error("通信に失敗しました");
+    }
+
+    const result =
+      await response.json();
+
+    const data =
+      normalizeData(result);
+
+    if(!data.length){
+      showEmpty(list);
+      return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(function(item){
+      list.appendChild(
+        createGoenCard(item)
+      );
+    });
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="goenCard">
+        <div class="goenMessage">
+          現在、ご縁帳を表示できません。<br><br>
+          しばらく時間をおいて、もう一度お試しください。
+        </div>
+      </div>
+    `;
+  }
+}
+
+function normalizeData(result){
+
+  if(Array.isArray(result)){
+    return result;
+  }
+
+  if(result && Array.isArray(result.data)){
+    return result.data;
+  }
+
+  if(result && Array.isArray(result.items)){
+    return result.items;
+  }
+
+  if(result && Array.isArray(result.rows)){
+    return result.rows;
+  }
+
+  return [];
+}
+
+function createGoenCard(item){
+
+  const card =
+    document.createElement("div");
+
+  card.className = "goenCard";
+
+  const head =
+    document.createElement("div");
+
+  head.className = "goenHead";
+
+  const area =
+    document.createElement("div");
+
+  area.className = "goenArea";
+  area.textContent =
+    "🌸 " +
+    getValue(
+      item.area,
+      item.region,
+      item.place,
+      "地域未設定"
+    );
+
+  const name =
+    document.createElement("div");
+
+  name.className = "goenName";
+  name.textContent =
+    getValue(
+      item.name,
+      item.userName,
+      item.username,
+      "匿名"
+    );
+
+  head.appendChild(area);
+  head.appendChild(name);
+
+  const message =
+    document.createElement("div");
+
+  message.className = "goenMessage";
+  message.textContent =
+    getValue(
+      item.message,
+      item.text,
+      item.body,
+      ""
+    );
+
+  const date =
+    document.createElement("div");
+
+  date.className = "goenDate";
+  date.textContent =
+    "📅 " +
+    formatDate(
+      item.date ||
+      item.createdAt ||
+      item.timestamp ||
+      item.datetime
+    );
+
+  card.appendChild(head);
+  card.appendChild(message);
+  card.appendChild(date);
+
+  return card;
+}
+
+function showEmpty(list){
+
+  list.innerHTML = `
+    <div class="goenCard">
+      <div class="goenMessage">
+        🌸 まだご縁帳はありません。<br><br>
+        あなたの言葉が、<br>
+        未来へつながる<br>
+        最初のご縁になります。
+      </div>
+    </div>
+  `;
+}
+
+function getValue(){
+
+  const values =
+    Array.from(arguments);
+
+  const fallback =
+    values.pop();
+
+  for(let i = 0; i < values.length; i++){
+
+    const value =
+      values[i];
+
+    if(
+      value !== null &&
+      value !== undefined &&
+      String(value).trim() !== ""
+    ){
+      return String(value).trim();
+    }
+  }
+
+  return fallback;
+}
 
 function formatDate(value){
 
-if(!value){
-return "";
+  if(!value){
+    return "";
+  }
+
+  const text =
+    String(value).trim();
+
+  const date =
+    new Date(text);
+
+  if(isNaN(date.getTime())){
+    return text;
+  }
+
+  return date.toLocaleDateString(
+    "ja-JP",
+    {
+      timeZone:"Asia/Tokyo",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    }
+  ).replace(/\//g,"/");
 }
-
-const d=
-new Date(value);
-
-if(isNaN(d.getTime())){
-return value;
-}
-
-return d.getFullYear()+"/"+
-String(d.getMonth()+1).padStart(2,"0")+"/"+
-String(d.getDate()).padStart(2,"0");
-
-}
-
-function loadArchive(){
-
-fetch(
-GAS_URL+
-"?mode=goen"
-)
-
-.then(r=>r.json())
-
-.then(data=>{
-
-const list=
-document.getElementById(
-"goenList"
-);
-
-if(
-!data ||
-!data.length
-){
-
-list.innerHTML=`
-
-<div class="goenCard">
-
-<div class="goenMessage">
-
-🌸 まだご縁帳はありません。<br><br>
-
-あなたの言葉が、
-未来へつながる
-最初のご縁になります。
-
-</div>
-
-</div>
-
-`;
-
-return;
-
-}
-
-list.innerHTML=
-
-data
-
-.map(item=>`
-
-<div class="goenCard">
-
-<div class="goenHead">
-
-<div class="goenArea">
-
-🌸 ${item.area||"地域未設定"}
-
-</div>
-
-<div class="goenName">
-
-${item.name||"匿名"}
-
-</div>
-
-</div>
-
-<div class="goenMessage">
-
-${item.message||""}
-
-</div>
-
-<div class="goenDate">
-
-📅 ${formatDate(
-item.date||
-item.createdAt||
-item.timestamp
-)}
-
-</div>
-
-</div>
-
-`).join("");
-
-})
-
-.catch(()=>{
-
-document.getElementById(
-"goenList"
-).innerHTML=
-
-`
-
-<div class="goenCard">
-
-<div class="goenMessage">
-
-現在、ご縁帳を
-表示できません。
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-loadArchive();
-
 </script>
 
 </body>
