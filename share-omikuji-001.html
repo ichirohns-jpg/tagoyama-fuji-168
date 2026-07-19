@@ -415,6 +415,7 @@
           params.get("uid"),
           params.get("id")
         ),
+
         result: getFirst(
           params.get("r"),
           params.get("result"),
@@ -423,12 +424,14 @@
           params.get("omikuji"),
           "大当たり"
         ),
+
         title: getFirst(
           params.get("t"),
           params.get("title"),
           params.get("name"),
           "第001番"
         ),
+
         message: getFirst(
           params.get("m"),
           params.get("message"),
@@ -436,12 +439,14 @@
           params.get("body"),
           "おめでとうございます！田子山富士168の縁プロジェクトでおみくじに当たりました。田子山富士でご縁をいただきました。"
         ),
+
         imageUrl: getFirst(
           params.get("img"),
           params.get("image"),
           params.get("imageUrl"),
           params.get("url")
         ),
+
         imageId: getFirst(
           params.get("imgid"),
           params.get("imageId"),
@@ -490,7 +495,13 @@
       setParam(p, "u", data.userId);
       setParam(p, "r", data.result || "大当たり");
       setParam(p, "t", data.title || "第001番");
-      setParam(p, "m", data.message || "おめでとうございます！田子山富士168の縁プロジェクトでおみくじに当たりました。田子山富士でご縁をいただきました。");
+
+      setParam(
+        p,
+        "m",
+        data.message ||
+        "おめでとうございます！田子山富士168の縁プロジェクトでおみくじに当たりました。田子山富士でご縁をいただきました。"
+      );
 
       if (data.imageId) {
         setParam(p, "imgid", data.imageId);
@@ -523,14 +534,18 @@
         alert("移動先URLをコピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = targetUrl;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("移動先URLをコピーしました。");
       }
     }
