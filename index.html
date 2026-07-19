@@ -350,11 +350,22 @@ body{
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" id="certificateBtn" type="button" onclick="openCertificate()" disabled>
+    <button
+      class="btn goldBtn"
+      id="certificateBtn"
+      type="button"
+      onclick="openCertificate()"
+      disabled
+    >
       登頂記念証を受け取る
     </button>
 
-    <button class="btn redBtn" id="omikujiBtn" type="button" onclick="openOmikuji()">
+    <button
+      class="btn redBtn"
+      id="omikujiBtn"
+      type="button"
+      onclick="openOmikuji()"
+    >
       開運おみくじを引く
     </button>
   </div>
@@ -368,19 +379,35 @@ body{
   <h2 class="cardTitle">ご縁を残す</h2>
 
   <div class="btnArea">
-    <a class="linkBtn greenBtn" id="kichoLink" href="kicho.html">
+    <a
+      class="linkBtn greenBtn"
+      id="kichoLink"
+      href="kicho.html"
+    >
       参拝記帳する
     </a>
 
-    <a class="linkBtn blueBtn" id="goenLink" href="goen.html">
+    <a
+      class="linkBtn blueBtn"
+      id="goenLink"
+      href="goen.html"
+    >
       ご縁帳を見る
     </a>
 
-    <a class="linkBtn goldBtn" id="newsLink" href="news.html">
+    <a
+      class="linkBtn goldBtn"
+      id="newsLink"
+      href="news.html"
+    >
       お知らせを見る
     </a>
 
-    <a class="linkBtn blueBtn" id="accessLink" href="access.html">
+    <a
+      class="linkBtn blueBtn"
+      id="accessLink"
+      href="access.html"
+    >
       デジタル山道を見る
     </a>
   </div>
@@ -410,7 +437,10 @@ let certificateData = {
   imageUrl:""
 };
 
-window.addEventListener("load", initIndex);
+window.addEventListener(
+  "load",
+  initIndex
+);
 
 async function initIndex(){
 
@@ -419,8 +449,12 @@ async function initIndex(){
 
   const localUserId =
     getString(
-      localStorage.getItem("tagoyamaUserId") ||
-      localStorage.getItem("tagoyamaFujiUserId")
+      localStorage.getItem(
+        "tagoyamaUserId"
+      ) ||
+      localStorage.getItem(
+        "tagoyamaFujiUserId"
+      )
     );
 
   if(urlUserId){
@@ -438,7 +472,9 @@ async function initIndex(){
       currentUserId
     );
 
-    issueOmikujiPass(currentUserId);
+    issueOmikujiPass(
+      currentUserId
+    );
 
   }else{
 
@@ -451,7 +487,9 @@ async function initIndex(){
 
   if(urlUserId){
 
-    await saveClimbByUserId(currentUserId);
+    await saveClimbByUserId(
+      currentUserId
+    );
 
   }else{
 
@@ -468,7 +506,9 @@ async function initIndex(){
 function getUserIdFromUrl(){
 
   const params =
-    new URLSearchParams(location.search);
+    new URLSearchParams(
+      location.search
+    );
 
   return getString(
     params.get("userId") ||
@@ -492,7 +532,8 @@ function issueOmikujiPass(userId){
   const pass = {
     userId:userId,
     issuedAt:now,
-    expiresAt:now + 1000 * 60 * 60 * 12
+    expiresAt:
+      now + 1000 * 60 * 60 * 12
   };
 
   localStorage.setItem(
@@ -507,7 +548,9 @@ function getOmikujiPass(){
   try{
 
     const text =
-      localStorage.getItem("tagoyamaOmikujiPass");
+      localStorage.getItem(
+        "tagoyamaOmikujiPass"
+      );
 
     if(!text){
       return null;
@@ -516,7 +559,10 @@ function getOmikujiPass(){
     const pass =
       JSON.parse(text);
 
-    if(!pass || typeof pass !== "object"){
+    if(
+      !pass ||
+      typeof pass !== "object"
+    ){
       return null;
     }
 
@@ -547,7 +593,10 @@ function hasValidOmikujiPass(userId){
     return false;
   }
 
-  if(Date.now() > Number(pass.expiresAt)){
+  if(
+    Date.now() >
+    Number(pass.expiresAt)
+  ){
     return false;
   }
 
@@ -564,7 +613,9 @@ async function saveClimbByUserId(userId){
 
   }
 
-  setStatus("登頂記録を登録しています。");
+  setStatus(
+    "登頂記録を登録しています。"
+  );
 
   try{
 
@@ -578,22 +629,36 @@ async function saveClimbByUserId(userId){
       );
 
     const normalized =
-      normalizeClimbData(data,userId);
+      normalizeClimbData(
+        data,
+        userId
+      );
 
     certificateData =
-      mergeData(certificateData,normalized);
+      mergeData(
+        certificateData,
+        normalized
+      );
 
     certificateData.userId =
       userId;
 
-    saveCertificateData(certificateData);
+    saveCertificateData(
+      certificateData
+    );
 
     setCertificateButton(true);
 
-    setStatus("登頂記録を受け付けました。");
+    setStatus(
+      "登頂記録を受け付けました。"
+    );
 
-    if(certificateData.totalParticipants){
-      setParticipantCount(certificateData.totalParticipants);
+    if(
+      certificateData.totalParticipants
+    ){
+      setParticipantCount(
+        certificateData.totalParticipants
+      );
     }
 
   }catch(error){
@@ -603,7 +668,8 @@ async function saveClimbByUserId(userId){
     setCertificateButton(false);
 
     setStatus(
-      "登頂記録の確認に時間がかかっています。\n通信の良い場所で、もう一度開いてください。"
+      "登頂記録の確認に時間がかかっています。\n" +
+      "通信の良い場所で、もう一度開いてください。"
     );
 
   }
@@ -616,9 +682,17 @@ async function loadStats(){
 
     const data =
       await tryManyJson([
-        GAS_URL + "?mode=stats&t=" + Date.now(),
-        GAS_URL + "?mode=climbStats&t=" + Date.now(),
-        GAS_URL + "?stats=1&t=" + Date.now()
+        GAS_URL +
+        "?mode=stats&t=" +
+        Date.now(),
+
+        GAS_URL +
+        "?mode=climbStats&t=" +
+        Date.now(),
+
+        GAS_URL +
+        "?stats=1&t=" +
+        Date.now()
       ]);
 
     const source =
@@ -639,7 +713,11 @@ async function loadStats(){
       );
 
     if(count){
-      setParticipantCount(count);
+
+      setParticipantCount(
+        count
+      );
+
     }
 
   }catch(error){
@@ -650,7 +728,10 @@ async function loadStats(){
 
 }
 
-function normalizeClimbData(data,userId){
+function normalizeClimbData(
+  data,
+  userId
+){
 
   const source =
     flattenObject(data);
@@ -734,7 +815,10 @@ function openCertificate(){
 
   if(!currentUserId){
 
-    alert("QRコードから入ると、登頂記念証を受け取れます。");
+    alert(
+      "QRコードから入ると、登頂記念証を受け取れます。"
+    );
+
     return;
 
   }
@@ -742,25 +826,51 @@ function openCertificate(){
   const params =
     new URLSearchParams();
 
-  params.set("userId",currentUserId);
+  params.set(
+    "userId",
+    currentUserId
+  );
 
   if(certificateData.climbCount){
-    params.set("climbCount",certificateData.climbCount);
+
+    params.set(
+      "climbCount",
+      certificateData.climbCount
+    );
+
   }
 
   if(certificateData.serialNo){
-    params.set("serialNo",certificateData.serialNo);
+
+    params.set(
+      "serialNo",
+      certificateData.serialNo
+    );
+
   }
 
   if(certificateData.lastDate){
-    params.set("lastDate",certificateData.lastDate);
+
+    params.set(
+      "lastDate",
+      certificateData.lastDate
+    );
+
   }
 
   if(certificateData.imageUrl){
-    params.set("imageUrl",certificateData.imageUrl);
+
+    params.set(
+      "imageUrl",
+      certificateData.imageUrl
+    );
+
   }
 
-  params.set("v","20260705topogp");
+  params.set(
+    "v",
+    "20260705topogp"
+  );
 
   location.href =
     "certificate.html?" +
@@ -772,23 +882,39 @@ function openOmikuji(){
 
   if(!currentUserId){
 
-    alert("おみくじは、QRコードから入った方だけ引けます。");
-    location.href = "omikuji.html?v=20260705topogp";
+    alert(
+      "おみくじは、QRコードから入った方だけ引けます。"
+    );
+
+    location.href =
+      "omikuji.html?v=20260705topogp";
+
     return;
 
   }
 
-  if(!hasValidOmikujiPass(currentUserId)){
+  if(
+    !hasValidOmikujiPass(
+      currentUserId
+    )
+  ){
 
-    alert("おみくじは、QRコードから入った方だけ引けます。");
-    location.href = "omikuji.html?v=20260705topogp";
+    alert(
+      "おみくじは、QRコードから入った方だけ引けます。"
+    );
+
+    location.href =
+      "omikuji.html?v=20260705topogp";
+
     return;
 
   }
 
   location.href =
     "omikuji.html?userId=" +
-    encodeURIComponent(currentUserId) +
+    encodeURIComponent(
+      currentUserId
+    ) +
     "&v=20260705topogp";
 
 }
@@ -797,62 +923,111 @@ function updateLinks(){
 
   const query =
     currentUserId
-      ? "?userId=" + encodeURIComponent(currentUserId)
+      ? "?userId=" +
+        encodeURIComponent(
+          currentUserId
+        )
       : "";
 
-  setHref("kichoLink","kicho.html" + query);
-  setHref("goenLink","goen.html" + query);
-  setHref("newsLink","news.html" + query);
-  setHref("accessLink",ACCESS_URL);
+  setHref(
+    "kichoLink",
+    "kicho.html" + query
+  );
+
+  setHref(
+    "goenLink",
+    "goen.html" + query
+  );
+
+  setHref(
+    "newsLink",
+    "news.html" + query
+  );
+
+  setHref(
+    "accessLink",
+    ACCESS_URL
+  );
 
 }
 
-function setHref(id,href){
+function setHref(
+  id,
+  href
+){
 
   const el =
     document.getElementById(id);
 
   if(el){
-    el.href = href;
+
+    el.href =
+      href;
+
   }
 
 }
 
-function setCertificateButton(enabled){
+function setCertificateButton(
+  enabled
+){
 
   const btn =
-    document.getElementById("certificateBtn");
+    document.getElementById(
+      "certificateBtn"
+    );
 
   if(btn){
-    btn.disabled = !enabled;
+
+    btn.disabled =
+      !enabled;
+
   }
 
 }
 
-function setParticipantCount(count){
+function setParticipantCount(
+  count
+){
 
   const el =
-    document.getElementById("participantCount");
+    document.getElementById(
+      "participantCount"
+    );
 
   if(el){
+
     el.innerText =
-      normalizeNumberText(count) || "0";
+      normalizeNumberText(
+        count
+      ) ||
+      "0";
+
   }
 
 }
 
-function setStatus(text){
+function setStatus(
+  text
+){
 
   const el =
-    document.getElementById("statusBox");
+    document.getElementById(
+      "statusBox"
+    );
 
   if(el){
-    el.innerText = text;
+
+    el.innerText =
+      text;
+
   }
 
 }
 
-function saveCertificateData(data){
+function saveCertificateData(
+  data
+){
 
   try{
 
@@ -862,19 +1037,39 @@ function saveCertificateData(data){
     );
 
     if(data.climbCount){
-      localStorage.setItem("tagoyamaLastClimbCount",data.climbCount);
+
+      localStorage.setItem(
+        "tagoyamaLastClimbCount",
+        data.climbCount
+      );
+
     }
 
     if(data.serialNo){
-      localStorage.setItem("tagoyamaLastSerialNo",data.serialNo);
+
+      localStorage.setItem(
+        "tagoyamaLastSerialNo",
+        data.serialNo
+      );
+
     }
 
     if(data.lastDate){
-      localStorage.setItem("tagoyamaLastDate",data.lastDate);
+
+      localStorage.setItem(
+        "tagoyamaLastDate",
+        data.lastDate
+      );
+
     }
 
     if(data.imageUrl){
-      localStorage.setItem("tagoyamaLastImageUrl",data.imageUrl);
+
+      localStorage.setItem(
+        "tagoyamaLastImageUrl",
+        data.imageUrl
+      );
+
     }
 
   }catch(error){
@@ -885,99 +1080,163 @@ function saveCertificateData(data){
 
 }
 
-async function tryManyJson(urls){
+async function tryManyJson(
+  urls
+){
 
-  let lastError = null;
+  let lastError =
+    null;
 
-  for(let i = 0; i < urls.length; i++){
+  for(
+    let i = 0;
+    i < urls.length;
+    i++
+  ){
 
     try{
 
       const data =
-        await getJson(urls[i]);
+        await getJson(
+          urls[i]
+        );
 
-      if(data !== null && data !== undefined){
+      if(
+        data !== null &&
+        data !== undefined
+      ){
+
         return data;
+
       }
 
     }catch(error){
 
-      lastError = error;
+      lastError =
+        error;
 
     }
 
   }
 
-  throw lastError || new Error("通信に失敗しました。");
+  throw (
+    lastError ||
+    new Error(
+      "通信に失敗しました。"
+    )
+  );
 
 }
 
-async function getJson(url){
+async function getJson(
+  url
+){
 
   try{
 
     const res =
-      await fetch(url,{
-        method:"GET",
-        cache:"no-store"
-      });
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
 
     if(!res.ok){
-      throw new Error("HTTP " + res.status);
+
+      throw new Error(
+        "HTTP " + res.status
+      );
+
     }
 
     const text =
       await res.text();
 
-    return parseJsonText(text);
+    return parseJsonText(
+      text
+    );
 
   }catch(error){
 
-    return await getJsonp(url);
+    return await getJsonp(
+      url
+    );
 
   }
 
 }
 
-function parseJsonText(text){
+function parseJsonText(
+  text
+){
 
   const value =
-    String(text || "").trim();
+    String(
+      text ||
+      ""
+    ).trim();
 
   if(!value){
-    throw new Error("empty response");
+
+    throw new Error(
+      "empty response"
+    );
+
   }
 
   try{
 
-    return JSON.parse(value);
+    return JSON.parse(
+      value
+    );
 
   }catch(error){
 
     const objectStart =
-      value.indexOf("{");
+      value.indexOf(
+        "{"
+      );
 
     const objectEnd =
-      value.lastIndexOf("}");
+      value.lastIndexOf(
+        "}"
+      );
 
-    if(objectStart >= 0 && objectEnd > objectStart){
+    if(
+      objectStart >= 0 &&
+      objectEnd > objectStart
+    ){
 
       return JSON.parse(
-        value.substring(objectStart,objectEnd + 1)
+        value.substring(
+          objectStart,
+          objectEnd + 1
+        )
       );
 
     }
 
     const arrayStart =
-      value.indexOf("[");
+      value.indexOf(
+        "["
+      );
 
     const arrayEnd =
-      value.lastIndexOf("]");
+      value.lastIndexOf(
+        "]"
+      );
 
-    if(arrayStart >= 0 && arrayEnd > arrayStart){
+    if(
+      arrayStart >= 0 &&
+      arrayEnd > arrayStart
+    ){
 
       return JSON.parse(
-        value.substring(arrayStart,arrayEnd + 1)
+        value.substring(
+          arrayStart,
+          arrayEnd + 1
+        )
       );
 
     }
@@ -988,104 +1247,173 @@ function parseJsonText(text){
 
 }
 
-function getJsonp(url){
+function getJsonp(
+  url
+){
 
-  return new Promise(function(resolve,reject){
+  return new Promise(
+    function(
+      resolve,
+      reject
+    ){
 
-    const callbackName =
-      "tagoyamaIndexCallback_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random() * 1000000);
+      const callbackName =
+        "tagoyamaIndexCallback_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+          Math.random() *
+          1000000
+        );
 
-    const script =
-      document.createElement("script");
+      const script =
+        document.createElement(
+          "script"
+        );
 
-    const sep =
-      url.indexOf("?") >= 0
-        ? "&"
-        : "?";
+      const sep =
+        url.indexOf(
+          "?"
+        ) >= 0
+          ? "&"
+          : "?";
 
-    const timer =
-      setTimeout(function(){
+      const timer =
+        setTimeout(
+          function(){
 
-        cleanup();
-        reject(new Error("JSONP timeout"));
+            cleanup();
 
-      },12000);
+            reject(
+              new Error(
+                "JSONP timeout"
+              )
+            );
 
-    window[callbackName] = function(data){
+          },
+          12000
+        );
 
-      cleanup();
-      resolve(data);
+      window[callbackName] =
+        function(data){
 
-    };
+          cleanup();
 
-    script.onerror = function(){
+          resolve(
+            data
+          );
 
-      cleanup();
-      reject(new Error("JSONP error"));
+        };
 
-    };
+      script.onerror =
+        function(){
 
-    script.src =
-      url +
-      sep +
-      "callback=" +
-      encodeURIComponent(callbackName);
+          cleanup();
 
-    document.body.appendChild(script);
+          reject(
+            new Error(
+              "JSONP error"
+            )
+          );
 
-    function cleanup(){
+        };
 
-      clearTimeout(timer);
+      script.src =
+        url +
+        sep +
+        "callback=" +
+        encodeURIComponent(
+          callbackName
+        );
 
-      try{
+      document.body.appendChild(
+        script
+      );
 
-        delete window[callbackName];
+      function cleanup(){
 
-      }catch(error){
+        clearTimeout(
+          timer
+        );
 
-        window[callbackName] = undefined;
+        try{
 
-      }
+          delete window[
+            callbackName
+          ];
 
-      if(script.parentNode){
+        }catch(error){
 
-        script.parentNode.removeChild(script);
+          window[
+            callbackName
+          ] =
+            undefined;
+
+        }
+
+        if(
+          script.parentNode
+        ){
+
+          script.parentNode.removeChild(
+            script
+          );
+
+        }
 
       }
 
     }
-
-  });
+  );
 
 }
 
-function flattenObject(data){
+function flattenObject(
+  data
+){
 
-  data = data || {};
+  data =
+    data ||
+    {};
 
-  let base = {};
+  let base =
+    {};
 
-  if(Array.isArray(data)){
+  if(
+    Array.isArray(
+      data
+    )
+  ){
 
-    if(data.length > 0 && typeof data[data.length - 1] === "object"){
+    if(
+      data.length > 0 &&
+      typeof data[
+        data.length - 1
+      ] === "object"
+    ){
 
-      base = data[data.length - 1];
+      base =
+        data[
+          data.length - 1
+        ];
 
     }
 
-  }else if(typeof data === "object"){
+  }else if(
+    typeof data === "object"
+  ){
 
-    base = data;
+    base =
+      data;
 
   }
 
   const nested =
     base.data &&
     typeof base.data === "object" &&
-    !Array.isArray(base.data)
+    !Array.isArray(
+      base.data
+    )
       ? base.data
       : {};
 
@@ -1101,99 +1429,192 @@ function flattenObject(data){
       ? base.record
       : {};
 
-  return Object.assign({},base,nested,latest,record);
+  return Object.assign(
+    {},
+    base,
+    nested,
+    latest,
+    record
+  );
 
 }
 
-function mergeData(base,add){
+function mergeData(
+  base,
+  add
+){
 
   const result =
-    Object.assign({},base);
+    Object.assign(
+      {},
+      base
+    );
 
-  add = add || {};
+  add =
+    add ||
+    {};
 
-  Object.keys(add).forEach(function(key){
+  Object.keys(
+    add
+  ).forEach(
+    function(key){
 
-    if(getString(add[key])){
-      result[key] = add[key];
+      if(
+        getString(
+          add[key]
+        )
+      ){
+
+        result[key] =
+          add[key];
+
+      }
+
     }
-
-  });
+  );
 
   return result;
 
 }
 
-function normalizeNumberText(value){
+function normalizeNumberText(
+  value
+){
 
   const text =
-    toHalfWidthNumber(getString(value));
+    toHalfWidthNumber(
+      getString(
+        value
+      )
+    );
 
   const match =
-    text.match(/[0-9]+/);
+    text.match(
+      /[0-9]+/
+    );
 
-  if(match && match[0]){
+  if(
+    match &&
+    match[0]
+  ){
+
     return match[0];
+
   }
 
   return "";
 
 }
 
-function cleanSerialNo(value){
+function cleanSerialNo(
+  value
+){
 
-  return toHalfWidthNumber(getString(value))
-    .replace(/^No\./i,"")
-    .replace(/^No/i,"")
-    .replace(/^記念番号/,"")
+  return toHalfWidthNumber(
+    getString(
+      value
+    )
+  )
+    .replace(
+      /^No\./i,
+      ""
+    )
+    .replace(
+      /^No/i,
+      ""
+    )
+    .replace(
+      /^記念番号/,
+      ""
+    )
     .trim();
 
 }
 
-function formatDateText(value){
+function formatDateText(
+  value
+){
 
   const text =
-    getString(value);
+    getString(
+      value
+    );
 
   if(!text){
-    return "";
-  }
-
-  return toHalfWidthNumber(text)
-    .replace(/-/g,"/")
-    .replace(/\./g,"/")
-    .replace(/\s.*$/,"");
-
-}
-
-function toHalfWidthNumber(value){
-
-  return getString(value).replace(/[０-９]/g,function(s){
-
-    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-
-  });
-
-}
-
-function getString(value){
-
-  if(value === null || value === undefined){
 
     return "";
 
   }
 
-  return String(value).trim();
+  return toHalfWidthNumber(
+    text
+  )
+    .replace(
+      /-/g,
+      "/"
+    )
+    .replace(
+      /\./g,
+      "/"
+    )
+    .replace(
+      /\s.*$/,
+      ""
+    );
+
+}
+
+function toHalfWidthNumber(
+  value
+){
+
+  return getString(
+    value
+  ).replace(
+    /[０-９]/g,
+    function(s){
+
+      return String.fromCharCode(
+        s.charCodeAt(0) -
+        0xFEE0
+      );
+
+    }
+  );
+
+}
+
+function getString(
+  value
+){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+
+    return "";
+
+  }
+
+  return String(
+    value
+  ).trim();
 
 }
 
 function getFirst(){
 
-  for(let i = 0; i < arguments.length; i++){
+  for(
+    let i = 0;
+    i < arguments.length;
+    i++
+  ){
 
     const value =
-      getString(arguments[i]);
+      getString(
+        arguments[i]
+      );
 
     if(value){
 
@@ -1207,8 +1628,11 @@ function getFirst(){
 
 }
 
-window.openCertificate = openCertificate;
-window.openOmikuji = openOmikuji;
+window.openCertificate =
+  openCertificate;
+
+window.openOmikuji =
+  openOmikuji;
 </script>
 </body>
 </html>
