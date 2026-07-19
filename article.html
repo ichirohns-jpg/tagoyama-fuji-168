@@ -4,410 +4,1007 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>お知らせ記事</title>
+<title>田子山富士 お知らせ記事</title>
+
+<meta name="description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:site_name" content="田子山富士168の縁プロジェクト">
+<meta property="og:title" content="田子山富士 お知らせ記事">
+<meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/article.html">
+<meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260719">
+<meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260719">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="田子山富士 お知らせ記事">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg?v=20260719">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
+
 <link rel="icon" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+  background:#0b0b0b;
+  color:#fff;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  -webkit-text-size-adjust:100%;
 }
 
 body{
-background:#0b0b0b;
-font-family:
-"Hiragino Sans",
-"Yu Gothic",
-"Meiryo",
-sans-serif;
-color:#fff;
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
 .hero img{
-width:100%;
-aspect-ratio:16/9;
-object-fit:cover;
-display:block;
+  display:block;
+  width:100%;
+  aspect-ratio:16 / 9;
+  object-fit:cover;
 }
 
 .wrap{
-max-width:900px;
-margin:auto;
-padding:16px;
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:16px;
 }
 
 .articleCard{
-background:
-linear-gradient(
-180deg,
-#1c1c1c,
-#0f0f0f
-);
-border:2px solid #d4af37;
-border-radius:24px;
-padding:20px;
-box-shadow:
-0 12px 32px rgba(0,0,0,.45);
+  padding:20px;
+  background:
+    linear-gradient(
+      180deg,
+      #1c1c1c,
+      #0f0f0f
+    );
+  border:2px solid #d4af37;
+  border-radius:24px;
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.45);
 }
 
 .newBadge{
-display:inline-block;
-background:#ff3b30;
-color:#fff;
-font-size:20px;
-font-weight:900;
-padding:8px 16px;
-border-radius:999px;
-margin-bottom:16px;
+  display:inline-block;
+  margin-bottom:16px;
+  padding:8px 16px;
+  border-radius:999px;
+  background:#ff3b30;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
 }
 
 .articleTitle{
-background:#d4af37;
-color:#000;
-padding:16px;
-border-radius:16px;
-font-size:42px;
-font-weight:900;
-line-height:1.4;
-margin-bottom:20px;
+  margin-bottom:20px;
+  padding:16px;
+  border-radius:16px;
+  background:#d4af37;
+  color:#000;
+  font-size:clamp(28px,7vw,48px);
+  font-weight:900;
+  line-height:1.4;
+  overflow-wrap:anywhere;
 }
 
 .articleDate{
-font-size:22px;
-font-weight:900;
-color:#d4af37;
-margin-bottom:20px;
+  margin-bottom:20px;
+  color:#d4af37;
+  font-size:clamp(18px,4.8vw,28px);
+  font-weight:900;
 }
 
 .articleText{
-font-size:26px;
-line-height:2;
-color:#fff;
-margin-top:20px;
-margin-bottom:20px;
-white-space:pre-wrap;
+  margin:20px 0;
+  color:#fff;
+  font-size:clamp(20px,5.5vw,30px);
+  font-weight:800;
+  line-height:2;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.slider{
+  display:grid;
+  gap:12px;
 }
 
 .slider img{
-width:100%;
-display:block;
-border-radius:20px;
-margin-bottom:12px;
-border:2px solid #333;
+  display:block;
+  width:100%;
+  height:auto;
+  border:2px solid #333;
+  border-radius:20px;
+  background:#111;
 }
 
 .youtube{
-margin-top:20px;
-border-radius:20px;
-overflow:hidden;
+  width:100%;
+  margin-top:20px;
+  overflow:hidden;
+  border-radius:20px;
+  background:#000;
 }
 
 .youtube iframe{
-width:100%;
-height:260px;
-border:none;
-}
-
-.linkBtn{
-display:block;
-width:100%;
-padding:20px;
-margin-top:20px;
-background:#d4af37;
-color:#000;
-text-decoration:none;
-text-align:center;
-font-size:24px;
-font-weight:900;
-border-radius:16px;
+  display:block;
+  width:100%;
+  height:clamp(220px,56vw,500px);
+  border:none;
 }
 
 .shareRow{
-display:grid;
-grid-template-columns:
-repeat(4,1fr);
-gap:8px;
-margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:20px;
 }
 
 .shareBtn{
-height:60px;
-border:none;
-border-radius:14px;
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-color:#fff;
+  min-height:60px;
+  border:none;
+  border-radius:14px;
+  color:#fff;
+  font-size:clamp(14px,3.8vw,20px);
+  font-weight:900;
+  cursor:pointer;
+}
+
+.shareBtn:active{
+  transform:translateY(2px);
 }
 
 .fb{
-background:#1877f2;
+  background:#1877f2;
 }
 
 .line{
-background:#06c755;
+  background:#06c755;
 }
 
 .x{
-background:#000;
+  background:#000;
+  border:1px solid #555;
 }
 
 .copy{
-background:#607d8b;
+  background:#607d8b;
+}
+
+.linkBtn,
+.homeBtn{
+  display:block;
+  width:100%;
+  margin-top:20px;
+  padding:20px;
+  border-radius:16px;
+  color:#000;
+  background:#d4af37;
+  text-align:center;
+  text-decoration:none;
+  font-size:clamp(20px,5.5vw,28px);
+  font-weight:900;
 }
 
 .homeBtn{
-display:block;
-width:100%;
-padding:20px;
-margin-top:20px;
-background:#263238;
-color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:22px;
-font-weight:900;
-border-radius:16px;
+  color:#fff;
+  background:#263238;
 }
 
 .loading{
-text-align:center;
-font-size:28px;
-font-weight:900;
-padding:60px 0;
-color:#d4af37;
+  padding:60px 0;
+  color:#d4af37;
+  font-size:28px;
+  font-weight:900;
+  text-align:center;
 }
 
+.errorBox{
+  padding:30px 16px;
+  border:2px solid #8b0000;
+  border-radius:18px;
+  color:#ffb3b3;
+  font-size:24px;
+  font-weight:900;
+  line-height:1.6;
+  text-align:center;
+}
+
+@media(max-width:600px){
+  .wrap{
+    padding:12px;
+  }
+
+  .articleCard{
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .shareRow{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="hero">
+<header class="hero">
+  <img
+    src="top.jpg"
+    alt="田子山富士"
+    onerror="this.style.display='none'"
+  >
+</header>
 
-<img
-src="top.jpg"
-alt="田子山富士">
+<main class="wrap">
 
-</div>
+  <div id="loading" class="loading">
+    お知らせを読み込んでいます。
+  </div>
 
-<div class="wrap">
+  <div id="article"></div>
 
-<div
-id="loading"
-class="loading">
+  <a href="news.html" class="homeBtn">
+    📢 お知らせ一覧へ戻る
+  </a>
 
-読込中...
+  <a href="index.html" class="homeBtn">
+    🏠 田子山富士へ戻る
+  </a>
 
-</div>
-
-<div
-id="article">
-
-</div>
-
-<a
-href="news.html"
-class="homeBtn">
-
-📢 お知らせ一覧へ戻る
-
-</a>
-
-<a
-href="index.html"
-class="homeBtn">
-
-🏠 田子山富士へ戻る
-
-</a>
-
-</div>
+</main>
 
 <script>
-
 const GAS_URL =
-"https://script.google.com/macros/s/AKfycbyJ0TePu884eFy8nfBYRjGrL6GCh8u0gfCE-L2MyytgVqa6JFj0uWQmhnucMLFnbdkOmA/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
+
+const SHARE_NEWS_PAGE =
+  "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
 
 const params =
-new URLSearchParams(
-location.search
-);
+  new URLSearchParams(location.search);
 
-const id =
-parseInt(
-params.get("id") || "0"
-);
+const articleIndex =
+  Number(
+    params.get("id") ||
+    params.get("n") ||
+    "0"
+  );
+
+let currentArticle = null;
+
+window.addEventListener("load", loadArticle);
+
+async function loadArticle(){
+  const loading =
+    document.getElementById("loading");
+
+  try{
+    const data =
+      await tryManyJson([
+        GAS_URL + "?mode=news&t=" + Date.now(),
+        GAS_URL + "?mode=newsV2&t=" + Date.now(),
+        GAS_URL + "?mode=listNews&t=" + Date.now()
+      ]);
+
+    const rows =
+      extractNewsList(data);
+
+    const article =
+      normalizeNewsItem(
+        rows[articleIndex] ||
+        rows[0] ||
+        {}
+      );
+
+    currentArticle =
+      article;
+
+    renderArticle(article);
+
+    if(loading){
+      loading.style.display = "none";
+    }
+  }catch(error){
+    console.error(error);
+
+    if(loading){
+      loading.innerHTML =
+        '<div class="errorBox">' +
+        'お知らせを読み込めませんでした。<br>' +
+        '時間をおいて、もう一度お試しください。' +
+        '</div>';
+    }
+  }
+}
+
+function renderArticle(article){
+  const target =
+    document.getElementById("article");
+
+  if(!target){
+    return;
+  }
+
+  if(
+    !article.title &&
+    !article.text &&
+    article.imageUrls.length === 0
+  ){
+    target.innerHTML =
+      '<div class="errorBox">記事がありません。</div>';
+    return;
+  }
+
+  const images =
+    article.imageUrls.map(function(url){
+      return (
+        '<img src="' +
+        escapeHtml(url) +
+        '" alt="' +
+        escapeHtml(article.title || "田子山富士のお知らせ") +
+        '" onerror="this.remove()">' 
+      );
+    }).join("");
+
+  const youtube =
+    article.youtubeUrl
+      ? createYouTubeHtml(article.youtubeUrl)
+      : "";
+
+  const date =
+    article.date
+      ? '<div class="articleDate">' +
+        escapeHtml(formatDateText(article.date)) +
+        '</div>'
+      : "";
+
+  target.innerHTML =
+    '<article class="articleCard">' +
+
+    (
+      article.isNew
+        ? '<div class="newBadge">NEW</div>'
+        : ""
+    ) +
+
+    '<h1 class="articleTitle">' +
+    escapeHtml(article.title || "田子山富士からのお知らせ") +
+    '</h1>' +
+
+    date +
+
+    (
+      images
+        ? '<div class="slider">' + images + '</div>'
+        : ""
+    ) +
+
+    (
+      article.text
+        ? '<div class="articleText">' +
+          escapeHtml(article.text) +
+          '</div>'
+        : ""
+    ) +
+
+    youtube +
+
+    '<div class="shareRow">' +
+
+    '<button class="shareBtn fb" type="button" onclick="shareFacebook()">' +
+    'Facebook' +
+    '</button>' +
+
+    '<button class="shareBtn line" type="button" onclick="shareLine()">' +
+    'LINE' +
+    '</button>' +
+
+    '<button class="shareBtn x" type="button" onclick="shareX()">' +
+    'X' +
+    '</button>' +
+
+    '<button class="shareBtn copy" type="button" onclick="copyLink()">' +
+    'リンクコピー' +
+    '</button>' +
+
+    '</div>' +
+
+    '<a class="linkBtn" href="' +
+    escapeHtml(buildShareNewsUrl(article)) +
+    '">' +
+    '共有ページを開く' +
+    '</a>' +
+
+    '</article>';
+}
+
+function normalizeNewsItem(row){
+  if(Array.isArray(row)){
+    const imageUrls = [
+      getString(row[3]),
+      getString(row[4]),
+      getString(row[5]),
+      getString(row[6]),
+      getString(row[7])
+    ].filter(function(value){
+      return value;
+    });
+
+    return {
+      date:getString(row[0]),
+      title:getString(row[1]),
+      text:getString(row[2]),
+      imageUrls:imageUrls,
+      youtubeUrl:getString(row[8]),
+      isNew:articleIndex === 0
+    };
+  }
+
+  row =
+    row || {};
+
+  const imageUrls = [
+    row.imageUrl,
+    row.imageURL,
+    row.imgUrl,
+    row.image,
+    row.img,
+    row["画像URL"],
+    row["画像url"],
+    row["画像"],
+    row["画像1"],
+    row["画像2"],
+    row["画像3"],
+    row["画像4"],
+    row["画像5"]
+  ].map(function(value){
+    return getString(value);
+  }).filter(function(value){
+    return value;
+  });
+
+  return {
+    date:getString(
+      row.date ||
+      row["日付"] ||
+      row.datetime ||
+      row["日時"] ||
+      ""
+    ),
+
+    title:getString(
+      row.title ||
+      row["タイトル"] ||
+      row.name ||
+      row.subject ||
+      ""
+    ),
+
+    text:getString(
+      row.text ||
+      row.body ||
+      row.message ||
+      row.content ||
+      row["本文"] ||
+      row["内容"] ||
+      row["メッセージ"] ||
+      row["概要"] ||
+      ""
+    ),
+
+    imageUrls:imageUrls,
+
+    youtubeUrl:getString(
+      row.youtubeUrl ||
+      row.YouTubeURL ||
+      row.youtube ||
+      row.YouTube ||
+      row["YouTubeURL"] ||
+      row["YouTube URL"] ||
+      row["動画URL"] ||
+      row["動画"] ||
+      ""
+    ),
+
+    isNew:articleIndex === 0
+  };
+}
+
+function extractNewsList(data){
+  if(!data){
+    return [];
+  }
+
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(Array.isArray(data.news)){
+    return data.news;
+  }
+
+  if(Array.isArray(data.newsList)){
+    return data.newsList;
+  }
+
+  if(Array.isArray(data.list)){
+    return data.list;
+  }
+
+  if(Array.isArray(data.rows)){
+    return data.rows;
+  }
+
+  if(Array.isArray(data.items)){
+    return data.items;
+  }
+
+  if(Array.isArray(data.data)){
+    return data.data;
+  }
+
+  if(data.data && Array.isArray(data.data.news)){
+    return data.data.news;
+  }
+
+  if(data.data && Array.isArray(data.data.list)){
+    return data.data.list;
+  }
+
+  return [];
+}
+
+function createYouTubeHtml(url){
+  const embedUrl =
+    getYouTubeEmbedUrl(url);
+
+  if(!embedUrl){
+    return "";
+  }
+
+  return (
+    '<div class="youtube">' +
+    '<iframe ' +
+    'src="' + escapeHtml(embedUrl) + '" ' +
+    'title="YouTube動画" ' +
+    'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+    'allowfullscreen>' +
+    '</iframe>' +
+    '</div>'
+  );
+}
+
+function getYouTubeEmbedUrl(url){
+  const text =
+    getString(url);
+
+  if(!text){
+    return "";
+  }
+
+  let id =
+    "";
+
+  try{
+    const parsed =
+      new URL(text);
+
+    if(
+      parsed.hostname.indexOf("youtu.be") >= 0
+    ){
+      id =
+        parsed.pathname
+          .replace("/", "")
+          .split("/")[0];
+    }else if(
+      parsed.hostname.indexOf("youtube.com") >= 0
+    ){
+      if(
+        parsed.pathname.indexOf("/watch") === 0
+      ){
+        id =
+          parsed.searchParams.get("v") || "";
+      }else if(
+        parsed.pathname.indexOf("/shorts/") === 0
+      ){
+        id =
+          parsed.pathname
+            .split("/shorts/")[1]
+            .split("/")[0];
+      }else if(
+        parsed.pathname.indexOf("/embed/") === 0
+      ){
+        id =
+          parsed.pathname
+            .split("/embed/")[1]
+            .split("/")[0];
+      }else if(
+        parsed.pathname.indexOf("/live/") === 0
+      ){
+        id =
+          parsed.pathname
+            .split("/live/")[1]
+            .split("/")[0];
+      }
+    }
+  }catch(error){
+    id =
+      text
+        .replace("https://youtu.be/", "")
+        .replace("https://www.youtube.com/watch?v=", "")
+        .split("&")[0]
+        .split("?")[0];
+  }
+
+  id =
+    getString(id);
+
+  if(!id){
+    return "";
+  }
+
+  return (
+    "https://www.youtube.com/embed/" +
+    encodeURIComponent(id)
+  );
+}
+
+function buildShareNewsUrl(article){
+  const params =
+    new URLSearchParams();
+
+  params.set(
+    "n",
+    String(articleIndex)
+  );
+
+  params.set(
+    "v",
+    "20260719"
+  );
+
+  const userId =
+    getString(
+      params.get("userId") ||
+      localStorage.getItem("tagoyamaUserId") ||
+      ""
+    );
+
+  if(userId){
+    params.set(
+      "userId",
+      userId
+    );
+  }
+
+  return SHARE_NEWS_PAGE + "?" + params.toString();
+}
 
 function shareFacebook(){
+  const url =
+    buildShareNewsUrl(
+      currentArticle || {}
+    );
 
-window.open(
-"https://www.facebook.com/sharer/sharer.php?u=" +
-encodeURIComponent(
-location.href
-)
-);
-
+  window.open(
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(url),
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
 function shareLine(){
+  const url =
+    buildShareNewsUrl(
+      currentArticle || {}
+    );
 
-window.open(
-"https://social-plugins.line.me/lineit/share?url=" +
-encodeURIComponent(
-location.href
-)
-);
-
+  window.open(
+    "https://social-plugins.line.me/lineit/share?url=" +
+    encodeURIComponent(url),
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
 function shareX(){
+  const url =
+    buildShareNewsUrl(
+      currentArticle || {}
+    );
 
-window.open(
-"https://twitter.com/intent/tweet?url=" +
-encodeURIComponent(
-location.href
-)
-);
+  const text =
+    currentArticle &&
+    currentArticle.title
+      ? currentArticle.title
+      : "田子山富士からのお知らせ";
 
+  window.open(
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(text) +
+    "&url=" +
+    encodeURIComponent(url),
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
-function copyLink(){
+async function copyLink(){
+  const url =
+    buildShareNewsUrl(
+      currentArticle || {}
+    );
 
-navigator.clipboard.writeText(
-location.href
-);
+  try{
+    await navigator.clipboard.writeText(url);
+    alert("リンクをコピーしました。");
+  }catch(error){
+    const area =
+      document.createElement("textarea");
 
-alert(
-"リンクをコピーしました"
-);
+    area.value =
+      url;
 
+    area.style.position =
+      "fixed";
+
+    area.style.left =
+      "-9999px";
+
+    document.body.appendChild(area);
+    area.focus();
+    area.select();
+
+    document.execCommand("copy");
+    area.remove();
+
+    alert("リンクをコピーしました。");
+  }
 }
 
-function youtubeEmbed(url){
+async function tryManyJson(urls){
+  let lastError =
+    null;
 
-if(!url){
-return "";
+  for(let i = 0; i < urls.length; i++){
+    try{
+      const data =
+        await getJson(urls[i]);
+
+      if(
+        data !== null &&
+        data !== undefined
+      ){
+        return data;
+      }
+    }catch(error){
+      lastError =
+        error;
+    }
+  }
+
+  throw (
+    lastError ||
+    new Error("通信に失敗しました。")
+  );
 }
 
-const videoId =
-url
-.replace(
-"https://youtu.be/",
-""
-)
-.replace(
-"https://www.youtube.com/watch?v=",
-""
-)
-.split("&")[0];
+async function getJson(url){
+  try{
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
 
-return `
-<div class="youtube">
-<iframe
-src="https://www.youtube.com/embed/${videoId}"
-allowfullscreen>
-</iframe>
-</div>
-`;
+    if(!response.ok){
+      throw new Error(
+        "HTTP " + response.status
+      );
+    }
+
+    const text =
+      await response.text();
+
+    return parseJsonText(text);
+  }catch(error){
+    return await getJsonp(url);
+  }
 }
 
-fetch(
-GAS_URL +
-"?mode=news"
-)
-.then(r=>r.json())
-.then(rows=>{
+function parseJsonText(text){
+  const value =
+    String(text || "").trim();
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
+  if(!value){
+    throw new Error("empty response");
+  }
 
-const row =
-rows[id];
+  try{
+    return JSON.parse(value);
+  }catch(error){
+    const objectStart =
+      value.indexOf("{");
 
-if(!row){
+    const objectEnd =
+      value.lastIndexOf("}");
 
-document.getElementById(
-"article"
-).innerHTML =
-"<div class='articleCard'>記事がありません</div>";
+    if(
+      objectStart >= 0 &&
+      objectEnd > objectStart
+    ){
+      return JSON.parse(
+        value.substring(
+          objectStart,
+          objectEnd + 1
+        )
+      );
+    }
 
-return;
+    const arrayStart =
+      value.indexOf("[");
 
+    const arrayEnd =
+      value.lastIndexOf("]");
+
+    if(
+      arrayStart >= 0 &&
+      arrayEnd > arrayStart
+    ){
+      return JSON.parse(
+        value.substring(
+          arrayStart,
+          arrayEnd + 1
+        )
+      );
+    }
+
+    throw error;
+  }
 }
 
-let images = "";
+function getJsonp(url){
+  return new Promise(function(resolve,reject){
+    const callbackName =
+      "tagoyamaArticleCallback_" +
+      Date.now() +
+      "_" +
+      Math.floor(
+        Math.random() * 1000000
+      );
 
-[
-row.image1,
-row.image2,
-row.image3,
-row.image4,
-row.image5
-]
-.forEach(img=>{
+    const script =
+      document.createElement("script");
 
-if(img){
+    const separator =
+      url.indexOf("?") >= 0
+        ? "&"
+        : "?";
 
-images += `
-<img src="${img}">
-`;
+    const timer =
+      setTimeout(function(){
+        cleanup();
+        reject(
+          new Error("JSONP timeout")
+        );
+      },12000);
 
+    window[callbackName] =
+      function(data){
+        cleanup();
+        resolve(data);
+      };
+
+    script.onerror =
+      function(){
+        cleanup();
+        reject(
+          new Error("JSONP error")
+        );
+      };
+
+    script.src =
+      url +
+      separator +
+      "callback=" +
+      encodeURIComponent(
+        callbackName
+      );
+
+    document.body.appendChild(
+      script
+    );
+
+    function cleanup(){
+      clearTimeout(timer);
+
+      try{
+        delete window[callbackName];
+      }catch(error){
+        window[callbackName] =
+          undefined;
+      }
+
+      if(script.parentNode){
+        script.parentNode.removeChild(
+          script
+        );
+      }
+    }
+  });
 }
 
-});
+function formatDateText(value){
+  const text =
+    getString(value);
 
-document.getElementById(
-"article"
-).innerHTML =
-`
-<div class="articleCard">
+  if(!text){
+    return "";
+  }
 
-${id===0?'<div class="newBadge">NEW</div>':''}
+  return text
+    .replace(/-/g, "/")
+    .replace(/\./g, "/")
+    .replace(/\s.*$/, "");
+}
 
-<div class="articleTitle">
-${row.title || ""}
-</div>
+function escapeHtml(value){
+  return getString(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
-<div class="slider">
-${images}
-</div>
+function getString(value){
+  if(
+    value === null ||
+    value === undefined
+  ){
+    return "";
+  }
 
-<div class="articleDate">
-${String(row.date || "")
-.replace("T15:00:00.000Z","")
-.replace(/-/g,"/")}
-</div>
+  return String(value).trim();
+}
 
-<div class="articleText">
-${row.text || ""}
-</div>
+window.shareFacebook =
+  shareFacebook;
 
-${youtubeEmbed(row.youtube || "")}
+window.shareLine =
+  shareLine;
 
-</div>
-`;
+window.shareX =
+  shareX;
 
-})
-.catch(err=>{
-
-document.getElementById(
-"loading"
-).innerHTML =
-"記事を読めません";
-
-console.log(err);
-
-});
-
+window.copyLink =
+  copyLink;
 </script>
 
 </body>
