@@ -490,34 +490,7 @@
     }
 
     function buildOmikujiShareUrl(data) {
-      const p = new URLSearchParams();
-
-      setParam(p, "u", data.userId);
-      setParam(p, "r", data.result || "大当たり");
-      setParam(p, "t", data.title || "第001番");
-
-      setParam(
-        p,
-        "m",
-        data.message ||
-        "おめでとうございます！田子山富士168の縁プロジェクトでおみくじに当たりました。田子山富士でご縁をいただきました。"
-      );
-
-      if (data.imageId) {
-        setParam(p, "imgid", data.imageId);
-      } else if (data.imageUrl) {
-        const driveId = getDriveId(data.imageUrl);
-
-        if (driveId) {
-          setParam(p, "imgid", driveId);
-        } else {
-          setParam(p, "img", data.imageUrl);
-        }
-      }
-
-      p.set("v", "20260703");
-
-      return SHARE_OMIKUJI_PAGE + "?" + p.toString();
+      return SHARE_OMIKUJI_PAGE;
     }
 
     function setStatus(text) {
