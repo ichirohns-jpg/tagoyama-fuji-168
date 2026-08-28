@@ -752,33 +752,9 @@
     }
 
     function buildShareUrl(news) {
-      news = news || {};
 
-      const params = new URLSearchParams();
+      return SHARE_NEWS_PAGE;
 
-      if (news.title) {
-        params.set("title", news.title);
-      }
-
-      if (news.body) {
-        params.set("body", news.body);
-      }
-
-      if (currentUserId) {
-        params.set("u", currentUserId);
-      }
-
-      const driveId = getDriveId(news.imageUrl);
-
-      if (driveId) {
-        params.set("imgid", driveId);
-      } else if (news.imageUrl) {
-        params.set("img", news.imageUrl);
-      }
-
-      params.set("v", "20260703");
-
-      return SHARE_NEWS_PAGE + "?" + params.toString();
     }
 
     function makeShareText(news) {
