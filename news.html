@@ -766,18 +766,9 @@ function makeNewsShareText(item){
 }
 
 function buildNewsShareUrl(item){
-  item = item || {};
 
-  const params = new URLSearchParams();
+  return SHARE_NEWS_PAGE;
 
-  params.set("n", String(item.newsIndex || 0));
-  params.set("v", "20260704youtube-nobutton");
-
-  if(currentUserId){
-    params.set("userId", currentUserId);
-  }
-
-  return SHARE_NEWS_PAGE + "?" + params.toString();
 }
 
 async function postFacebookNews(item){
