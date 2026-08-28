@@ -337,12 +337,12 @@
       },
       {
         title: "登頂記念証シェア",
-        url: BASE + "share-certificate.html?c=3&s=3-0001&d=2026/07/04&p=11&v=20260703",
+        url: BASE + "share-certificate.html",
         image: BASE + "ogp-certificate.jpg?v=20260703-certificate"
       },
       {
         title: "おみくじシェア",
-        url: BASE + "share-omikuji.html?r=大吉&t=田子山富士のご縁&m=よいご縁が広がります&v=20260703",
+        url: BASE + "share-omikuji.html",
         image: BASE + "omikuji-atari.jpg?v=20260703-omikuji"
       },
       {
@@ -352,7 +352,7 @@
       },
       {
         title: "お知らせシェア",
-        url: BASE + "share-news.html?title=田子山富士のお知らせ&body=田子山富士168の縁プロジェクトからのお知らせです&v=20260703",
+        url: BASE + "share-news.html",
         image: BASE + "ogp.jpg?v=20260703-news"
       },
       {
@@ -421,9 +421,12 @@
         img.alt = item.title;
         img.onerror = function() {
           this.style.display = "none";
+
           const err = document.createElement("p");
           err.className = "itemUrl";
-          err.innerText = "画像が見つかりません。GitHubの画像ファイル名を確認してください。";
+          err.innerText =
+            "画像が見つかりません。GitHubの画像ファイル名を確認してください。";
+
           box.appendChild(err);
         };
 
@@ -519,9 +522,12 @@
         img.alt = item.title;
         img.onerror = function() {
           this.style.display = "none";
+
           const err = document.createElement("p");
           err.className = "itemUrl";
-          err.innerText = "画像が見つかりません。GitHubのファイル名を確認してください。";
+          err.innerText =
+            "画像が見つかりません。GitHubのファイル名を確認してください。";
+
           box.appendChild(err);
         };
 
@@ -561,14 +567,18 @@
         alert("コピーしました。");
       } catch (error) {
         const area = document.createElement("textarea");
+
         area.value = text;
         area.style.position = "fixed";
         area.style.left = "-9999px";
+
         document.body.appendChild(area);
         area.focus();
         area.select();
+
         document.execCommand("copy");
         area.remove();
+
         alert("コピーしました。");
       }
     }
