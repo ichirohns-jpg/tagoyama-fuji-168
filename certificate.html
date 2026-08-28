@@ -896,50 +896,7 @@ async function copyShareText(){
 
 function buildShareUrl(){
 
-  const params =
-    new URLSearchParams();
-
-  params.set(
-    "v",
-    "20260704certimage"
-  );
-
-  if(certificateData.userId){
-    params.set(
-      "userId",
-      certificateData.userId
-    );
-  }
-
-  if(certificateData.climbCount){
-    params.set(
-      "climbCount",
-      certificateData.climbCount
-    );
-  }
-
-  if(certificateData.serialNo){
-    params.set(
-      "serialNo",
-      certificateData.serialNo
-    );
-  }
-
-  if(certificateData.lastDate){
-    params.set(
-      "lastDate",
-      certificateData.lastDate
-    );
-  }
-
-  if(certificateData.imageUrl){
-    params.set(
-      "imageUrl",
-      certificateData.imageUrl
-    );
-  }
-
-  return SHARE_CERTIFICATE_PAGE + "?" + params.toString();
+  return SHARE_CERTIFICATE_PAGE;
 
 }
 
