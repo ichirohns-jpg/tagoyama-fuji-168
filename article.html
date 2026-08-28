@@ -672,34 +672,9 @@ function getYouTubeEmbedUrl(url){
 }
 
 function buildShareNewsUrl(article){
-  const params =
-    new URLSearchParams();
 
-  params.set(
-    "n",
-    String(articleIndex)
-  );
+  return SHARE_NEWS_PAGE;
 
-  params.set(
-    "v",
-    "20260719"
-  );
-
-  const userId =
-    getString(
-      params.get("userId") ||
-      localStorage.getItem("tagoyamaUserId") ||
-      ""
-    );
-
-  if(userId){
-    params.set(
-      "userId",
-      userId
-    );
-  }
-
-  return SHARE_NEWS_PAGE + "?" + params.toString();
 }
 
 function shareFacebook(){
