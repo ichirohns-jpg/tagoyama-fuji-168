@@ -1605,54 +1605,8 @@ async function copyResultText(){
 
 function buildShareUrl(){
 
-  const result =
-    getCurrentResult();
+  return SHARE_OMIKUJI_PAGE;
 
-  const params =
-    new URLSearchParams();
-
-  params.set(
-    "v",
-    "20260704omikujipass"
-  );
-
-  if(currentUserId){
-
-    params.set(
-      "userId",
-      currentUserId
-    );
-  }
-
-  if(result.result){
-
-    params.set(
-      "result",
-      result.result
-    );
-  }
-
-  if(result.message){
-
-    params.set(
-      "message",
-      result.message
-    );
-  }
-
-  if(result.imageUrl){
-
-    params.set(
-      "imageUrl",
-      result.imageUrl
-    );
-  }
-
-  return (
-    SHARE_OMIKUJI_PAGE +
-    "?" +
-    params.toString()
-  );
 }
 
 function makeShareText(){
