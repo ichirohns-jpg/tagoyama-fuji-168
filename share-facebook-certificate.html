@@ -522,29 +522,7 @@
     }
 
     function buildCertificateShareUrl(data) {
-      const p = new URLSearchParams();
-
-      setParam(p, "u", data.userId);
-      setParam(p, "c", data.climbCount);
-      setParam(p, "s", data.serialNo);
-      setParam(p, "d", data.lastDate);
-      setParam(p, "p", data.participantNo);
-
-      if (data.imageId) {
-        setParam(p, "imgid", data.imageId);
-      } else if (data.imageUrl) {
-        const driveId = getDriveId(data.imageUrl);
-
-        if (driveId) {
-          setParam(p, "imgid", driveId);
-        } else {
-          setParam(p, "img", data.imageUrl);
-        }
-      }
-
-      p.set("v", "20260703");
-
-      return SHARE_CERTIFICATE_PAGE + "?" + p.toString();
+      return SHARE_CERTIFICATE_PAGE;
     }
 
     function setStatus(text) {
