@@ -384,13 +384,11 @@ async function loadNews(){
   setStatus("お知らせを読み込んでいます。");
 
   try{
-    const data = await tryManyJson([
+    const list = await tryManyNewsList([
       GAS_URL + "?mode=newsV2&t=" + Date.now(),
       GAS_URL + "?mode=news&t=" + Date.now(),
       GAS_URL + "?mode=listNews&t=" + Date.now()
     ]);
-
-    const list = extractNewsList(data);
 
     renderNews(list);
   }catch(error){
@@ -831,6 +829,29 @@ async function copyNews(item){
   alert("お知らせの短いリンクをコピーしました。");
 }
 
+async function tryManyNewsList(urls){
+  let lastError = null;
+
+  for(let i = 0; i < urls.length; i++){
+    try{
+      const data = await getJson(urls[i]);
+      const list = extractNewsList(data);
+
+      if(Array.isArray(list) && list.length > 0){
+        return list;
+      }
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  if(lastError){
+    throw lastError;
+  }
+
+  return [];
+}
+
 async function tryManyJson(urls){
   let lastError = null;
 
@@ -1035,4 +1056,5 @@ window.copyNews = copyNews;
 </script>
 </body>
 </html>
+
 
