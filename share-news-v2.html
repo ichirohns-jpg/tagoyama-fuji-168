@@ -323,7 +323,7 @@ body{
 
 <script>
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbxJh9lYhtQsTYASTa8jGvDDktcm9DeuMQcDn6B66q63FTReIFjBJuQikbY_Tt2iZ18/exec";
+  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
 
 window.addEventListener("load", initShareNews);
 
@@ -530,29 +530,40 @@ function extractNewsList(data){
     return [];
   }
 
-  let list = [];
-
   if(Array.isArray(data)){
-    list = data;
-  }else if(Array.isArray(data.news)){
-    list = data.news;
-  }else if(Array.isArray(data.newsList)){
-    list = data.newsList;
-  }else if(Array.isArray(data.list)){
-    list = data.list;
-  }else if(Array.isArray(data.rows)){
-    list = data.rows;
-  }else if(Array.isArray(data.items)){
-    list = data.items;
-  }else if(Array.isArray(data.data)){
-    list = data.data;
-  }else if(data.data && Array.isArray(data.data.news)){
-    list = data.data.news;
-  }else if(data.data && Array.isArray(data.data.list)){
-    list = data.data.list;
+    return removeHeaderRows(data);
   }
 
-  return removeHeaderRows(list);
+  const candidates = [
+    data.news,
+    data.newsList,
+    data.list,
+    data.rows,
+    data.items,
+    data.values,
+    data.data,
+    data.result,
+    data.payload,
+    data.response
+  ];
+
+  for(let i = 0; i < candidates.length; i++){
+    const candidate = candidates[i];
+
+    if(Array.isArray(candidate)){
+      return removeHeaderRows(candidate);
+    }
+
+    if(candidate && typeof candidate === "object"){
+      const nested = extractNewsList(candidate);
+
+      if(nested.length > 0){
+        return nested;
+      }
+    }
+  }
+
+  return [];
 }
 
 function removeHeaderRows(list){
