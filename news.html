@@ -499,7 +499,7 @@ function renderNews(list){
     return;
   }
 
-  list.forEach(function(item){
+  list.forEach(function(item,index){
     const box = document.createElement("article");
     box.className = "newsItem";
 
@@ -550,7 +550,7 @@ function renderNews(list){
       box.appendChild(createYouTubeBlock(embedUrl));
     }
 
-    box.appendChild(createShareButtons(item));
+    box.appendChild(createShareButtons(item,index));
     newsList.appendChild(box);
   });
 
@@ -578,7 +578,7 @@ function createYouTubeBlock(embedUrl){
   return box;
 }
 
-function createShareButtons(item){
+function createShareButtons(item,index){
   const area = document.createElement("div");
   area.className = "shareBtnArea";
 
@@ -587,7 +587,7 @@ function createShareButtons(item){
   facebook.className = "smallBtn blueBtn";
   facebook.textContent = "Facebookに投稿";
   facebook.addEventListener("click", function(){
-    postFacebookNews(item);
+    postFacebookNews(item,index);
   });
 
   const line = document.createElement("button");
@@ -595,7 +595,7 @@ function createShareButtons(item){
   line.className = "smallBtn greenBtn";
   line.textContent = "LINEで送る";
   line.addEventListener("click", function(){
-    sendLineNews(item);
+    sendLineNews(item,index);
   });
 
   const x = document.createElement("button");
@@ -603,7 +603,7 @@ function createShareButtons(item){
   x.className = "smallBtn blackBtn";
   x.textContent = "Xで投稿";
   x.addEventListener("click", function(){
-    postXNews(item);
+    postXNews(item,index);
   });
 
   const copy = document.createElement("button");
@@ -611,7 +611,7 @@ function createShareButtons(item){
   copy.className = "smallBtn blueBtn";
   copy.textContent = "リンクをコピー";
   copy.addEventListener("click", function(){
-    copyNews(item);
+    copyNews(item,index);
   });
 
   area.appendChild(facebook);
@@ -717,12 +717,12 @@ function makeNewsShareText(item){
   return text;
 }
 
-function buildNewsShareUrl(){
-  return SHARE_NEWS_PAGE;
+function buildNewsShareUrl(index){
+  return SHARE_NEWS_PAGE + "?n=" + encodeURIComponent(String(index));
 }
 
-async function postFacebookNews(item){
-  const shareUrl = buildNewsShareUrl(item);
+async function postFacebookNews(item,index){
+  const shareUrl = buildNewsShareUrl(index);
   await copyText(makeNewsShareText(item));
 
   alert("投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。");
@@ -734,8 +734,8 @@ async function postFacebookNews(item){
   );
 }
 
-function sendLineNews(item){
-  const shareUrl = buildNewsShareUrl(item);
+function sendLineNews(item,index){
+  const shareUrl = buildNewsShareUrl(index);
   const url =
     "https://social-plugins.line.me/lineit/share?url=" +
     encodeURIComponent(shareUrl) +
@@ -745,8 +745,8 @@ function sendLineNews(item){
   location.href = url;
 }
 
-function postXNews(item){
-  const shareUrl = buildNewsShareUrl(item);
+function postXNews(item,index){
+  const shareUrl = buildNewsShareUrl(index);
   const url =
     "https://twitter.com/intent/tweet?text=" +
     encodeURIComponent(makeNewsShareText(item)) +
@@ -756,8 +756,8 @@ function postXNews(item){
   window.open(url,"_blank","noopener,noreferrer");
 }
 
-async function copyNews(item){
-  await copyText(buildNewsShareUrl(item));
+async function copyNews(item,index){
+  await copyText(buildNewsShareUrl(index));
   alert("お知らせの短いリンクをコピーしました。");
 }
 
