@@ -736,10 +736,16 @@ async function postFacebookNews(item,index){
 
 function sendLineNews(item,index){
   const shareUrl = buildNewsShareUrl(index);
+  const imageUrl =
+    item.imageUrls && item.imageUrls.length
+      ? item.imageUrls[0]
+      : "";
+
   const lineText =
-    "田子山富士168の縁プロジェクト お知らせ\\n" +
+    "田子山富士168の縁プロジェクト お知らせ\n" +
     (item.title || "お知らせ") +
-    "\\n\\n" +
+    (imageUrl ? "\n\n画像はこちら\n" + imageUrl : "") +
+    "\n\n記事はこちら\n" +
     shareUrl;
 
   location.href =
@@ -866,6 +872,7 @@ function getString(value){
 </script>
 </body>
 </html>
+
 
 
 
