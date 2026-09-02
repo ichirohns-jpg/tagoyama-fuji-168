@@ -736,13 +736,15 @@ async function postFacebookNews(item,index){
 
 function sendLineNews(item,index){
   const shareUrl = buildNewsShareUrl(index);
-  const url =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(shareUrl) +
-    "&text=" +
-    encodeURIComponent(makeNewsShareText(item));
+  const lineText =
+    "田子山富士168の縁プロジェクト お知らせ\\n" +
+    (item.title || "お知らせ") +
+    "\\n\\n" +
+    shareUrl;
 
-  location.href = url;
+  location.href =
+    "https://line.me/R/msg/text/?" +
+    encodeURIComponent(lineText);
 }
 
 function postXNews(item,index){
@@ -864,4 +866,5 @@ function getString(value){
 </script>
 </body>
 </html>
+
 
