@@ -2,16 +2,15 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <title>田子山富士からのお知らせ</title>
-
 <meta name="description" content="田子山富士168の縁プロジェクトからのお知らせです。">
 
 <meta property="og:site_name" content="田子山富士168の縁プロジェクト">
 <meta property="og:title" content="田子山富士からのお知らせ">
-<meta property="og:description" content="保存会・地域からのお知らせを掲載しています。">
-<meta property="og:type" content="website">
+<meta property="og:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
+<meta property="og:type" content="article">
 <meta property="og:url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
 <meta property="og:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
 <meta property="og:image:secure_url" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
@@ -23,9 +22,10 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="田子山富士からのお知らせ">
-<meta name="twitter:description" content="保存会・地域からのお知らせを掲載しています。">
+<meta name="twitter:description" content="田子山富士168の縁プロジェクトからのお知らせです。">
 <meta name="twitter:image" content="https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg">
 
+<link rel="canonical" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html">
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
@@ -36,52 +36,55 @@
 
 html,
 body{
+  width:100%;
+  min-width:0;
+  min-height:100%;
   margin:0;
   padding:0;
-  width:100%;
-  min-height:100%;
+  overflow-x:hidden;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), rgba(0,0,0,0) 36%),
+    radial-gradient(circle at 50% 0%,rgba(255,225,110,.18),transparent 36%),
     linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
   color:#fff7ca;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Hiragino Sans",
-    "Yu Gothic",
-    "Meiryo",
-    sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   -webkit-text-size-adjust:100%;
 }
 
 body{
-  overflow-x:hidden;
   padding-bottom:env(safe-area-inset-bottom);
+}
+
+a,
+button{
+  -webkit-tap-highlight-color:transparent;
 }
 
 .page{
   width:100%;
+  min-width:0;
   max-width:760px;
   margin:0 auto;
   padding:16px 12px 48px;
+  overflow:hidden;
 }
 
 .hero{
-  text-align:center;
+  width:100%;
+  min-width:0;
+  max-width:100%;
   margin:0 0 16px;
+  text-align:center;
 }
 
 .logoFrame{
-  width:120px;
-  height:120px;
+  width:112px;
+  height:112px;
   margin:0 auto 14px;
-  border-radius:28px;
   overflow:hidden;
+  border:2px solid rgba(255,220,95,.78);
+  border-radius:26px;
   background:#000;
-  border:3px solid rgba(255,220,95,.80);
-  box-shadow:
-    0 14px 28px rgba(0,0,0,.50),
-    0 0 18px rgba(255,210,80,.22);
+  box-shadow:0 12px 24px rgba(0,0,0,.42);
 }
 
 .logoFrame img{
@@ -91,107 +94,131 @@ body{
   object-fit:cover;
 }
 
+.mainTitle,
+.mainSubTitle,
+.newsTitle,
+.newsDate,
+.newsText,
+.emptyText,
+.statusBox,
+.footer{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
 .mainTitle{
   margin:0;
-  font-size:clamp(38px,10.5vw,72px);
-  line-height:1.16;
-  font-weight:900;
   color:#ffdf72;
-  text-shadow:
-    0 4px 4px rgba(0,0,0,.92),
-    0 0 18px rgba(255,210,80,.28);
+  font-size:clamp(32px,9vw,58px);
+  font-weight:900;
+  line-height:1.2;
+  text-shadow:0 4px 4px rgba(0,0,0,.92);
 }
 
 .mainSubTitle{
-  margin:10px 0 0;
-  font-size:clamp(19px,5.2vw,32px);
-  line-height:1.45;
-  font-weight:900;
+  margin:8px 0 0;
   color:#fff3c4;
-  text-shadow:0 3px 3px rgba(0,0,0,.88);
-}
-
-.card{
-  margin:16px 0;
-  padding:22px 14px;
-  border-radius:28px;
-  background:
-    radial-gradient(circle at top, rgba(255,224,120,.16), rgba(0,0,0,0) 46%),
-    linear-gradient(180deg, rgba(44,28,0,.92), rgba(10,10,10,.94));
-  border:2px solid rgba(255,220,95,.58);
-  box-shadow:
-    0 0 0 1px rgba(255,230,150,.10) inset,
-    0 12px 28px rgba(0,0,0,.42);
+  font-size:clamp(16px,4.6vw,26px);
+  font-weight:900;
+  line-height:1.5;
 }
 
 .statusBox{
-  margin:0 0 18px;
-  padding:18px 14px;
-  border-radius:20px;
-  background:rgba(0,0,0,.34);
+  margin:0 0 16px;
+  padding:12px;
   border:1px solid rgba(255,220,140,.34);
-  font-size:clamp(18px,4.8vw,28px);
-  font-weight:900;
-  line-height:1.65;
+  border-radius:14px;
+  background:rgba(0,0,0,.34);
   color:#fff3c4;
+  font-size:clamp(14px,4vw,20px);
+  font-weight:800;
+  line-height:1.55;
   text-align:center;
   white-space:pre-wrap;
+}
+
+.card{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:16px 0;
+  padding:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,220,95,.55);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at top,rgba(255,224,120,.12),transparent 44%),
+    linear-gradient(180deg,rgba(44,28,0,.92),rgba(10,10,10,.94));
+  box-shadow:0 10px 24px rgba(0,0,0,.34);
 }
 
 .newsImage{
   display:block;
   width:100%;
+  min-width:0;
+  max-width:100%;
   height:auto;
-  margin:0 0 16px;
-  border-radius:18px;
-  background:#000;
+  margin:0 0 12px;
   border:1px solid rgba(255,220,95,.42);
+  border-radius:14px;
+  background:#000;
+  object-fit:contain;
 }
 
 .newsTitle{
-  margin:0 0 16px;
+  margin:0 0 8px;
   color:#ffdf72;
-  font-size:clamp(28px,7.6vw,52px);
+  font-size:clamp(24px,6.8vw,44px);
   font-weight:900;
   line-height:1.35;
-  text-align:left;
-  text-shadow:
-    0 3px 4px rgba(0,0,0,.90),
-    0 0 14px rgba(255,210,80,.22);
+  text-shadow:0 3px 4px rgba(0,0,0,.9);
+}
+
+.newsDate{
+  margin:0 0 12px;
+  color:#fff1bd;
+  font-size:clamp(14px,4vw,19px);
+  font-weight:800;
+  line-height:1.45;
 }
 
 .newsText{
   margin:0;
   color:#fff7ca;
-  font-size:clamp(19px,5.1vw,32px);
-  font-weight:900;
-  line-height:1.7;
+  font-size:clamp(17px,4.7vw,25px);
+  font-weight:700;
+  line-height:1.75;
   white-space:pre-wrap;
 }
 
 .emptyText{
   margin:0;
   color:#fff3c4;
-  font-size:clamp(19px,5.1vw,32px);
-  font-weight:900;
+  font-size:clamp(17px,4.7vw,25px);
+  font-weight:800;
   line-height:1.7;
   text-align:center;
 }
 
 .youtubeBox{
-  margin:18px 0 0;
   width:100%;
-  border-radius:20px;
+  min-width:0;
+  max-width:100%;
+  margin:16px 0 0;
   overflow:hidden;
+  border:1px solid rgba(255,220,95,.55);
+  border-radius:14px;
   background:#000;
-  border:2px solid rgba(255,220,95,.48);
-  box-shadow:
-    0 8px 20px rgba(0,0,0,.36);
 }
 
 .youtubeFrameWrap{
   position:relative;
   width:100%;
+  min-width:0;
+  max-width:100%;
   padding-top:56.25%;
   background:#000;
 }
@@ -199,82 +226,85 @@ body{
 .youtubeFrame{
   position:absolute;
   inset:0;
+  display:block;
   width:100%;
   height:100%;
   border:0;
 }
 
-.btnArea{
+.detailLink,
+.linkBtn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  color:#fff;
+  font-weight:900;
+  line-height:1.35;
+  text-align:center;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.detailLink{
+  min-height:46px;
+  margin-top:14px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:linear-gradient(180deg,#7b5b14 0%,#4c3300 100%);
+  font-size:clamp(14px,4vw,19px);
+}
+
+.buttonArea{
   display:grid;
-  gap:12px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  gap:8px;
   margin-top:18px;
 }
 
 .linkBtn{
-  width:100%;
-  min-height:70px;
-  border:none;
-  border-radius:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  font-size:clamp(20px,5.5vw,34px);
-  font-weight:900;
-  letter-spacing:.02em;
-  color:#fff;
-  cursor:pointer;
-  text-align:center;
-  box-shadow:
-    0 7px 0 rgba(0,0,0,.32),
-    0 13px 22px rgba(0,0,0,.34);
-  -webkit-tap-highlight-color:transparent;
-  font-family:inherit;
-}
-
-.linkBtn:active{
-  transform:translateY(3px);
-  box-shadow:
-    0 4px 0 rgba(0,0,0,.32),
-    0 8px 14px rgba(0,0,0,.32);
-}
-
-.blueBtn{
-  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
+  min-height:50px;
+  padding:9px 8px;
+  border-radius:13px;
+  font-size:clamp(15px,4.2vw,21px);
+  box-shadow:0 4px 10px rgba(0,0,0,.28);
 }
 
 .blackBtn{
   background:linear-gradient(180deg,#323232 0%,#050505 100%);
 }
 
-.footer{
-  margin:28px 0 0;
-  text-align:center;
-  color:#c9b56b;
-  font-weight:800;
-  line-height:1.6;
+.blueBtn{
+  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
 }
 
-@media (max-width:420px){
+.footer{
+  margin:22px 0 0;
+  color:#c9b56b;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.6;
+  text-align:center;
+}
+
+@media (max-width:360px){
   .page{
-    padding-left:12px;
-    padding-right:12px;
+    padding-right:10px;
+    padding-left:10px;
   }
 
   .card{
-    border-radius:26px;
-    padding-left:14px;
-    padding-right:14px;
+    padding:12px;
   }
 
-  .linkBtn{
-    min-height:66px;
-    border-radius:22px;
-  }
-
-  .logoFrame{
-    width:112px;
-    height:112px;
+  .buttonArea{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -282,71 +312,50 @@ body{
 
 <body>
 <main class="page">
+  <header class="hero">
+    <div class="logoFrame">
+      <img src="logo.png" alt="田子山富士168の縁プロジェクト">
+    </div>
+    <h1 class="mainTitle">田子山富士</h1>
+    <p class="mainSubTitle">168の縁プロジェクト<br>シェアされたお知らせ</p>
+  </header>
 
-<header class="hero">
-  <div class="logoFrame">
-    <img
-      src="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png"
-      alt="田子山富士"
-      onerror="this.style.display='none'"
-    >
+  <div class="statusBox" id="statusBox">お知らせを読み込んでいます。</div>
+
+  <section class="card" id="articleCard">
+    <div id="imageArea"></div>
+    <h2 class="newsTitle" id="newsTitle">田子山富士からのお知らせ</h2>
+    <p class="newsDate" id="newsDate"></p>
+    <p class="newsText" id="newsText" style="display:none"></p>
+    <p class="emptyText" id="emptyText" style="display:none">お知らせの内容を表示できませんでした。</p>
+    <div id="youtubeArea"></div>
+    <div id="detailArea"></div>
+  </section>
+
+  <div class="buttonArea">
+    <a class="linkBtn blueBtn" id="newsLink" href="news.html">お知らせ一覧へ</a>
+    <a class="linkBtn blackBtn" id="topLink" href="index.html">トップへ戻る</a>
   </div>
 
-  <h1 class="mainTitle">お知らせ</h1>
-  <p class="mainSubTitle">田子山富士 168の縁プロジェクト</p>
-</header>
-
-<section class="card">
-  <div class="statusBox" id="statusBox">
-    お知らせを読み込んでいます。
-  </div>
-
-  <div id="imageArea"></div>
-
-  <h2 class="newsTitle" id="newsTitle">
-    田子山富士からのお知らせ
-  </h2>
-
-  <p class="newsText" id="newsText"></p>
-
-  <p class="emptyText" id="emptyText" style="display:none;">
-    お知らせ本文を表示できませんでした。<br>
-    お知らせ一覧からご確認ください。
-  </p>
-
-  <div id="youtubeArea"></div>
-
-  <div class="btnArea">
-    <a class="linkBtn blueBtn" id="newsLink" href="news.html">
-      お知らせ一覧へ戻る
-    </a>
-
-    <a class="linkBtn blackBtn" id="topLink" href="index.html">
-      トップへ戻る
-    </a>
-  </div>
-</section>
-
-<footer class="footer">
-  田子山富士 168の縁プロジェクト<br>
-  お知らせ
-</footer>
-
+  <footer class="footer">
+    田子山富士 168の縁プロジェクト<br>
+    シェア記事
+  </footer>
 </main>
 
 <script>
-const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec";
+const SHEET_ID = "15jtF9F4B6W07ZZq2nyxb_tlxujbGMBGvpbULWzfFWAU";
+const SHEET_NAME = "お知らせ";
+const DEFAULT_TITLE = "田子山富士からのお知らせ";
+const DEFAULT_DESCRIPTION = "田子山富士168の縁プロジェクトからのお知らせです。";
+const DEFAULT_IMAGE = "https://ichirohns-jpg.github.io/tagoyama-fuji-168/ogp-news.jpg";
+const PAGE_URL = "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
 
 window.addEventListener("load", initShareNews);
 
-async function initShareNews(){
-  const params =
-    new URLSearchParams(location.search);
-
-  const index =
-    Number(params.get("n") || 0);
-
+function initShareNews(){
+  const params = new URLSearchParams(location.search);
+  const index = getArticleIndex(params);
   const userId =
     getString(params.get("userId")) ||
     getString(params.get("userid")) ||
@@ -355,536 +364,462 @@ async function initShareNews(){
     getString(localStorage.getItem("tagoyamaFujiUserId"));
 
   updateLinks(userId);
-  await loadArticle(index);
+  loadArticle(index);
 }
 
-async function loadArticle(index){
+function getArticleIndex(params){
+  const value =
+    params.get("n") ||
+    params.get("index") ||
+    params.get("article") ||
+    "0";
+
+  const number = Number.parseInt(value,10);
+
+  if(!Number.isFinite(number) || number < 0){
+    return 0;
+  }
+
+  return number;
+}
+
+function loadArticle(index){
   setStatus("お知らせを読み込んでいます。");
 
-  try{
-    const data =
-      await tryManyJson([
-        GAS_URL + "?mode=newsV2&t=" + Date.now(),
-        GAS_URL + "?mode=news&t=" + Date.now(),
-        GAS_URL + "?mode=listNews&t=" + Date.now()
-      ]);
+  const callbackName =
+    "tagoyamaShareSheetCallback_" +
+    Date.now() +
+    "_" +
+    Math.floor(Math.random() * 1000000);
 
-    const list =
-      extractNewsList(data);
+  const query = "select A,B,C,D,E,F,G,H,I,J";
+  const script = document.createElement("script");
+  let finished = false;
 
-    const item =
-      normalizeNewsItem(list[index] || list[0] || {});
+  window[callbackName] = function(response){
+    finish();
 
-    renderArticle(item);
+    if(
+      !response ||
+      response.status === "error" ||
+      !response.table ||
+      !Array.isArray(response.table.rows)
+    ){
+      showError("お知らせを表示できませんでした。");
+      return;
+    }
+
+    const list = response.table.rows
+      .map(function(row,indexNumber){
+        return normalizeSheetRow(row,indexNumber);
+      })
+      .filter(function(item){
+        return Boolean(
+          item.date ||
+          item.title ||
+          item.text ||
+          item.imageUrls.length ||
+          item.youtubeUrl ||
+          item.detailUrl
+        );
+      });
+
+    list.sort(function(a,b){
+      const dateDifference =
+        getDateNumber(b.date) - getDateNumber(a.date);
+
+      if(dateDifference !== 0){
+        return dateDifference;
+      }
+
+      return b.sourceIndex - a.sourceIndex;
+    });
+
+    const item = list[index] || list[0] || null;
+
+    if(!item){
+      showError("表示できるお知らせがありません。");
+      return;
+    }
+
+    renderArticle(item,index);
     setStatus("お知らせを表示しました。");
-  }catch(error){
-    console.warn(error);
-    setStatus("お知らせを表示できませんでした。");
-    showEmpty();
+  };
+
+  script.onerror = function(){
+    finish();
+    showError("お知らせを表示できませんでした。");
+  };
+
+  script.src =
+    "https://docs.google.com/spreadsheets/d/" +
+    SHEET_ID +
+    "/gviz/tq?sheet=" +
+    encodeURIComponent(SHEET_NAME) +
+    "&tqx=out:json;responseHandler:" +
+    encodeURIComponent(callbackName) +
+    "&tq=" +
+    encodeURIComponent(query) +
+    "&v=" +
+    Date.now();
+
+  document.head.appendChild(script);
+
+  window.setTimeout(function(){
+    if(!finished){
+      finish();
+      showError("お知らせを読み込めませんでした。");
+    }
+  },15000);
+
+  function finish(){
+    if(finished){
+      return;
+    }
+
+    finished = true;
+
+    try{
+      delete window[callbackName];
+    }catch(error){
+      window[callbackName] = undefined;
+    }
+
+    if(script.parentNode){
+      script.parentNode.removeChild(script);
+    }
   }
 }
 
-function renderArticle(item){
-  item = item || {};
+function normalizeSheetRow(row,index){
+  const cells = row && Array.isArray(row.c) ? row.c : [];
+  const imageUrls = [3,4,5,6,7]
+    .map(function(column){
+      return getSafeUrl(getCell(cells[column]));
+    })
+    .filter(function(url){
+      return url;
+    });
 
-  const imageArea =
-    document.getElementById("imageArea");
+  return {
+    sourceIndex:index,
+    date:getDateCell(cells[0]),
+    title:getCell(cells[1]),
+    text:getCell(cells[2]),
+    imageUrls:imageUrls,
+    youtubeUrl:getCell(cells[8]),
+    detailUrl:getSafeUrl(getCell(cells[9]))
+  };
+}
 
-  const title =
-    document.getElementById("newsTitle");
-
-  const text =
-    document.getElementById("newsText");
-
-  const empty =
-    document.getElementById("emptyText");
-
-  const youtubeArea =
-    document.getElementById("youtubeArea");
+function renderArticle(item,index){
+  const imageArea = document.getElementById("imageArea");
+  const title = document.getElementById("newsTitle");
+  const date = document.getElementById("newsDate");
+  const text = document.getElementById("newsText");
+  const empty = document.getElementById("emptyText");
+  const youtubeArea = document.getElementById("youtubeArea");
+  const detailArea = document.getElementById("detailArea");
 
   if(imageArea){
     imageArea.innerHTML = "";
 
     item.imageUrls.forEach(function(url){
-      const img = document.createElement("img");
-      img.className = "newsImage";
-      img.alt = item.title || "お知らせ";
-      img.src = url;
-      img.onerror = function(){
+      const image = document.createElement("img");
+      image.className = "newsImage";
+      image.src = url;
+      image.alt = item.title || DEFAULT_TITLE;
+      image.loading = "lazy";
+      image.onerror = function(){
         this.remove();
       };
-      imageArea.appendChild(img);
+      imageArea.appendChild(image);
     });
   }
 
   if(title){
-    title.innerText =
-      item.title ||
-      "田子山富士からのお知らせ";
+    title.textContent = item.title || DEFAULT_TITLE;
+  }
+
+  if(date){
+    date.textContent = item.date ? formatDateText(item.date) : "";
+    date.style.display = item.date ? "block" : "none";
   }
 
   if(text){
-    if(item.text){
-      text.style.display = "block";
-      text.innerText = item.text;
-    }else{
-      text.style.display = "none";
-      text.innerText = "";
-    }
+    text.textContent = item.text || "";
+    text.style.display = item.text ? "block" : "none";
   }
 
   if(empty){
-    empty.style.display =
-      item.text
-        ? "none"
-        : "block";
+    empty.style.display = item.text ? "none" : "block";
   }
 
   if(youtubeArea){
     youtubeArea.innerHTML = "";
 
-    if(item.youtubeUrl){
-      youtubeArea.appendChild(
-        createYouTubeBlock(item.youtubeUrl)
-      );
+    const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
+
+    if(embedUrl){
+      youtubeArea.appendChild(createYouTubeBlock(embedUrl));
     }
+  }
+
+  if(detailArea){
+    detailArea.innerHTML = "";
+
+    if(item.detailUrl){
+      const detail = document.createElement("a");
+      detail.className = "detailLink";
+      detail.href = item.detailUrl;
+      detail.target = "_blank";
+      detail.rel = "noopener noreferrer";
+      detail.textContent = "詳しくはこちら";
+      detailArea.appendChild(detail);
+    }
+  }
+
+  updateArticleMeta(item,index);
+}
+
+function createYouTubeBlock(embedUrl){
+  const box = document.createElement("div");
+  box.className = "youtubeBox";
+
+  const wrap = document.createElement("div");
+  wrap.className = "youtubeFrameWrap";
+
+  const iframe = document.createElement("iframe");
+  iframe.className = "youtubeFrame";
+  iframe.src = embedUrl;
+  iframe.title = "YouTube動画";
+  iframe.loading = "lazy";
+  iframe.allow =
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  iframe.allowFullscreen = true;
+
+  wrap.appendChild(iframe);
+  box.appendChild(wrap);
+  return box;
+}
+
+function getYouTubeEmbedUrl(value){
+  const text = getString(value);
+
+  if(!text){
+    return "";
+  }
+
+  let url;
+
+  try{
+    url = new URL(text);
+  }catch(error){
+    return "";
+  }
+
+  const host = url.hostname.toLowerCase().replace(/^www\./,"");
+  let videoId = "";
+
+  if(host === "youtu.be"){
+    videoId = url.pathname.split("/").filter(Boolean)[0] || "";
+  }else if(host === "youtube.com" || host === "m.youtube.com"){
+    if(url.pathname === "/watch"){
+      videoId = url.searchParams.get("v") || "";
+    }else if(url.pathname.indexOf("/shorts/") === 0){
+      videoId = url.pathname.split("/shorts/")[1].split("/")[0];
+    }else if(url.pathname.indexOf("/embed/") === 0){
+      videoId = url.pathname.split("/embed/")[1].split("/")[0];
+    }else if(url.pathname.indexOf("/live/") === 0){
+      videoId = url.pathname.split("/live/")[1].split("/")[0];
+    }
+  }
+
+  videoId = videoId.replace(/[^A-Za-z0-9_-]/g,"");
+
+  if(!videoId){
+    return "";
+  }
+
+  return "https://www.youtube.com/embed/" +
+    encodeURIComponent(videoId) +
+    "?rel=0";
+}
+
+function updateArticleMeta(item,index){
+  const title = item.title || DEFAULT_TITLE;
+  const description = makeDescription(item.text || DEFAULT_DESCRIPTION);
+  const image = item.imageUrls[0] || DEFAULT_IMAGE;
+  const url = buildArticleUrl(index);
+
+  document.title = title;
+
+  setMeta("name","description",description);
+  setMeta("property","og:title",title);
+  setMeta("property","og:description",description);
+  setMeta("property","og:type","article");
+  setMeta("property","og:url",url);
+  setMeta("property","og:image",image);
+  setMeta("property","og:image:secure_url",image);
+  setMeta("property","og:image:alt",title);
+  setMeta("name","twitter:title",title);
+  setMeta("name","twitter:description",description);
+  setMeta("name","twitter:image",image);
+
+  const canonical = document.querySelector('link[rel="canonical"]');
+
+  if(canonical){
+    canonical.href = url;
   }
 }
 
-function showEmpty(){
-  const empty =
-    document.getElementById("emptyText");
+function setMeta(attribute,name,value){
+  const selector =
+    "meta[" + attribute + "=\"" + name.replace(/\"/g,"\\\"") + "\"]";
+  const element = document.querySelector(selector);
+
+  if(element){
+    element.setAttribute("content",value);
+  }
+}
+
+function buildArticleUrl(index){
+  const params = new URLSearchParams(location.search);
+  const userId =
+    getString(params.get("userId")) ||
+    getString(params.get("userid")) ||
+    getString(params.get("uid"));
+  const query = new URLSearchParams();
+
+  query.set("n",String(index));
+
+  if(userId){
+    query.set("userId",userId);
+  }
+
+  return PAGE_URL + "?" + query.toString();
+}
+
+function updateLinks(userId){
+  const query = userId
+    ? "?userId=" + encodeURIComponent(userId)
+    : "";
+  const newsLink = document.getElementById("newsLink");
+  const topLink = document.getElementById("topLink");
+
+  if(newsLink){
+    newsLink.href = "news.html" + query;
+  }
+
+  if(topLink){
+    topLink.href = "index.html" + query;
+  }
+}
+
+function showError(message){
+  setStatus(message);
+
+  const empty = document.getElementById("emptyText");
 
   if(empty){
     empty.style.display = "block";
   }
 }
 
-function updateLinks(userId){
-  const query =
-    userId
-      ? "?userId=" + encodeURIComponent(userId)
-      : "";
+function setStatus(message){
+  const status = document.getElementById("statusBox");
 
-  const topLink =
-    document.getElementById("topLink");
-
-  const newsLink =
-    document.getElementById("newsLink");
-
-  if(topLink){
-    topLink.href =
-      "index.html" + query;
-  }
-
-  if(newsLink){
-    newsLink.href =
-      "news.html" + query;
+  if(status){
+    status.textContent = message;
   }
 }
 
-function normalizeNewsItem(row){
-  if(Array.isArray(row)){
-    const imageUrls = [
-      getString(row[3]),
-      getString(row[4]),
-      getString(row[5]),
-      getString(row[6]),
-      getString(row[7])
-    ].filter(function(url){
-      return url;
-    });
-
-    return {
-      date:getString(row[0]),
-      title:getString(row[1]),
-      text:getString(row[2]),
-      imageUrls:imageUrls,
-      imageUrl:imageUrls[0] || "",
-      youtubeUrl:getString(row[8])
-    };
+function getCell(cell){
+  if(!cell){
+    return "";
   }
 
-  row = row || {};
-
-  const imageUrls = [
-    row.imageUrl,
-    row.imageURL,
-    row.imgUrl,
-    row.img,
-    row.image,
-    row["画像URL"],
-    row["画像url"],
-    row["画像"],
-    row["画像1"],
-    row["画像2"],
-    row["画像3"],
-    row["画像4"],
-    row["画像5"]
-  ].map(function(value){
-    return getString(value);
-  }).filter(function(url){
-    return url;
-  });
-
-  return {
-    date:getString(
-      row.date ||
-      row["日付"] ||
-      row["日時"] ||
-      ""
-    ),
-
-    title:getString(
-      row.title ||
-      row["タイトル"] ||
-      row.name ||
-      row.subject ||
-      ""
-    ),
-
-    text:getString(
-      row.text ||
-      row.body ||
-      row.message ||
-      row.content ||
-      row["本文"] ||
-      row["内容"] ||
-      row["メッセージ"] ||
-      row["概要"] ||
-      ""
-    ),
-
-    imageUrls:imageUrls,
-    imageUrl:imageUrls[0] || "",
-
-    youtubeUrl:getString(
-      row.youtubeUrl ||
-      row.YouTubeURL ||
-      row.youtube ||
-      row.YouTube ||
-      row["YouTubeURL"] ||
-      row["YouTube URL"] ||
-      row["youtubeURL"] ||
-      row["動画URL"] ||
-      row["動画"] ||
-      ""
-    )
-  };
-}
-
-function createYouTubeBlock(url){
-  const box =
-    document.createElement("div");
-
-  box.className =
-    "youtubeBox";
-
-  const embedUrl =
-    getYouTubeEmbedUrl(url);
-
-  if(embedUrl){
-    const wrap =
-      document.createElement("div");
-
-    wrap.className =
-      "youtubeFrameWrap";
-
-    const iframe =
-      document.createElement("iframe");
-
-    iframe.className =
-      "youtubeFrame";
-
-    iframe.src =
-      embedUrl;
-
-    iframe.title =
-      "YouTube動画";
-
-    iframe.allow =
-      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-    iframe.allowFullscreen =
-      true;
-
-    wrap.appendChild(iframe);
-    box.appendChild(wrap);
+  if(cell.v !== null && cell.v !== undefined && String(cell.v).trim() !== ""){
+    return getString(cell.v);
   }
 
-  return box;
+  return getString(cell.f);
 }
 
-function getYouTubeEmbedUrl(url){
-  const text =
-    getString(url);
+function getDateCell(cell){
+  if(!cell){
+    return "";
+  }
+
+  return getString(cell.f || cell.v);
+}
+
+function getSafeUrl(value){
+  const text = getString(value);
 
   if(!text){
     return "";
   }
 
-  let id =
-    "";
-
   try{
-    const u =
-      new URL(text);
+    const url = new URL(text,location.href);
 
-    if(u.hostname.indexOf("youtu.be") >= 0){
-      id =
-        u.pathname
-          .replace("/","")
-          .split("/")[0];
-    }else if(u.hostname.indexOf("youtube.com") >= 0){
-      if(u.pathname.indexOf("/watch") === 0){
-        id =
-          u.searchParams.get("v") || "";
-      }else if(u.pathname.indexOf("/shorts/") === 0){
-        id =
-          u.pathname
-            .split("/shorts/")[1]
-            .split("/")[0];
-      }else if(u.pathname.indexOf("/embed/") === 0){
-        id =
-          u.pathname
-            .split("/embed/")[1]
-            .split("/")[0];
-      }else if(u.pathname.indexOf("/live/") === 0){
-        id =
-          u.pathname
-            .split("/live/")[1]
-            .split("/")[0];
-      }
+    if(url.protocol !== "https:" && url.protocol !== "http:"){
+      return "";
     }
+
+    return url.href;
   }catch(error){
-    id = "";
-  }
-
-  id =
-    getString(id);
-
-  if(!id){
     return "";
   }
-
-  return "https://www.youtube.com/embed/" +
-    encodeURIComponent(id);
 }
 
-function extractNewsList(data){
-  if(!data){
-    return [];
+function getDateNumber(value){
+  const text = toHalfWidthNumber(getString(value));
+  const full = text.match(/([0-9]{4})[^0-9]?([0-9]{1,2})[^0-9]?([0-9]{1,2})/);
+
+  if(full){
+    return Number(
+      full[1] +
+      String(full[2]).padStart(2,"0") +
+      String(full[3]).padStart(2,"0")
+    );
   }
 
-  if(Array.isArray(data)){
-    return removeHeaderRows(data);
+  const short = text.match(/([0-9]{1,2})[^0-9]?([0-9]{1,2})/);
+
+  if(short){
+    return Number(
+      new Date().getFullYear() +
+      String(short[1]).padStart(2,"0") +
+      String(short[2]).padStart(2,"0")
+    );
   }
 
-  const candidates = [
-    data.news,
-    data.newsList,
-    data.list,
-    data.rows,
-    data.items,
-    data.values,
-    data.data,
-    data.result,
-    data.payload,
-    data.response
-  ];
-
-  for(let i = 0; i < candidates.length; i++){
-    const candidate = candidates[i];
-
-    if(Array.isArray(candidate)){
-      return removeHeaderRows(candidate);
-    }
-
-    if(candidate && typeof candidate === "object"){
-      const nested = extractNewsList(candidate);
-
-      if(nested.length > 0){
-        return nested;
-      }
-    }
-  }
-
-  return [];
+  return 0;
 }
 
-function removeHeaderRows(list){
-  return list.filter(function(row){
-    if(!row){
-      return false;
-    }
+function formatDateText(value){
+  return toHalfWidthNumber(getString(value))
+    .replace(/-/g,"/")
+    .replace(/\./g,"/")
+    .replace(/\s.*$/g,"");
+}
 
-    if(Array.isArray(row)){
-      const a = getString(row[0]);
-      const b = getString(row[1]);
-      const c = getString(row[2]);
-      const d = getString(row[3]);
-      const i = getString(row[8]);
+function makeDescription(value){
+  const text = getString(value).replace(/\s+/g," ");
 
-      if(
-        a === "日付" ||
-        a === "日時" ||
-        b === "タイトル" ||
-        c === "本文" ||
-        c === "概要" ||
-        d === "画像URL" ||
-        d === "画像1" ||
-        i === "YouTubeURL"
-      ){
-        return false;
-      }
-    }
+  if(!text){
+    return DEFAULT_DESCRIPTION;
+  }
 
-    return true;
+  return text.length > 150 ? text.slice(0,147) + "…" : text;
+}
+
+function toHalfWidthNumber(value){
+  return getString(value).replace(/[０-９]/g,function(character){
+    return String.fromCharCode(character.charCodeAt(0) - 0xFEE0);
   });
-}
-
-async function tryManyJson(urls){
-  let lastError = null;
-
-  for(let i = 0; i < urls.length; i++){
-    try{
-      const data =
-        await getJson(urls[i]);
-
-      if(data !== null && data !== undefined){
-        return data;
-      }
-    }catch(error){
-      lastError = error;
-    }
-  }
-
-  throw lastError || new Error("通信に失敗しました。");
-}
-
-async function getJson(url){
-  try{
-    const res =
-      await fetch(url,{
-        method:"GET",
-        cache:"no-store"
-      });
-
-    if(!res.ok){
-      throw new Error("HTTP " + res.status);
-    }
-
-    const text =
-      await res.text();
-
-    return parseJsonText(text);
-  }catch(error){
-    return await getJsonp(url);
-  }
-}
-
-function parseJsonText(text){
-  const value =
-    String(text || "").trim();
-
-  if(!value){
-    throw new Error("empty response");
-  }
-
-  try{
-    return JSON.parse(value);
-  }catch(error){
-    const objectStart =
-      value.indexOf("{");
-
-    const objectEnd =
-      value.lastIndexOf("}");
-
-    if(objectStart >= 0 && objectEnd > objectStart){
-      return JSON.parse(
-        value.substring(objectStart,objectEnd + 1)
-      );
-    }
-
-    const arrayStart =
-      value.indexOf("[");
-
-    const arrayEnd =
-      value.lastIndexOf("]");
-
-    if(arrayStart >= 0 && arrayEnd > arrayStart){
-      return JSON.parse(
-        value.substring(arrayStart,arrayEnd + 1)
-      );
-    }
-
-    throw error;
-  }
-}
-
-function getJsonp(url){
-  return new Promise(function(resolve,reject){
-    const callbackName =
-      "tagoyamaShareNewsCallback_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random() * 1000000);
-
-    const script =
-      document.createElement("script");
-
-    const sep =
-      url.indexOf("?") >= 0
-        ? "&"
-        : "?";
-
-    const timer =
-      setTimeout(function(){
-        cleanup();
-        reject(new Error("JSONP timeout"));
-      },12000);
-
-    window[callbackName] = function(data){
-      cleanup();
-      resolve(data);
-    };
-
-    script.onerror = function(){
-      cleanup();
-      reject(new Error("JSONP error"));
-    };
-
-    script.src =
-      url +
-      sep +
-      "callback=" +
-      encodeURIComponent(callbackName);
-
-    document.body.appendChild(script);
-
-    function cleanup(){
-      clearTimeout(timer);
-
-      try{
-        delete window[callbackName];
-      }catch(error){
-        window[callbackName] = undefined;
-      }
-
-      if(script.parentNode){
-        script.parentNode.removeChild(script);
-      }
-    }
-  });
-}
-
-function setStatus(text){
-  const el =
-    document.getElementById("statusBox");
-
-  if(el){
-    el.innerText = text;
-  }
 }
 
 function getString(value){
@@ -897,4 +832,3 @@ function getString(value){
 </script>
 </body>
 </html>
-
