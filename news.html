@@ -361,7 +361,7 @@ a{
 <script>
 const SHEET_ID = "15jtF9F4B6W07ZZq2nyxb_tlxujbGMBGvpbULWzfFWAU";
 const SHEET_NAME = "お知らせ";
-const SHARE_NEWS_PAGE = "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share-news.html";
+const SHARE_NEWS_PAGE = "https://script.google.com/macros/s/AKfycbyYV3BJS_nNM6oIYejg7SUsWm0LiMhJ4g4IEHxUxw6NkMgTC5Byh3Exyr_-NHk2Jo4hFg/exec?mode=shareNews";
 
 let currentUserId = "";
 
@@ -718,7 +718,7 @@ function makeNewsShareText(item){
 }
 
 function buildNewsShareUrl(index){
-  return SHARE_NEWS_PAGE + "?n=" + encodeURIComponent(String(index));
+  return SHARE_NEWS_PAGE + "&n=" + encodeURIComponent(String(index));
 }
 
 async function postFacebookNews(item,index){
@@ -864,3 +864,4 @@ function getString(value){
 </script>
 </body>
 </html>
+
