@@ -1091,10 +1091,7 @@ function mergeData(base,add){
 function removeTestData(data){
   data = data || {};
 
-  const serial =
-    String(data.serialNo || "");
-
-  if(isTestSerial(serial)){
+  if(isTestRecord(data)){
     data.climbCount = "";
     data.serialNo = "";
     data.lastDate = "";
@@ -1103,16 +1100,28 @@ function removeTestData(data){
   return data;
 }
 
+function isTestRecord(data){
+  data = data || {};
+
+  const userId =
+    String(data.userId || data.userid || "");
+
+  const serialNo =
+    String(data.serialNo || data.serial || "");
+
+  return isTestSerial(userId) || isTestSerial(serialNo);
+}
+
 function isTestSerial(value){
   const text =
     String(value || "").toUpperCase();
 
-  return text.indexOf("TEST") >= 0;
+  return /\bTEST\b/.test(text);
 }
 
 function saveDataToLocal(data){
   try{
-    if(isTestSerial(data.serialNo)){
+    if(isTestRecord(data)){
       localStorage.removeItem("tagoyamaClimbData");
       localStorage.removeItem("tagoyamaLastClimbCount");
       localStorage.removeItem("tagoyamaLastSerialNo");
@@ -1329,5 +1338,3 @@ window.copyShareText = copyShareText;
 </script>
 </body>
 </html>
-
-
