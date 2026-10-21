@@ -307,11 +307,26 @@ button{
     grid-template-columns:1fr;
   }
 }
+
+.newsBodyLink{
+  color:#8fd8ff;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.newsBodyLink:focus-visible{
+  outline:2px solid #ffdf72;
+  outline-offset:3px;
+}
 </style>
 </head>
 
 <body>
 <main class="page">
+  <div style="margin:0 0 16px">
+    <a class="linkBtn blackBtn" id="topLinkUpper" href="index.html">トップへ戻る</a>
+  </div>
   <header class="hero">
     <div class="logoFrame">
       <img src="logo.png" alt="田子山富士168の縁プロジェクト">
@@ -547,7 +562,7 @@ function renderArticle(item,index){
   }
 
   if(text){
-    text.textContent = item.text || "";
+    renderNewsText(text,item.text || "");
     text.style.display = item.text ? "block" : "none";
   }
 
@@ -714,6 +729,10 @@ function updateLinks(userId){
   if(topLink){
     topLink.href = "index.html" + query;
   }
+  const topLinkUpper = document.getElementById("topLinkUpper");
+  if(topLinkUpper){
+    topLinkUpper.href = "index.html" + query;
+  }
 }
 
 function showError(message){
@@ -732,6 +751,54 @@ function setStatus(message){
   if(status){
     status.textContent = message;
   }
+}
+
+
+function renderNewsText(container,value){
+  const source = String(value == null ? "" : value);
+  const pattern = /\[([^\]\r\n]+)\]\((https?:\/\/[^\s<>"'`]+)\)|https?:\/\/[^\s<>"'`\\\u3000-\u303f\uff00-\uffef\u3040-\u30ff\u3400-\u9fff]+/gi;
+  container.textContent = "";
+  let cursor = 0;
+  let match;
+
+  while((match = pattern.exec(source)) !== null){
+    container.appendChild(document.createTextNode(source.slice(cursor,match.index)));
+    let address = match[2] || match[0];
+    let suffix = "";
+    if(!match[2]){
+      while(/[.,!?;:]$/.test(address) ||
+        (address.endsWith(")") &&
+          (address.match(/\)/g) || []).length > (address.match(/\(/g) || []).length)){
+        suffix = address.slice(-1) + suffix;
+        address = address.slice(0,-1);
+      }
+    }
+
+    let url = null;
+    try{
+      const parsed = new URL(address);
+      if(parsed.protocol === "https:" || parsed.protocol === "http:"){
+        url = parsed;
+      }
+    }catch(error){}
+
+    if(url){
+      const link = document.createElement("a");
+      link.className = "newsBodyLink";
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = match[1] || address;
+      container.appendChild(link);
+      if(suffix){
+        container.appendChild(document.createTextNode(suffix));
+      }
+    }else{
+      container.appendChild(document.createTextNode(match[0]));
+    }
+    cursor = pattern.lastIndex;
+  }
+  container.appendChild(document.createTextNode(source.slice(cursor)));
 }
 
 function getCell(cell){
@@ -832,3 +899,4 @@ function getString(value){
 </script>
 </body>
 </html>
+
