@@ -780,14 +780,18 @@ function makeNewsShareText(item){
   return text;
 }
 
-function buildNewsShareUrl(index){
+function buildNewsShareUrl(index,item){
+  if(item){
+    const key = JSON.stringify([String(item.date || "").trim(),String(item.title || "").trim()]);
+    return SHARE_NEWS_PAGE + "?key=" + encodeURIComponent(key);
+  }
   const number = Number(index);
   const articleIndex = Number.isInteger(number) && number >= 0 ? number : 0;
   return SHARE_NEWS_PAGE + "?n=" + encodeURIComponent(String(articleIndex));
 }
 
 async function postFacebookNews(item,index){
-  const shareUrl = buildNewsShareUrl(index);
+  const shareUrl = buildNewsShareUrl(index,item);
   await copyText(makeNewsShareText(item));
 
   alert("投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。");
@@ -800,7 +804,7 @@ async function postFacebookNews(item,index){
 }
 
 function sendLineNews(item,index){
-  const shareUrl = buildNewsShareUrl(index);
+  const shareUrl = buildNewsShareUrl(index,item);
   const lineText =
     "田子山富士168の縁プロジェクト お知らせ\n" +
     (item.title || "お知らせ") +
@@ -813,7 +817,7 @@ function sendLineNews(item,index){
 }
 
 function postXNews(item,index){
-  const shareUrl = buildNewsShareUrl(index);
+  const shareUrl = buildNewsShareUrl(index,item);
   const url =
     "https://twitter.com/intent/tweet?text=" +
     encodeURIComponent(makeNewsShareText(item)) +
@@ -824,7 +828,7 @@ function postXNews(item,index){
 }
 
 async function copyNews(item,index){
-  await copyText(buildNewsShareUrl(index));
+  await copyText(buildNewsShareUrl(index,item));
   alert("お知らせの短いリンクをコピーしました。");
 }
 
