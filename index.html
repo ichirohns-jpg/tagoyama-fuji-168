@@ -472,10 +472,6 @@ async function initIndex(){
       currentUserId
     );
 
-    issueOmikujiPass(
-      currentUserId
-    );
-
   }else{
 
     currentUserId =
@@ -485,22 +481,45 @@ async function initIndex(){
 
   updateLinks();
 
-  if(urlUserId){
+  const entryParams = new URLSearchParams(location.search);
+  const entrySource = getString(entryParams.get("from"));
+  const isClimbEntry = Boolean(urlUserId) &&
+    (entrySource === "qr" || entrySource === "climb-register");
 
-    await saveClimbByUserId(
-      currentUserId
-    );
+  restoreCertificateData();
 
+  if(isClimbEntry){
+    entryParams.delete("from");
+    const remainingQuery = entryParams.toString();
+    history.replaceState(null,"",location.pathname +
+      (remainingQuery ? "?" + remainingQuery : "") + location.hash);
+    issueOmikujiPass(currentUserId);
+    await saveClimbByUserId(currentUserId);
+  }else if(certificateData.climbCount && certificateData.serialNo){
+    setStatus("保存済みの登頂記録を表示しています。");
   }else{
-
-    setStatus(
-      "QRコードから入ると、登頂記念証と開運おみくじを受け取れます。"
-    );
-
+    setStatus("QRコードから入ると、登頂記念証と開運おみくじを受け取れます。");
   }
 
   await loadStats();
 
+}
+
+function restoreCertificateData(){
+  setCertificateButton(false);
+  if(!currentUserId){
+    return;
+  }
+  try{
+    const saved = JSON.parse(localStorage.getItem("tagoyamaClimbData") || "null");
+    if(saved && getString(saved.userId) === currentUserId){
+      certificateData = mergeData(certificateData,
+        normalizeClimbData(saved,currentUserId));
+      setCertificateButton(Boolean(certificateData.climbCount && certificateData.serialNo));
+    }
+  }catch(error){
+    console.warn(error);
+  }
 }
 
 function getUserIdFromUrl(){
