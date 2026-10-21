@@ -24,142 +24,326 @@
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
 <style>
-*{box-sizing:border-box}
-html,body{
-  width:100%;min-width:0;min-height:100%;margin:0;padding:0;
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  min-width:0;
+  min-height:100%;
+  margin:0;
+  padding:0;
   overflow-x:hidden;
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,225,110,.18),transparent 36%),
+    radial-gradient(circle at 50% 0%, rgba(255,225,110,.18), transparent 36%),
     linear-gradient(180deg,#221600 0%,#070707 48%,#000 100%);
   color:#fff7ca;
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   -webkit-text-size-adjust:100%;
 }
-body{padding-bottom:env(safe-area-inset-bottom)}
-button,a{-webkit-tap-highlight-color:transparent}
+
+body{
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
 .page{
-  width:100%;max-width:760px;min-width:0;
-  margin:0 auto;padding:16px 12px 48px;overflow:hidden;
+  width:100%;
+  max-width:760px;
+  min-width:0;
+  margin:0 auto;
+  padding:16px 12px 48px;
+  overflow:hidden;
 }
+
 .pageTitle{
-  width:100%;min-width:0;max-width:100%;margin:0 0 12px;
-  color:#ffdf72;font-size:clamp(30px,8vw,46px);
-  font-weight:900;line-height:1.2;text-align:center;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:0 0 12px;
+  color:#ffdf72;
+  font-size:clamp(30px,8vw,46px);
+  font-weight:900;
+  line-height:1.2;
+  text-align:center;
   text-shadow:0 3px 4px rgba(0,0,0,.92);
-  overflow-wrap:anywhere;word-break:break-word;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
+
 .lead{
-  width:100%;min-width:0;max-width:100%;margin:0 0 16px;
-  color:#fff1bd;font-size:clamp(16px,4.5vw,22px);
-  font-weight:800;line-height:1.6;text-align:center;
-  overflow-wrap:anywhere;word-break:break-word;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:0 0 16px;
+  color:#fff1bd;
+  font-size:clamp(16px,4.5vw,22px);
+  font-weight:800;
+  line-height:1.6;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
+
 .statusBox{
-  width:100%;min-width:0;max-width:100%;margin:12px 0 16px;
-  padding:11px 12px;border:1px solid rgba(255,220,140,.34);
-  border-radius:14px;background:rgba(0,0,0,.34);
-  color:#fff3c4;font-size:clamp(14px,4vw,18px);
-  font-weight:800;line-height:1.55;text-align:center;
-  white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:12px 0 16px;
+  padding:11px 12px;
+  border:1px solid rgba(255,220,140,.34);
+  border-radius:14px;
+  background:rgba(0,0,0,.34);
+  color:#fff3c4;
+  font-size:clamp(14px,4vw,18px);
+  font-weight:800;
+  line-height:1.55;
+  text-align:center;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
+
 .newsList{
-  display:grid;width:100%;min-width:0;max-width:100%;
-  gap:16px;margin:0;
+  display:grid;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  gap:16px;
+  margin:0;
 }
+
 .newsItem{
-  width:100%;min-width:0;max-width:100%;overflow:hidden;
-  padding:14px;border:1px solid rgba(255,220,95,.55);
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow:hidden;
+  padding:14px;
+  border:1px solid rgba(255,220,95,.55);
   border-radius:20px;
   background:
-    radial-gradient(circle at top,rgba(255,224,120,.12),transparent 44%),
+    radial-gradient(circle at top, rgba(255,224,120,.12), transparent 44%),
     linear-gradient(180deg,rgba(44,28,0,.92),rgba(10,10,10,.94));
   box-shadow:0 10px 24px rgba(0,0,0,.34);
 }
+
 .newsImage{
-  display:block;width:100%;max-width:100%;height:auto;
-  margin:0 0 12px;border:1px solid rgba(255,220,95,.42);
-  border-radius:14px;background:#000;object-fit:contain;
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  margin:0 0 12px;
+  border:1px solid rgba(255,220,95,.42);
+  border-radius:14px;
+  background:#000;
+  object-fit:contain;
 }
-.newsTitle,.newsDate,.newsText,.detailLink{
-  width:100%;min-width:0;max-width:100%;
-  overflow-wrap:anywhere;word-break:break-word;
+
+.newsTitle,
+.newsDate,
+.newsText,
+.detailLink{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
+
 .newsTitle{
-  margin:0 0 7px;color:#ffdf72;
-  font-size:clamp(22px,6vw,34px);font-weight:900;line-height:1.35;
+  margin:0 0 7px;
+  color:#ffdf72;
+  font-size:clamp(22px,6vw,34px);
+  font-weight:900;
+  line-height:1.35;
   text-shadow:0 2px 3px rgba(0,0,0,.88);
 }
+
 .newsDate{
-  margin:0 0 10px;color:#fff1bd;
-  font-size:clamp(14px,4vw,18px);font-weight:800;line-height:1.45;
+  margin:0 0 10px;
+  color:#fff1bd;
+  font-size:clamp(14px,4vw,18px);
+  font-weight:800;
+  line-height:1.45;
 }
+
 .newsText{
-  margin:0;color:#fff7ca;font-size:clamp(16px,4.5vw,22px);
-  font-weight:700;line-height:1.7;white-space:pre-wrap;
+  margin:0;
+  color:#fff7ca;
+  font-size:clamp(16px,4.5vw,22px);
+  font-weight:700;
+  line-height:1.7;
+  white-space:pre-wrap;
 }
-.newsBodyLink{
-  color:#8fd8ff;text-decoration:underline;text-underline-offset:3px;
-  overflow-wrap:anywhere;word-break:break-word;
-}
-.newsBodyLink:focus-visible{
-  outline:2px solid #ffdf72;outline-offset:3px;
-}
+
 .detailLink{
-  display:flex;align-items:center;justify-content:center;
-  min-height:44px;margin-top:14px;padding:8px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  margin-top:14px;
+  padding:8px 10px;
   border-radius:12px;
   background:linear-gradient(180deg,#7b5b14 0%,#4c3300 100%);
-  color:#fff7ca;font-size:clamp(14px,4vw,18px);
-  font-weight:900;line-height:1.35;text-align:center;text-decoration:none;
+  color:#fff7ca;
+  font-size:clamp(14px,4vw,18px);
+  font-weight:900;
+  line-height:1.35;
+  text-align:center;
+  text-decoration:none;
 }
+
 .youtubeBox{
-  width:100%;min-width:0;max-width:100%;margin:14px 0 0;
-  overflow:hidden;border:1px solid rgba(255,220,95,.55);
-  border-radius:14px;background:#000;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:14px 0 0;
+  overflow:hidden;
+  border:1px solid rgba(255,220,95,.55);
+  border-radius:14px;
+  background:#000;
 }
+
 .youtubeFrameWrap{
-  position:relative;width:100%;min-width:0;max-width:100%;
-  padding-top:56.25%;background:#000;
+  position:relative;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  padding-top:56.25%;
+  background:#000;
 }
+
 .youtubeFrame{
-  position:absolute;inset:0;display:block;width:100%;height:100%;border:0;
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
 }
+
 .shareBtnArea{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  width:100%;min-width:0;max-width:100%;gap:8px;margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  gap:8px;
+  margin-top:14px;
 }
+
 .smallBtn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;min-width:0;max-width:100%;min-height:44px;
-  padding:7px 4px;border:0;border-radius:11px;color:#fff;
-  cursor:pointer;font-family:inherit;font-size:clamp(13px,3.7vw,16px);
-  font-weight:900;line-height:1.25;text-align:center;
-  overflow-wrap:anywhere;word-break:break-word;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  min-height:44px;
+  padding:7px 4px;
+  border:0;
+  border-radius:11px;
+  color:#fff;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:clamp(13px,3.7vw,16px);
+  font-weight:900;
+  line-height:1.25;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:break-word;
   box-shadow:0 3px 8px rgba(0,0,0,.28);
 }
-.smallBtn:active{transform:translateY(1px)}
-.blueBtn{background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%)}
-.greenBtn{background:linear-gradient(180deg,#38e988 0%,#09b957 100%)}
-.blackBtn{background:linear-gradient(180deg,#323232 0%,#050505 100%)}
-.btnArea{width:100%;min-width:0;max-width:100%;margin-top:18px}
+
+.smallBtn:active{
+  transform:translateY(1px);
+}
+
+.blueBtn{
+  background:linear-gradient(180deg,#2e83ff 0%,#0b4fc4 100%);
+}
+
+.greenBtn{
+  background:linear-gradient(180deg,#38e988 0%,#09b957 100%);
+}
+
+.blackBtn{
+  background:linear-gradient(180deg,#323232 0%,#050505 100%);
+}
+
+.btnArea{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin-top:18px;
+}
+
 .linkBtn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;min-width:0;max-width:100%;min-height:54px;
-  padding:10px 14px;border-radius:14px;color:#fff;
-  font-size:clamp(16px,4.5vw,21px);font-weight:900;line-height:1.3;
-  text-align:center;text-decoration:none;
-  overflow-wrap:anywhere;word-break:break-word;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  min-height:54px;
+  padding:10px 14px;
+  border-radius:14px;
+  color:#fff;
+  font-size:clamp(16px,4.5vw,21px);
+  font-weight:900;
+  line-height:1.3;
+  text-align:center;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:break-word;
   box-shadow:0 5px 12px rgba(0,0,0,.28);
 }
+
 .footer{
-  width:100%;min-width:0;max-width:100%;margin:22px 0 0;
-  color:#c9b56b;font-size:14px;font-weight:800;line-height:1.6;
-  text-align:center;overflow-wrap:anywhere;word-break:break-word;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin:22px 0 0;
+  color:#c9b56b;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.6;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
-@media(max-width:360px){
-  .page{padding-left:10px;padding-right:10px}
-  .newsItem{padding:12px}
-  .smallBtn{font-size:13px}
+
+@media (max-width:360px){
+  .page{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .newsItem{
+    padding:12px;
+  }
+
+  .smallBtn{
+    font-size:13px;
+  }
+}
+
+.newsBodyLink{
+  color:#8fd8ff;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.newsBodyLink:focus-visible{
+  outline:2px solid #ffdf72;
+  outline-offset:3px;
 }
 </style>
 </head>
@@ -169,7 +353,6 @@ button,a{-webkit-tap-highlight-color:transparent}
   <div class="btnArea" style="margin:0 0 16px">
     <a class="linkBtn blackBtn" id="topLinkUpper" href="index.html">トップへ戻る</a>
   </div>
-
   <h1 class="pageTitle">お知らせ</h1>
 
   <p class="lead">
@@ -197,7 +380,7 @@ const SHARE_NEWS_PAGE = "https://ichirohns-jpg.github.io/tagoyama-fuji-168/share
 
 let currentUserId = "";
 
-window.addEventListener("load",initNews);
+window.addEventListener("load", initNews);
 
 function initNews(){
   currentUserId = getUserId();
@@ -210,7 +393,8 @@ function loadNewsFromSheet(){
 
   const callbackName =
     "tagoyamaSheetCallback_" +
-    Date.now() + "_" +
+    Date.now() +
+    "_" +
     Math.floor(Math.random() * 1000000);
 
   const script = document.createElement("script");
@@ -219,7 +403,7 @@ function loadNewsFromSheet(){
   let timer = setTimeout(function(){
     cleanup();
     setStatus("お知らせを読み込めませんでした。");
-  },15000);
+  }, 15000);
 
   window[callbackName] = function(response){
     cleanup();
@@ -247,11 +431,13 @@ function loadNewsFromSheet(){
 
   function cleanup(){
     clearTimeout(timer);
+
     try{
       delete window[callbackName];
     }catch(error){
       window[callbackName] = undefined;
     }
+
     if(script.parentNode){
       script.parentNode.removeChild(script);
     }
@@ -303,9 +489,11 @@ function handleSheetResponse(response){
 
   list.sort(function(a,b){
     const dateDifference = getDateNumber(b.date) - getDateNumber(a.date);
+
     if(dateDifference !== 0){
       return dateDifference;
     }
+
     return b.sourceIndex - a.sourceIndex;
   });
 
@@ -314,6 +502,7 @@ function handleSheetResponse(response){
 
 function renderNews(list){
   const newsList = document.getElementById("newsList");
+
   if(!newsList){
     return;
   }
@@ -371,6 +560,7 @@ function renderNews(list){
     }
 
     const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
+
     if(embedUrl){
       box.appendChild(createYouTubeBlock(embedUrl));
     }
@@ -380,67 +570,6 @@ function renderNews(list){
   });
 
   setStatus("新しいお知らせから順番に表示しています。");
-}
-
-function renderNewsText(container,value){
-  const source = String(value == null ? "" : value);
-  const pattern = /\[([^\]\r\n]+)\]\((https?:\/\/[^\s<>"'`]+)\)|https?:\/\/[^\s<>"'`\\\u3000-\u303f\uff00-\uffef\u3040-\u30ff\u3400-\u9fff]+/gi;
-
-  container.textContent = "";
-  let cursor = 0;
-  let match;
-
-  while((match = pattern.exec(source)) !== null){
-    container.appendChild(
-      document.createTextNode(source.slice(cursor,match.index))
-    );
-
-    let address = match[2] || match[0];
-    let suffix = "";
-
-    if(!match[2]){
-      while(
-        /[.,!?;:]$/.test(address) ||
-        (
-          address.endsWith(")") &&
-          (address.match(/\)/g) || []).length >
-          (address.match(/\(/g) || []).length
-        )
-      ){
-        suffix = address.slice(-1) + suffix;
-        address = address.slice(0,-1);
-      }
-    }
-
-    let url = null;
-
-    try{
-      const parsed = new URL(address);
-      if(parsed.protocol === "https:" || parsed.protocol === "http:"){
-        url = parsed;
-      }
-    }catch(error){}
-
-    if(url){
-      const link = document.createElement("a");
-      link.className = "newsBodyLink";
-      link.href = url.href;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = match[1] || address;
-      container.appendChild(link);
-
-      if(suffix){
-        container.appendChild(document.createTextNode(suffix));
-      }
-    }else{
-      container.appendChild(document.createTextNode(match[0]));
-    }
-
-    cursor = pattern.lastIndex;
-  }
-
-  container.appendChild(document.createTextNode(source.slice(cursor)));
 }
 
 function createYouTubeBlock(embedUrl){
@@ -472,7 +601,7 @@ function createShareButtons(item,index){
   facebook.type = "button";
   facebook.className = "smallBtn blueBtn";
   facebook.textContent = "Facebookに投稿";
-  facebook.addEventListener("click",function(){
+  facebook.addEventListener("click", function(){
     postFacebookNews(item,index);
   });
 
@@ -480,7 +609,7 @@ function createShareButtons(item,index){
   line.type = "button";
   line.className = "smallBtn greenBtn";
   line.textContent = "LINEで送る";
-  line.addEventListener("click",function(){
+  line.addEventListener("click", function(){
     sendLineNews(item,index);
   });
 
@@ -488,7 +617,7 @@ function createShareButtons(item,index){
   x.type = "button";
   x.className = "smallBtn blackBtn";
   x.textContent = "Xで投稿";
-  x.addEventListener("click",function(){
+  x.addEventListener("click", function(){
     postXNews(item,index);
   });
 
@@ -496,7 +625,7 @@ function createShareButtons(item,index){
   copy.type = "button";
   copy.className = "smallBtn blueBtn";
   copy.textContent = "リンクをコピー";
-  copy.addEventListener("click",function(){
+  copy.addEventListener("click", function(){
     copyNews(item,index);
   });
 
@@ -509,11 +638,13 @@ function createShareButtons(item,index){
 
 function getYouTubeEmbedUrl(value){
   const text = getString(value);
+
   if(!text){
     return "";
   }
 
   let url;
+
   try{
     url = new URL(text);
   }catch(error){
@@ -538,6 +669,7 @@ function getYouTubeEmbedUrl(value){
   }
 
   videoId = videoId.replace(/[^A-Za-z0-9_-]/g,"");
+
   if(!videoId){
     return "";
   }
@@ -545,6 +677,54 @@ function getYouTubeEmbedUrl(value){
   return "https://www.youtube.com/embed/" +
     encodeURIComponent(videoId) +
     "?rel=0";
+}
+
+
+function renderNewsText(container,value){
+  const source = String(value == null ? "" : value);
+  const pattern = /\[([^\]\r\n]+)\]\((https?:\/\/[^\s<>"'`]+)\)|https?:\/\/[^\s<>"'`\\\u3000-\u303f\uff00-\uffef\u3040-\u30ff\u3400-\u9fff]+/gi;
+  container.textContent = "";
+  let cursor = 0;
+  let match;
+
+  while((match = pattern.exec(source)) !== null){
+    container.appendChild(document.createTextNode(source.slice(cursor,match.index)));
+    let address = match[2] || match[0];
+    let suffix = "";
+    if(!match[2]){
+      while(/[.,!?;:]$/.test(address) ||
+        (address.endsWith(")") &&
+          (address.match(/\)/g) || []).length > (address.match(/\(/g) || []).length)){
+        suffix = address.slice(-1) + suffix;
+        address = address.slice(0,-1);
+      }
+    }
+
+    let url = null;
+    try{
+      const parsed = new URL(address);
+      if(parsed.protocol === "https:" || parsed.protocol === "http:"){
+        url = parsed;
+      }
+    }catch(error){}
+
+    if(url){
+      const link = document.createElement("a");
+      link.className = "newsBodyLink";
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = match[1] || address;
+      container.appendChild(link);
+      if(suffix){
+        container.appendChild(document.createTextNode(suffix));
+      }
+    }else{
+      container.appendChild(document.createTextNode(match[0]));
+    }
+    cursor = pattern.lastIndex;
+  }
+  container.appendChild(document.createTextNode(source.slice(cursor)));
 }
 
 function getCell(cell){
@@ -563,20 +743,24 @@ function getDateCell(cell){
   if(!cell){
     return "";
   }
+
   return getString(cell.f || cell.v);
 }
 
 function getSafeUrl(value){
   const text = getString(value);
+
   if(!text){
     return "";
   }
 
   try{
-    const url = new URL(text,location.href);
+    const url = new URL(text, location.href);
+
     if(url.protocol !== "https:" && url.protocol !== "http:"){
       return "";
     }
+
     return url.href;
   }catch(error){
     return "";
@@ -597,7 +781,9 @@ function makeNewsShareText(item){
 }
 
 function buildNewsShareUrl(index){
-  return SHARE_NEWS_PAGE;
+  const number = Number(index);
+  const articleIndex = Number.isInteger(number) && number >= 0 ? number : 0;
+  return SHARE_NEWS_PAGE + "?n=" + encodeURIComponent(String(articleIndex));
 }
 
 async function postFacebookNews(item,index){
@@ -607,8 +793,7 @@ async function postFacebookNews(item,index){
   alert("投稿文をコピーしました。\nFacebook投稿画面で本文欄に貼り付けてください。");
 
   window.open(
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(shareUrl),
+    "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(shareUrl),
     "_blank",
     "noopener,noreferrer"
   );
@@ -677,16 +862,18 @@ function getUserId(){
 }
 
 function updateLinks(){
+  const topLink = document.getElementById("topLink");
+
+  if(!topLink){
+    return;
+  }
+
   const query = currentUserId
     ? "?userId=" + encodeURIComponent(currentUserId)
     : "";
 
-  const topLink = document.getElementById("topLink");
+  topLink.href = "index.html" + query;
   const topLinkUpper = document.getElementById("topLinkUpper");
-
-  if(topLink){
-    topLink.href = "index.html" + query;
-  }
   if(topLinkUpper){
     topLinkUpper.href = "index.html" + query;
   }
@@ -694,6 +881,7 @@ function updateLinks(){
 
 function setStatus(text){
   const status = document.getElementById("statusBox");
+
   if(status){
     status.textContent = text;
   }
@@ -741,8 +929,10 @@ function getString(value){
   if(value === null || value === undefined){
     return "";
   }
+
   return String(value).trim();
 }
 </script>
 </body>
 </html>
+
