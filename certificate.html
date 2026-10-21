@@ -568,8 +568,7 @@ async function loadCertificateFromGas(userId){
   try{
     const data = await tryManyJson([
       GAS_URL + "?mode=climbHistory&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
-      GAS_URL + "?mode=receiveCertificate&userId=" + encodeURIComponent(userId) + "&t=" + Date.now(),
-      GAS_URL + "?mode=saveClimb&userId=" + encodeURIComponent(userId) + "&t=" + Date.now()
+      GAS_URL + "?mode=receiveCertificate&userId=" + encodeURIComponent(userId) + "&t=" + Date.now()
     ]);
 
     const normalized = normalizeGasData(data, userId);
