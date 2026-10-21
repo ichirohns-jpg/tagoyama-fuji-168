@@ -450,14 +450,22 @@ function loadArticle(index){
       return b.sourceIndex - a.sourceIndex;
     });
 
-    const item = list[index] || list[0] || null;
+    const requestedKey = new URLSearchParams(location.search).get("key");
+    const matchedIndex = requestedKey !== null
+      ? list.findIndex(function(entry){ return getArticleKey(entry) === requestedKey; })
+      : index;
+    const item = requestedKey !== null
+      ? (matchedIndex >= 0 ? list[matchedIndex] : null)
+      : (list[index] || list[0] || null);
 
     if(!item){
-      showError("表示できるお知らせがありません。");
+      showError(requestedKey !== null
+        ? "指定のお知らせが見つかりません。お知らせ一覧から選び直してください。"
+        : "表示できるお知らせがありません。");
       return;
     }
 
-    renderArticle(item,index);
+    renderArticle(item,matchedIndex);
     setStatus("お知らせを表示しました。");
   };
 
@@ -698,6 +706,10 @@ function setMeta(attribute,name,value){
   }
 }
 
+function getArticleKey(item){
+  return JSON.stringify([String(item.date || "").trim(),String(item.title || "").trim()]);
+}
+
 function buildArticleUrl(index){
   const params = new URLSearchParams(location.search);
   const userId =
@@ -706,7 +718,11 @@ function buildArticleUrl(index){
     getString(params.get("uid"));
   const query = new URLSearchParams();
 
-  query.set("n",String(index));
+  if(params.has("key")){
+    query.set("key",params.get("key"));
+  }else{
+    query.set("n",String(index));
+  }
 
   if(userId){
     query.set("userId",userId);
