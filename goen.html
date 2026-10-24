@@ -208,6 +208,18 @@ body{
   line-height:1.25;
 }
 
+.goenAreaLink{
+  color:#fff;
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-underline-offset:3px;
+  word-break:break-all;
+}
+
+.goenAreaLink:active{
+  opacity:.72;
+}
+
 .goenMessage{
   margin:0;
   padding:14px 12px;
@@ -615,8 +627,10 @@ function renderGoen(list){
         areaChip.className =
           "goenChip";
 
-        areaChip.innerText =
-          item.area;
+        renderGoenArea(
+          areaChip,
+          item.area
+        );
 
         metaArea.appendChild(
           areaChip
@@ -656,6 +670,127 @@ function renderGoen(list){
 
   setStatus(
     "ご縁帳を表示しました。"
+  );
+}
+
+function renderGoenArea(container,value){
+
+  const source =
+    String(
+      value == null ? "" : value
+    );
+
+  const pattern =
+    /\[([^\]\r\n]+)\]\((https?:\/\/[^\s<>"'`]+)\)|https?:\/\/[^\s<>"'`\\\u3000-\u303f\uff00-\uffef\u3040-\u30ff\u3400-\u9fff]+/gi;
+
+  container.textContent = "";
+
+  if(
+    !/^https?:\/\//i.test(source) &&
+    !/^\[[^\]]+\]\(https?:\/\//i.test(source)
+  ){
+
+    const link =
+      document.createElement("a");
+
+    link.className =
+      "goenAreaLink";
+    link.href =
+      "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent(source);
+    link.target =
+      "_blank";
+    link.rel =
+      "noopener noreferrer";
+    link.textContent =
+      source;
+    container.appendChild(link);
+    return;
+  }
+
+  let cursor = 0;
+  let match;
+
+  while(
+    (match = pattern.exec(source)) !== null
+  ){
+
+    container.appendChild(
+      document.createTextNode(
+        source.slice(
+          cursor,
+          match.index
+        )
+      )
+    );
+
+    let address =
+      match[2] || match[0];
+
+    let suffix = "";
+
+    while(
+      /[.,!?;:]$/.test(address) ||
+      (
+        address.endsWith(")") &&
+        (address.match(/\)/g) || []).length >
+        (address.match(/\(/g) || []).length
+      )
+    ){
+      suffix =
+        address.slice(-1) + suffix;
+      address =
+        address.slice(0,-1);
+    }
+
+    try{
+
+      const url =
+        new URL(address);
+
+      if(
+        url.protocol === "https:" ||
+        url.protocol === "http:"
+      ){
+
+        const link =
+          document.createElement("a");
+
+        link.className =
+          "goenAreaLink";
+        link.href =
+          url.href;
+        link.target =
+          "_blank";
+        link.rel =
+          "noopener noreferrer";
+        link.textContent =
+          match[1] || address;
+
+        container.appendChild(link);
+
+        if(suffix){
+          container.appendChild(
+            document.createTextNode(suffix)
+          );
+        }
+
+        cursor = pattern.lastIndex;
+        continue;
+      }
+    }catch(error){}
+
+    container.appendChild(
+      document.createTextNode(match[0])
+    );
+
+    cursor = pattern.lastIndex;
+  }
+
+  container.appendChild(
+    document.createTextNode(
+      source.slice(cursor)
+    )
   );
 }
 
