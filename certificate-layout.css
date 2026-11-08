@@ -1,33 +1,55 @@
-/* Shared 9:16 artwork layout. Restored from the earlier top/bottom design. */
+/* 9:16 certificate artwork; all typography scales with the artwork width. */
 .certificateWrap{border-radius:0;background:transparent}
 .imageBox,.certificateImageBox{
-  position:relative;width:100%;aspect-ratio:9/16;
-  container-type:inline-size;overflow:hidden;
-  margin:0;padding:0;border:0;border-radius:0;box-shadow:none;
+  position:relative;width:100%;aspect-ratio:9/16;container-type:inline-size;
+  overflow:hidden;margin:0;padding:0;border:0;border-radius:4cqw;box-shadow:none;
 }
 .memorialImage,.certificateImage{
-  position:absolute;inset:0;display:block;width:100%;height:100%;
-  object-fit:contain;margin:0;padding:0;border:0;border-radius:0;
+  position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;
+  margin:0;padding:0;border:0;border-radius:0;
+}
+.certificateFrameOuter,.certificateFrameInner{
+  position:absolute;pointer-events:none;z-index:1;box-sizing:border-box;
+}
+.certificateFrameOuter{
+  left:2.6%;right:2.6%;top:2.2%;bottom:2.2%;border-radius:5cqw;
+  border:.55cqw solid #d4b15b;
+  box-shadow:0 0 0 .55cqw rgba(29,23,10,.9),0 0 0 1.1cqw rgba(255,241,198,.76),inset 0 0 4cqw rgba(54,35,8,.16);
+}
+.certificateFrameInner{
+  left:5.4%;right:5.4%;top:5%;bottom:5%;border-radius:4cqw;
+  border:.18cqw solid rgba(255,242,194,.64);
 }
 .overlayTop,.overlayBottom,.certificateOverlay{
-  position:absolute;left:6%;right:6%;margin:0;padding:0;
-  text-align:center;pointer-events:none;background:none;border:0;
+  position:absolute;z-index:2;margin:0;text-align:center;pointer-events:none;
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
-  font-weight:900;line-height:1.2;
-  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8);
+  font-weight:800;line-height:1.25;
+  text-shadow:0 .12cqw .15cqw rgba(61,38,6,.88),0 .35cqw .6cqw rgba(0,0,0,.35);
 }
-.overlayTop{top:5%;bottom:auto}
-.overlayBottom,.certificateOverlay{top:auto;bottom:7%}
+.overlayTop{top:10.2%;left:8%;right:8%;bottom:auto;padding:0;background:none;border:0}
 .overlayTop p,.overlayBottom p,.certificateOverlay p{padding:0}
-.overlayTitleSmall{margin:0 0 1cqw;color:#fff7ca;font-size:4.8cqw;letter-spacing:.08em}
-.overlayTitleMain{margin:0;color:#ffdf72;font-size:6.8cqw;letter-spacing:.08em}
+.overlayTitleSmall{margin:0 0 1.6cqw;color:#fff3c9;font-size:5.4cqw;letter-spacing:.14em}
+.overlayTitleMain{margin:0;color:#edcd73;font-size:7.4cqw;letter-spacing:.1em}
+.overlayBottom,.certificateOverlay{
+  top:auto;left:10%;right:10%;bottom:7%;padding:5cqw 3cqw 3.6cqw;
+  background:linear-gradient(150deg,rgba(53,40,17,.76),rgba(98,78,44,.66));
+  border:.3cqw solid rgba(220,187,100,.88);border-radius:5cqw;
+  box-shadow:inset 0 0 0 .15cqw rgba(255,240,190,.18),0 .8cqw 2cqw rgba(27,17,4,.18);
+}
+.overlayBottom::before,.certificateOverlay::before{
+  content:"";position:absolute;left:50%;top:1.7cqw;width:1.5cqw;height:1.5cqw;
+  transform:translateX(-50%) rotate(45deg);background:#e5c472;
+}
 .climbTitle,.certificateOverlay .title{
-  margin:0 0 1.1cqw;color:#ffdf72;font-size:4.8cqw;line-height:1.2;letter-spacing:.04em;
+  margin:0 0 1.6cqw;color:#fff5da;font-size:4.2cqw;line-height:1.3;letter-spacing:.08em;
 }
 .serialNo,.certificateOverlay .serial{
-  margin:0 0 1.1cqw;color:#fff7ca;font-size:6.3cqw;line-height:1.15;letter-spacing:.01em;
+  margin:0 0 1.7cqw;color:#f0d383;font-size:4.8cqw;line-height:1.25;letter-spacing:.04em;
   overflow-wrap:anywhere;
 }
 .dateText,.certificateOverlay .date{
-  margin:0;color:#fff7ca;font-size:4.8cqw;line-height:1.2;letter-spacing:.03em;
+  margin:0;color:#fff5de;font-size:4cqw;line-height:1.3;letter-spacing:.1em;
 }
+.climbTitle,.serialNo,.dateText,.certificateOverlay .title,.certificateOverlay .serial,.certificateOverlay .date{font-family:inherit;font-weight:800;text-shadow:inherit}
+/* Keep exported PNG and browser decoration identical. */
+.certificateFrameOuter,.overlayBottom,.certificateOverlay{box-shadow:none}
