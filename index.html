@@ -653,6 +653,10 @@ async function saveClimbByUserId(userId){
         userId
       );
 
+    if(data.success === false || data.ok === false || !normalized.climbCount || !normalized.serialNo){
+      throw new Error("登頂回数と記念番号を確認できませんでした。");
+    }
+
     certificateData =
       mergeData(
         certificateData,

@@ -29,7 +29,8 @@
 <link rel="icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 <link rel="apple-touch-icon" href="https://ichirohns-jpg.github.io/tagoyama-fuji-168/logo.png">
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="./vendor/html2canvas.min.js"></script>
+<script src="./certificate-images.js?v=20261108-certificate-check"></script>
 
 <style>
 *{
@@ -152,7 +153,7 @@ body{
 
 .climbTitle{
   margin:0 0 3px;
-  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+  font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
   font-size:clamp(16px,4.4vw,30px);
   font-weight:900;
   color:#ffdf72;
@@ -373,7 +374,7 @@ body{
   </div>
 
   <div class="btnArea">
-    <button class="btn goldBtn" id="saveBtn" type="button" onclick="saveCertificateImage()">
+    <button class="btn goldBtn" id="saveBtn" type="button" disabled onclick="saveCertificateImage()">
       画像を保存
     </button>
 
@@ -446,7 +447,7 @@ async function initCertificate(){
   renderCertificate(certificateData);
   updateLinks();
 
-  setStatus("登頂記録を読み込みました。");
+  if(!certificateData.imageUrl){setStatus("記念証を表示する情報がありません。山頂QRから受け取った記録をご確認ください。");}
 }
 
 function getDataFromUrl(){
@@ -658,8 +659,7 @@ function renderCertificate(data){
   const date =
     formatDateText(data.lastDate);
 
-  const imageUrl =
-    getString(data.imageUrl);
+  const imageUrl = window.TagoyamaCertificateAssets.resolve(data.imageUrl,count);
 
   if(isTestSerial(serial)){
     serial = "";
@@ -686,6 +686,7 @@ function renderCertificate(data){
 
   if(imageUrl && image){
     image.onload = function(){
+      setStatus(serial ? "記念画像・登頂回数・記念番号・日付を表示しています。" : "記念画像を表示しています。記念番号は登頂記録でご確認ください。");
       if(imageBox){
         imageBox.style.display = "block";
       }
@@ -700,6 +701,7 @@ function renderCertificate(data){
     };
 
     image.onerror = function(){
+      setStatus("記念画像を読み込めませんでした。通信状態をご確認ください。");
       if(imageBox){
         imageBox.style.display = "none";
       }
@@ -713,6 +715,7 @@ function renderCertificate(data){
       }
     };
 
+    image.crossOrigin = "anonymous";
     image.src = imageUrl;
   }else{
     if(imageBox){
@@ -769,12 +772,15 @@ async function saveCertificateImage(){
   }
 
   try{
+    const image=document.getElementById("memorialImage");
+    if(!image || !image.complete || !image.naturalWidth){throw new Error("記念画像の読み込みが終わっていません。");}
+    if(document.fonts && document.fonts.ready){await document.fonts.ready;}
     const target = document.getElementById("certificateWrap");
 
     const canvas = await html2canvas(target,{
       backgroundColor:"#000000",
       useCORS:true,
-      allowTaint:true,
+      allowTaint:false,
       scale:2
     });
 
@@ -861,11 +867,7 @@ async function postFacebook(){
 }
 
 function sendLine(){
-  const url =
-    "https://social-plugins.line.me/lineit/share?url=" +
-    encodeURIComponent(buildShareUrl()) +
-    "&text=" +
-    encodeURIComponent(makeShareText());
+  const url = "https://line.me/R/share?text=" + encodeURIComponent(makeShareText()+"\n"+buildShareUrl());
 
   location.href = url;
 }
@@ -892,9 +894,10 @@ async function copyShareText(){
 }
 
 function buildShareUrl(){
-
-  return SHARE_CERTIFICATE_PAGE;
-
+  const url=new URL(SHARE_CERTIFICATE_PAGE);
+  const fields={climbCount:certificateData.climbCount,serialNo:certificateData.serialNo,lastDate:certificateData.lastDate,imageUrl:certificateData.imageUrl};
+  Object.keys(fields).forEach(function(key){if(fields[key])url.searchParams.set(key,fields[key]);});
+  return url.href;
 }
 
 function makeShareText(){
@@ -926,7 +929,7 @@ async function tryManyJson(urls){
     try{
       const data = await getJson(urls[i]);
 
-      if(data !== null && data !== undefined){
+      if(data !== null && data !== undefined && data.success !== false && data.ok !== false){
         return data;
       }
     }catch(error){
