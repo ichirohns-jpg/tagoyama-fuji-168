@@ -333,6 +333,7 @@ body{
   }
 }
 </style>
+<link rel="stylesheet" href="./certificate-layout.css?v=20261108-portrait">
 </head>
 
 <body>
@@ -353,6 +354,7 @@ body{
         alt="田子山富士 登頂記念証"
       >
 
+      <div class="overlayTop"><p class="overlayTitleSmall">田子山富士</p><p class="overlayTitleMain">登頂記念証</p></div>
       <div class="overlayBottom">
         <p class="climbTitle" id="climbTitle"></p>
         <p class="serialNo" id="serialNo"></p>
@@ -775,14 +777,18 @@ async function saveCertificateImage(){
     const image=document.getElementById("memorialImage");
     if(!image || !image.complete || !image.naturalWidth){throw new Error("記念画像の読み込みが終わっていません。");}
     if(document.fonts && document.fonts.ready){await document.fonts.ready;}
-    const target = document.getElementById("certificateWrap");
-
-    const canvas = await html2canvas(target,{
+    const target = document.getElementById("imageBox");
+    const rendered = await html2canvas(target,{
       backgroundColor:"#000000",
       useCORS:true,
       allowTaint:false,
-      scale:2
+      scale:1080 / target.getBoundingClientRect().width
     });
+    // Save only the artwork, at exactly 9:16, independently of screen size.
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1920;
+    canvas.getContext("2d").drawImage(rendered,0,0,1080,1920);
 
     const blob = await new Promise(function(resolve){
       canvas.toBlob(function(result){

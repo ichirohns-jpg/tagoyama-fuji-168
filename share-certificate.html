@@ -314,6 +314,7 @@ body{
 </style>
 <script src="./certificate-images.js?v=20261108-certificate-check"></script>
 <style>.certificateImageBox{position:relative}.certificateOverlay{position:absolute;left:9%;right:9%;top:5.2%;color:#fff7ca;text-align:center;text-shadow:0 2px 3px #000,0 0 7px #000;font-weight:900;line-height:1.18}.certificateOverlay p{margin:3px 0}.certificateOverlay .title{font-size:clamp(16px,4.4vw,30px);color:#ffdf72}.certificateOverlay .serial{font-size:clamp(18px,5vw,36px)}.certificateOverlay .date{font-size:clamp(15px,4.1vw,28px)}</style>
+<link rel="stylesheet" href="./certificate-layout.css?v=20261108-portrait">
 </head>
 
 <body>
@@ -346,7 +347,8 @@ body{
       id="certificateImage"
       alt="田子山富士 登頂記念証"
     >
-    <div class="certificateOverlay"><p class="title" id="sharedClimbTitle"></p><p class="serial" id="sharedSerialNo"></p><p class="date" id="sharedDate"></p></div>
+    <div class="overlayTop"><p class="overlayTitleSmall">田子山富士</p><p class="overlayTitleMain">登頂記念証</p></div>
+      <div class="certificateOverlay"><p class="title" id="sharedClimbTitle"></p><p class="serial" id="sharedSerialNo"></p><p class="date" id="sharedDate"></p></div>
   </div>
 
   <div class="noImageBox" id="noImageBox">

@@ -1,0 +1,33 @@
+/* Shared 9:16 artwork layout. Restored from the earlier top/bottom design. */
+.certificateWrap{border-radius:0;background:transparent}
+.imageBox,.certificateImageBox{
+  position:relative;width:100%;aspect-ratio:9/16;
+  container-type:inline-size;overflow:hidden;
+  margin:0;padding:0;border:0;border-radius:0;box-shadow:none;
+}
+.memorialImage,.certificateImage{
+  position:absolute;inset:0;display:block;width:100%;height:100%;
+  object-fit:contain;margin:0;padding:0;border:0;border-radius:0;
+}
+.overlayTop,.overlayBottom,.certificateOverlay{
+  position:absolute;left:6%;right:6%;margin:0;padding:0;
+  text-align:center;pointer-events:none;background:none;border:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  font-weight:900;line-height:1.2;
+  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.8);
+}
+.overlayTop{top:5%;bottom:auto}
+.overlayBottom,.certificateOverlay{top:auto;bottom:7%}
+.overlayTop p,.overlayBottom p,.certificateOverlay p{padding:0}
+.overlayTitleSmall{margin:0 0 1cqw;color:#fff7ca;font-size:4.8cqw;letter-spacing:.08em}
+.overlayTitleMain{margin:0;color:#ffdf72;font-size:6.8cqw;letter-spacing:.08em}
+.climbTitle,.certificateOverlay .title{
+  margin:0 0 1.1cqw;color:#ffdf72;font-size:4.8cqw;line-height:1.2;letter-spacing:.04em;
+}
+.serialNo,.certificateOverlay .serial{
+  margin:0 0 1.1cqw;color:#fff7ca;font-size:6.3cqw;line-height:1.15;letter-spacing:.01em;
+  overflow-wrap:anywhere;
+}
+.dateText,.certificateOverlay .date{
+  margin:0;color:#fff7ca;font-size:4.8cqw;line-height:1.2;letter-spacing:.03em;
+}
