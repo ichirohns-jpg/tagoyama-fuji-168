@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const els=new Map(),storage=new Map(),requests=[];
+const el=id=>{if(!els.has(id))els.set(id,{id,value:'',hidden:false,disabled:false,textContent:'',children:[],events:{},addEventListener(e,f){this.events[e]=f;},append(v){this.children.push(v);},replaceChildren(...values){this.children=values;}});return els.get(id);};
+el('range').value='30';
+const context={document:{getElementById:el,createElement:()=>({textContent:'',children:[],append(v){this.children.push(v);}})},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},Date,Intl,JSON,Boolean,URLSearchParams,fetch:async(url,init={})=>{requests.push({url,init});if(url.endsWith('/auth'))return {ok:true,status:200,json:async()=>({ok:true,token:'scoped-test-token',expiresAt:Date.now()+100000})};return {ok:true,status:200,json:async()=>({total:2,people:1,todayTotal:2,allTotal:2,allPeople:1,daily:[{day:'2026-11-09',clicks:2,people:1}],recent:[{occurredAt:'2026-11-09T01:00:00Z'}],updatedAt:'2026-11-09T01:00:00Z'})};}};
+vm.createContext(context);vm.runInContext(fs.readFileSync('manage.js','utf8'),context);
+assert.equal(requests.length,0,'No statistics request before login');el('pin').value='931752';await el('metrics-login').events.submit({preventDefault(){}});
+assert.equal(el('pin').value,'','PIN cleared after use');assert.equal(el('login-panel').hidden,true);assert.equal(el('dashboard').hidden,false);assert.equal(el('clicks').textContent,'2');assert.equal(el('people').textContent,'1');assert.equal(el('daily').children.length,1);assert.equal(el('recent').children.length,1);
+assert.equal(requests[1].init.headers.Authorization,'Bearer scoped-test-token');assert.equal(requests[1].init.credentials,'omit');assert(storage.has('tgf168_stats_session'));assert(!JSON.stringify([...storage]).includes('931752'));
+el('logout').events.click();assert.equal(el('dashboard').hidden,true);assert.equal(el('login-panel').hidden,false);assert.equal(storage.size,0);
+console.log('Passed: in-DX login, authenticated statistics rendering, PIN clearing, scoped token persistence, logout.');
