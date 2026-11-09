@@ -31,6 +31,7 @@
 
 <script src="./vendor/html2canvas.min.js"></script>
 <script src="./certificate-images.js?v=20261108-certificate-check"></script>
+<script src="./certificate-metrics.js?v=20261109"></script>
 
 <style>
 *{
@@ -403,7 +404,8 @@ body{
   </div>
 
   <p class="notice">
-    登頂回数・記念番号・日付を表示します。
+    登頂回数・記念番号・日付を表示します。<br>
+    保存ボタンの利用状況を匿名で集計しています。
   </p>
 </section>
 
@@ -433,20 +435,21 @@ window.addEventListener("load", initCertificate);
 
 async function initCertificate(){
   const urlData = getDataFromUrl();
-  const localData = getDataFromLocal();
+  const previewMode = new URLSearchParams(location.search).get("preview") === "1";
+  const localData = previewMode ? {} : getDataFromLocal();
 
   certificateData = mergeData(certificateData, localData);
   certificateData = mergeData(certificateData, urlData);
 
   certificateData = removeTestData(certificateData);
 
-  if(certificateData.userId){
+  if(!previewMode && certificateData.userId){
     await loadCertificateFromGas(certificateData.userId);
     certificateData = mergeData(certificateData, urlData);
     certificateData = removeTestData(certificateData);
   }
 
-  saveDataToLocal(certificateData);
+  if(!previewMode){saveDataToLocal(certificateData);}
   renderCertificate(certificateData);
   updateLinks();
 
@@ -765,6 +768,9 @@ async function saveCertificateImage(){
     alert("保存できる登頂記念証がありません。トップから登頂記念証を受け取ってください。");
     return;
   }
+
+  // Count a button press, independently of whether the system share sheet is completed.
+  if(window.TagoyamaMetrics){window.TagoyamaMetrics.recordSave({test:/確認用|\bTEST\b/i.test(certificateData.serialNo||"")});}
 
   const btn = document.getElementById("saveBtn");
   const oldText = btn ? btn.innerText : "";

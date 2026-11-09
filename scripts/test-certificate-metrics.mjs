@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';import vm from 'node:vm';import fs from 'node:fs';import {webcrypto} from 'node:crypto';
+const map=new Map(),listeners={},requests=[];let mode='ok';
+const storage={getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k),key:i=>[...map.keys()][i],get length(){return map.size;}};
+const context={crypto:webcrypto,localStorage:storage,window:{addEventListener:(e,fn)=>listeners[e]=fn},document:{addEventListener:()=>{}},Date,JSON,Boolean,fetch:async(u,o)=>{requests.push({u,o});if(mode==='offline')throw Error('offline');return {ok:true,status:200,json:async()=>({ok:true})};}};
+vm.createContext(context);const source=fs.readFileSync('certificate-metrics.js','utf8');vm.runInContext(source,context);const settle=()=>new Promise(resolve=>setImmediate(resolve));
+context.window.TagoyamaMetrics.recordSave();await settle();assert.equal(requests.length,1);let body=JSON.parse(requests[0].o.body);const first=body;assert.match(body.visitorId,/^[a-f0-9-]{36}$/);assert.equal(requests[0].o.keepalive,true);assert.equal(requests[0].o.credentials,'omit');assert.deepEqual(Object.keys(body).sort(),['eventId','occurredAt','test','visitorId']);
+context.window.TagoyamaMetrics.recordSave();await settle();body=JSON.parse(requests[1].o.body);assert.equal(body.visitorId,first.visitorId);assert.notEqual(body.eventId,first.eventId);
+mode='offline';context.window.TagoyamaMetrics.recordSave();await settle();const failed=JSON.parse(requests.at(-1).o.body);assert([...map.keys()].some(k=>k.endsWith(failed.eventId)));
+mode='ok';await listeners.online();await settle();assert.equal(JSON.parse(requests.at(-1).o.body).eventId,failed.eventId,'Retry keeps the same event ID');assert(![...map.keys()].some(k=>k.endsWith(failed.eventId)));
+context.window.TagoyamaMetrics.recordSave({test:true});await settle();assert.equal(JSON.parse(requests.at(-1).o.body).test,true);
+context.localStorage={getItem(){throw Error('blocked');},setItem(){throw Error('blocked');},get length(){throw Error('blocked');}};vm.runInContext(source,context);assert.doesNotThrow(()=>context.window.TagoyamaMetrics.recordSave());await settle();
+console.log('Passed: anonymous visitor continuity, unique click IDs, persistent offline retry, idempotent retry ID, QA separation, private-storage fallback, non-blocking keepalive.');
